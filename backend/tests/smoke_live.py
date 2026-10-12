@@ -85,6 +85,12 @@ def main() -> int:
             check("health returns 200", health.status_code == 200, health.text)
             check("health payload ok", health.json().get("ok") is True)
 
+            # Opening :8000 in a browser is a common mistake; it must explain
+            # where the UI actually lives instead of returning a bare 404.
+            root = client.get("/")
+            check("backend root explains where the UI is",
+                  root.status_code == 200 and "5173" in root.text, root.text[:120])
+
             print("\n[2] synthetic demo path (never a real video audit)")
             demo = client.post("/api/demo")
             check("demo returns 200", demo.status_code == 200, demo.text)

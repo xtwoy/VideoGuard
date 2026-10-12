@@ -73,6 +73,20 @@ def probe_duration_ms(content: bytes, suffix: str) -> int:
         raise HTTPException(status_code=413,detail="演示版视频长度不能超过3分钟")
     return max(1,round(duration*1000))
 
+@app.get("/", include_in_schema=False)
+def index():
+    """Running only this port is a common mistake: the UI lives on 5173."""
+    return HTMLResponse(
+        "<!doctype html><html lang='zh-CN'><head><meta charset='utf-8'>"
+        "<title>VideoGuard-E 后端</title></head><body style=\"font:15px/1.7 'Microsoft YaHei',"
+        "system-ui,sans-serif;max-width:640px;margin:60px auto;padding:0 20px;color:#1f3936\">"
+        "<h1 style='font-size:22px'>这是后端 API 服务</h1>"
+        "<p>用户界面不在这个端口。请在前端目录启动静态服务后访问：</p>"
+        "<p><a href='http://127.0.0.1:5173'>http://127.0.0.1:5173</a></p>"
+        "<p>接口文档：<a href='/docs'>/docs</a> · 健康检查：<a href='/api/health'>/api/health</a></p>"
+        "</body></html>"
+    )
+
 @app.get("/api/health")
 def health():
     return {"ok":True,"service":"VideoGuard-E","version":"0.6"}
