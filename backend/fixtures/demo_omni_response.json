@@ -1,0 +1,87 @@
+{
+  "coverage": "FULL",
+  "coverage_notes": "本数据为人工编写的合成观察，用于演示不同审核结果和证据回溯方式，不代表任何真实视频分析。",
+  "observations": [
+    {
+      "id": "E01",
+      "modality": "visual",
+      "tag": "danger_action",
+      "start_ms": 1200,
+      "end_ms": 4000,
+      "referent_key": "EVENT_DANGER",
+      "description_redacted": "画面中有人展示可能造成伤害的危险动作",
+      "text_redacted": ""
+    },
+    {
+      "id": "E02",
+      "modality": "speech",
+      "tag": "encouragement",
+      "start_ms": 2000,
+      "end_ms": 4800,
+      "referent_key": "EVENT_DANGER",
+      "description_redacted": "旁白出现鼓励他人模仿该动作的表述",
+      "text_redacted": "请大家都试试看"
+    },
+    {
+      "id": "E03",
+      "modality": "visual",
+      "tag": "violence",
+      "start_ms": 7000,
+      "end_ms": 9200,
+      "referent_key": "EVENT_FICTION",
+      "description_redacted": "画面中出现疑似冲突或暴力行为片段",
+      "text_redacted": ""
+    },
+    {
+      "id": "E04",
+      "modality": "screen_text",
+      "tag": "fiction_context",
+      "start_ms": 6900,
+      "end_ms": 9400,
+      "referent_key": "EVENT_FICTION",
+      "description_redacted": "画面文字提示该片段为剧情演绎",
+      "text_redacted": "剧情演绎，请勿模仿"
+    },
+    {
+      "id": "E05",
+      "modality": "screen_text",
+      "tag": "pii_candidate",
+      "start_ms": 12500,
+      "end_ms": 14500,
+      "referent_key": "EVENT_PRIVACY",
+      "description_redacted": "画面中出现疑似个人联系方式，已脱敏处理",
+      "text_redacted": "联系方式：138****5678"
+    },
+    {
+      "id": "E06",
+      "modality": "speech",
+      "tag": "credential_claim",
+      "start_ms": 17000,
+      "end_ms": 19500,
+      "referent_key": "EVENT_CLAIM",
+      "description_redacted": "说话者对自身专业资质作出声称",
+      "text_redacted": "我是专业认证人士"
+    },
+    {
+      "id": "E07",
+      "modality": "speech",
+      "tag": "marketing_claim",
+      "start_ms": 18800,
+      "end_ms": 21500,
+      "referent_key": "EVENT_CLAIM",
+      "description_redacted": "说话者对产品效果作出营销性表述",
+      "text_redacted": "这是最可靠的选择"
+    },
+    {
+      "id": "E08",
+      "modality": "speech",
+      "tag": "fraud_or_scam",
+      "start_ms": 22000,
+      "end_ms": 24000,
+      "referent_key": "EVENT_FRAUD",
+      "description_redacted": "说话者引导观众参与无法核实的高收益活动",
+      "text_redacted": "现在加入就能轻松获得高额回报"
+    }
+  ],
+  "candidate_risks": []
+}

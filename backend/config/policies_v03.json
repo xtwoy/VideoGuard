@@ -1,0 +1,62 @@
+{
+  "policy_version": "v0.3",
+  "note": "Rules identify content-safety cues for human review. They do not make law-enforcement, identity, or factual determinations.",
+  "policies": {
+    "R_DANGER_PROMOTION": {
+      "description": "危险行为诱导；要求危险行为或明确危险描述与鼓励言语指向同一对象",
+      "action_tags": ["danger_action", "danger_description"],
+      "promotion_tags": ["encouragement", "challenge"],
+      "warning_tags": ["warning"],
+      "max_relation_gap_ms": 15000
+    },
+    "R_VIOLENCE": {
+      "description": "疑似暴力或危险行为画面；新闻、影视或教育语境需要单独核查",
+      "action_tags": ["violence"],
+      "context_tags": ["news_context", "fiction_context", "education_context"]
+    },
+    "R_PRIVACY_EXPOSURE": {
+      "description": "潜在个人隐私暴露；仅提示风险，不存储原始敏感身份信息",
+      "action_tags": ["pii_candidate"]
+    },
+    "R_MARKETING_CLAIM": {
+      "description": "营销诱导与资格声称；真实性需要外部核查",
+      "action_tags": ["credential_claim", "marketing_claim", "absolute_claim"]
+    },
+    "R_SELF_HARM": {
+      "description": "自伤、自杀或相关方法传播线索",
+      "action_tags": ["self_harm_action", "self_harm_instruction"],
+      "reason_code": "SELF_HARM_CUE",
+      "disposition": "FLAG"
+    },
+    "R_SEXUAL_CONTENT": {
+      "description": "疑似露骨性内容或性暗示内容线索",
+      "action_tags": ["sexual_content", "sexual_minor_risk"],
+      "reason_code": "SEXUAL_CONTENT_CUE",
+      "disposition": "FLAG"
+    },
+    "R_HATE_HARASSMENT": {
+      "description": "仇恨、歧视、侮辱或定向骚扰线索",
+      "action_tags": ["hate_or_harassment"],
+      "reason_code": "HATE_HARASSMENT_CUE",
+      "disposition": "REVIEW"
+    },
+    "R_FRAUD_SCAM": {
+      "description": "诈骗、冒充、虚假获利或高风险交易诱导线索",
+      "action_tags": ["fraud_or_scam", "financial_inducement"],
+      "reason_code": "FRAUD_SCAM_CUE",
+      "disposition": "REVIEW"
+    },
+    "R_CONTROLLED_GOODS": {
+      "description": "毒品、武器、违禁药品或其他受控商品展示、交易或诱导线索",
+      "action_tags": ["controlled_goods", "controlled_goods_promotion"],
+      "reason_code": "CONTROLLED_GOODS_CUE",
+      "disposition": "REVIEW"
+    },
+    "R_MINORS_PROTECTION": {
+      "description": "可能涉及未成年人不适宜、剥削或人身安全风险的线索",
+      "action_tags": ["minor_risk", "sexual_minor_risk"],
+      "reason_code": "MINOR_PROTECTION_CUE",
+      "disposition": "FLAG"
+    }
+  }
+}

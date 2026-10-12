@@ -1,0 +1,45 @@
+{
+  "policy_version": "v0.2",
+  "note": "Rules are risk cues for human review, not law-enforcement conclusions.",
+  "policies": {
+    "R_DANGER_PROMOTION": {
+      "description": "危险行为诱导；要求危险行为/明确描述与鼓励言语指向同一对象",
+      "action_tags": [
+        "danger_action",
+        "danger_description"
+      ],
+      "promotion_tags": [
+        "encouragement",
+        "challenge"
+      ],
+      "warning_tags": [
+        "warning"
+      ],
+      "max_relation_gap_ms": 15000
+    },
+    "R_VIOLENCE": {
+      "description": "疑似暴力画面呈现：新闻/影视语境不消除画面事实",
+      "action_tags": [
+        "violence"
+      ],
+      "context_tags": [
+        "news_context",
+        "fiction_context"
+      ]
+    },
+    "R_PRIVACY_EXPOSURE": {
+      "description": "潜在个人隐私暴露（仅提示风险，不存储原始个人信息）",
+      "action_tags": [
+        "pii_candidate"
+      ]
+    },
+    "R_MARKETING_CLAIM": {
+      "description": "营销诱导与资格声称（真实性需外部核查）",
+      "action_tags": [
+        "credential_claim",
+        "marketing_claim",
+        "absolute_claim"
+      ]
+    }
+  }
+}

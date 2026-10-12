@@ -1,0 +1,34 @@
+name: backend-tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 ffprobe
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: 安装 uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: 按 uv.lock 安装依赖
+        run: uv sync --python 3.11
+
+      - name: 运行后端单元测试
+        run: uv run --no-sync python -m unittest discover -s tests -v
+
+      - name: 前端语法检查
+        run: node --check frontend/app.js
+        working-directory: .

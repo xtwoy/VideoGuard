@@ -1,0 +1,18 @@
+[project]
+name = "videoguard-e-backend"
+version = "0.6.0"
+description = "VideoGuard-E 后端：FastAPI + SQLite + 自研 PEAD 证据约束审核主线"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.30,<1",
+    "python-multipart>=0.0.9",
+    "openai>=1.50,<3",
+    "python-dotenv>=1.0",
+    "httpx>=0.27",
+]
+
+# 这不是一个需要打包发布的库，只是让 uv 有明确的项目定义，
+# 从而可以用 `uv lock` 固定依赖版本、用 `uv sync` 复现环境。
+[tool.uv]
+package = false

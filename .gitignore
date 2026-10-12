@@ -1,0 +1,14 @@
+**/__pycache__/
+**/*.pyc
+backend/.env
+backend/data/
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store
+
+# uv / 虚拟环境
+.venv/
+backend/.venv/
+.uv-cache/
+.uv-python/

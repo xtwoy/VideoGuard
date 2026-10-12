@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<title>合成审核示例 · 视鉴</title>
+<style>
+:root{--ink:#172033;--muted:#667085;--line:#e4e7ec;--canvas:#f7f8fa;--brand:#4f46e5;--brand-soft:#eef2ff;--warn:#b54708;--warn-soft:#fffaeb;--danger:#b42318;--danger-soft:#fef3f2}*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:15px/1.65 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}main{max-width:880px;margin:auto;padding:48px 28px 72px}.eyebrow{margin:0;color:var(--brand);font-size:11px;font-weight:800;letter-spacing:.12em}h1{margin:7px 0 8px;font-size:30px;line-height:1.25}.meta{margin:0;color:var(--muted);font-size:12px}.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:24px 0}.summary div,.finding,.scope{border:1px solid var(--line);border-radius:8px;background:#fff;padding:16px}.summary small{display:block;color:var(--muted);font-size:11px}.summary b{overflow-wrap:anywhere}.notice{border-left:3px solid #d69b67;background:var(--warn-soft);padding:13px 15px;color:#7a2e0e}.scope{margin:20px 0;background:#fcfcfd}.scope b{font-size:13px}.scope p{margin:7px 0 0;color:var(--muted);font-size:13px}h2{margin:30px 0 12px;font-size:20px}.finding{margin:12px 0;break-inside:avoid}.head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.head h3{margin:0;font-size:17px}.pill{border-radius:999px;padding:4px 9px;background:var(--warn-soft);color:var(--warn);font-size:11px;font-weight:800}.pill.alert{background:var(--danger-soft);color:var(--danger)}.sub{margin:10px 0 0;color:var(--muted);font-size:13px}h4{margin:16px 0 5px;font-size:13px}ul{margin:5px 0;padding-left:20px}li{margin:5px 0;overflow-wrap:anywhere}li small{display:block;color:var(--muted);font-size:11px}.events{display:grid;gap:9px}.events div{border-left:3px solid #8098f9;background:#f5f7ff;padding:10px 13px;color:#475467;font-size:12px}.events b{color:var(--ink)}footer{margin-top:32px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px}@media print{body{background:#fff}main{padding:0 12px}}@media(max-width:540px){main{padding:24px 16px}.summary{grid-template-columns:1fr}}
+</style></head><body><main>
+<p class="eyebrow">VIDEOGUARD-E / CONTENT SAFETY REPORT</p>
+<h1>视频内容安全审核报告</h1>
+<p class="meta">合成演示，并非真实视频审核 · 演示记录 · 2026-10-12</p>
+<div class="summary">
+  <div><small>审核状态</small><b>已完成</b></div>
+  <div><small>视频名称</small><b>合成示例｜非真实视频</b></div>
+  <div><small>视频观察覆盖</small><b>覆盖完整</b></div>
+  <div><small>已评估审核点</small><b>10 类</b></div>
+  <div><small>需要进一步处理的项目</small><b>5 项</b></div>
+</div>
+<div class="notice"><b>重要说明：</b>本报告只作内容安全辅助审核参考。以下证据、时间位置和判断均为人工编写的合成演示数据，不能据此认定任何真实视频、人物或事件。</div>
+<section class="scope"><b>审核范围</b><p>危险行为诱导、暴力或危险行为画面、个人隐私暴露、营销及资质声称、自伤风险、性内容风险、仇恨与骚扰、诈骗与高风险诱导、受控商品风险、未成年人保护。</p></section>
+<h2>发现的问题与整改建议</h2>
+<section class="finding"><div class="head"><h3>危险行为诱导</h3><span class="pill alert">语境冲突 / 人工复核</span></div><p class="sub">同一事件中出现危险动作与鼓励表述，需结合原视频确认传播语境。</p><h4>可回溯证据</h4><ul><li><strong>00:01—00:04</strong> · E01 · 画面中有人展示可能造成伤害的危险动作<small>模型观察，尚未人工核实</small></li><li><strong>00:02—00:04</strong> · E02 · 旁白出现鼓励他人模仿该动作的表述<small>模型观察，尚未人工核实</small></li></ul><h4>整改建议</h4><ul><li>请核对对应时段是否存在鼓励模仿危险行为的言语；必要时修改引导话术并补充明确安全说明。</li></ul></section>
+<section class="finding"><div class="head"><h3>暴力或危险行为画面</h3><span class="pill">疑似风险 / 人工复核</span></div><p class="sub">观察到疑似冲突或暴力行为画面，同时存在剧情演绎语境线索。</p><h4>可回溯证据</h4><ul><li><strong>00:07—00:09</strong> · E03 · 画面中出现疑似冲突或暴力行为片段<small>模型观察，尚未人工核实</small></li><li><strong>00:06—00:09</strong> · E04 · 画面文字提示该片段为剧情演绎<small>模型观察，尚未人工核实</small></li></ul><h4>整改建议</h4><ul><li>请回看对应画面，核对是否属于影视演绎或安全教育，并补充准确的背景说明。</li></ul></section>
+<section class="finding"><div class="head"><h3>个人隐私暴露</h3><span class="pill alert">疑似风险 / 标注关注</span></div><p class="sub">观察到可能包含个人隐私的信息，需要人工确认。</p><h4>可回溯证据</h4><ul><li><strong>00:12—00:14</strong> · E05 · 画面中出现疑似个人联系方式，已脱敏处理<small>模型观察，尚未人工核实</small></li></ul><h4>整改建议</h4><ul><li>请人工确认是否暴露私人联系方式、证件或住址；有风险时遮挡相关画面或消除对应音频。</li></ul></section>
+<section class="finding"><div class="head"><h3>营销及资质声称</h3><span class="pill">疑似风险 / 外部核验</span></div><p class="sub">观察到专业资质和营销效果声称，真实性需要外部材料核验。</p><h4>可回溯证据</h4><ul><li><strong>00:17—00:19</strong> · E06 · 说话者对自身专业资质作出声称<small>模型观察，尚未人工核实</small></li><li><strong>00:18—00:21</strong> · E07 · 说话者对产品效果作出营销性表述<small>模型观察，尚未人工核实</small></li></ul><h4>整改建议</h4><ul><li>请核对营销用语和职业资质声称的客观依据，无法核实时删除或修改相关表述。</li></ul></section>
+<section class="finding"><div class="head"><h3>诈骗与高风险诱导</h3><span class="pill">疑似风险 / 人工复核</span></div><p class="sub">观察到无法核实的高收益活动引导线索，不能据此直接认定任何主体构成诈骗。</p><h4>可回溯证据</h4><ul><li><strong>00:22—00:24</strong> · E08 · 说话者引导观众参与无法核实的高收益活动<small>模型观察，尚未人工核实</small></li></ul><h4>整改建议</h4><ul><li>请核对是否存在冒充、虚假获利、转账或高风险交易引导；无法证实的信息应删除或改为可核验表述。</li></ul></section>
+<h2>事件级审计记录</h2><div class="events"><div><b>危险行为诱导</b><br>语境冲突 / 人工复核 · 关联证据：E01、E02</div><div><b>暴力或危险行为画面</b><br>疑似风险 / 人工复核 · 关联证据：E03、E04</div><div><b>个人隐私暴露</b><br>疑似风险 / 标注关注 · 关联证据：E05</div><div><b>营销及资质声称</b><br>疑似风险 / 外部核验 · 关联证据：E06、E07</div><div><b>诈骗与高风险诱导</b><br>疑似风险 / 人工复核 · 关联证据：E08</div></div>
+<footer>请以原视频和可回溯证据为准进行人工核查。<p>VideoGuard-E｜辅助审核，不代替人工复核。</p></footer>
+</main></body></html>

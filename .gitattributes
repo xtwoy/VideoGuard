@@ -1,0 +1,17 @@
+# 统一换行，避免 Windows/Linux 协作时整文件 diff
+* text=auto eol=lf
+
+# 二进制资源
+*.docx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.mp4 binary
+*.mov binary
+*.webm binary
+*.db binary
+
+# uv 锁文件由工具生成，不参与合并
+backend/uv.lock -diff
