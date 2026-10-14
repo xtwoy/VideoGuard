@@ -1,4 +1,7 @@
 # VideoGuard-E v0.6｜工程收口与团队文档版
+
+**团队：小白**（团队形象：<img src="docs/assets/team-mascot.png" alt="小白团队形象" width="220" align="middle">）
+
 > **文档导航：** 本版包含团队讨论和开发文档，**未创建比赛作品报告**。先读[`docs/00_文档导航与使用说明.md`](docs/00_文档导航与使用说明.md)，其中包含：选题论证、PRD、系统设计、创新验证、开发交接。v0.6 使用 Next.js 前端 + FastAPI + SQLite 架构。  
 > **团队转发稿：** [`docs/团队立项讨论简报.docx`](docs/团队立项讨论简报.docx)。
 
@@ -23,18 +26,20 @@ VideoGuard-E-v0.6/
 │   ├── package-lock.json        # 前端锁定依赖版本
 │   └── .env.example             # NEXT_PUBLIC_API_BASE_URL 示例
 ├── backend/
-│   ├── main.py                  # FastAPI 4个基础接口：健康、上传、查询、报告；外加一个演示接口
-│   ├── pipeline.py              # 解析→关系判断→PEAD→问题汇总 单条主线
-│   ├── report.py                # 可单独打开和打印的HTML报告
+│   ├── main.py                  # FastAPI 接口：健康、上传审核、查询、报告、合成示例
+│   ├── pipeline.py              # 事实解析→问题定位→PEAD/关系核验→审核报告 单条主线
+│   ├── report.py                # 可单独打开和打印的九维度审核报告
 │   ├── database.py              # SQLite一张reviews表
-│   ├── src/                     # 复用v0.3的PEAD与模型API适配器
+│   ├── src/                     # PEAD、结果融合、各阶段适配器、报告校验、脱敏
 │   ├── config/policies_v03.json
-│   ├── prompts/
-│   ├── tests/                    # 单元测试 + smoke_live.py 真实 HTTP 冒烟检查
+│   ├── prompts/                 # 各阶段系统提示词与输出协议 schema
+│   ├── fixtures/                # 9 个可复用样例用例 + 生成/校验工具
+│   ├── tests/                   # 单元测试 + smoke_live.py 真实 HTTP 冒烟检查
 │   ├── requirements.txt
 │   ├── pyproject.toml            # uv 项目定义（不打包，仅用于锁定依赖）
 │   ├── uv.lock                   # 已固定的依赖版本组合
 │   └── .env.example
+├── docs/assets/                  # 团队形象等文档配图
 └── README.md
 ```
 
@@ -133,7 +138,15 @@ npm run lint
 npm run build
 ```
 
-后端测试覆盖上传大小/格式/时长、未授权上传、无密钥失败、关系判断降级、脱敏、模型失败、数据库读写、HTML注入、事件级审计、十类审核策略与页面Demo。**任何实际接入的视频解析、问题定位或问题汇总服务，都必须使用自己的 Key 单独联调。**
+后端测试当前 24 项，重心是**协议与证据约束**：分镜连续编号与 FULL 覆盖的连续性、
+画质证据不得跨分镜引用、问题定位必须引用已存在的事实与事件、关系判断的类型化请求与
+响应、审核报告的维度证据与时间范围、内容分析问题必须进入整改计划、不相连证据范围
+必须分别保留、报告内嵌模式、十类审核策略与页面 Demo，以及样例数据集的回归保护。
+**任何实际接入的视频解析、问题定位或问题汇总服务，都必须使用自己的 Key 单独联调。**
+
+> **覆盖缺口（已知）：** 上传大小/格式/时长、未授权上传、坏文件头、无密钥失败、
+> HTML 注入转义等用例在四阶段重构时被移除，目前只由 `tests/smoke_live.py` 的
+> 端到端冒烟覆盖，单元测试层面尚未补回。
 
 **端到端冒烟检查（推荐在联调前后各跑一次）**，需要后端已在运行，且依赖系统`ffmpeg`：
 
@@ -141,6 +154,17 @@ npm run build
 # 终端1：启动后端后
 .venv/Scripts/python.exe tests/smoke_live.py --base http://127.0.0.1:8000
 ```
+
+**样例数据集（无 API Key 也能演示与调试）**，9 个用例覆盖核心研究场景与关键边界行为：
+
+```bash
+.venv/Scripts/python.exe -m fixtures.validate          # 走真实流水线并核对期望值
+.venv/Scripts/python.exe -m fixtures.validate --matrix # 查看规则覆盖矩阵
+.venv/Scripts/python.exe -m fixtures.generate --check  # 防止样例与用例定义漂移
+```
+
+每条样例都送进项目自己的协议校验器，校验不过无法生成，因此样例与协议不会脱节。
+详情与已修复缺陷的记录见 [`backend/fixtures/README.md`](backend/fixtures/README.md)。
 
 它用真实 HTTP（非 TestClient）驱动接口，自建一段临时视频，检查：服务可用、合成示例与 HTML 报告内容及信息泄露、上传校验（授权/扩展名/空文件）、真实视频的时长探测、无密钥时是否正确 fail-closed 并落库 ERROR。有可用密钥时，同一脚本会走通真实模型路径。
 
