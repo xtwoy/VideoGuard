@@ -86,9 +86,9 @@ class ProtocolTests(unittest.TestCase):
     def test_jev_response_is_adapted_without_provider_fields(self):
         detail = clean_video_parse(PARSE, 25_000)["observation_detail"]
         request = build_jev_request(detail)
-        output = adapt_jev_response(request, {"model": "provider-internal", "answers": {
-            "EVT_PRIVACY__pii_candidate": {"type": "noul", "noul": 0.96}
-        }})
+        answers = {name: {"type": "noul", "noul": 0.0} for name in request["questions"]}
+        answers["EVT_PRIVACY__pii_candidate"]["noul"] = 0.96
+        output = adapt_jev_response(request, {"model": "provider-internal", "answers": answers})
         self.assertEqual(output["schema_version"], "videoguard_issue_locator_v1")
         self.assertEqual(output["risk_cues"][0]["event_id"], "EVT_PRIVACY")
         self.assertNotIn("model", output)

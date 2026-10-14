@@ -1,5 +1,7 @@
 # VideoGuard-E v0.6｜工程收口与团队文档版
 
+> **2026-10-14 Mock 验证修订：** 已修复问题定位空/缺项/非法回答被当成无风险、关系无效回包错误标记 LIVE，以及关系校验在 `python -O` 下失效的问题。新增同输入有/无 PEAD 对照、输入快照和回归测试。先读 [`docs/06_Mock验证与失败路径修复.md`](docs/06_Mock验证与失败路径修复.md)。本次没有调用真实云端模型，也不声称真实视频准确率改善。
+
 **团队：小白**（团队形象：<img src="docs/assets/team-mascot.png" alt="小白团队形象" width="220" align="middle">）
 
 > **文档导航：** 本版包含团队讨论和开发文档，**未创建比赛作品报告**。先读[`docs/00_文档导航与使用说明.md`](docs/00_文档导航与使用说明.md)，其中包含：选题论证、PRD、系统设计、创新验证、开发交接。v0.6 使用 Next.js 前端 + FastAPI + SQLite 架构。  
@@ -33,7 +35,7 @@ VideoGuard-E-v0.6/
 │   ├── src/                     # PEAD、结果融合、各阶段适配器、报告校验、脱敏
 │   ├── config/policies_v03.json
 │   ├── prompts/                 # 各阶段系统提示词与输出协议 schema
-│   ├── fixtures/                # 15 个可复用样例用例 + 生成/校验工具
+│   ├── fixtures/                # 18 个可复用样例用例 + 生成/校验工具
 │   ├── tests/                   # 单元测试 + smoke_live.py 真实 HTTP 冒烟检查
 │   ├── requirements.txt
 │   ├── pyproject.toml            # uv 项目定义（不打包，仅用于锁定依赖）
@@ -69,6 +71,8 @@ copy .env.example .env           # 在 .env 填入当前阶段服务配置
 
 **已知依赖风险：** 当前 starlette 会对 `httpx` 报 `StarletteDeprecationWarning`（提示改用 `httpx2`）。本版测试全绿，但若日后升级后 `tests/test_mvp.py` 出现 `TestClient` 导入失败，先检查 `httpx`/`starlette` 这一对版本，而不是怀疑业务代码。
 
+**本次修订验证：** Python 3.12 按现有 uv.lock 安装依赖后，100 项后端测试与29项真实 HTTP/ffprobe 冒烟通过（未配置真实模型，只验证无密钥失败路径）；前端类型检查通过。生产构建因沙盒 Node 的 `uv_resident_set_memory` 读取报 ENOENT 而未完成，前端源码未修改。详见 `backend/reports/mock-validation-summary.json`。
+
 ### 方式二：系统 Python
 
 ```bash
@@ -103,7 +107,10 @@ npm run dev -- --hostname 127.0.0.1 --port 5173
 ```ini
 VIDEO_MODEL_API_KEY=当前模型服务的密钥
 VIDEO_MODEL_BASE_URL=当前模型服务的 OpenAI 兼容 Base URL
-VIDEO_PARSE_MODEL=当前视频解析模型（可选，适配器默认值可覆盖）
+VIDEO_PARSE_MODEL=当前视频解析模型（必填）
+ISSUE_LOCATOR_API_KEY=问题定位服务密钥（真实路径必填）
+ISSUE_LOCATOR_ENDPOINT=问题定位服务地址（真实路径必填）
+ISSUE_LOCATOR_MODEL=问题定位模型标识（真实路径必填）
 AUDIT_REPORT_MODEL=当前审核报告模型（可选；未配置或输出无效时使用受约束的本地报告生成器）
 RELATION_MODEL_API_KEY=当前关系判断服务的密钥（可选）
 RELATION_MODEL_ENDPOINT=当前关系判断服务地址（可选）
@@ -147,14 +154,19 @@ npm run lint
 npm run build
 ```
 
-后端测试当前 53 项，分四部分：
+后端测试当前 100 项（以运行输出为准）：
 
 | 文件 | 项数 | 覆盖 |
 | --- | --- | --- |
 | `tests/test_mvp.py` | 17 | 四阶段协议：分镜连续编号、FULL 覆盖连续性、画质证据不得跨分镜、问题定位引用校验、关系请求/响应类型、审核报告维度证据、整改计划覆盖、不相连证据范围、内嵌报告模式 |
-| `tests/test_http_surface.py` | 18 | HTTP 接口与失败路径：上传校验（授权/空文件/扩展名/容器签名/6MB 边界）、文件名净化、成功落库与 SHA256、模型失败必须落 ERROR 且不得读成安全、错误摘要不泄露密钥、失败记录仍可导出报告、HTML 转义 |
-| `tests/test_audit_report_regressions.py` | 10 | 已修复缺陷的回归：无事件归属的 finding 仍能出报告、每个问题都带证据、父维度必须聚合子项、未观察模态不得评为通过、未评估维度阻止可发布结论 |
-| `tests/test_fixture_pack.py` + `test_event_audit.py` | 8 | 样例数据集回归（含十条策略覆盖守护）与事件级审计 |
+| `tests/test_http_surface.py` | 19 | HTTP 上传校验、持久化、错误脱敏、HTML 转义，以及空定位回答经过真实管线必须落库 ERROR |
+| `tests/test_audit_report_regressions.py` | 14 | 报告引用、维度聚合、未观察模态与反证来源 |
+| `tests/test_fixture_pack.py` + `test_event_audit.py` | 14 | 样例回归、十条策略覆盖、真值表与事件级审计 |
+| `tests/test_parameters.py` | 12 | 共享阈值、参数来源及策略一致性 |
+| `tests/test_locator_failures.py` | 16 | 空/缺项/错类型/非法概率/超时/截断、明确降级、合法否定及 Python 优化模式 |
+| `tests/test_mock_comparison.py` | 8 | 同输入、无外部调用、公平控制组、穷举覆盖、已知反例与统计核对 |
+
+**Mock 对照复现：** 在 `backend` 运行 `python -m fixtures.compare_pead --write`，生成 `reports/mock-pead-comparison.{md,json,csv}` 与输入快照；`--check` 检查输出无漂移。Windows 可运行 `run_mock_checks.cmd`，Linux/macOS 可运行 `sh run_mock_checks.sh`。完整测试需要先安装项目依赖；对照脚本本身无需 API Key。
 
 **任何实际接入的视频解析、问题定位或问题汇总服务，都必须使用自己的 Key 单独联调。**
 `ffprobe` 相关路径由 `tests/smoke_live.py` 覆盖（单元测试中一律打桩，因此套件不需要 ffprobe）。
@@ -166,7 +178,7 @@ npm run build
 .venv/Scripts/python.exe tests/smoke_live.py --base http://127.0.0.1:8000
 ```
 
-**样例数据集（无 API Key 也能演示与调试）**，15 个用例覆盖十条风险策略、核心研究场景与关键边界行为：
+**样例数据集（无 API Key 也能演示与调试）**，18 个用例覆盖十条风险策略、核心研究场景与关键边界行为：
 
 ```bash
 .venv/Scripts/python.exe -m fixtures.validate          # 走真实流水线并核对期望值

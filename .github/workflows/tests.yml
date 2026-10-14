@@ -35,6 +35,9 @@ jobs:
       - name: 校验 fixtures 与用例定义一致
         run: uv run --no-sync python -m fixtures.generate --check
 
+      - name: 校验 Mock PEAD 对照报告无漂移
+        run: uv run --no-sync python -m fixtures.compare_pead --check
+
   frontend:
     name: 前端类型检查与构建
     runs-on: ubuntu-latest

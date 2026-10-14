@@ -91,18 +91,39 @@ def build_jev_request(video_parse_detail: dict) -> dict:
 
 
 def adapt_jev_response(request: dict, response: dict) -> dict:
-    """Map JEV typed answers to the provider-independent locator JSON."""
+    """Validate every requested answer before projecting risk cues.
+
+    A missing/invalid answer is a failed observation, never a negative answer.
+    Legitimate probabilities below the cue threshold remain valid negatives.
+    """
+    questions = request.get("questions")
+    if not isinstance(questions, dict):
+        raise ValueError("问题定位请求缺少 questions 对象")
+    if not isinstance(response, dict) or not isinstance(response.get("answers"), dict):
+        raise ValueError("问题定位响应缺少 answers 对象")
+    answers = response["answers"]
+    if set(answers) != set(questions):
+        # Do not include provider content, fact text or credentials in errors.
+        raise ValueError("问题定位回答必须完整匹配请求的问题 ID")
+    for name, answer in answers.items():
+        if not isinstance(answer, dict) or answer.get("type") != "noul":
+            raise ValueError("问题定位回答必须为 noul 类型")
+        probability = answer.get("noul")
+        if (type(probability) not in (int, float) or not 0.0 <= probability <= 1.0
+                or not math.isfinite(probability)):
+            raise ValueError("问题定位 noul 必须为 [0, 1] 内的有限数值")
     state_events={e["event_id"]:e for e in request.get("state", {}).get("events", [])}
-    answers=response.get("answers", {}) if isinstance(response, dict) else {}
     cues=[]
-    for name, answer in answers.items() if isinstance(answers, dict) else []:
+    # Use request order so provider map ordering cannot change cue IDs.
+    for name in questions:
+        answer = answers[name]
         try:
             event_id, tag=name.rsplit("__", 1)
             event=state_events[event_id]
             probability=answer["noul"]
-            if answer.get("type") != "noul" or tag not in LOCATOR_TAGS:
-                continue
-            if not isinstance(probability, (int, float)) or not math.isfinite(probability) or probability < MIN_CONFIDENCE:
+            if tag not in LOCATOR_TAGS:
+                raise ValueError("问题定位请求包含未知标签")
+            if probability < MIN_CONFIDENCE:
                 continue
             primary=event["facts"][0]
             cues.append({"cue_id":f"C{len(cues)+1:03d}","tag":tag,"event_id":event_id,
@@ -110,9 +131,11 @@ def adapt_jev_response(request: dict, response: dict) -> dict:
                          "observation":primary["summary"],"verbatim_redacted":primary["verbatim"],
                          "time_confidence":"HIGH" if probability >= 0.93 else "MEDIUM",
                          "needs_human_review":probability < 0.93})
-        except (AttributeError, KeyError, TypeError, ValueError):
-            continue
-    return {"schema_version":"videoguard_issue_locator_v1","risk_cues":cues[:80],"limitations":[]}
+        except (AttributeError, KeyError, IndexError, TypeError, ValueError):
+            raise ValueError("问题定位请求的问题与事件事实无法对应") from None
+    if len(cues) > 80:
+        raise ValueError("问题定位风险线索超过协议上限，不能静默截断")
+    return {"schema_version":"videoguard_issue_locator_v1","risk_cues":cues,"limitations":[]}
 
 
 def locate_issues(video_parse_detail: dict, timeout: int = 25) -> dict:

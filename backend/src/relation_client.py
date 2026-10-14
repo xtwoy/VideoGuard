@@ -152,20 +152,28 @@ def validate_response(payload: dict, response: dict) -> list[dict]:
         rel = raw_answers.get(f"{pair_id}_relation", {})
         rev = raw_answers.get(f"{pair_id}_review", {})
         try:
-            assert rel["type"] == "choice"
+            if rel["type"] != "choice":
+                raise ValueError("relation answer must be a choice")
             choice = rel["choice"]
-            assert choice in CHOICES
+            if choice not in CHOICES:
+                raise ValueError("unknown relation choice")
             prob = rel["probabilities"]
-            assert isinstance(prob, dict) and set(prob)==CHOICES
-            assert all(type(v) in (float,int) and math.isfinite(v)
-                       and 0 <= v <= 1 for v in prob.values())
-            assert abs(sum(prob.values())-1.0)<=0.03
+            if not isinstance(prob, dict) or set(prob) != CHOICES:
+                raise ValueError("relation probabilities must cover every choice")
+            if not all(type(v) in (float,int) and 0 <= v <= 1
+                       and math.isfinite(v) for v in prob.values()):
+                raise ValueError("invalid relation probability")
+            if abs(sum(prob.values())-1.0) > 0.03:
+                raise ValueError("relation probabilities must sum to one")
             conf = rel["confidence"]
-            assert type(conf) in (float, int) and math.isfinite(conf) and 0 <= conf <= 1
-            assert rev["type"] == "noul"
+            if type(conf) not in (float, int) or not 0 <= conf <= 1 or not math.isfinite(conf):
+                raise ValueError("invalid relation confidence")
+            if rev["type"] != "noul":
+                raise ValueError("review answer must be a noul")
             need_review = rev["noul"]
-            assert type(need_review) in (float, int) and math.isfinite(need_review)
-            assert 0 <= need_review <= 1
+            if (type(need_review) not in (float, int) or not 0 <= need_review <= 1
+                    or not math.isfinite(need_review)):
+                raise ValueError("invalid review probability")
             results.append({
                 "pair_id": pair_id,
                 "choice": choice,
@@ -174,7 +182,7 @@ def validate_response(payload: dict, response: dict) -> list[dict]:
                 "status": "VALID",
                 "model": response.get("model", payload["model"]),
             })
-        except (AssertionError, TypeError, KeyError, ValueError):
+        except (TypeError, KeyError, ValueError):
             results.append({
                 "pair_id": pair_id, "choice": "insufficient",
                 "confidence": None, "needs_review_probability": None,

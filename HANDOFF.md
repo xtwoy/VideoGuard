@@ -12,7 +12,7 @@
 
 ```bash
 cd backend
-.venv/Scripts/python.exe -m unittest discover -s tests -v      # 22 项应全绿
+.venv/Scripts/python.exe -m unittest discover -s tests -v      # 当前 100 项；以命令实际输出为准
 ```
 
 若 `.venv` 不存在或需要重建：
@@ -27,5 +27,10 @@ uv sync --python 3.11            # 按 uv.lock 复现已验证的依赖版本
 1. `ffprobe` 必须在 PATH（本机已 `winget install Gyan.FFmpeg` 安装）。缺失时真实上传一律 422，而 `test_ffprobe_rejects_invalid_file` 仍会通过——它无法区分"媒体损坏"和"ffprobe 未安装"。
 2. 后端运行时，建议用 `tests/smoke_live.py` 做真实 HTTP 冒烟检查（见 README「测试」），它会真实探测时长并验证无密钥时是否 fail-closed。
 
-接着使用真实配置联调视频解析、问题定位、可选关系判断与问题汇总服务，保留PEAD证据约束，
+本次修订已完成失败路径修复与 Mock 同输入有/无 PEAD 对照，详见
+`docs/06_Mock验证与失败路径修复.md` 和 `backend/reports/mock-pead-comparison.md`。
+在 backend 运行 `python -m fixtures.compare_pead --check` 可验证报告无漂移。
+原视频未被实际分析；同一事件内的错误鼓励回答仍可能导致强提示，已保留反例。
+
+若需要真实链路，再使用真实配置联调视频解析、问题定位、可选关系判断与问题汇总服务，保留PEAD证据约束，
 对合法授权视频做对照实验。完整要求请读`docs/05_任务拆分与开发交接说明.md`。

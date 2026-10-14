@@ -145,6 +145,33 @@ class HttpSurfaceTests(unittest.TestCase):
         self.assertEqual(stored["result"]["findings"], [])
         self.assertIsNone(stored["result"]["audit_report"])
 
+    def test_empty_locator_answers_fail_the_real_pipeline_and_persist_error(self):
+        """Exercise the real adapter and pipeline, not a pre-raised mock error."""
+        import json
+        from pipeline import run_live
+        from src.issue_locator_client import adapt_jev_response, build_jev_request
+        parse_raw = json.loads((Path(__file__).resolve().parents[1] /
+                                "fixtures/demo_video_parse_response.json").read_text())
+
+        def locator(detail):
+            return adapt_jev_response(build_jev_request(detail), {"answers": {}})
+
+        def review(contents, duration, title):
+            return run_live(contents, duration, title, parse_fn=lambda *_: parse_raw,
+                            locator_fn=locator)
+
+        with patch.dict(os.environ, {"VIDEO_MODEL_API_KEY": "mock-key",
+                                     "VIDEO_MODEL_BASE_URL": "https://example.invalid"}), \
+             patch("main.probe_duration_ms", return_value=25_000), \
+             patch("main.run_live", side_effect=review):
+            response = self.post_video()
+        self.assertEqual(response.status_code, 502)
+        stored = database.get_review(response.json()["detail"]["review_id"])
+        self.assertEqual(stored["status"], "ERROR")
+        self.assertEqual(stored["result"]["coverage"], "ERROR")
+        self.assertIsNone(stored["result"]["audit_report"])
+        self.assertNotIn("mock-key", stored["error"])
+
     def test_unconfigured_credentials_message_is_specific(self):
         with patch("main.probe_duration_ms", return_value=10_000), \
              patch("main.run_live",

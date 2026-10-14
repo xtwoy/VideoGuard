@@ -1,0 +1,263 @@
+/workspace/scratch/265a556ed5f7/review/VideoGuard-main/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_html_report_distinguishes_the_two_readings (test_audit_report_regressions.CounterEvidenceProvenanceInReportTests.test_html_report_distinguishes_the_two_readings) ... ok
+test_missing_provenance_is_reported_as_not_checked (test_audit_report_regressions.CounterEvidenceProvenanceInReportTests.test_missing_provenance_is_reported_as_not_checked) ... ok
+test_plan_carries_the_provenance_block (test_audit_report_regressions.CounterEvidenceProvenanceInReportTests.test_plan_carries_the_provenance_block) ... ok
+test_unknown_source_is_normalised (test_audit_report_regressions.CounterEvidenceProvenanceInReportTests.test_unknown_source_is_normalised) ... ok
+test_parent_is_not_pass_when_a_child_is_not (test_audit_report_regressions.DimensionRollUpTests.test_parent_is_not_pass_when_a_child_is_not) ... ok
+test_parent_score_is_the_worst_child_score (test_audit_report_regressions.DimensionRollUpTests.test_parent_score_is_the_worst_child_score) ... ok
+test_every_issue_carries_evidence (test_audit_report_regressions.ReportWithoutEventBoundEvidenceTests.test_every_issue_carries_evidence)
+The contract rejects an issue with no supporting evidence. ... ok
+test_finding_with_no_evidence_or_event_still_reports (test_audit_report_regressions.ReportWithoutEventBoundEvidenceTests.test_finding_with_no_evidence_or_event_still_reports) ... ok
+test_incomplete_coverage_reports_instead_of_crashing (test_audit_report_regressions.ReportWithoutEventBoundEvidenceTests.test_incomplete_coverage_reports_instead_of_crashing)
+Partial coverage flags all ten policies; that must not raise. ... ok
+test_report_is_still_protocol_valid (test_audit_report_regressions.ReportWithoutEventBoundEvidenceTests.test_report_is_still_protocol_valid) ... ok
+test_fully_observed_modality_without_facts_is_a_pass (test_audit_report_regressions.UnevaluatedDimensionTests.test_fully_observed_modality_without_facts_is_a_pass)
+Examined and nothing found is a real result, not an unknown. ... ok
+test_fully_observed_video_can_still_be_publishable (test_audit_report_regressions.UnevaluatedDimensionTests.test_fully_observed_video_can_still_be_publishable)
+The guard must not turn every clean video into manual review. ... ok
+test_unevaluated_dimension_blocks_a_publishable_verdict (test_audit_report_regressions.UnevaluatedDimensionTests.test_unevaluated_dimension_blocks_a_publishable_verdict) ... ok
+test_unobserved_modality_is_not_scored_as_a_pass (test_audit_report_regressions.UnevaluatedDimensionTests.test_unobserved_modality_is_not_scored_as_a_pass)
+A modality the parse did not fully observe cannot be scored. ... ok
+test_events_keep_separate_contexts (test_event_audit.EventAuditTest.test_events_keep_separate_contexts) ... ok
+test_counter_evidence_does_not_depend_on_the_chosen_tag (test_fixture_pack.FixturePackTests.test_counter_evidence_does_not_depend_on_the_chosen_tag)
+Encouragement plus cautionary framing must be a conflict either way. ... ok
+test_every_case_matches_its_expectations (test_fixture_pack.FixturePackTests.test_every_case_matches_its_expectations) ... ok
+test_every_policy_is_exercised_by_some_case (test_fixture_pack.FixturePackTests.test_every_policy_is_exercised_by_some_case)
+All ten policies must have a case asserting a non-NONE disposition. ... ok
+test_fixtures_match_their_case_definitions (test_fixture_pack.FixturePackTests.test_fixtures_match_their_case_definitions) ... ok
+test_known_limitation_model_error_on_warning_footage_is_not_corrected (test_fixture_pack.FixturePackTests.test_known_limitation_model_error_on_warning_footage_is_not_corrected)
+The counterpart of the test above, and a limitation we publish. ... ok
+test_known_report_failures_are_still_pinned (test_fixture_pack.FixturePackTests.test_known_report_failures_are_still_pinned)
+Every case in KNOWN_REPORT_FAILURES must still fail, and nothing else. ... ok
+test_manifest_indexes_every_case (test_fixture_pack.FixturePackTests.test_manifest_indexes_every_case) ... ok
+test_missing_relation_service_is_more_conservative_than_a_negative_answer (test_fixture_pack.FixturePackTests.test_missing_relation_service_is_more_conservative_than_a_negative_answer)
+The H1 contrast: same evidence, only the relation answer differs. ... ok
+test_pead_overrides_a_confident_answer_the_structure_contradicts (test_fixture_pack.FixturePackTests.test_pead_overrides_a_confident_answer_the_structure_contradicts)
+A provider that is confidently wrong must not force a strong flag. ... ok
+test_studied_risks_have_a_case_beyond_partial_coverage (test_fixture_pack.FixturePackTests.test_studied_risks_have_a_case_beyond_partial_coverage)
+The four studied risks must not rely on RECHECK alone. ... ok
+test_a_single_dissent_prevents_a_strong_flag (test_fixture_pack.TruthTableTests.test_a_single_dissent_prevents_a_strong_flag)
+with two candidate pairs, only full agreement may produce a FLAG. ... ok
+test_every_combination_is_total_and_deterministic (test_fixture_pack.TruthTableTests.test_every_combination_is_total_and_deterministic) ... ok
+test_reported_limitation_is_still_reachable_in_the_table (test_fixture_pack.TruthTableTests.test_reported_limitation_is_still_reachable_in_the_table)
+The published limitation must stay visible rather than be tuned away. ... ok
+test_demo_endpoint_is_marked_synthetic (test_http_surface.HttpSurfaceTests.test_demo_endpoint_is_marked_synthetic) ... ok
+test_disallowed_extension_is_rejected (test_http_surface.HttpSurfaceTests.test_disallowed_extension_is_rejected) ... ok
+test_empty_locator_answers_fail_the_real_pipeline_and_persist_error (test_http_surface.HttpSurfaceTests.test_empty_locator_answers_fail_the_real_pipeline_and_persist_error)
+Exercise the real adapter and pipeline, not a pre-raised mock error. ... ok
+test_empty_upload_is_rejected (test_http_surface.HttpSurfaceTests.test_empty_upload_is_rejected) ... ok
+test_failed_review_report_is_still_downloadable (test_http_surface.HttpSurfaceTests.test_failed_review_report_is_still_downloadable)
+A failure record must stay inspectable through the report endpoint. ... ok
+test_filename_is_stripped_to_a_basename (test_http_surface.HttpSurfaceTests.test_filename_is_stripped_to_a_basename)
+A path in the filename must not survive into stored metadata. ... ok
+test_health (test_http_surface.HttpSurfaceTests.test_health) ... ok
+test_missing_container_signature_is_rejected (test_http_surface.HttpSurfaceTests.test_missing_container_signature_is_rejected) ... ok
+test_model_failure_is_persisted_and_never_read_as_safe (test_http_surface.HttpSurfaceTests.test_model_failure_is_persisted_and_never_read_as_safe) ... ok
+test_root_explains_where_the_ui_is (test_http_surface.HttpSurfaceTests.test_root_explains_where_the_ui_is)
+Opening the API port directly must not look like a broken service. ... ok
+test_successful_review_is_persisted_with_hash_and_duration (test_http_surface.HttpSurfaceTests.test_successful_review_is_persisted_with_hash_and_duration) ... ok
+test_unconfigured_credentials_message_is_specific (test_http_surface.HttpSurfaceTests.test_unconfigured_credentials_message_is_specific) ... ok
+test_unexpected_errors_do_not_leak_provider_detail (test_http_surface.HttpSurfaceTests.test_unexpected_errors_do_not_leak_provider_detail)
+The stored error must be a safe summary, not a raw exception body. ... ok
+test_unknown_review_and_report_return_404 (test_http_surface.HttpSurfaceTests.test_unknown_review_and_report_return_404) ... ok
+test_upload_size_boundary (test_http_surface.HttpSurfaceTests.test_upload_size_boundary) ... ok
+test_upload_without_consent_is_rejected (test_http_surface.HttpSurfaceTests.test_upload_without_consent_is_rejected) ... ok
+test_webm_signature_rule (test_http_surface.HttpSurfaceTests.test_webm_signature_rule) ... ok
+test_report_escapes_model_and_user_text (test_http_surface.ReportEscapingTests.test_report_escapes_model_and_user_text) ... ok
+test_report_escapes_the_revision_plan (test_http_surface.ReportEscapingTests.test_report_escapes_the_revision_plan) ... ok
+test_excess_cues_fail_instead_of_being_truncated (test_locator_failures.LocatorFailureTests.test_excess_cues_fail_instead_of_being_truncated) ... ok
+test_extra_answer_is_not_silently_ignored (test_locator_failures.LocatorFailureTests.test_extra_answer_is_not_silently_ignored) ... ok
+test_invalid_answer_shapes_are_rejected (test_locator_failures.LocatorFailureTests.test_invalid_answer_shapes_are_rejected) ... ok
+test_invalid_probabilities_are_rejected_even_if_they_would_be_filtered (test_locator_failures.LocatorFailureTests.test_invalid_probabilities_are_rejected_even_if_they_would_be_filtered) ... ok
+test_locator_timeout_stops_pipeline_before_relation_or_report (test_locator_failures.LocatorFailureTests.test_locator_timeout_stops_pipeline_before_relation_or_report) ... ok
+test_missing_locator_configuration_fails_explicitly (test_locator_failures.LocatorFailureTests.test_missing_locator_configuration_fails_explicitly) ... ok
+test_missing_or_malformed_envelopes_are_rejected (test_locator_failures.LocatorFailureTests.test_missing_or_malformed_envelopes_are_rejected) ... ok
+test_no_questions_with_no_answers_is_valid (test_locator_failures.LocatorFailureTests.test_no_questions_with_no_answers_is_valid) ... ok
+test_one_missing_answer_invalidates_the_response (test_locator_failures.LocatorFailureTests.test_one_missing_answer_invalidates_the_response) ... ok
+test_probability_boundaries_and_threshold_are_accepted (test_locator_failures.LocatorFailureTests.test_probability_boundaries_and_threshold_are_accepted) ... ok
+test_provider_answer_order_does_not_change_evidence_ids (test_locator_failures.LocatorFailureTests.test_provider_answer_order_does_not_change_evidence_ids) ... ok
+test_valid_negative_answers_are_not_confused_with_missing_answers (test_locator_failures.LocatorFailureTests.test_valid_negative_answers_are_not_confused_with_missing_answers) ... ok
+test_empty_relation_answer_is_reviewed_and_not_marked_live (test_locator_failures.OptionalStageFailureTests.test_empty_relation_answer_is_reviewed_and_not_marked_live) ... ok
+test_invalid_report_uses_an_explicit_validated_fallback (test_locator_failures.OptionalStageFailureTests.test_invalid_report_uses_an_explicit_validated_fallback) ... ok
+test_relation_timeout_degrades_without_a_strong_flag (test_locator_failures.OptionalStageFailureTests.test_relation_timeout_degrades_without_a_strong_flag) ... ok
+test_relation_validation_is_not_disabled_by_python_optimization (test_locator_failures.OptionalStageFailureTests.test_relation_validation_is_not_disabled_by_python_optimization) ... ok
+test_comparison_is_deterministic_and_does_not_call_providers (test_mock_comparison.MockComparisonTests.test_comparison_is_deterministic_and_does_not_call_providers) ... ok
+test_control_already_reviews_mixed_low_confidence_and_missing_answers (test_mock_comparison.MockComparisonTests.test_control_already_reviews_mixed_low_confidence_and_missing_answers) ... ok
+test_control_does_not_call_pead (test_mock_comparison.MockComparisonTests.test_control_does_not_call_pead) ... ok
+test_enumeration_covers_every_choice_combination_exactly_once (test_mock_comparison.MockComparisonTests.test_enumeration_covers_every_choice_combination_exactly_once) ... ok
+test_frozen_inputs_and_outputs_are_reproducible (test_mock_comparison.MockComparisonTests.test_frozen_inputs_and_outputs_are_reproducible) ... ok
+test_structural_conflict_is_corrected_but_known_semantic_failure_remains (test_mock_comparison.MockComparisonTests.test_structural_conflict_is_corrected_but_known_semantic_failure_remains) ... ok
+test_summary_reconciles_to_rows_and_keeps_review_separate (test_mock_comparison.MockComparisonTests.test_summary_reconciles_to_rows_and_keeps_review_separate) ... ok
+test_two_arms_share_input_and_do_not_modify_it (test_mock_comparison.MockComparisonTests.test_two_arms_share_input_and_do_not_modify_it) ... ok
+test_analysis_issues_must_enter_the_revision_plan (test_mvp.ProtocolTests.test_analysis_issues_must_enter_the_revision_plan) ... ok
+test_audit_report_rejects_an_uncovered_evidence_time_range (test_mvp.ProtocolTests.test_audit_report_rejects_an_uncovered_evidence_time_range) ... ok
+test_audit_report_requires_dimension_items_and_evidence_ranges (test_mvp.ProtocolTests.test_audit_report_requires_dimension_items_and_evidence_ranges) ... ok
+test_content_analysis_requires_a_limitation_when_it_has_no_evidence (test_mvp.ProtocolTests.test_content_analysis_requires_a_limitation_when_it_has_no_evidence) ... ok
+test_demo_uses_traceable_parse_and_structured_audit_report (test_mvp.ProtocolTests.test_demo_uses_traceable_parse_and_structured_audit_report) ... ok
+test_full_coverage_rejects_a_shot_gap (test_mvp.ProtocolTests.test_full_coverage_rejects_a_shot_gap) ... ok
+test_html_report_is_inline_for_the_embedded_report_mode (test_mvp.ProtocolTests.test_html_report_is_inline_for_the_embedded_report_mode) ... ok
+test_jev_request_uses_documented_typed_shape (test_mvp.ProtocolTests.test_jev_request_uses_documented_typed_shape) ... ok
+test_jev_response_is_adapted_without_provider_fields (test_mvp.ProtocolTests.test_jev_response_is_adapted_without_provider_fields) ... ok
+test_locator_projection_redacts_sensitive_values (test_mvp.ProtocolTests.test_locator_projection_redacts_sensitive_values) ... ok
+test_locator_requires_existing_event_and_fact_refs (test_mvp.ProtocolTests.test_locator_requires_existing_event_and_fact_refs) ... ok
+test_model_chain_accepts_separate_parse_and_locator (test_mvp.ProtocolTests.test_model_chain_accepts_separate_parse_and_locator) ... ok
+test_old_video_protocol_is_rejected (test_mvp.ProtocolTests.test_old_video_protocol_is_rejected) ... ok
+test_report_keeps_disconnected_evidence_ranges_separate (test_mvp.ProtocolTests.test_report_keeps_disconnected_evidence_ranges_separate) ... ok
+test_shot_quality_cannot_cite_another_shot (test_mvp.ProtocolTests.test_shot_quality_cannot_cite_another_shot) ... ok
+test_video_parse_is_facts_only (test_mvp.ProtocolTests.test_video_parse_is_facts_only) ... ok
+test_video_parse_requires_a_contiguous_shot_id_sequence (test_mvp.ProtocolTests.test_video_parse_requires_a_contiguous_shot_id_sequence) ... ok
+test_every_finding_carries_provenance (test_parameters.CounterEvidenceProvenanceTests.test_every_finding_carries_provenance) ... ok
+test_found_flag_matches_the_counter_id_list (test_parameters.CounterEvidenceProvenanceTests.test_found_flag_matches_the_counter_id_list)
+The flag is derived from the ids, so the two can never disagree. ... ok
+test_policies_that_search_for_counter_evidence_say_so (test_parameters.CounterEvidenceProvenanceTests.test_policies_that_search_for_counter_evidence_say_so) ... ok
+test_policies_without_a_counter_notion_are_marked_not_applicable (test_parameters.CounterEvidenceProvenanceTests.test_policies_without_a_counter_notion_are_marked_not_applicable) ... ok
+test_confidence_gate_reads_the_shared_threshold (test_parameters.RelationParameterTests.test_confidence_gate_reads_the_shared_threshold)
+Raising the threshold must actually route a confident answer to review. ... ok
+test_describe_records_where_each_value_came_from (test_parameters.RelationParameterTests.test_describe_records_where_each_value_came_from) ... ok
+test_divergent_policy_value_fails_loudly (test_parameters.RelationParameterTests.test_divergent_policy_value_fails_loudly) ... ok
+test_environment_override_consistent_with_policy_is_accepted (test_parameters.RelationParameterTests.test_environment_override_consistent_with_policy_is_accepted) ... ok
+test_environment_override_that_diverges_also_fails (test_parameters.RelationParameterTests.test_environment_override_that_diverges_also_fails)
+An override is only usable if the policy file is updated with it. ... ok
+test_invalid_parameter_values_are_rejected (test_parameters.RelationParameterTests.test_invalid_parameter_values_are_rejected) ... ok
+test_policy_file_agrees_with_the_code_default (test_parameters.RelationParameterTests.test_policy_file_agrees_with_the_code_default) ... ok
+test_selecting_and_judging_share_one_window (test_parameters.RelationParameterTests.test_selecting_and_judging_share_one_window)
+The adapter and the engine must read the same value, not two copies. ... ok
+
+----------------------------------------------------------------------
+Ran 100 tests in 1.859s
+
+OK
+  PASS  danger_promotion
+  PASS  warning_context
+  PASS  unrelated_promotion
+  PASS  unrelated_without_relation_service
+  PASS  news_violence
+  PASS  privacy_screen_text
+  PASS  credential_claim
+  PASS  self_harm_cue
+  PASS  sexual_content_cue
+  PASS  hate_harassment_cue
+  PASS  fraud_scam_cue
+  PASS  controlled_goods_cue
+  PASS  minors_protection_cue
+  PASS  relation_override_conflict
+  PASS  relation_wrong_encouragement
+  PASS  counter_context_tagging
+  PASS  partial_coverage
+  PASS  clean_negative
+
+  danger_promotion       coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=BLOCKED
+  warning_context        coverage=FULL     relation=LIVE             pairs=2 event_findings=0 verdict=PUBLISHABLE
+  unrelated_promotion    coverage=FULL     relation=LIVE             pairs=1 event_findings=2 verdict=PUBLISHABLE
+  unrelated_without_relation_service coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=0 verdict=MANUAL_REVIEW
+  news_violence          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  privacy_screen_text    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  credential_claim       coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  self_harm_cue          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  sexual_content_cue     coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  hate_harassment_cue    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  fraud_scam_cue         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  controlled_goods_cue   coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  minors_protection_cue  coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  relation_override_conflict coverage=FULL     relation=LIVE             pairs=1 event_findings=2 verdict=MANUAL_REVIEW
+  relation_wrong_encouragement coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=BLOCKED
+  counter_context_tagging coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=1 verdict=MANUAL_REVIEW
+  partial_coverage       coverage=PARTIAL  relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=MANUAL_REVIEW
+  clean_negative         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=PUBLISHABLE
+
+all 18 fixture cases behave as documented
+all fixtures up to date (18 cases)
+枚举 7 个含候选对的用例，共 64 种关系回答组合
+  danger_promotion                 pairs=2 combinations=16
+      -> CONFLICTED     REVIEW           RELATION_DISPUTES_BASELINE
+      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
+  warning_context                  pairs=2 combinations=16
+      -> INSUFFICIENT   REVIEW           RELATION_AMBIGUITY
+      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
+  unrelated_promotion              pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  unrelated_without_relation_service pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  relation_override_conflict       pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  relation_wrong_encouragement     pairs=2 combinations=16
+      -> INSUFFICIENT   REVIEW           RELATION_AMBIGUITY
+      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
+  counter_context_tagging          pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
+
+检查通过：全定义、确定性、符合协议、单调保守。
+# PEAD Mock 同输入对照验证
+
+**模式：MOCK_SYNTHETIC。没有调用真实 LLM，也没有分析原视频。**
+
+合成结构化输入下的决策约束消融；不是视频识别准确率评估。
+
+## 对照条件
+
+共享解析/协议校验/候选对/置信门限；简单映射含缺服务、低可信与混合回答复核。
+
+相同输入经过现有 PEAD 引擎及关系融合；保持已有阈值。
+
+reference_action 是预先写明的合成场景处置预期，不是独立视频人工标注。
+
+FLAG/NONE 保留；REVIEW、RECHECK、VERIFY_EXTERNAL、RETRY 统一计入复核桶，原始处置仍逐条保留。
+
+## 场景结果
+
+| 场景 | 合成处置预期 | 无 PEAD | 有 PEAD | PEAD 原因 |
+|---|---|---|---|---|
+| 明确鼓励同一危险动作 | FLAG | FLAG | FLAG | RELATION_LINK_ASSISTED |
+| 明确警示不要模仿 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
+| 模型确认鼓励话语与动作无关 | NONE | NONE | NONE | RELATION_UNRELATED_CONFIRMED |
+| 关联未核验，保留复核 | REVIEW | REVIEW | REVIEW | MISSING_SEMANTIC_RELATION |
+| 新闻画面未提供危险诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
+| 不同事件，模型却自信回答鼓励同一动作 | REVIEW | FLAG | REVIEW | RELATION_REFERENT_DISAGREEMENT |
+| 同一事件有警示，模型却自信答错 | REVIEW | FLAG | FLAG | RELATION_LINK_ASSISTED |
+| 鼓励与教育警示的立场冲突 | REVIEW | REVIEW | REVIEW | CONFLICTING_STANCE |
+| 观察不完整，不能放行 | REVIEW | REVIEW | RECHECK | INCOMPLETE_OBSERVATION |
+| 完整观察且无诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
+
+场景数：10；处置桶不同：1。
+符合合成处置预期：无 PEAD 8，有 PEAD 9。这是测试预期计数，不是视频准确率。
+
+## 各组处置数量
+
+| 组别 | 强提示 FLAG | 暂无动作 NONE | 复核桶 |
+|---|---|---|---|
+| without_pead | 3 | 4 | 3 |
+| with_pead | 2 | 4 | 4 |
+
+## 关系回答穷举
+
+在有候选对的场景上，枚举 64 种关系回答组合；其中 29 种的处置桶不同。差异数量不等于改善数量。
+具体每一组答案、处置、理由和输入哈希见同名 JSON；不对替换回答后的组合计算准确率。
+
+## 局限
+
+- 仅比较危险行为诱导策略，不代表所有风险策略或整个应用。
+- 合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。
+- 未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。
+- 同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。
+- 穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。
+
+## 复现
+
+从 backend 运行 `python -m fixtures.compare_pead --write`。
+再次运行 `python -m fixtures.compare_pead --check` 应确认输出无漂移。
+输入快照保存在 mock-pead-inputs.json；两个分支共用同一输入哈希。
+关系穷举回包由 fixtures.truth_table 的固定生成器产生。
+输出不含时间戳或运行耗时，便于逐字节复现。
+
+Mock validation passed. Reports are in backend/reports.

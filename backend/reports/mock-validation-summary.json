@@ -1,0 +1,83 @@
+{
+  "scope": "Mock failure-path repair and same-input PEAD decision comparison",
+  "mode": "MOCK_SYNTHETIC",
+  "real_model_calls": 0,
+  "backend_unit_tests": {
+    "passed": 100,
+    "total": 100
+  },
+  "fixture_cases": {
+    "passed": 18,
+    "total": 18,
+    "generation_drift": false
+  },
+  "relation_truth_table": {
+    "combinations": 64,
+    "problems": 0
+  },
+  "comparison": {
+    "count": 10,
+    "changed": 1,
+    "without_pead": {
+      "FLAG": 3,
+      "NONE": 4,
+      "REVIEW": 3
+    },
+    "with_pead": {
+      "FLAG": 2,
+      "NONE": 4,
+      "REVIEW": 4
+    },
+    "without_pead_meets_synthetic_expectation": 8,
+    "with_pead_meets_synthetic_expectation": 9
+  },
+  "comparison_enumeration": {
+    "count": 64,
+    "changed": 29,
+    "without_pead": {
+      "FLAG": 7,
+      "NONE": 20,
+      "REVIEW": 37
+    },
+    "with_pead": {
+      "FLAG": 15,
+      "NONE": 15,
+      "REVIEW": 34
+    }
+  },
+  "real_http_smoke": {
+    "passed": 29,
+    "total": 29,
+    "note": "Local HTTP, ffprobe and no-key fail-closed path; no video-model inference."
+  },
+  "frontend_typecheck": "PASS",
+  "frontend_production_build": {
+    "status": "NOT_COMPLETED",
+    "error": "Node process.memoryUsage() raises ENOENT uv_resident_set_memory in this sandbox; both default and webpack builds stop before compilation. Frontend source unchanged."
+  },
+  "python": "3.12.14",
+  "node": "v24.19.0",
+  "changed_original_files": [
+    ".github/workflows/tests.yml",
+    "HANDOFF.md",
+    "README.md",
+    "backend/.env.example",
+    "backend/fixtures/validate.py",
+    "backend/pipeline.py",
+    "backend/src/issue_locator_client.py",
+    "backend/src/relation_client.py",
+    "backend/tests/test_http_surface.py",
+    "backend/tests/test_mvp.py",
+    "docs/00_文档导航与使用说明.md",
+    "docs/03_系统设计与工程实现说明.md",
+    "docs/04_核心技术与实验验证计划.md",
+    "docs/05_任务拆分与开发交接说明.md"
+  ],
+  "remaining_limitations": [
+    "仅比较危险行为诱导策略，不代表所有风险策略或整个应用。",
+    "合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。",
+    "未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。",
+    "同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。",
+    "穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。"
+  ]
+}

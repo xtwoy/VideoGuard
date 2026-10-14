@@ -9,7 +9,7 @@ from typing import Callable
 
 from src.model_gateway import generate_audit_report, parse_video
 from src.issue_locator_client import locate_issues
-from src.relation_client import query_relations, select_pairs, build_request
+from src.relation_client import query_relations, select_pairs, build_request, validate_response
 from src.relation_fusion import assess_joint
 from src.pead_engine import build_event_findings
 from src.audit_report import build_audit_context, build_fallback_audit_report, validate_audit_report
@@ -461,13 +461,19 @@ def _run_models(observations: dict, duration_ms: int,
             relation_status="SKIPPED_NO_KEY"
         else:
             try:
-                relation_response=relation_fn(build_request(pairs))
-                relation_status="LIVE" if isinstance(relation_response,dict) else "FAILED"
+                request=build_request(pairs)
+                relation_response=relation_fn(request)
+                decisions=validate_response(request,relation_response)
+                if any(item["status"] != "VALID" for item in decisions):
+                    relation_response=None
+                    relation_status="INVALID_OUTPUT"
+                else:
+                    relation_status="LIVE"
             except Exception:
                 # Never confuse one provider outage with 'video is safe'.
                 relation_status="FAILED"
     merged=assess_joint(observations,duration_ms,relation_response,
-                        relation_failed=relation_status=="FAILED")
+                        relation_failed=relation_status in {"FAILED","INVALID_OUTPUT"})
     findings=merged["merged"]["findings"]
     for f in findings:
         f["name"]=POLICIES.get(f["policy_id"], f["policy_id"])
@@ -490,7 +496,7 @@ def _run_models(observations: dict, duration_ms: int,
         semantic_check=merged["semantic_check"]
     elif relation_status=="SKIPPED_NO_KEY":
         semantic_check="SKIPPED_NO_KEY"
-    elif relation_status=="FAILED":
+    elif relation_status in {"FAILED","INVALID_OUTPUT"}:
         semantic_check="API_FAILED"
     else:
         semantic_check=merged["semantic_check"]

@@ -9,11 +9,8 @@ hand-written expectations. It also asserts structural invariants that hold for
 every case, so a schema change cannot silently produce a plausible-looking
 fixture.
 
-Two cases currently cannot produce an audit report: ``unrelated_promotion`` and
-``partial_coverage`` both make ``build_fallback_audit_report`` raise, because the
-deterministic builder drops every cue when a finding has no event of its own.
-The validator records that as an observed defect and fails if it ever changes,
-so the fixture pack doubles as a regression pin for the bug.
+All current cases can produce an audit report. Previously failing cases remain
+regression guards; KNOWN_REPORT_FAILURES is the explicit source of truth.
 """
 from __future__ import annotations
 
