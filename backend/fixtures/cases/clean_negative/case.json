@@ -1,0 +1,10 @@
+{
+  "name": "clean_negative",
+  "title": "普通无风险视频（干净负例）",
+  "what_it_tests": "无任何线索时应给出 NOT_SUPPORTED/NONE，且不虚构风险。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

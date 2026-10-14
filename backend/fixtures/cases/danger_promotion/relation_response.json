@@ -1,0 +1,35 @@
+{
+  "model": "mock-relation-1",
+  "answers": {
+    "pair_0_relation": {
+      "type": "choice",
+      "choice": "encourages_same",
+      "confidence": 0.94,
+      "probabilities": {
+        "encourages_same": 0.94,
+        "warns_same": 0.02,
+        "unrelated": 0.02,
+        "insufficient": 0.02
+      }
+    },
+    "pair_0_review": {
+      "type": "noul",
+      "noul": 0.1
+    },
+    "pair_1_relation": {
+      "type": "choice",
+      "choice": "encourages_same",
+      "confidence": 0.94,
+      "probabilities": {
+        "encourages_same": 0.94,
+        "warns_same": 0.02,
+        "unrelated": 0.02,
+        "insufficient": 0.02
+      }
+    },
+    "pair_1_review": {
+      "type": "noul",
+      "noul": 0.1
+    }
+  }
+}

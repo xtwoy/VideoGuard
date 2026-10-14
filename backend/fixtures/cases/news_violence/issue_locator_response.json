@@ -1,0 +1,32 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "violence",
+      "event_id": "EVT_NEWS",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "报道画面中出现人群推搡的冲突片段。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    },
+    {
+      "cue_id": "E02",
+      "tag": "news_context",
+      "event_id": "EVT_NEWS",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F002"
+      ],
+      "observation": "主播说明该片段来自现场报道，属于新闻语境。",
+      "verbatim_redacted": "这是现场画面",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

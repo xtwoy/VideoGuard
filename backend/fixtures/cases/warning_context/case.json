@@ -1,0 +1,13 @@
+{
+  "name": "warning_context",
+  "title": "危险动作＋明确警示（安全语境，反误报对照）",
+  "what_it_tests": "同一危险动作配明确警示时，系统不得把它判成鼓励诱导。PEAD 把 warning 排除在鼓励语义之外，因此基线即为 NOT_SUPPORTED/NONE；代价是“该片曾出现警示”不会体现在处置结果里。",
+  "duration_ms": 24000,
+  "relation_choice": "warns_same",
+  "relation_status": "LIVE",
+  "semantic_check": "COMPLETE",
+  "candidate_pairs": [
+    "pair_0",
+    "pair_1"
+  ]
+}

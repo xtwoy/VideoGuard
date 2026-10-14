@@ -12,3 +12,11 @@ backend/data/
 backend/.venv/
 .uv-cache/
 .uv-python/
+
+# Next.js / Node.js
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/out/
+frontend/next-env.d.ts
+*.tsbuildinfo

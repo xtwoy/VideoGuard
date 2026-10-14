@@ -1,0 +1,459 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 24000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 5000,
+        "continuity": "CUT",
+        "scene_summary": "博主在室内开场并自我介绍",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S001:F002"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 200,
+            "end_ms": 4800,
+            "summary_zh": "画面为室内自拍场景，博主半身出镜。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 300,
+            "end_ms": 4600,
+            "summary_zh": "博主说明接下来要展示一个动作。",
+            "verbatim_redacted": "今天教大家一个动作",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 5000,
+        "end_ms": 12000,
+        "continuity": "CUT",
+        "scene_summary": "博主演示危险动作",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S002:F002"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 5200,
+            "end_ms": 11500,
+            "summary_zh": "博主在无防护条件下完成一项高风险动作。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": [
+          {
+            "fact_id": "F002",
+            "start_ms": 5400,
+            "end_ms": 11300,
+            "summary_zh": "现场可听到落地撞击声。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ]
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 12000,
+        "end_ms": 19000,
+        "continuity": "CUT",
+        "scene_summary": "博主面向镜头鼓励观众模仿",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 12200,
+            "end_ms": 15000,
+            "summary_zh": "博主鼓励观众模仿刚才的动作。",
+            "verbatim_redacted": "你们也来试试，很简单的",
+            "confidence": "HIGH",
+            "limitations": []
+          },
+          {
+            "fact_id": "F002",
+            "start_ms": 15500,
+            "end_ms": 18500,
+            "summary_zh": "博主使用挑战式表述再次引导模仿。",
+            "verbatim_redacted": "敢不敢挑战一下",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S004",
+        "start_ms": 19000,
+        "end_ms": 24000,
+        "continuity": "CUT",
+        "scene_summary": "博主结束视频",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 19200,
+            "end_ms": 23500,
+            "summary_zh": "博主提示关注账号后结束。",
+            "verbatim_redacted": "记得关注我",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_DANGER",
+        "start_ms": 5000,
+        "end_ms": 19000,
+        "event_type": "danger_demonstration",
+        "referent_key": "EVT_DANGER",
+        "summary": "博主演示危险动作并在随后鼓励观众模仿。",
+        "evidence_refs": [
+          "S002:F001",
+          "S003:F001"
+        ],
+        "context": {
+          "stance": "ENCOURAGEMENT",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "evidence_refs": [
+      "S002:F001",
+      "S003:F001",
+      "S003:F002"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 5200,
+        "end_ms": 11500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      },
+      {
+        "start_ms": 12200,
+        "end_ms": 15000,
+        "evidence_refs": [
+          "S003:F001"
+        ]
+      },
+      {
+        "start_ms": 15500,
+        "end_ms": 18500,
+        "evidence_refs": [
+          "S003:F002"
+        ]
+      }
+    ],
+    "limitations": [],
+    "summary_zh": "博主演示一项无防护的危险动作，并鼓励观众模仿。"
+  },
+  "content_analysis": {
+    "material_completeness": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 5200,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 15500,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "素材为室内自拍，动作与鼓励表述齐全，但缺少安全提示画面。",
+      "observed_materials": [
+        "室内自拍画面",
+        "口播讲解",
+        "动作演示"
+      ],
+      "issues": []
+    },
+    "structure": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 5200,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 15500,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "视频按开场、展开、收束推进，信息顺序连贯。",
+      "opening": "开场直接给出主体与场景。",
+      "body": "中段展开主体行为与相关说明。",
+      "ending": "结尾给出收束性表述。",
+      "sequence": [
+        "开场建立场景",
+        "中段展开主体内容",
+        "结尾收束"
+      ],
+      "issues": []
+    },
+    "hook": {
+      "evidence_refs": [
+        "S001:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 4600,
+          "evidence_refs": [
+            "S001:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "开场以主体与场景建立观看理由。",
+      "opening": "开场即出现主体与相关表述。",
+      "script": "开场有口播引入。",
+      "visual": "开场画面主体清晰。",
+      "issues": []
+    },
+    "subject_presentation": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 5200,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 15500,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "主体在画面中持续可见。",
+      "visibility": "主体可辨认。",
+      "demonstration": "主体完成了相关内容呈现。",
+      "context": "场景为室内或户外自拍环境。",
+      "issues": []
+    },
+    "audio_visual_quality": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 5200,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 15500,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "音画信息总体清晰，口播可辨认。",
+      "issues": []
+    }
+  }
+}

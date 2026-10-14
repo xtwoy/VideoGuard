@@ -1,0 +1,654 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "MANUAL_REVIEW",
+  "overall_score": 55,
+  "executive_summary": "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "视频解析覆盖完整。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S002:F001",
+            "S002:F002",
+            "S003:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 6200,
+              "end_ms": 11000,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 11500,
+              "end_ms": 16500,
+              "evidence_refs": [
+                "S002:F002"
+              ]
+            },
+            {
+              "start_ms": 17200,
+              "end_ms": 23500,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001",
+        "S002:F002",
+        "S003:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 6200,
+          "end_ms": 11000,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 11500,
+          "end_ms": 16500,
+          "evidence_refs": [
+            "S002:F002"
+          ]
+        },
+        {
+          "start_ms": 17200,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "风险线索可回溯到时间化观察。",
+      "items": [
+        {
+          "key": "trace_E01",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E01 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 11000,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "trace_E02",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E02 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 11500,
+              "end_ms": 16500,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 11000,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 11500,
+          "end_ms": 16500,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 55,
+      "status": "MANUAL_REVIEW",
+      "summary": "存在需处理的内容安全线索。",
+      "items": [
+        {
+          "key": "finding_R_MARKETING_CLAIM",
+          "label": "营销及资质声称",
+          "score": 55,
+          "status": "MANUAL_REVIEW",
+          "summary": "观察到资质声称，真实性需要外部材料核验。",
+          "evidence_refs": [
+            "E01",
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 11000,
+              "evidence_refs": [
+                "E01"
+              ]
+            },
+            {
+              "start_ms": 11500,
+              "end_ms": 16500,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 11000,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 11500,
+          "end_ms": 16500,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已记录可观察的语境信息。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_CLAIM"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6000,
+              "end_ms": 17000,
+              "evidence_refs": [
+                "EVT_CLAIM"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_CLAIM"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6000,
+          "end_ms": 17000,
+          "evidence_refs": [
+            "EVT_CLAIM"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "material_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的素材完整性问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "素材完整性",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的素材完整性问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "narrative_structure": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的内容结构问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "内容结构",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的内容结构问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "hook_clarity": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的开头信息建立问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "开头信息建立",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的开头信息建立问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "subject_presentation": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的主体展示问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "主体展示",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的主体展示问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 5800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [
+    {
+      "id": "R01",
+      "section": "博主声称专业资质并对产品效果作出绝对化表述。",
+      "scope": "EVENT",
+      "event_id": "EVT_CLAIM",
+      "video": {
+        "summary": "博主声称专业资质并对产品效果作出绝对化表述。",
+        "time_ranges": [
+          {
+            "start_ms": 6000,
+            "end_ms": 17000,
+            "evidence_refs": [
+              "EVT_CLAIM"
+            ]
+          }
+        ]
+      },
+      "issues": [
+        {
+          "id": "I01",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_MARKETING_CLAIM"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P1",
+          "category": "营销及资质声称",
+          "title": "营销及资质声称",
+          "description": "观察到资质声称，真实性需要外部材料核验。",
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 11000,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 11500,
+              "end_ms": 16500,
+              "evidence_refs": [
+                "E02",
+                "S002:F002"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E01",
+              "type": "OBSERVATION",
+              "content": "博主声称自己具备专业认证资质，真实性需要外部核验。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 11000,
+                  "evidence_refs": [
+                    "E01"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "E02",
+              "type": "OBSERVATION",
+              "content": "博主对产品效果作出绝对化表述。",
+              "time_ranges": [
+                {
+                  "start_ms": 11500,
+                  "end_ms": 16500,
+                  "evidence_refs": [
+                    "E02"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F001",
+              "type": "FACT",
+              "content": "博主声称自己具备专业认证资质。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 11000,
+                  "evidence_refs": [
+                    "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F002",
+              "type": "FACT",
+              "content": "博主对产品效果作出绝对化表述。",
+              "time_ranges": [
+                {
+                  "start_ms": 11500,
+                  "end_ms": 16500,
+                  "evidence_refs": [
+                    "S002:F002"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "VERIFY",
+          "detail": "核验对应资质或营销声称的外部依据；无法核验时删除或改写为可被证据支持的表述。",
+          "target_time_ranges": [],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "已取得可核验依据，或相关未经证实的资质与营销声称已从视频中移除。"
+        }
+      ]
+    }
+  ],
+  "overall_direction": "先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。",
+  "limitations": [
+    "该报告由机器观察和规则结果生成，需回看原视频并进行人工复核。"
+  ]
+}

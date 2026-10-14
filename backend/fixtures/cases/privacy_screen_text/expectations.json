@@ -1,0 +1,16 @@
+{
+  "coverage": "FULL",
+  "findings": {
+    "R_PRIVACY_EXPOSURE": [
+      "SUPPORTED",
+      "FLAG"
+    ]
+  },
+  "active_finding_policies": [
+    "R_PRIVACY_EXPOSURE"
+  ],
+  "event_findings_at_least": 1,
+  "cues": [
+    "E01"
+  ]
+}

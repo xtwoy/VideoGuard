@@ -1,0 +1,32 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "credential_claim",
+      "event_id": "EVT_CLAIM",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "博主声称自己具备专业认证资质，真实性需要外部核验。",
+      "verbatim_redacted": "我是专业认证人士",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    },
+    {
+      "cue_id": "E02",
+      "tag": "marketing_claim",
+      "event_id": "EVT_CLAIM",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F002"
+      ],
+      "observation": "博主对产品效果作出绝对化表述。",
+      "verbatim_redacted": "这是最可靠的选择",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

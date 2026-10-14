@@ -1,0 +1,313 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 24000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 12000,
+        "continuity": "CUT",
+        "scene_summary": "宠物日常记录",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S001:F002"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 300,
+            "end_ms": 11800,
+            "summary_zh": "画面为家中的猫在窗台休息。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 400,
+            "end_ms": 11600,
+            "summary_zh": "博主轻声介绍自家宠物。",
+            "verbatim_redacted": "它今天很安静",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 12000,
+        "end_ms": 24000,
+        "continuity": "CUT",
+        "scene_summary": "宠物进食画面",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "MANUAL_REVIEW",
+            "voice_clarity": "NOT_APPLICABLE",
+            "bgm_interference": "PASS",
+            "evidence": "该镜头无口播内容。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的音频证据，未据此判断音质。"
+            ]
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 12300,
+            "end_ms": 23500,
+            "summary_zh": "画面为猫在进食。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_PET",
+        "start_ms": 0,
+        "end_ms": 24000,
+        "event_type": "daily_life_record",
+        "referent_key": "EVT_PET",
+        "summary": "记录宠物在家中的日常状态。",
+        "evidence_refs": [
+          "S001:F001",
+          "S002:F001"
+        ],
+        "context": {
+          "stance": "UNKNOWN",
+          "target_relation": "UNCERTAIN",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "evidence_refs": [
+      "S001:F001",
+      "S002:F001"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 300,
+        "end_ms": 11800,
+        "evidence_refs": [
+          "S001:F001"
+        ]
+      },
+      {
+        "start_ms": 12300,
+        "end_ms": 23500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      }
+    ],
+    "limitations": [],
+    "summary_zh": "视频记录了一只猫在家中的日常状态。"
+  },
+  "content_analysis": {
+    "material_completeness": {
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "素材为家庭宠物日常记录，未出现需要处置的内容线索。",
+      "observed_materials": [
+        "宠物画面",
+        "口播旁白"
+      ],
+      "issues": []
+    },
+    "structure": {
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "视频按开场、展开、收束推进，信息顺序连贯。",
+      "opening": "开场直接给出主体与场景。",
+      "body": "中段展开主体行为与相关说明。",
+      "ending": "结尾给出收束性表述。",
+      "sequence": [
+        "开场建立场景",
+        "中段展开主体内容",
+        "结尾收束"
+      ],
+      "issues": []
+    },
+    "hook": {
+      "evidence_refs": [
+        "S001:F001",
+        "S001:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 400,
+          "end_ms": 11600,
+          "evidence_refs": [
+            "S001:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "开场以主体与场景建立观看理由。",
+      "opening": "开场即出现主体与相关表述。",
+      "script": "开场有口播引入。",
+      "visual": "开场画面主体清晰。",
+      "issues": []
+    },
+    "subject_presentation": {
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "主体在画面中持续可见。",
+      "visibility": "主体可辨认。",
+      "demonstration": "主体完成了相关内容呈现。",
+      "context": "场景为室内或户外自拍环境。",
+      "issues": []
+    },
+    "audio_visual_quality": {
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "音画信息总体清晰，口播可辨认。",
+      "issues": []
+    }
+  }
+}

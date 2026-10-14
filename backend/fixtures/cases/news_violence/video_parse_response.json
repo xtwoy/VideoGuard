@@ -1,0 +1,373 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 24000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "PARTIAL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 6000,
+        "continuity": "CUT",
+        "scene_summary": "新闻片头",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S001:F002"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 300,
+            "end_ms": 5700,
+            "summary_zh": "主播播报新闻提要。",
+            "verbatim_redacted": "来看今天的报道",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [
+          {
+            "fact_id": "F001",
+            "start_ms": 200,
+            "end_ms": 5800,
+            "summary_zh": "屏幕文字显示新闻栏目名称。",
+            "verbatim_redacted": "晚间新闻",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 6000,
+        "end_ms": 14000,
+        "continuity": "CUT",
+        "scene_summary": "报道画面出现冲突片段",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S002:F002"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 6200,
+            "end_ms": 13500,
+            "summary_zh": "报道画面中出现人群推搡的冲突片段。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 6400,
+            "end_ms": 13200,
+            "summary_zh": "主播说明该片段来自现场报道。",
+            "verbatim_redacted": "这是现场画面",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 14000,
+        "end_ms": 24000,
+        "continuity": "CUT",
+        "scene_summary": "主播说明与结束",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 14200,
+            "end_ms": 23500,
+            "summary_zh": "主播说明事件背景后结束报道。",
+            "verbatim_redacted": "事件原因仍在调查",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_NEWS",
+        "start_ms": 6000,
+        "end_ms": 14000,
+        "event_type": "news_report",
+        "referent_key": "EVT_NEWS",
+        "summary": "新闻报道中出现冲突画面，主播说明其为现场报道。",
+        "evidence_refs": [
+          "S002:F001",
+          "S002:F002"
+        ],
+        "context": {
+          "stance": "REPORTING",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": [
+            "S002:F002"
+          ]
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "evidence_refs": [
+      "S002:F001",
+      "S002:F002"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 6200,
+        "end_ms": 13500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      },
+      {
+        "start_ms": 6400,
+        "end_ms": 13200,
+        "evidence_refs": [
+          "S002:F002"
+        ]
+      }
+    ],
+    "limitations": [],
+    "summary_zh": "新闻报道包含冲突现场画面，主播说明了报道语境。"
+  },
+  "content_analysis": {
+    "material_completeness": {
+      "evidence_refs": [
+        "S002:F001",
+        "S002:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 13500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 6400,
+          "end_ms": 13200,
+          "evidence_refs": [
+            "S002:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "素材为新闻栏目画面，包含现场报道片段。",
+      "observed_materials": [
+        "新闻片头",
+        "现场报道画面",
+        "主播口播"
+      ],
+      "issues": []
+    },
+    "structure": {
+      "evidence_refs": [
+        "S002:F001",
+        "S002:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 13500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 6400,
+          "end_ms": 13200,
+          "evidence_refs": [
+            "S002:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "视频按开场、展开、收束推进，信息顺序连贯。",
+      "opening": "开场直接给出主体与场景。",
+      "body": "中段展开主体行为与相关说明。",
+      "ending": "结尾给出收束性表述。",
+      "sequence": [
+        "开场建立场景",
+        "中段展开主体内容",
+        "结尾收束"
+      ],
+      "issues": []
+    },
+    "hook": {
+      "evidence_refs": [
+        "S001:F001",
+        "S001:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 300,
+          "end_ms": 5700,
+          "evidence_refs": [
+            "S001:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "开场以主体与场景建立观看理由。",
+      "opening": "开场即出现主体与相关表述。",
+      "script": "开场有口播引入。",
+      "visual": "开场画面主体清晰。",
+      "issues": []
+    },
+    "subject_presentation": {
+      "evidence_refs": [
+        "S002:F001",
+        "S002:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 13500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 6400,
+          "end_ms": 13200,
+          "evidence_refs": [
+            "S002:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "主体在画面中持续可见。",
+      "visibility": "主体可辨认。",
+      "demonstration": "主体完成了相关内容呈现。",
+      "context": "场景为室内或户外自拍环境。",
+      "issues": []
+    },
+    "audio_visual_quality": {
+      "evidence_refs": [
+        "S002:F001",
+        "S002:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 13500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 6400,
+          "end_ms": 13200,
+          "evidence_refs": [
+            "S002:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "音画信息总体清晰，口播可辨认。",
+      "issues": []
+    }
+  }
+}

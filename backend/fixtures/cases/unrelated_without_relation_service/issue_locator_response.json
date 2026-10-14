@@ -1,0 +1,32 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_SKATE",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "画面中出现一次滑板动作，未见明显危险行为。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    },
+    {
+      "cue_id": "E02",
+      "tag": "encouragement",
+      "event_id": "EVT_COFFEE",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F001"
+      ],
+      "observation": "博主鼓励观众尝试咖啡店，指向另一个话题。",
+      "verbatim_redacted": "这家新开的咖啡店你们一定要试试",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

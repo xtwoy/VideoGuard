@@ -1,0 +1,13 @@
+{
+  "schema_version":"videoguard_issue_locator_v1",
+  "risk_cues":[
+    {"cue_id":"E01","tag":"danger_action","event_id":"EVT_DANGER","modality":"visual","evidence_refs":["S001:F001"],"observation":"画面中有人展示可能造成伤害的危险动作。","verbatim_redacted":"","time_confidence":"HIGH","needs_human_review":false},
+    {"cue_id":"E02","tag":"encouragement","event_id":"EVT_DANGER","modality":"speech","evidence_refs":["S001:F002"],"observation":"旁白出现鼓励他人模仿该动作的表述。","verbatim_redacted":"请大家都试试看","time_confidence":"HIGH","needs_human_review":false},
+    {"cue_id":"E03","tag":"violence","event_id":"EVT_FICTION","modality":"visual","evidence_refs":["S002:F004"],"observation":"画面中出现疑似冲突或暴力行为片段。","verbatim_redacted":"","time_confidence":"HIGH","needs_human_review":true},
+    {"cue_id":"E04","tag":"fiction_context","event_id":"EVT_FICTION","modality":"screen_text","evidence_refs":["S002:F005"],"observation":"画面文字提示该片段为剧情演绎。","verbatim_redacted":"剧情演绎，请勿模仿","time_confidence":"HIGH","needs_human_review":false},
+    {"cue_id":"E05","tag":"pii_candidate","event_id":"EVT_PRIVACY","modality":"screen_text","evidence_refs":["S003:F006"],"observation":"画面中出现疑似个人联系方式，已脱敏处理。","verbatim_redacted":"联系方式：138****5678","time_confidence":"HIGH","needs_human_review":true},
+    {"cue_id":"E06","tag":"credential_claim","event_id":"EVT_CLAIM","modality":"speech","evidence_refs":["S004:F007"],"observation":"说话者对自身专业资质作出声称。","verbatim_redacted":"我是专业认证人士","time_confidence":"HIGH","needs_human_review":true},
+    {"cue_id":"E07","tag":"marketing_claim","event_id":"EVT_CLAIM","modality":"speech","evidence_refs":["S004:F008"],"observation":"说话者对产品效果作出营销性表述。","verbatim_redacted":"这是最可靠的选择","time_confidence":"HIGH","needs_human_review":true},
+    {"cue_id":"E08","tag":"fraud_or_scam","event_id":"EVT_FRAUD","modality":"speech","evidence_refs":["S005:F010"],"observation":"说话者引导观众参与无法核实的高收益活动。","verbatim_redacted":"现在加入就能轻松获得高额回报","time_confidence":"HIGH","needs_human_review":true}
+  ],"limitations":[]
+}

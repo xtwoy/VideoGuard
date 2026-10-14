@@ -1,0 +1,13 @@
+{
+  "name": "danger_promotion",
+  "title": "危险动作＋鼓励模仿（核心研究场景）",
+  "what_it_tests": "危险动作与鼓励表述指向同一事件时，PEAD 是否给出受支持的强提示。",
+  "duration_ms": 24000,
+  "relation_choice": "encourages_same",
+  "relation_status": "LIVE",
+  "semantic_check": "COMPLETE",
+  "candidate_pairs": [
+    "pair_0",
+    "pair_1"
+  ]
+}

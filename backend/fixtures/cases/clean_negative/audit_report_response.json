@@ -1,0 +1,451 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "PUBLISHABLE",
+  "overall_score": 70,
+  "executive_summary": "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "视频解析覆盖完整。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S002:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 12300,
+              "end_ms": 23500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F002"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 400,
+              "end_ms": 11600,
+              "evidence_refs": [
+                "S001:F002"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001",
+        "S001:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001",
+            "S001:F002"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "未发现需处理的风险线索。",
+      "items": [
+        {
+          "key": "trace_S001:F001",
+          "label": "问题证据定位",
+          "score": 90,
+          "status": "PASS",
+          "summary": "S001:F001 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "未发现需处理的内容安全线索。",
+      "items": [
+        {
+          "key": "active_findings",
+          "label": "需处理风险项",
+          "score": 100,
+          "status": "PASS",
+          "summary": "未发现需要处置的风险 finding。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已记录可观察的语境信息。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_PET"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 0,
+              "end_ms": 24000,
+              "evidence_refs": [
+                "EVT_PET"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_PET"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 0,
+          "end_ms": 24000,
+          "evidence_refs": [
+            "EVT_PET"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "material_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的素材完整性问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "素材完整性",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的素材完整性问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "narrative_structure": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的内容结构问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "内容结构",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的内容结构问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "hook_clarity": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的开头信息建立问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "开头信息建立",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的开头信息建立问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "subject_presentation": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "未记录已定位的主体展示问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "主体展示",
+          "score": 90,
+          "status": "PASS",
+          "summary": "未记录已定位的主体展示问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 70,
+      "status": "WARNING",
+      "summary": "部分镜头的音画可读性需要人工回看。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 70,
+          "status": "WARNING",
+          "summary": "部分镜头的音画信息需要人工回看。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 11800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 11800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [],
+  "overall_direction": "当前没有 PEAD 标记的需处理事项；发布前仍应完成常规人工复核。",
+  "limitations": [
+    "该报告由机器观察和规则结果生成，需回看原视频并进行人工复核。"
+  ]
+}

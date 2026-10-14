@@ -1,0 +1,10 @@
+{
+  "name": "privacy_screen_text",
+  "title": "隐私暴露（单模态即可触发）",
+  "what_it_tests": "仅屏幕文字一类证据即可形成隐私线索，且需保持脱敏。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

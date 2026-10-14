@@ -1,0 +1,64 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 25000,
+    "modalities": {"visual": "FULL", "speech": "FULL", "screen_text": "FULL", "sound": "FULL"},
+    "limitations": ["人工编写的合成解析数据，仅用于演示。"],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001", "start_ms": 0, "end_ms": 5000, "continuity": "CONTIGUOUS",
+        "scene_summary": "画面出现危险动作，伴随鼓励模仿的旁白。",
+        "visual_facts": [{"fact_id": "F001", "start_ms": 1200, "end_ms": 4800, "summary_zh": "画面出现可能造成伤害的危险动作。", "verbatim_redacted": "", "confidence": "HIGH", "limitations": []}],
+        "speech_transcript": [{"fact_id": "F002", "start_ms": 2300, "end_ms": 4300, "summary_zh": "旁白鼓励他人模仿当前动作。", "verbatim_redacted": "请大家都试试看", "confidence": "HIGH", "limitations": []}],
+        "subtitle_text": [], "screen_text": [], "audio_observations": [{"fact_id": "F003", "start_ms": 0, "end_ms": 5000, "summary_zh": "人声清晰可辨，未见明显背景音乐干扰。", "verbatim_redacted": "", "confidence": "MEDIUM", "limitations": []}],
+        "quality": {"visual_clarity": "CLEAR", "speech_clarity": "CLEAR", "audio": {"status": "PASS", "voice_clarity": "PASS", "bgm_interference": "NOT_APPLICABLE", "evidence": "旁白可清晰辨认，未听到明显 BGM。", "evidence_refs": ["S001:F002", "S001:F003"], "limitations": []}, "visual": {"clarity": "PASS", "pixelation": "PASS", "aliasing_candidate": "PASS", "evidence": "动作主体和画面细节可辨认。", "evidence_refs": ["S001:F001"], "limitations": []}, "limitations": []}
+      },
+      {
+        "shot_id": "S002", "start_ms": 5000, "end_ms": 10000, "continuity": "CUT",
+        "scene_summary": "剧情演绎的冲突画面，屏幕出现警示文字。",
+        "visual_facts": [{"fact_id": "F004", "start_ms": 7000, "end_ms": 9400, "summary_zh": "画面出现疑似冲突或暴力行为片段。", "verbatim_redacted": "", "confidence": "HIGH", "limitations": []}],
+        "speech_transcript": [], "subtitle_text": [], "screen_text": [{"fact_id": "F005", "start_ms": 7000, "end_ms": 9400, "summary_zh": "画面文字提示该片段为剧情演绎。", "verbatim_redacted": "剧情演绎，请勿模仿", "confidence": "HIGH", "limitations": []}], "audio_observations": [],
+        "quality": {"visual_clarity": "CLEAR", "speech_clarity": "UNAVAILABLE", "audio": {"status": "PASS", "voice_clarity": "NOT_APPLICABLE", "bgm_interference": "NOT_APPLICABLE", "evidence": "当前片段没有可辨认的人声。", "evidence_refs": ["S002:F005"], "limitations": ["无人声，无法评估口播清晰度。"]}, "visual": {"clarity": "PASS", "pixelation": "PASS", "aliasing_candidate": "PASS", "evidence": "冲突画面和提示文字均可辨认。", "evidence_refs": ["S002:F004", "S002:F005"], "limitations": []}, "limitations": []}
+      },
+      {
+        "shot_id": "S003", "start_ms": 10000, "end_ms": 15000, "continuity": "CUT",
+        "scene_summary": "画面中出现疑似联系方式。",
+        "visual_facts": [], "speech_transcript": [], "subtitle_text": [], "screen_text": [{"fact_id": "F006", "start_ms": 12500, "end_ms": 14500, "summary_zh": "画面出现疑似个人联系方式，已脱敏处理。", "verbatim_redacted": "联系方式：138****5678", "confidence": "HIGH", "limitations": []}], "audio_observations": [],
+        "quality": {"visual_clarity": "CLEAR", "speech_clarity": "UNAVAILABLE", "audio": {"status": "PASS", "voice_clarity": "NOT_APPLICABLE", "bgm_interference": "NOT_APPLICABLE", "evidence": "当前片段没有可辨认的人声。", "evidence_refs": ["S003:F006"], "limitations": ["无人声，无法评估口播清晰度。"]}, "visual": {"clarity": "PASS", "pixelation": "PASS", "aliasing_candidate": "PASS", "evidence": "屏幕文字区域清晰可辨。", "evidence_refs": ["S003:F006"], "limitations": []}, "limitations": []}
+      },
+      {
+        "shot_id": "S004", "start_ms": 15000, "end_ms": 22000, "continuity": "CUT",
+        "scene_summary": "人物作出专业资质和营销效果声称。",
+        "visual_facts": [], "speech_transcript": [{"fact_id": "F007", "start_ms": 17000, "end_ms": 19000, "summary_zh": "说话者对自身专业资质作出声称。", "verbatim_redacted": "我是专业认证人士", "confidence": "HIGH", "limitations": []}, {"fact_id": "F008", "start_ms": 19500, "end_ms": 21500, "summary_zh": "说话者对产品效果作出营销性表述。", "verbatim_redacted": "这是最可靠的选择", "confidence": "HIGH", "limitations": []}],
+        "subtitle_text": [], "screen_text": [], "audio_observations": [{"fact_id": "F009", "start_ms": 15000, "end_ms": 22000, "summary_zh": "口播清晰可辨。", "verbatim_redacted": "", "confidence": "MEDIUM", "limitations": []}],
+        "quality": {"visual_clarity": "CLEAR", "speech_clarity": "CLEAR", "audio": {"status": "PASS", "voice_clarity": "PASS", "bgm_interference": "NOT_APPLICABLE", "evidence": "两段口播均可清晰转写。", "evidence_refs": ["S004:F007", "S004:F008", "S004:F009"], "limitations": []}, "visual": {"clarity": "PASS", "pixelation": "PASS", "aliasing_candidate": "PASS", "evidence": "人物画面稳定、可辨认。", "evidence_refs": ["S004:F007"], "limitations": []}, "limitations": []}
+      },
+      {
+        "shot_id": "S005", "start_ms": 22000, "end_ms": 25000, "continuity": "CUT",
+        "scene_summary": "人物引导参与无法核实的高收益活动。",
+        "visual_facts": [], "speech_transcript": [{"fact_id": "F010", "start_ms": 22000, "end_ms": 24000, "summary_zh": "说话者引导观众参与无法核实的高收益活动。", "verbatim_redacted": "现在加入就能轻松获得高额回报", "confidence": "HIGH", "limitations": []}], "subtitle_text": [], "screen_text": [], "audio_observations": [{"fact_id": "F011", "start_ms": 22000, "end_ms": 25000, "summary_zh": "口播清晰可辨。", "verbatim_redacted": "", "confidence": "MEDIUM", "limitations": []}],
+        "quality": {"visual_clarity": "CLEAR", "speech_clarity": "CLEAR", "audio": {"status": "PASS", "voice_clarity": "PASS", "bgm_interference": "NOT_APPLICABLE", "evidence": "引导性口播可清晰转写。", "evidence_refs": ["S005:F010", "S005:F011"], "limitations": []}, "visual": {"clarity": "PASS", "pixelation": "PASS", "aliasing_candidate": "PASS", "evidence": "主体画面可辨认。", "evidence_refs": ["S005:F010"], "limitations": []}, "limitations": []}
+      }
+    ],
+    "events": [
+      {"event_id": "EVT_DANGER", "start_ms": 1200, "end_ms": 4800, "event_type": "危险动作及关联口播", "referent_key": "EVENT_DANGER", "summary": "危险动作和鼓励模仿的话语出现在同一片段。", "evidence_refs": ["S001:F001", "S001:F002"], "context": {"stance": "ENCOURAGEMENT", "target_relation": "SAME_EVENT", "counter_context_refs": []}, "uncertainties": []},
+      {"event_id": "EVT_FICTION", "start_ms": 7000, "end_ms": 9400, "event_type": "剧情冲突画面", "referent_key": "EVENT_FICTION", "summary": "剧情演绎提示文字与冲突画面同时出现。", "evidence_refs": ["S002:F004", "S002:F005"], "context": {"stance": "FICTION", "target_relation": "SAME_EVENT", "counter_context_refs": ["S002:F005"]}, "uncertainties": []},
+      {"event_id": "EVT_PRIVACY", "start_ms": 12500, "end_ms": 14500, "event_type": "疑似联系方式展示", "referent_key": "EVENT_PRIVACY", "summary": "屏幕文字出现已脱敏的疑似联系方式。", "evidence_refs": ["S003:F006"], "context": {"stance": "UNKNOWN", "target_relation": "UNCERTAIN", "counter_context_refs": []}, "uncertainties": []},
+      {"event_id": "EVT_CLAIM", "start_ms": 17000, "end_ms": 21500, "event_type": "资质与营销声称", "referent_key": "EVENT_CLAIM", "summary": "口播中先后出现专业资质和产品效果声称。", "evidence_refs": ["S004:F007", "S004:F008"], "context": {"stance": "UNKNOWN", "target_relation": "SAME_EVENT", "counter_context_refs": []}, "uncertainties": []},
+      {"event_id": "EVT_FRAUD", "start_ms": 22000, "end_ms": 24000, "event_type": "高收益活动引导", "referent_key": "EVENT_FRAUD", "summary": "口播引导观众参与高收益活动。", "evidence_refs": ["S005:F010"], "context": {"stance": "ENCOURAGEMENT", "target_relation": "SAME_EVENT", "counter_context_refs": []}, "uncertainties": []}
+    ]
+  },
+  "video_summary": {"summary_zh": "合成示例展示了危险动作、剧情冲突、疑似联系方式、资质与营销声称以及高收益活动引导等可回溯事实。", "evidence_refs": ["S001:F001", "S002:F004", "S003:F006", "S004:F007", "S005:F010"], "time_ranges": [{"start_ms": 0, "end_ms": 5000, "evidence_refs": ["S001:F001", "S001:F002"]}, {"start_ms": 5000, "end_ms": 10000, "evidence_refs": ["S002:F004", "S002:F005"]}, {"start_ms": 10000, "end_ms": 15000, "evidence_refs": ["S003:F006"]}, {"start_ms": 15000, "end_ms": 22000, "evidence_refs": ["S004:F007", "S004:F008"]}, {"start_ms": 22000, "end_ms": 25000, "evidence_refs": ["S005:F010"]}], "limitations": ["人工编写的合成解析数据，仅用于演示。"]},
+  "content_analysis": {
+    "material_completeness": {"summary": "合成数据以风险线索和可回溯事实展示为主。", "observed_materials": ["动作画面", "屏幕文字", "口播"], "evidence_refs": ["S001:F001", "S002:F005", "S004:F007"], "time_ranges": [{"start_ms": 1200, "end_ms": 4800, "evidence_refs": ["S001:F001"]}, {"start_ms": 7000, "end_ms": 9400, "evidence_refs": ["S002:F005"]}, {"start_ms": 17000, "end_ms": 19000, "evidence_refs": ["S004:F007"]}], "issues": [], "limitations": []},
+    "structure": {"summary": "视频依次呈现动作、剧情片段、屏幕文字和口播片段。", "opening": "开头出现动作与旁白。", "body": "中段出现剧情提示、屏幕文字和资质声称。", "ending": "结尾出现高收益活动引导。", "sequence": ["动作与鼓励模仿旁白", "剧情冲突与警示文字", "联系方式文字", "资质与营销声称", "高收益活动引导"], "evidence_refs": ["S001:F001", "S002:F004", "S003:F006", "S004:F007", "S005:F010"], "time_ranges": [{"start_ms": 0, "end_ms": 25000, "evidence_refs": ["S001:F001", "S002:F004", "S003:F006", "S004:F007", "S005:F010"]}], "issues": [], "limitations": []},
+    "hook": {"summary": "开头直接呈现动作与旁白。", "opening": "画面出现动作，随后可听到鼓励模仿的旁白。", "script": "请大家都试试看", "visual": "画面出现可能造成伤害的危险动作。", "evidence_refs": ["S001:F001", "S001:F002"], "time_ranges": [{"start_ms": 1200, "end_ms": 4800, "evidence_refs": ["S001:F001", "S001:F002"]}], "issues": [], "limitations": []},
+    "subject_presentation": {"summary": "合成示例呈现动作画面、屏幕文字和口播，但没有预设为商品宣传视频。", "visibility": "危险动作和屏幕文字均可辨认。", "demonstration": "开头片段展示了动作过程。", "context": "后续分别出现剧情提示、联系方式、资质和高收益引导等不同内容。", "evidence_refs": ["S001:F001", "S002:F005", "S003:F006"], "time_ranges": [{"start_ms": 1200, "end_ms": 4800, "evidence_refs": ["S001:F001"]}, {"start_ms": 7000, "end_ms": 9400, "evidence_refs": ["S002:F005"]}, {"start_ms": 12500, "end_ms": 14500, "evidence_refs": ["S003:F006"]}], "issues": [], "limitations": []},
+    "audio_visual_quality": {"summary": "各 shot 的画面和可辨认口播均清晰，未记录明确音画质量问题。", "evidence_refs": ["S001:F003", "S002:F005", "S004:F009", "S005:F011"], "time_ranges": [{"start_ms": 0, "end_ms": 25000, "evidence_refs": ["S001:F003", "S002:F005", "S004:F009", "S005:F011"]}], "issues": [], "limitations": []}
+  }
+}

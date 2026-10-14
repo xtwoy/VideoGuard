@@ -1,0 +1,45 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_DANGER",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "画面中博主在无防护条件下完成高风险动作。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E02",
+      "tag": "encouragement",
+      "event_id": "EVT_DANGER",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F001"
+      ],
+      "observation": "博主鼓励观众模仿同一动作。",
+      "verbatim_redacted": "你们也来试试，很简单的",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E03",
+      "tag": "challenge",
+      "event_id": "EVT_DANGER",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F002"
+      ],
+      "observation": "博主以挑战式表述再次引导模仿。",
+      "verbatim_redacted": "敢不敢挑战一下",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

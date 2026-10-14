@@ -1,0 +1,30 @@
+{
+  "coverage": "PARTIAL",
+  "findings": {},
+  "active_finding_policies": [
+    "R_DANGER_PROMOTION",
+    "R_VIOLENCE",
+    "R_PRIVACY_EXPOSURE",
+    "R_MARKETING_CLAIM",
+    "R_SELF_HARM",
+    "R_SEXUAL_CONTENT",
+    "R_HATE_HARASSMENT",
+    "R_FRAUD_SCAM",
+    "R_CONTROLLED_GOODS",
+    "R_MINORS_PROTECTION"
+  ],
+  "event_findings_at_least": 0,
+  "cues": [],
+  "coverage_recheck_policies": [
+    "R_DANGER_PROMOTION",
+    "R_VIOLENCE",
+    "R_PRIVACY_EXPOSURE",
+    "R_MARKETING_CLAIM",
+    "R_SELF_HARM",
+    "R_SEXUAL_CONTENT",
+    "R_HATE_HARASSMENT",
+    "R_FRAUD_SCAM",
+    "R_CONTROLLED_GOODS",
+    "R_MINORS_PROTECTION"
+  ]
+}

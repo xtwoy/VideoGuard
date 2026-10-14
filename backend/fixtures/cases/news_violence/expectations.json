@@ -1,0 +1,17 @@
+{
+  "coverage": "FULL",
+  "findings": {
+    "R_VIOLENCE": [
+      "SUPPORTED",
+      "REVIEW"
+    ]
+  },
+  "active_finding_policies": [
+    "R_VIOLENCE"
+  ],
+  "event_findings_at_least": 1,
+  "cues": [
+    "E01",
+    "E02"
+  ]
+}

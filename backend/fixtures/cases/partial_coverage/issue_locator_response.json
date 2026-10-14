@@ -1,0 +1,7 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [],
+  "limitations": [
+    "问题定位仅覆盖可观察的前段内容。"
+  ]
+}

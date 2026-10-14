@@ -1,0 +1,10 @@
+{
+  "name": "partial_coverage",
+  "title": "覆盖不完整（PARTIAL，不得等同安全）",
+  "what_it_tests": "coverage 非 FULL 时，未观察到的类别必须转为补充观察而非无风险。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

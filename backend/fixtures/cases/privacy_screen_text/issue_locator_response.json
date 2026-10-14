@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "pii_candidate",
+      "event_id": "EVT_PRIVACY",
+      "modality": "screen_text",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "画面截图出现疑似个人手机号，已按脱敏形式记录。",
+      "verbatim_redacted": "联系：138****5678",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

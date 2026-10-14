@@ -1,0 +1,10 @@
+{
+  "name": "credential_claim",
+  "title": "资质声称＋营销绝对化表述（外部核验）",
+  "what_it_tests": "资质真伪不能凭视频认定，应转为外部核验而非直接强提示。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

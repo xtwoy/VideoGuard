@@ -1,0 +1,10 @@
+{
+  "name": "news_violence",
+  "title": "新闻语境下的暴力画面（语境对照）",
+  "what_it_tests": "新闻语境不消除画面事实，但处置应转为需核验而非直接强提示。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

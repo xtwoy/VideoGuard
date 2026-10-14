@@ -1,0 +1,364 @@
+{
+  "generated_by": "python -m fixtures.generate",
+  "schema_versions": {
+    "video_parse": "videoguard_video_parse_v2",
+    "issue_locator": "videoguard_issue_locator_v1",
+    "audit_report": "videoguard_audit_report_v1"
+  },
+  "duration_ms": 24000,
+  "case_order": [
+    "danger_promotion",
+    "warning_context",
+    "unrelated_promotion",
+    "unrelated_without_relation_service",
+    "news_violence",
+    "privacy_screen_text",
+    "credential_claim",
+    "partial_coverage",
+    "clean_negative"
+  ],
+  "cases": [
+    {
+      "name": "danger_promotion",
+      "title": "危险动作＋鼓励模仿（核心研究场景）",
+      "what_it_tests": "危险动作与鼓励表述指向同一事件时，PEAD 是否给出受支持的强提示。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "LIVE",
+      "semantic_check": "COMPLETE",
+      "candidate_pair_count": 2,
+      "cue_count": 3,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "supporting_ids": [
+            "E01",
+            "E02",
+            "E03"
+          ],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "BLOCKED",
+      "audit_score": 20,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "731e4bc17c64b08d",
+        "issue_locator_response.json": "e9d993f0bc4de976",
+        "relation_response.json": "dd32163e34e95d2d",
+        "audit_report_response.json": "221d017deee106b8",
+        "expectations.json": "610d923102bc884a",
+        "case.json": "43a69f407cfea45f"
+      }
+    },
+    {
+      "name": "warning_context",
+      "title": "危险动作＋明确警示（安全语境，反误报对照）",
+      "what_it_tests": "同一危险动作配明确警示时，系统不得把它判成鼓励诱导。PEAD 把 warning 排除在鼓励语义之外，因此基线即为 NOT_SUPPORTED/NONE；代价是“该片曾出现警示”不会体现在处置结果里。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "LIVE",
+      "semantic_check": "COMPLETE",
+      "candidate_pair_count": 2,
+      "cue_count": 3,
+      "active_findings": {},
+      "event_finding_count": 0,
+      "audit_verdict": "PUBLISHABLE",
+      "audit_score": 70,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "318d0d383272dd69",
+        "issue_locator_response.json": "99045e291d238c87",
+        "relation_response.json": "645d32a243b91e23",
+        "audit_report_response.json": "916bff8c8e7d50ed",
+        "expectations.json": "46500e36c0f0d13f",
+        "case.json": "f7595d92c3d812af"
+      }
+    },
+    {
+      "name": "unrelated_promotion",
+      "title": "时间接近但事件不同＋语义判断为无关（H1 错误关联控制）",
+      "what_it_tests": "两条线索指向不同事件、且语义判断明确回答 unrelated 时，PEAD 应当据此判定不构成诱导。当前实现做不到：assess 在 MISSING_SEMANTIC_RELATION分支产出的 finding 的 supporting_ids/counter_ids 都是空的，而assess_joint 的每个分支都要求 pair 的两个 id 出现在这两个列表里，因此 unrelated 结论被丢弃，结果停在 INSUFFICIENT/REVIEW。本用例把这一现状固定下来，修好后应回落到 NOT_SUPPORTED/NONE。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "LIVE",
+      "semantic_check": "COMPLETE",
+      "candidate_pair_count": 1,
+      "cue_count": 2,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 0,
+      "audit_verdict": null,
+      "audit_score": null,
+      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "files": {
+        "video_parse_response.json": "c5694ed58dcbedc5",
+        "issue_locator_response.json": "c76c0a40bb0613fe",
+        "relation_response.json": "e134a34166fd5bf1",
+        "audit_report_response.json": "38e0b9de817f645c",
+        "expectations.json": "2ead55c0e170c65e",
+        "case.json": "01abf79e6a033dbb"
+      }
+    },
+    {
+      "name": "unrelated_without_relation_service",
+      "title": "时间接近但事件不同＋无语义关系服务（保守分流对照）",
+      "what_it_tests": "缺少语义关系核验时，系统必须转人工复核，既不能判为诱导，也不能因为“没有确认”就判为无风险。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "SKIPPED_NO_KEY",
+      "semantic_check": "SKIPPED_NO_KEY",
+      "candidate_pair_count": 1,
+      "cue_count": 2,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 0,
+      "audit_verdict": null,
+      "audit_score": null,
+      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "files": {
+        "video_parse_response.json": "c5694ed58dcbedc5",
+        "issue_locator_response.json": "c76c0a40bb0613fe",
+        "audit_report_response.json": "38e0b9de817f645c",
+        "expectations.json": "2ead55c0e170c65e",
+        "case.json": "6a10bf0cbc219f0f"
+      }
+    },
+    {
+      "name": "news_violence",
+      "title": "新闻语境下的暴力画面（语境对照）",
+      "what_it_tests": "新闻语境不消除画面事实，但处置应转为需核验而非直接强提示。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "NOT_NEEDED",
+      "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+      "candidate_pair_count": 0,
+      "cue_count": 2,
+      "active_findings": {
+        "R_VIOLENCE": {
+          "judgement": "SUPPORTED",
+          "disposition": "REVIEW",
+          "reason_code": "DEPICTION_WITH_CONTEXT",
+          "supporting_ids": [
+            "E01"
+          ],
+          "counter_ids": [
+            "E02"
+          ]
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "ebb8e6644bb0a0a4",
+        "issue_locator_response.json": "7deb1c1afee49bb5",
+        "audit_report_response.json": "6f7f9bff7bdfb063",
+        "expectations.json": "0f0f80853b74d1f0",
+        "case.json": "154651c056a9dc9f"
+      }
+    },
+    {
+      "name": "privacy_screen_text",
+      "title": "隐私暴露（单模态即可触发）",
+      "what_it_tests": "仅屏幕文字一类证据即可形成隐私线索，且需保持脱敏。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "NOT_NEEDED",
+      "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+      "candidate_pair_count": 0,
+      "cue_count": 1,
+      "active_findings": {
+        "R_PRIVACY_EXPOSURE": {
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "POTENTIAL_PII",
+          "supporting_ids": [
+            "E01"
+          ],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "BLOCKED",
+      "audit_score": 20,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "786b33af25516258",
+        "issue_locator_response.json": "153d1a685ade7628",
+        "audit_report_response.json": "29cc277cce9e8466",
+        "expectations.json": "d425d832ece2b27c",
+        "case.json": "2c3407e3d76b1d81"
+      }
+    },
+    {
+      "name": "credential_claim",
+      "title": "资质声称＋营销绝对化表述（外部核验）",
+      "what_it_tests": "资质真伪不能凭视频认定，应转为外部核验而非直接强提示。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "NOT_NEEDED",
+      "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+      "candidate_pair_count": 0,
+      "cue_count": 2,
+      "active_findings": {
+        "R_MARKETING_CLAIM": {
+          "judgement": "SUPPORTED",
+          "disposition": "VERIFY_EXTERNAL",
+          "reason_code": "CREDENTIAL_AUTHENTICITY_UNKNOWN",
+          "supporting_ids": [
+            "E01",
+            "E02"
+          ],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "ea70d6760bd65074",
+        "issue_locator_response.json": "a97738b1280c91ac",
+        "audit_report_response.json": "c900e193e3fdb0a6",
+        "expectations.json": "504ed973467e1ebb",
+        "case.json": "3d6a8bfcc933f65b"
+      }
+    },
+    {
+      "name": "partial_coverage",
+      "title": "覆盖不完整（PARTIAL，不得等同安全）",
+      "what_it_tests": "coverage 非 FULL 时，未观察到的类别必须转为补充观察而非无风险。",
+      "duration_ms": 24000,
+      "coverage": "PARTIAL",
+      "relation_status": "NOT_NEEDED",
+      "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+      "candidate_pair_count": 0,
+      "cue_count": 0,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_VIOLENCE": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_PRIVACY_EXPOSURE": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_MARKETING_CLAIM": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_SELF_HARM": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_SEXUAL_CONTENT": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_HATE_HARASSMENT": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_FRAUD_SCAM": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_CONTROLLED_GOODS": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_MINORS_PROTECTION": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 0,
+      "audit_verdict": null,
+      "audit_score": null,
+      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "files": {
+        "video_parse_response.json": "9f27db440891bb59",
+        "issue_locator_response.json": "c1551c338010480e",
+        "audit_report_response.json": "38e0b9de817f645c",
+        "expectations.json": "d5dbaf46d9aaf2bd",
+        "case.json": "c87097aaae601f5d"
+      }
+    },
+    {
+      "name": "clean_negative",
+      "title": "普通无风险视频（干净负例）",
+      "what_it_tests": "无任何线索时应给出 NOT_SUPPORTED/NONE，且不虚构风险。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "NOT_NEEDED",
+      "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+      "candidate_pair_count": 0,
+      "cue_count": 0,
+      "active_findings": {},
+      "event_finding_count": 0,
+      "audit_verdict": "PUBLISHABLE",
+      "audit_score": 70,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "b6834c03048873af",
+        "issue_locator_response.json": "445d185f3cbb2ce2",
+        "audit_report_response.json": "14802f4810910eb7",
+        "expectations.json": "3c9dac2560732fab",
+        "case.json": "14ee2574e07a9614"
+      }
+    }
+  ]
+}
