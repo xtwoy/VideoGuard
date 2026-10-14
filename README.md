@@ -47,6 +47,10 @@ VideoGuard-E-v0.6/
 
 先安装Python 3.11+、FFmpeg（需要`ffprobe`命令）和Python依赖。
 
+> **已验证的环境**：以下步骤在一个全新克隆、仅有系统 Python 的目录里完整跑通过
+> （`uv sync` → 75 项后端测试 → 18 个样例用例 → 真值表 → 端到端冒烟 29 项 →
+> `npm ci` → `tsc --noEmit` → `next build`），运行在 **Python 3.11.15** 与 Node 24 上。
+
 ### 方式一：uv（推荐，已在本机验证）
 
 ```bash
@@ -55,6 +59,11 @@ uv sync --python 3.11            # 按 uv.lock 创建 .venv 并安装固定版�
 copy .env.example .env           # 在 .env 填入当前阶段服务配置
 .venv/Scripts/python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
 ```
+
+> **若 `uv sync` 报 `Failed to parse .../pyproject.toml`**：uv 会从当前目录**向上**
+> 查找项目根，如果上级目录里恰好有一个同名文件（例如把仓库克隆到系统临时目录下），
+> 它会读到那个文件。把仓库放在一个干净的父目录里即可，或直接把 `backend` 目录作为
+> 克隆目标。
 
 `uv.lock` 已固定本机验证通过的版本组合（fastapi 0.143.0 / starlette 1.7.0 / pydantic 2.14.1 / openai 2.54.0 / python-multipart 0.0.32），换机器也能复现同一套依赖。
 

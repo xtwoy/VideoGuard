@@ -71,15 +71,30 @@ def score_card(name: str, raw: object) -> str:
 <p>{h(item.get('summary'))}</p>{f'<ul class="score-details">{detail_html}</ul>' if detail_html else ''}{limit_html}</section>"""
 
 
+def limitation_notes(values: object) -> str:
+    """Render a limitation list as muted lines.
+
+    Kept out of the surrounding f-strings on purpose: nesting a generator with
+    escaped quotes inside an f-string expression needs PEP 701 (Python 3.12+), so
+    it parses on 3.12 but is a SyntaxError on 3.11.
+    """
+    if not isinstance(values, list):
+        return ""
+    return "".join(
+        f'<br><span class="muted">限制：{h(value)}</span>'
+        for value in values if isinstance(value, str)
+    )
+
+
 def issue_card(raw: dict) -> str:
     evidence = raw.get("supporting_evidence") if isinstance(raw.get("supporting_evidence"), list) else []
     evidence_html = "".join(
         f"<li><b>{h(item.get('ref'))}</b> · {h(item.get('content'))}<br>{ranges(item.get('time_ranges'))}"
-        f"{''.join(f'<br><span class=\"muted\">限制：{h(value)}</span>' for value in item.get('limitations', []) if isinstance(value, str))}</li>"
+        f"{limitation_notes(item.get('limitations'))}</li>"
         for item in evidence if isinstance(item, dict)
     ) or "<li>未提供结构化证据。</li>"
     uncertainty = "".join(
-        f"<p class=\"muted\">限制：{h(item)}</p>"
+        f'<p class="muted">限制：{h(item)}</p>'
         for item in raw.get("uncertainties", []) if isinstance(item, str)
     )
     return f"""<article class="issue"><span class="priority">{h(raw.get('priority'))}</span> <b>{h(raw.get('title'))}</b>
