@@ -1,174 +1,133 @@
-"""Standalone printable HTML report. Escape every value from users and models."""
+"""Standalone printable audit report. Escape every user or model-derived value."""
+from __future__ import annotations
+
 from html import escape
 
-def h(value):
+DIMENSION_LABELS = {
+    "audit_coverage": "审核覆盖",
+    "evidence_traceability": "证据可追溯性",
+    "safety_risk_control": "风险控制状态",
+    "context_completeness": "语境完整性",
+    "material_completeness": "素材完整性",
+    "narrative_structure": "内容结构",
+    "hook_clarity": "开头信息建立",
+    "subject_presentation": "主体展示",
+    "audiovisual_readability": "音视频可读性",
+}
+VERDICT_LABELS = {
+    "PUBLISHABLE": "可进入人工发布复核",
+    "NEEDS_REVISION": "需修改后复核",
+    "BLOCKED": "存在阻断项",
+    "MANUAL_REVIEW": "需人工复核",
+}
+STATUS_LABELS = {"PASS": "通过", "WARNING": "注意", "FAIL": "未通过", "MANUAL_REVIEW": "人工复核", "NOT_APPLICABLE": "不适用"}
+ACTION_LABELS = {"MASK": "遮挡", "REMOVE": "移除", "TRIM": "缩短", "REORDER": "调序", "REPLACE": "替换", "ADD_CONTEXT": "补充语境", "EDIT_TEXT": "修改文字", "EDIT_AUDIO": "编辑音频", "RECORD": "补录", "ADD_MEDIA": "补充素材", "VERIFY": "核验", "MANUAL_REVIEW": "人工复核"}
+
+
+def h(value: object) -> str:
     return escape(str("" if value is None else value), quote=True)
 
-def tm(ms):
-    if type(ms) is not int or ms < 0:
+
+def tm(milliseconds: object) -> str:
+    if type(milliseconds) is not int or milliseconds < 0:
         return "未精确定位"
-    s=ms//1000
-    return f"{s//60:02d}:{s%60:02d}"
+    seconds = milliseconds // 1000
+    return f"{seconds // 60:02d}:{seconds % 60:02d}"
 
-def render_html(record):
-    result=record.get("result") or {}
-    evidence=result.get("observations") or []
-    findings=result.get("findings") or []
-    event_findings=result.get("event_findings") or []
-    recommendations=result.get("recommendations") or []
-    meta=result.get("meta") or {}
-    policy_count=meta.get("policy_count")
-    if type(policy_count) is not int or policy_count < 0:
-        policy_count=len(findings)
-    by_id={str(e.get("id")):e for e in evidence if isinstance(e,dict)}
-    by_policy={str(x.get("finding_id")):x for x in recommendations if isinstance(x,dict)}
-    names={
-        "SUPPORTED":"疑似风险","NOT_SUPPORTED":"暂无证据","INSUFFICIENT":"证据不足",
-        "CONFLICTED":"语境冲突","UNKNOWN":"无法判断",
-        "FLAG":"标注关注","NONE":"暂无动作","REVIEW":"人工复核",
-        "VERIFY_EXTERNAL":"外部核验","RECHECK":"补充观察","RETRY":"重试"
-    }
-    policy_names={
-        "R_DANGER_PROMOTION":"危险行为诱导",
-        "R_VIOLENCE":"暴力或危险行为画面",
-        "R_PRIVACY_EXPOSURE":"个人隐私暴露",
-        "R_MARKETING_CLAIM":"营销及资质声称",
-        "R_SELF_HARM":"自伤风险",
-        "R_SEXUAL_CONTENT":"性内容风险",
-        "R_HATE_HARASSMENT":"仇恨与骚扰",
-        "R_FRAUD_SCAM":"诈骗与高风险诱导",
-        "R_CONTROLLED_GOODS":"受控商品风险",
-        "R_MINORS_PROTECTION":"未成年人保护"
-    }
-    reason_names={
-        "RELATED_ACTION_AND_PROMOTION":"危险动作与鼓励或挑战内容指向同一事件。",
-        "CONFLICTING_STANCE":"同一事件同时存在鼓励与警示信息，需要人工核对具体语境。",
-        "MISSING_SEMANTIC_RELATION":"观察到相关线索，但无法确认它们是否指向同一事件。",
-        "UNLOCATED_PROMOTION":"观察到可能的鼓励内容，但缺少可靠时间位置。",
-        "JEV_UNAVAILABLE_SEMANTIC_REVIEW":"关键语义关系尚未完成自动核验，需要人工复核。",
-        "JEV_DISPUTES_BASELINE_SUPPORT":"自动分析对原有支持关系存在分歧，需要人工复核。",
-        "JEV_NO_CONFIRMED_SEMANTIC_LINK":"未能确认危险动作与相关表述存在明确关联。",
-        "JEV_SEMANTIC_AMBIGUITY":"相关表述的语义存在歧义，需要人工复核。",
-        "OMNI_JEV_REFERENT_DISAGREEMENT":"不同观察对所指事件存在分歧，需要人工复核。",
-        "VIOLENCE_DEPICTION":"观察到疑似暴力或危险行为画面。",
-        "DEPICTION_WITH_CONTEXT":"观察到相关画面，同时存在新闻、影视或教育等语境线索。",
-        "POTENTIAL_PII":"观察到可能包含个人隐私的信息。",
-        "CREDENTIAL_AUTHENTICITY_UNKNOWN":"观察到资质声称，真实性需要外部材料核验。",
-        "MARKETING_CLAIM_NEEDS_CONTEXT":"观察到营销或绝对化表述，需要结合上下文核对。",
-        "SELF_HARM_CUE":"观察到可能涉及自伤、自杀或相关方法传播的内容线索。",
-        "SEXUAL_CONTENT_CUE":"观察到可能不适宜的性内容或性暗示线索。",
-        "HATE_HARASSMENT_CUE":"观察到可能涉及仇恨、歧视、侮辱或定向骚扰的内容线索。",
-        "FRAUD_SCAM_CUE":"观察到可能涉及诈骗、冒充、虚假获利或高风险交易诱导的内容线索。",
-        "CONTROLLED_GOODS_CUE":"观察到可能涉及受控商品展示、交易或引导的内容线索。",
-        "MINOR_PROTECTION_CUE":"观察到可能涉及未成年人不适宜、剥削或人身安全风险的内容线索。",
-        "UNVERIFIED_OR_UNLOCATED":"存在相关线索，但证据未能可靠定位。",
-        "UNLOCATED_PII":"存在隐私暴露线索，但证据未能可靠定位。",
-        "UNLOCATED_MARKETING_CLAIM":"存在营销或资质声称线索，但证据未能可靠定位。",
-        "INCOMPLETE_OBSERVATION":"视频观察不完整，需要补充核查。",
-        "MODEL_UNAVAILABLE":"自动审核未能完成，需要重新执行。"
-    }
-    event_html = ""
-    if event_findings:
-        event_html = '<h2>事件级审计记录</h2><div class="events">' + "".join(
-            f"<div><b>{h(policy_names.get(e.get('policy_id'), '内容安全问题'))}</b><br>"
-            f"{h(names.get(e.get('judgement'), e.get('judgement')))} / "
-            f"{h(names.get(e.get('disposition'), e.get('disposition')))} · "
-            f"证据: {h(','.join(e.get('evidence_ids', [])))}</div>"
-            for e in event_findings if isinstance(e, dict)
-        ) + "</div>"
 
-    cards=[]
-    for finding in findings:
-        if finding.get("disposition")=="NONE":
-            continue
-        policy=str(finding.get("policy_id",""))
-        ids=list(dict.fromkeys(finding.get("supporting_ids",[])+finding.get("counter_ids",[])))
-        proof=[]
-        for eid in ids:
-            item=by_id.get(str(eid))
-            if item is None:
-                proof.append(f"<li>引用不存在：{h(eid)}</li>")
-                continue
-            description=item.get("description_redacted") or item.get("text_redacted") or "无描述"
-            proof.append(
-                f"<li><strong>{h(tm(item.get('start_ms')))}—{h(tm(item.get('end_ms')))}</strong> "
-                f" · {h(eid)} · {h(item.get('modality'))} · {h(description)}"
-                "<small>模型观察，尚未人工核实</small></li>"
-            )
-        note=by_policy.get(policy,{})
-        edits=note.get("edit_suggestions") or []
-        edits_html="".join(
-            "<li>"+h(item.get("detail",""))+"</li>"
-            for item in edits if isinstance(item,dict)
-        ) or "<li>建议人工回看相关片段。</li>"
-        decision=names.get(finding.get("judgement"),"无法判断")
-        action=names.get(finding.get("disposition"),"人工复核")
-        cards.append(f"""
-        <section class="finding">
-          <div class="head"><h3>{h(finding.get("name") or policy_names.get(policy, '内容安全问题'))}</h3>
-            <span class="pill">{h(decision)} / {h(action)}</span>
-          </div>
-          <p class="sub">{h(reason_names.get(finding.get("reason_code"), "请结合对应证据和原视频进行人工核对。"))}</p>
-          <h4>可回溯证据</h4>
-          <ul>{"".join(proof) or "<li>无可靠可定位证据</li>"}</ul>
-          <h4>原因与修改建议</h4>
-          <p>{h(reason_names.get(note.get("reason"), note.get("reason") or "本结论需结合原片段核查。"))}</p>
-          <ul>{edits_html}</ul>
-        </section>
-        """)
-    if not cards:
-        cards=['<section class="finding">审核尚未生成有效风险结果。</section>']
-    mode="合成演示，并非真实视频审核" if record.get("mode")=="DEMO" else "真实模型审核"
-    css="""
-    :root{--ink:#1f3936;--teal:#237c6c;--line:#dbe2dc}
-    *{box-sizing:border-box}body{margin:0;background:#f7f5ef;color:var(--ink);
-      font:15px/1.65 "Microsoft YaHei","Noto Sans SC",system-ui,sans-serif}
-    main{max-width:860px;margin:auto;padding:48px 28px 72px}
-    .eyebrow{font-size:11px;color:var(--teal);font-weight:750;letter-spacing:.16em}
-    h1{font-size:32px;line-height:1.2;margin:8px 0}
-    h2{font-size:21px;margin-top:34px}
-    .sub,.meta,small{color:#698078;font-size:12px}
-    .summary{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:25px 0}
-    .summary div,.finding{border:1px solid var(--line);border-radius:12px;
-      background:#fff;padding:18px 20px}
-    .summary small{display:block}.summary b{overflow-wrap:anywhere}
-    .finding{margin:15px 0 20px;break-inside:avoid}
-    .events{display:grid;gap:9px}.events div{border-left:3px solid #7aa492;background:#f5f8f5;
-      padding:10px 13px;color:#506b60;font-size:12px;overflow-wrap:anywhere}
-    .head{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
-    h3{margin:0;font-size:19px}h4{font-size:14px;margin:18px 0 6px}
-    .pill{border-radius:99px;background:#e8f3ee;color:#236e62;padding:4px 10px;
-      font-size:12px;font-weight:700}
-    ul{padding-left:20px;margin:5px 0}li{margin:5px 0;overflow-wrap:anywhere}
-    li small{display:block}.notice{background:#fff4e3;border-left:3px solid #d59b45;padding:15px}
-    footer{border-top:1px solid var(--line);margin-top:32px;padding-top:14px;
-      color:#718078;font-size:12px}
-    @media print{body{background:white}main{padding:0 12px}}
-    @media(max-width:540px){main{padding:24px 16px}.summary{grid-template-columns:1fr}}
+def _style(status: object) -> str:
+    if status in {"PASS", "PUBLISHABLE"}:
+        return "pass"
+    if status in {"FAIL", "BLOCKED"}:
+        return "fail"
+    return "warning"
+
+
+def ranges(value: object) -> str:
+    if not isinstance(value, list) or not value:
+        return "<span class=\"muted\">未定位</span>"
+    rendered = [
+        f"<span class=\"time\">{h(tm(item.get('start_ms')))}—{h(tm(item.get('end_ms')))}</span>"
+        for item in value if isinstance(item, dict)
+    ]
+    return " · ".join(rendered) or "<span class=\"muted\">未定位</span>"
+
+
+def score_card(name: str, raw: object) -> str:
+    item = raw if isinstance(raw, dict) else {}
+    status = item.get("status")
+    details = item.get("items") if isinstance(item.get("items"), list) else []
+    detail_html = "".join(
+        f"<li><b>{h(detail.get('label'))}</b> · {h(detail.get('score'))} · "
+        f"{h(STATUS_LABELS.get(detail.get('status'), detail.get('status') or '未提供'))}"
+        f"<br><span class=\"muted\">{h(detail.get('summary'))}</span><br>{ranges(detail.get('time_ranges'))}</li>"
+        for detail in details if isinstance(detail, dict)
+    )
+    limitations = item.get("limitations") if isinstance(item.get("limitations"), list) else []
+    limit_html = "".join(f"<p class=\"muted\">限制：{h(value)}</p>" for value in limitations if isinstance(value, str))
+    return f"""<section class="score"><small>{h(DIMENSION_LABELS[name])}</small>
+<b class="score-number">{h(item.get('score', '—'))}</b>
+<span class="pill {_style(status)}">{h(STATUS_LABELS.get(status, status or '未提供'))}</span>
+<p>{h(item.get('summary'))}</p>{f'<ul class="score-details">{detail_html}</ul>' if detail_html else ''}{limit_html}</section>"""
+
+
+def issue_card(raw: dict) -> str:
+    evidence = raw.get("supporting_evidence") if isinstance(raw.get("supporting_evidence"), list) else []
+    evidence_html = "".join(
+        f"<li><b>{h(item.get('ref'))}</b> · {h(item.get('content'))}<br>{ranges(item.get('time_ranges'))}"
+        f"{''.join(f'<br><span class=\"muted\">限制：{h(value)}</span>' for value in item.get('limitations', []) if isinstance(value, str))}</li>"
+        for item in evidence if isinstance(item, dict)
+    ) or "<li>未提供结构化证据。</li>"
+    uncertainty = "".join(
+        f"<p class=\"muted\">限制：{h(item)}</p>"
+        for item in raw.get("uncertainties", []) if isinstance(item, str)
+    )
+    return f"""<article class="issue"><span class="priority">{h(raw.get('priority'))}</span> <b>{h(raw.get('title'))}</b>
+<p>{h(raw.get('description'))}</p><p>{ranges(raw.get('time_ranges'))}</p>
+<ul>{evidence_html}</ul>{uncertainty}</article>"""
+
+
+def action_card(raw: dict) -> str:
+    return f"""<article class="action"><b>{h(ACTION_LABELS.get(raw.get('action'), raw.get('action')))}</b>
+<p>{h(raw.get('detail'))}</p><p><b>目标位置：</b>{ranges(raw.get('target_time_ranges'))}</p>
+<p><b>验收标准：</b>{h(raw.get('acceptance_criteria'))}</p></article>"""
+
+
+def plan_card(raw: dict) -> str:
+    video = raw.get("video") if isinstance(raw.get("video"), dict) else {}
+    issues = raw.get("issues") if isinstance(raw.get("issues"), list) else []
+    actions = raw.get("actions") if isinstance(raw.get("actions"), list) else []
+    return f"""<section class="plan"><div class="plan-head"><div><h3>{h(raw.get('section') or '审核项')}</h3>
+<span class="muted">{h(raw.get('id'))} · {h(raw.get('scope'))}</span></div><div>{ranges(video.get('time_ranges'))}</div></div>
+<p>{h(video.get('summary'))}</p><h4>问题定位</h4>{''.join(issue_card(item) for item in issues if isinstance(item, dict))}
+<h4>处理动作</h4>{''.join(action_card(item) for item in actions if isinstance(item, dict))}</section>"""
+
+
+def audit_content(audit: object) -> str:
+    if not isinstance(audit, dict):
+        return "<h2>审核报告</h2><section class=\"notice\">当前没有可用的结构化审核报告。</section>"
+    verdict = audit.get("overall_verdict")
+    dimensions = audit.get("dimension_scores") if isinstance(audit.get("dimension_scores"), dict) else {}
+    scores = "".join(score_card(name, dimensions.get(name)) for name in DIMENSION_LABELS)
+    plans = audit.get("revision_plan") if isinstance(audit.get("revision_plan"), list) else []
+    plans_html = "".join(plan_card(item) for item in plans if isinstance(item, dict)) or "<section class=\"plan\">当前没有结构化整改分组。</section>"
+    limitations = audit.get("limitations") if isinstance(audit.get("limitations"), list) else []
+    limit_html = "".join(f"<li>{h(item)}</li>" for item in limitations if isinstance(item, str)) or "<li>未提供限制说明。</li>"
+    return f"""<h2>审核结论</h2><section class="plan"><span class="pill {_style(verdict)}">{h(VERDICT_LABELS.get(verdict, verdict))}</span>
+<h3 class="score-title">综合评分：{h(audit.get('overall_score'))}</h3><p>{h(audit.get('executive_summary'))}</p><p><b>处理方向：</b>{h(audit.get('overall_direction'))}</p></section>
+<h2>维度评分</h2><div class="scores">{scores}</div><h2>问题定位与整改计划</h2>{plans_html}
+<details><summary>报告限制与人工复核提示</summary><ul>{limit_html}</ul></details>"""
+
+
+def render_html(record: dict) -> str:
+    result = record.get("result") if isinstance(record.get("result"), dict) else {}
+    findings = result.get("findings") if isinstance(result.get("findings"), list) else []
+    meta = result.get("meta") if isinstance(result.get("meta"), dict) else {}
+    policy_count = meta.get("policy_count") if type(meta.get("policy_count")) is int else len(findings)
+    mode = "合成演示，非真实视频审核" if record.get("mode") == "DEMO" else "模型辅助审核"
+    needed = sum(1 for item in findings if isinstance(item, dict) and item.get("disposition") != "NONE")
+    css = """
+    :root{--ink:#172033;--muted:#667085;--line:#d9dee7;--paper:#fff;--bg:#f7f8fa;--accent:#4f46e5;--red:#b42318;--amber:#b54708;--green:#067647}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Microsoft YaHei","Noto Sans SC",system-ui,sans-serif}main{max-width:980px;margin:auto;padding:46px 28px 72px}.eyebrow{font-size:11px;color:var(--accent);font-weight:800;letter-spacing:.13em}h1{font-size:30px;line-height:1.2;margin:8px 0}h2{font-size:21px;margin:34px 0 14px}h3{font-size:16px;margin:0}h4{font-size:13px;margin:16px 0 6px}.meta,.muted,small{font-size:12px;color:var(--muted)}.summary,.scores{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0}.scores{grid-template-columns:repeat(3,1fr)}.summary>div,.score,.plan,.notice{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px}.summary small,.score small{display:block}.summary b,.score b{display:block;margin-top:3px;overflow-wrap:anywhere}.score{min-height:125px}.score-number{font-size:27px;line-height:1.1}.score-title{margin:10px 0}.score-details{border-top:1px solid var(--line);margin-top:10px;padding-top:7px}.score-details li{font-size:11px}.pill{display:inline-flex;align-items:center;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:800;background:#eef2ff;color:#3730a3}.pill.fail{background:#fef3f2;color:var(--red)}.pill.warning{background:#fffaeb;color:var(--amber)}.pill.pass{background:#ecfdf3;color:var(--green)}.notice{border-left:3px solid var(--amber);background:#fffaeb}.plan{margin:14px 0 18px;break-inside:avoid}.plan-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}.issue,.action{margin-top:12px;padding:13px;border-left:3px solid #c7d2fe;background:#f8faff}.action{border-left-color:#6ce9a6;background:#f0fdf4}.issue p,.action p{margin:6px 0}.time{display:inline-block;border-radius:4px;background:#eef2ff;color:#3730a3;font-weight:700;font-size:11px;padding:1px 5px}.priority{font-size:11px;font-weight:800;color:var(--red)}ul{padding-left:20px;margin:6px 0}li{margin:4px 0;overflow-wrap:anywhere}footer{border-top:1px solid var(--line);margin-top:36px;padding-top:14px;color:var(--muted);font-size:12px}@media print{body{background:#fff}main{padding:0 12px}}@media(max-width:640px){main{padding:26px 16px}.summary,.scores{grid-template-columns:1fr}}
     """
-    return f"""<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
-<title>{h(record.get("video_name",""))} · 视鉴</title>
-<style>{css}</style></head><body><main>
-<div class="eyebrow">VIDEOGUARD-E / CONTENT SAFETY REPORT</div>
-<h1>视频内容安全审核报告</h1>
-<p class="meta">{h(mode)} · 审核编号 {h(record.get("id",""))} · {h(record.get("created_at",""))}</p>
-<div class="summary">
- <div><small>审核状态</small><b>{h(record.get("status",""))}</b></div>
- <div><small>视频名称</small><b>{h(record.get("video_name",""))}</b></div>
- <div><small>视频观察覆盖</small><b>{h(result.get("coverage","UNKNOWN"))}</b></div>
- <div><small>已评估审核点</small><b>{h(policy_count)} 类</b></div>
- <div><small>需要进一步处理的项目</small><b>{sum(1 for f in findings if f.get("disposition") != "NONE")}</b></div>
-</div>
-<div class="notice"><b>重要说明：</b> 本报告只作内容安全辅助审核参考。
-证据描述、时间戳和模型判断可能存在错误；不能据此自动认定违法，
-对风险结论必须结合原始视频及适用规范进行人工核查。</div>
-<p class="meta">观察说明：{h(result.get("coverage_notes") or "未提供")}</p>
-<h2>风险结果与修改建议</h2>
-{"".join(cards)}
-{event_html}
-<footer>审核状态：{h(record.get("status","-"))} · {h(record.get("error","") or "请以原视频和可回溯证据为准进行人工核查。")}
-<p>VideoGuard-E — 辅助审核，不代替人工复核。</p></footer>
-</main></body></html>"""
+    return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><title>{h(record.get('video_name'))} · 视鉴</title><style>{css}</style></head><body><main><div class="eyebrow">VIDEOGUARD-E / AUDIT REPORT</div><h1>视频内容审核报告</h1><p class="meta">{h(mode)} · 审核编号 {h(record.get('id'))} · {h(record.get('created_at'))}</p><div class="summary"><div><small>审核状态</small><b>{h(record.get('status'))}</b></div><div><small>视频名称</small><b>{h(record.get('video_name'))}</b></div><div><small>视频观察覆盖</small><b>{h(result.get('coverage', 'UNKNOWN'))}</b></div><div><small>已评估审核点</small><b>{h(policy_count)} 类</b></div><div><small>需要进一步处理的项目</small><b>{h(needed)} 项</b></div></div><div class="notice"><b>重要说明：</b>本报告用于辅助审核。所有模型观察、时间定位和整改建议均需结合原始视频与适用规范进行人工复核，不构成事实或法律认定。</div><p class="meta">观察限制：{h(result.get('coverage_notes') or '未提供')}</p>{audit_content(result.get('audit_report'))}<footer>审核状态：{h(record.get('status', '-'))} · {h(record.get('error') or '请以原视频和结构化证据为准进行人工核查。')}<p>VideoGuard-E — 辅助审核，不替代人工复核。</p></footer></main></body></html>"""

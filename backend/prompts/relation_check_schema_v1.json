@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VideoGuard-E relation check protocol v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decisions"],
+  "properties": {
+    "schema_version": {"const": "videoguard_relation_check_v1"},
+    "decisions": {"type": "array", "maxItems": 3}
+  }
+}

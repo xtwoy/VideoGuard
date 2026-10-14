@@ -1,4 +1,4 @@
-"""PEAD deterministic reference rules. Jev is a SEPARATE third-party decision AI."""
+"""PEAD deterministic reference rules; relation checks are optional external input."""
 from __future__ import annotations
 from typing import Any
 import json
@@ -47,7 +47,7 @@ def _same_referent(a: dict,b: dict)->bool:
 
 def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     """Evaluate all policies, *not only* model-reported candidate risks.
-    Input keys: coverage, observations, candidate_risks. Never asserts illegality.
+    Input keys: coverage and observations. Never asserts illegality.
     """
     if type(duration_ms) is not int or duration_ms<0:
         raise ValueError("duration_ms must be a non-negative integer")
@@ -61,8 +61,6 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     if coverage not in REQUIRED_COVERAGES: coverage="UNKNOWN"
     observations=data.get("observations",[])
     if not isinstance(observations,list): observations=[]
-    candidates=data.get("candidate_risks",[])
-    if not isinstance(candidates,list): candidates=[]
     seen=set(); good=[]; invalid=[]; invalid_tags=set()
     for obj in observations:
         oid=obj.get("id") if isinstance(obj,dict) else None
@@ -72,11 +70,6 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
                 invalid_tags.add(obj["tag"])
         else:
             seen.add(oid); good.append(obj)
-    candidate_ids={x.get("policy_id") for x in candidates if isinstance(x,dict)}
-    suspicious_ref_ids={
-        x.get("policy_id") for x in candidates if isinstance(x,dict)
-        and any(k not in seen for k in x.get("supporting_evidence_ids",[]) if isinstance(k,str))
-    }
     findings=[]
     if coverage in {"ERROR","REFUSED"}:
         return {"coverage":coverage,"invalid_evidence_ids":invalid,
@@ -84,8 +77,6 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     tags=lambda *wanted:[e for e in good if e["tag"] in wanted and _located(e)]
     all_with_tag=lambda *wanted:[e for e in good if e["tag"] in wanted]
     for p in policy_ids:
-        hints=p in candidate_ids
-        bad_refs=p in suspicious_ref_ids
         if p=="R_DANGER_PROMOTION":
             actions=tags(*policies[p]["action_tags"])
             promos=tags(*policies[p]["promotion_tags"])
@@ -100,7 +91,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
             elif matches:
                 ids=sorted({x["id"] for pair in matches for x in pair})
                 findings.append(_f(p,"SUPPORTED","FLAG","RELATED_ACTION_AND_PROMOTION",ids))
-            elif hints or bad_refs or (actions and promos and not matches) or (
+            elif (actions and promos and not matches) or (
                 invalid_tags & set(policies[p]["action_tags"]+
                                    policies[p]["promotion_tags"]+
                                    policies[p]["warning_tags"])):
@@ -122,7 +113,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
                 else:
                     findings.append(_f(p,"SUPPORTED","FLAG","VIOLENCE_DEPICTION",
                                       [x["id"] for x in acts]))
-            elif hints or bad_refs or all_with_tag("violence") or (
+            elif all_with_tag("violence") or (
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED"))
             elif coverage!="FULL":
@@ -133,7 +124,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
             pii=[e for e in tags(*policies[p]["action_tags"]) if e["modality"] in {"visual","screen_text","speech"}]
             if pii:
                 findings.append(_f(p,"SUPPORTED","FLAG","POTENTIAL_PII",[x["id"] for x in pii]))
-            elif hints or bad_refs or all_with_tag("pii_candidate") or (
+            elif all_with_tag("pii_candidate") or (
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_PII"))
             elif coverage!="FULL":
@@ -150,7 +141,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
             elif marketing:
                 findings.append(_f(p,"SUPPORTED","REVIEW","MARKETING_CLAIM_NEEDS_CONTEXT",
                                    [x["id"] for x in marketing]))
-            elif hints or bad_refs or all_with_tag("credential_claim","marketing_claim","absolute_claim") or (
+            elif all_with_tag("credential_claim","marketing_claim","absolute_claim") or (
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_MARKETING_CLAIM"))
             elif coverage!="FULL":
@@ -168,50 +159,13 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
                     p,"SUPPORTED",policies[p].get("disposition","REVIEW"),
                     policies[p].get("reason_code","CONTENT_SAFETY_CUE"),
                     [x["id"] for x in cues]))
-            elif hints or bad_refs or unlocated_cues or (invalid_tags & set(configured_tags)):
+            elif unlocated_cues or (invalid_tags & set(configured_tags)):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED"))
             elif coverage!="FULL":
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_RELEVANT_CUE"))
     return {"coverage":coverage,"invalid_evidence_ids":invalid,"findings":findings,"event_findings":build_event_findings(good, findings, duration_ms)}
-
-def validate_max_guidance(max_response: dict, findings: list, observations: list) -> list:
-    """Reject LLM guidance that invents finding/evidence IDs or changes conclusions."""
-    by_policy={f.get("id",f["policy_id"]): f for f in findings}
-    available={e["id"]:e for e in observations if isinstance(e,dict) and e.get("id")}
-    available_ids=set(available)
-    results=[]
-    for item in max_response.get("items",[]):
-        fid=item.get("finding_id")
-        # Prototype uses policy ID as finding ID to make offline fixtures simple.
-        if fid not in by_policy or by_policy[fid]["disposition"]=="NONE":
-            continue
-        allowed=set(by_policy[fid]["supporting_ids"]+by_policy[fid]["counter_ids"])
-        ids=item.get("evidence_ids",[])
-        if not isinstance(ids,list) or not ids or not set(ids).issubset(allowed & available_ids):
-            continue
-        edits=item.get("edit_suggestions",[])
-        if not isinstance(edits,list): continue
-        invalid_edits=False
-        for ed in edits:
-            if not isinstance(ed,dict):
-                invalid_edits=True; break
-            edit_ids=ed.get("evidence_ids",[])
-            if not isinstance(edit_ids,list) or not edit_ids or not set(edit_ids).issubset(allowed & available_ids):
-                invalid_edits=True; break
-            start,end=ed.get("time_start_ms"),ed.get("time_end_ms")
-            if start is not None or end is not None:
-                if type(start) is not int or type(end) is not int or start<0 or end<=start:
-                    invalid_edits=True; break
-                if not any(type(available[k].get("start_ms")) is int and
-                           available[k]["start_ms"]<=start and
-                           end<=available[k]["end_ms"] for k in edit_ids):
-                    invalid_edits=True; break
-        if invalid_edits: continue
-        results.append(item)
-    return results
-
 
 def build_event_findings(observations: list[dict], findings: list[dict],
                          duration_ms: int) -> list[dict]:

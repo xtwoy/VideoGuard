@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VideoGuard-E video parse protocol v2",
+  "description": "事实解析合同。跨字段的时间连续性、证据引用和范围包含关系由 pipeline.clean_video_parse 严格校验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "coverage", "timeline", "video_summary", "content_analysis"],
+  "properties": {
+    "schema_version": {"const": "videoguard_video_parse_v2"},
+    "coverage": {"$ref": "#/$defs/coverage"},
+    "timeline": {"$ref": "#/$defs/timeline"},
+    "video_summary": {"$ref": "#/$defs/videoSummary"},
+    "content_analysis": {"$ref": "#/$defs/contentAnalysis"}
+  },
+  "$defs": {
+    "time": {"type": "integer", "minimum": 0},
+    "text": {"type": "string"},
+    "stringList": {"type": "array", "items": {"type": "string"}},
+    "evidenceRefs": {"type": "array", "minItems": 1, "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "video_start_ms", "video_end_ms", "modalities", "limitations", "time_localization"],
+      "properties": {
+        "status": {"enum": ["FULL", "PARTIAL", "UNKNOWN", "REFUSED", "ERROR"]},
+        "video_start_ms": {"$ref": "#/$defs/time"}, "video_end_ms": {"$ref": "#/$defs/time"},
+        "modalities": {
+          "type": "object", "additionalProperties": false, "required": ["visual", "speech", "screen_text", "sound"],
+          "properties": {
+            "visual": {"enum": ["FULL", "PARTIAL", "UNKNOWN"]}, "speech": {"enum": ["FULL", "PARTIAL", "UNKNOWN"]},
+            "screen_text": {"enum": ["FULL", "PARTIAL", "UNKNOWN"]}, "sound": {"enum": ["FULL", "PARTIAL", "UNKNOWN"]}
+          }
+        },
+        "limitations": {"$ref": "#/$defs/stringList"}, "time_localization": {"enum": ["RELIABLE", "APPROXIMATE", "UNAVAILABLE"]}
+      }
+    },
+    "fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fact_id", "start_ms", "end_ms", "summary_zh", "verbatim_redacted", "confidence", "limitations"],
+      "properties": {
+        "fact_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"}, "start_ms": {"$ref": "#/$defs/time"}, "end_ms": {"$ref": "#/$defs/time"},
+        "summary_zh": {"$ref": "#/$defs/text"}, "verbatim_redacted": {"$ref": "#/$defs/text"},
+        "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]}, "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "audioQuality": {
+      "type": "object", "additionalProperties": false, "required": ["status", "voice_clarity", "bgm_interference", "evidence", "evidence_refs", "limitations"],
+      "properties": {
+        "status": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW"]},
+        "voice_clarity": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW", "NOT_APPLICABLE"]},
+        "bgm_interference": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW", "NOT_APPLICABLE"]},
+        "evidence": {"$ref": "#/$defs/text"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "visualQuality": {
+      "type": "object", "additionalProperties": false, "required": ["clarity", "pixelation", "aliasing_candidate", "evidence", "evidence_refs", "limitations"],
+      "properties": {
+        "clarity": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW"]}, "pixelation": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW"]},
+        "aliasing_candidate": {"enum": ["PASS", "WARNING", "MANUAL_REVIEW"]}, "evidence": {"$ref": "#/$defs/text"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "quality": {
+      "type": "object", "additionalProperties": false, "required": ["visual_clarity", "speech_clarity", "audio", "visual", "limitations"],
+      "properties": {
+        "visual_clarity": {"enum": ["CLEAR", "LIMITED", "UNAVAILABLE"]}, "speech_clarity": {"enum": ["CLEAR", "LIMITED", "UNAVAILABLE"]},
+        "audio": {"$ref": "#/$defs/audioQuality"}, "visual": {"$ref": "#/$defs/visualQuality"}, "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "shot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["shot_id", "start_ms", "end_ms", "continuity", "scene_summary", "visual_facts", "speech_transcript", "subtitle_text", "screen_text", "audio_observations", "quality"],
+      "properties": {
+        "shot_id": {"type": "string", "pattern": "^S[0-9]{3}$"}, "start_ms": {"$ref": "#/$defs/time"}, "end_ms": {"$ref": "#/$defs/time"},
+        "continuity": {"enum": ["CONTIGUOUS", "CUT", "TRANSITION", "UNKNOWN"]}, "scene_summary": {"$ref": "#/$defs/text"},
+        "visual_facts": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/fact"}}, "speech_transcript": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/fact"}},
+        "subtitle_text": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/fact"}}, "screen_text": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/fact"}},
+        "audio_observations": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/fact"}}, "quality": {"$ref": "#/$defs/quality"}
+      }
+    },
+    "event": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_id", "start_ms", "end_ms", "event_type", "referent_key", "summary", "evidence_refs", "context", "uncertainties"],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"}, "start_ms": {"$ref": "#/$defs/time"}, "end_ms": {"$ref": "#/$defs/time"},
+        "event_type": {"$ref": "#/$defs/text"}, "referent_key": {"type": ["string", "null"]}, "summary": {"$ref": "#/$defs/text"}, "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+        "context": {
+          "type": "object", "additionalProperties": false, "required": ["stance", "target_relation", "counter_context_refs"],
+          "properties": {
+            "stance": {"enum": ["ENCOURAGEMENT", "WARNING", "REPORTING", "FICTION", "EDUCATION", "QUOTE", "UNKNOWN"]}, "target_relation": {"enum": ["SAME_EVENT", "UNCERTAIN"]},
+            "counter_context_refs": {"type": "array", "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}
+          }
+        },
+        "uncertainties": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "timeline": {
+      "type": "object", "additionalProperties": false, "required": ["shots", "events"],
+      "properties": {"shots": {"type": "array", "maxItems": 120, "items": {"$ref": "#/$defs/shot"}}, "events": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/event"}}}
+    },
+    "traceRange": {
+      "type": "object", "additionalProperties": false,
+      "required": ["start_ms", "end_ms", "evidence_refs"],
+      "properties": {
+        "start_ms": {"$ref": "#/$defs/time"},
+        "end_ms": {"$ref": "#/$defs/time"},
+        "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}
+      }
+    },
+    "videoSummary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["summary_zh", "evidence_refs", "time_ranges", "limitations"],
+      "properties": {
+        "summary_zh": {"$ref": "#/$defs/text"},
+        "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}},
+        "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}},
+        "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "analysisTrace": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_refs", "time_ranges", "limitations"],
+      "properties": {
+        "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}},
+        "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}},
+        "limitations": {"$ref": "#/$defs/stringList"}
+      }
+    },
+    "analysisIssue": {
+      "type": "object", "additionalProperties": false, "required": ["id", "category", "severity", "summary", "start_ms", "end_ms", "evidence_refs", "limitations"],
+      "properties": {"id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"}, "category": {"enum": ["MATERIAL_COMPLETENESS", "STRUCTURE", "HOOK", "SUBJECT_PRESENTATION", "AUDIOVISUAL"]}, "severity": {"enum": ["HIGH", "MEDIUM", "LOW"]}, "summary": {"$ref": "#/$defs/text"}, "start_ms": {"$ref": "#/$defs/time"}, "end_ms": {"$ref": "#/$defs/time"}, "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}, "limitations": {"$ref": "#/$defs/stringList"}}
+    },
+    "analysisIssues": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/analysisIssue"}},
+    "contentAnalysis": {
+      "type": "object", "additionalProperties": false, "required": ["material_completeness", "structure", "hook", "subject_presentation", "audio_visual_quality"],
+      "properties": {
+        "material_completeness": {"type": "object", "additionalProperties": false, "required": ["summary", "observed_materials", "evidence_refs", "time_ranges", "issues", "limitations"], "properties": {"summary": {"$ref": "#/$defs/text"}, "observed_materials": {"$ref": "#/$defs/stringList"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}}, "issues": {"$ref": "#/$defs/analysisIssues"}, "limitations": {"$ref": "#/$defs/stringList"}}},
+        "structure": {"type": "object", "additionalProperties": false, "required": ["summary", "opening", "body", "ending", "sequence", "evidence_refs", "time_ranges", "issues", "limitations"], "properties": {"summary": {"$ref": "#/$defs/text"}, "opening": {"$ref": "#/$defs/text"}, "body": {"$ref": "#/$defs/text"}, "ending": {"$ref": "#/$defs/text"}, "sequence": {"$ref": "#/$defs/stringList"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}}, "issues": {"$ref": "#/$defs/analysisIssues"}, "limitations": {"$ref": "#/$defs/stringList"}}},
+        "hook": {"type": "object", "additionalProperties": false, "required": ["summary", "opening", "script", "visual", "evidence_refs", "time_ranges", "issues", "limitations"], "properties": {"summary": {"$ref": "#/$defs/text"}, "opening": {"$ref": "#/$defs/text"}, "script": {"type": ["string", "null"]}, "visual": {"type": ["string", "null"]}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}}, "issues": {"$ref": "#/$defs/analysisIssues"}, "limitations": {"$ref": "#/$defs/stringList"}}},
+        "subject_presentation": {"type": "object", "additionalProperties": false, "required": ["summary", "visibility", "demonstration", "context", "evidence_refs", "time_ranges", "issues", "limitations"], "properties": {"summary": {"$ref": "#/$defs/text"}, "visibility": {"$ref": "#/$defs/text"}, "demonstration": {"$ref": "#/$defs/text"}, "context": {"$ref": "#/$defs/text"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}}, "issues": {"$ref": "#/$defs/analysisIssues"}, "limitations": {"$ref": "#/$defs/stringList"}}},
+        "audio_visual_quality": {"type": "object", "additionalProperties": false, "required": ["summary", "evidence_refs", "time_ranges", "issues", "limitations"], "properties": {"summary": {"$ref": "#/$defs/text"}, "evidence_refs": {"type": "array", "maxItems": 40, "items": {"type": "string", "pattern": "^S[0-9]{3}:[A-Za-z][A-Za-z0-9_-]*$"}}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/traceRange"}}, "issues": {"$ref": "#/$defs/analysisIssues"}, "limitations": {"$ref": "#/$defs/stringList"}}}
+      }
+    }
+  }
+}

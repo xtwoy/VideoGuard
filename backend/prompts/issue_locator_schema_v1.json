@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VideoGuard-E internal issue locator protocol v1",
+  "description": "Provider-independent output produced after adapting JEV SystemOne answers; it is not JEV's native API response.",
+  "type": "object",
+  "required": ["schema_version", "risk_cues", "limitations"],
+  "properties": {
+    "schema_version": {"const": "videoguard_issue_locator_v1"},
+    "risk_cues": {"type": "array", "maxItems": 80},
+    "limitations": {"type": "array", "maxItems": 10, "items": {"type": "string"}}
+  }
+}

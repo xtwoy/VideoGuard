@@ -1,14 +1,12 @@
-"""Alibaba Model Studio API clients. Request assembly is unit-tested; live requests need credentials."""
+"""Replaceable OpenAI-compatible adapters for video parsing and audit reporting."""
 from __future__ import annotations
 import json, os
 from pathlib import Path
 
-OMNI_MODEL="qwen3.8-omni-flash"
-EXPLAIN_MODEL="qwen3.8-max"
 MAX_BASE64_VIDEO_BYTES=10_000_000  # Official limit is *less than* 10 MB encoded video.
 
 
-def build_omni_messages(video_url: str, system_prompt: str, user_prompt: str)->list[dict]:
+def build_video_parse_messages(video_url: str, system_prompt: str, user_prompt: str)->list[dict]:
     if not video_url.startswith(("https://","data:;base64,")):
         raise ValueError("Use an authorized HTTPS URL or a size-checked Base64 video")
     if video_url.startswith("data:;base64,"):
@@ -23,20 +21,20 @@ def build_omni_messages(video_url: str, system_prompt: str, user_prompt: str)->l
 
 def _client():
     from openai import OpenAI
-    key=os.getenv("DASHSCOPE_API_KEY")
-    base=os.getenv("DASHSCOPE_BASE_URL")
-    if not key or not base: raise RuntimeError("Set DASHSCOPE_API_KEY and DASHSCOPE_BASE_URL")
+    key=os.getenv("VIDEO_MODEL_API_KEY")
+    base=os.getenv("VIDEO_MODEL_BASE_URL")
+    if not key or not base:
+        raise RuntimeError("Set VIDEO_MODEL_API_KEY and VIDEO_MODEL_BASE_URL")
     return OpenAI(api_key=key,base_url=base,timeout=120,max_retries=1)
 
-def omni_observe(video_url: str, duration_ms: int, title: str="")->dict:
+def parse_video(video_url: str, duration_ms: int, title: str="")->dict:
     home=Path(__file__).resolve().parents[1]
-    system=(home/"prompts/omni_observe_system.txt").read_text(encoding="utf-8")
-    user=(home/"prompts/omni_observe_user.txt").read_text(encoding="utf-8").replace(
+    system=(home/"prompts/video_parse_system.md").read_text(encoding="utf-8")
+    user=(home/"prompts/video_parse_user.md").read_text(encoding="utf-8").replace(
         "{{VIDEO_TITLE}}",title).replace("{{DURATION_MS}}",str(duration_ms))
-    # New Qwen3.8-Omni uses stream=True for Chat Completions video input.
     chunks=_client().chat.completions.create(
-        model=OMNI_MODEL,
-        messages=build_omni_messages(video_url,system,user),
+        model=os.environ["VIDEO_PARSE_MODEL"],
+        messages=build_video_parse_messages(video_url,system,user),
         stream=True,stream_options={"include_usage":True},
         modalities=["text"],
         response_format={"type":"json_object"},
@@ -48,14 +46,15 @@ def omni_observe(video_url: str, duration_ms: int, title: str="")->dict:
             if isinstance(val,str): buf.append(val)
     return json.loads("".join(buf))
 
-def max_explain(audit_context: dict)->dict:
+def generate_audit_report(audit_context: dict)->dict:
     home=Path(__file__).resolve().parents[1]
-    system=(home/"prompts/max_explain_system.txt").read_text(encoding="utf-8")
-    user=(home/"prompts/max_explain_user.txt").read_text(encoding="utf-8").replace(
+    system=(home/"prompts/audit_report_system.md").read_text(encoding="utf-8")
+    user=(home/"prompts/audit_report_user.md").read_text(encoding="utf-8").replace(
         "{{AUDIT_CONTEXT_JSON}}",json.dumps(audit_context,ensure_ascii=False))
     result=_client().chat.completions.create(
-        model=EXPLAIN_MODEL, messages=[
+        model=os.environ["AUDIT_REPORT_MODEL"], messages=[
             {"role":"system","content":system},
             {"role":"user","content":user}],
         response_format={"type":"json_object"})
     return json.loads(result.choices[0].message.content)
+
