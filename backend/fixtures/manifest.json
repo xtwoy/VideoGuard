@@ -22,6 +22,7 @@
     "minors_protection_cue",
     "relation_override_conflict",
     "relation_wrong_encouragement",
+    "counter_context_tagging",
     "partial_coverage",
     "clean_negative"
   ],
@@ -510,6 +511,42 @@
         "audit_report_response.json": "2c874b36ceeb2746",
         "expectations.json": "610d923102bc884a",
         "case.json": "e643c2fbd87cf9ca"
+      }
+    },
+    {
+      "name": "counter_context_tagging",
+      "title": "反证不依赖标注用词（education_context 也计入冲突）",
+      "what_it_tests": "同一事件同时出现鼓励与安全提醒时，必须判为语境冲突并转人工。反证曾只认 warning 标签，因此把同一条提醒标成 education_context 会使其被判为推动诱导——结论取决于解析阶段的用词选择。counter_context_tags 把 education/news/fiction 语境一并纳入反证，本用例守住这一行为。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "SKIPPED_NO_KEY",
+      "semantic_check": "SKIPPED_NO_KEY",
+      "candidate_pair_count": 1,
+      "cue_count": 3,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
+          "supporting_ids": [
+            "E01",
+            "E02"
+          ],
+          "counter_ids": [
+            "E03"
+          ]
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "dc4014d7a91628d3",
+        "issue_locator_response.json": "ccbc6359fba76a21",
+        "audit_report_response.json": "580bae7a957ac8fa",
+        "expectations.json": "851a54f223c00728",
+        "case.json": "afb5f64c8ffda4d8"
       }
     },
     {

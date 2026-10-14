@@ -1,0 +1,12 @@
+{
+  "name": "counter_context_tagging",
+  "title": "反证不依赖标注用词（education_context 也计入冲突）",
+  "what_it_tests": "同一事件同时出现鼓励与安全提醒时，必须判为语境冲突并转人工。反证曾只认 warning 标签，因此把同一条提醒标成 education_context 会使其被判为推动诱导——结论取决于解析阶段的用词选择。counter_context_tags 把 education/news/fiction 语境一并纳入反证，本用例守住这一行为。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "SKIPPED_NO_KEY",
+  "semantic_check": "SKIPPED_NO_KEY",
+  "candidate_pairs": [
+    "pair_0"
+  ]
+}

@@ -80,21 +80,27 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
         if p=="R_DANGER_PROMOTION":
             actions=tags(*policies[p]["action_tags"])
             promos=tags(*policies[p]["promotion_tags"])
-            warnings=tags(*policies[p]["warning_tags"])
+            # Counter-context evidence is anything that marks the same material as
+            # cautionary rather than promotional: an explicit warning, or an
+            # education/news/fiction framing. Keeping the wider list in config
+            # means the verdict no longer depends on whether the parse happened to
+            # label "请勿模仿" as `warning` or as `education_context`.
+            counter_tags=policies[p].get("counter_context_tags") or policies[p]["warning_tags"]
+            counters=tags(*counter_tags)
             matches=[(a,b) for a in actions for b in promos if _same_referent(a,b) and _near(a,b,gap_ms)]
-            related_warning=[w for a,b in matches for w in warnings if
+            related_counter=[w for a,b in matches for w in counters if
                              (_same_referent(w,a) or _same_referent(w,b)) and _near(w,a,gap_ms)]
-            if matches and related_warning:
+            if matches and related_counter:
                 ids=sorted({x["id"] for pair in matches for x in pair})
                 findings.append(_f(p,"CONFLICTED","REVIEW","CONFLICTING_STANCE",
-                                   ids,sorted({x["id"] for x in related_warning})))
+                                   ids,sorted({x["id"] for x in related_counter})))
             elif matches:
                 ids=sorted({x["id"] for pair in matches for x in pair})
                 findings.append(_f(p,"SUPPORTED","FLAG","RELATED_ACTION_AND_PROMOTION",ids))
             elif (actions and promos and not matches) or (
                 invalid_tags & set(policies[p]["action_tags"]+
                                    policies[p]["promotion_tags"]+
-                                   policies[p]["warning_tags"])):
+                                   list(counter_tags))):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","MISSING_SEMANTIC_RELATION"))
             elif coverage!="FULL":
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))

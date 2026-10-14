@@ -104,11 +104,19 @@ class FixturePackTests(unittest.TestCase):
     # --- the mechanism that makes PEAD more than a model wrapper -------------
 
     def _judgement_and_disposition(self, name: str) -> tuple[str, str]:
+        """Final verdict for a case, using its stored relation response if any.
+
+        A missing relation_response.json means the case deliberately runs without
+        one (either no candidate pairs, or a hard PEAD conflict that is not
+        negotiable by the relation stage).
+        """
+        relation_path = validate.CASE_ROOT / name / "relation_response.json"
+        relation_raw = (validate.load(name, "relation_response.json")
+                        if relation_path.exists() else None)
         state = validate.simulate(
             validate.load(name, "video_parse_response.json"),
             validate.load(name, "issue_locator_response.json"),
-            case_defs.DURATION_MS,
-            relation_raw=validate.load(name, "relation_response.json"))
+            case_defs.DURATION_MS, relation_raw=relation_raw)
         finding = next(f for f in state["findings"]
                        if f["policy_id"] == "R_DANGER_PROMOTION")
         return finding["judgement"], finding["disposition"]
@@ -133,6 +141,40 @@ class FixturePackTests(unittest.TestCase):
         self.assertEqual(
             self._judgement_and_disposition("relation_wrong_encouragement"),
             ("SUPPORTED", "FLAG"))
+
+    def test_counter_evidence_does_not_depend_on_the_chosen_tag(self):
+        """Encouragement plus cautionary framing must be a conflict either way."""
+        self.assertEqual(
+            self._judgement_and_disposition("counter_context_tagging"),
+            ("CONFLICTED", "REVIEW"))
+
+
+class TruthTableTests(unittest.TestCase):
+    """The exhaustive decision table is the evidence for PEAD's rule behaviour."""
+
+    def test_every_combination_is_total_and_deterministic(self):
+        from fixtures import truth_table
+        for name in truth_table._cases_with_pairs():
+            with self.subTest(case=name):
+                result = truth_table.enumerate_case(name)
+                self.assertEqual(result["problems"], [])
+                self.assertEqual(result["combination_count"],
+                                 4 ** result["pair_count"])
+
+    def test_a_single_dissent_prevents_a_strong_flag(self):
+        """with two candidate pairs, only full agreement may produce a FLAG."""
+        from fixtures import truth_table
+        result = truth_table.enumerate_case("danger_promotion")
+        flagged = [row for row in result["rows"] if row["disposition"] == "FLAG"]
+        self.assertEqual(len(flagged), 1, "只有在全部候选对都确认时才能判 FLAG")
+        self.assertEqual(set(flagged[0]["answers"]), {"encourages_same"})
+
+    def test_reported_limitation_is_still_reachable_in_the_table(self):
+        """The published limitation must stay visible rather than be tuned away."""
+        from fixtures import truth_table
+        result = truth_table.enumerate_case("relation_wrong_encouragement")
+        flagged = [row for row in result["rows"] if row["disposition"] == "FLAG"]
+        self.assertTrue(flagged, "已记录的误报组合不应从真值表中消失")
 
 
 if __name__ == "__main__":

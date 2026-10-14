@@ -1,0 +1,896 @@
+{
+  "generated_by": "python -m fixtures.truth_table",
+  "scope": "上游阶段为 mock 数据，PEAD 与结果融合为真实代码。本表证明决策函数的性质（全定义、确定性、符合协议、单调保守、结论不依赖标注用词），不度量真实视频上的准确率。",
+  "relation_choices": [
+    "encourages_same",
+    "insufficient",
+    "unrelated",
+    "warns_same"
+  ],
+  "cases": [
+    {
+      "case": "danger_promotion",
+      "pair_count": 2,
+      "combination_count": 16,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "insufficient"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "unrelated"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "warns_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "insufficient"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "unrelated"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "warns_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "insufficient"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "unrelated"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "warns_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "insufficient"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "unrelated"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "warns_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_DISPUTES_BASELINE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "CONFLICTED",
+          "REVIEW",
+          "RELATION_DISPUTES_BASELINE"
+        ],
+        [
+          "SUPPORTED",
+          "FLAG",
+          "RELATION_LINK_ASSISTED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "warning_context",
+      "pair_count": 2,
+      "combination_count": 16,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "insufficient"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "unrelated"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "warns_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "warns_same"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "insufficient"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "warns_same"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "warns_same"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "NO_SUPPORTING_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "INSUFFICIENT",
+          "REVIEW",
+          "RELATION_AMBIGUITY"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "NO_SUPPORTING_RELATION"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "RELATION_UNRELATED_CONFIRMED"
+        ],
+        [
+          "SUPPORTED",
+          "FLAG",
+          "RELATION_LINK_ASSISTED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "unrelated_promotion",
+      "pair_count": 1,
+      "combination_count": 4,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "CONFLICTED",
+          "REVIEW",
+          "RELATION_REFERENT_DISAGREEMENT"
+        ],
+        [
+          "INSUFFICIENT",
+          "REVIEW",
+          "MISSING_SEMANTIC_RELATION"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "RELATION_UNRELATED_CONFIRMED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "unrelated_without_relation_service",
+      "pair_count": 1,
+      "combination_count": 4,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "CONFLICTED",
+          "REVIEW",
+          "RELATION_REFERENT_DISAGREEMENT"
+        ],
+        [
+          "INSUFFICIENT",
+          "REVIEW",
+          "MISSING_SEMANTIC_RELATION"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "RELATION_UNRELATED_CONFIRMED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "relation_override_conflict",
+      "pair_count": 1,
+      "combination_count": 4,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "CONFLICTED",
+          "REVIEW",
+          "RELATION_REFERENT_DISAGREEMENT"
+        ],
+        [
+          "INSUFFICIENT",
+          "REVIEW",
+          "MISSING_SEMANTIC_RELATION"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "RELATION_UNRELATED_CONFIRMED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "relation_wrong_encouragement",
+      "pair_count": 2,
+      "combination_count": 16,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "insufficient"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "unrelated"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "encourages_same",
+            "warns_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient",
+            "warns_same"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "insufficient"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated",
+            "warns_same"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "encourages_same"
+          ],
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "insufficient"
+          ],
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_AMBIGUITY",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "unrelated"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "RELATION_UNRELATED_CONFIRMED",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same",
+            "warns_same"
+          ],
+          "judgement": "NOT_SUPPORTED",
+          "disposition": "NONE",
+          "reason_code": "NO_SUPPORTING_RELATION",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "INSUFFICIENT",
+          "REVIEW",
+          "RELATION_AMBIGUITY"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "NO_SUPPORTING_RELATION"
+        ],
+        [
+          "NOT_SUPPORTED",
+          "NONE",
+          "RELATION_UNRELATED_CONFIRMED"
+        ],
+        [
+          "SUPPORTED",
+          "FLAG",
+          "RELATION_LINK_ASSISTED"
+        ]
+      ],
+      "problems": []
+    },
+    {
+      "case": "counter_context_tagging",
+      "pair_count": 1,
+      "combination_count": 4,
+      "rows": [
+        {
+          "answers": [
+            "encourages_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "insufficient"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "unrelated"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        },
+        {
+          "answers": [
+            "warns_same"
+          ],
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
+          "semantic_check": "COMPLETE",
+          "deterministic": true
+        }
+      ],
+      "outcomes": [
+        [
+          "CONFLICTED",
+          "REVIEW",
+          "CONFLICTING_STANCE"
+        ]
+      ],
+      "problems": []
+    }
+  ],
+  "labelling_independence": {
+    "checked": true,
+    "warning_context_verdicts": [
+      [
+        "INSUFFICIENT",
+        "REVIEW"
+      ],
+      [
+        "NOT_SUPPORTED",
+        "NONE"
+      ],
+      [
+        "SUPPORTED",
+        "FLAG"
+      ]
+    ],
+    "counter_context_tagging_verdicts": [
+      [
+        "CONFLICTED",
+        "REVIEW"
+      ]
+    ],
+    "note": "两者内容同为‘动作＋警示’，仅警示的标注用词不同。counter_context_tagging 含鼓励线索，warning_context 不含，因此不要求完全相同，只要求都不出现 FLAG。",
+    "no_flag_in_either": false
+  },
+  "problems": []
+}

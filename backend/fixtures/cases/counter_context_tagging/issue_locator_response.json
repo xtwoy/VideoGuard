@@ -1,0 +1,45 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_MIXED",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "画面中博主在无防护条件下完成高风险动作。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E02",
+      "tag": "encouragement",
+      "event_id": "EVT_MIXED",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F001"
+      ],
+      "observation": "博主鼓励观众模仿该动作。",
+      "verbatim_redacted": "你们也来试试",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E03",
+      "tag": "education_context",
+      "event_id": "EVT_MIXED",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F002"
+      ],
+      "observation": "同一片段中博主提醒该动作危险、不要模仿。",
+      "verbatim_redacted": "不过这个很危险，别学我",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

@@ -49,6 +49,7 @@ fixtures/
 ├── simulate.py            离线复刻 pipeline._run_models 的编排
 ├── generate.py            生成静态 JSON（写盘 / --check）
 ├── validate.py            真实校验 + 期望值核对 + 覆盖矩阵
+├── truth_table.py         穷举关系回答组合，输出 PEAD 决策真值表
 ├── manifest.json          全部用例的索引与结论摘要
 └── cases/<case>/          每个用例的静态 JSON
     ├── video_parse_response.json      阶段1 原始回包
@@ -81,6 +82,7 @@ fixtures/
 | `minors_protection_cue` | 画面出现疑似未成年人风险线索 | `R_MINORS_PROTECTION` = SUPPORTED / FLAG |
 | `relation_override_conflict` | 模型对**不同事件**的两条线索硬说 `encourages_same` | **CONFLICTED / REVIEW**（PEAD 否决模型） |
 | `relation_wrong_encouragement` | 模型对**安全语境**错误回答 `encourages_same` | ⚠️ SUPPORTED / FLAG（**已记录局限**） |
+| `counter_context_tagging` | 同一事件内既有鼓励也有安全提醒，提醒标为 `education_context` | **CONFLICTED / REVIEW**（反证不依赖标注用词） |
 | `partial_coverage` | 覆盖 PARTIAL、音轨损坏 | 十类全部 UNKNOWN / RECHECK，**不得判为安全** |
 | `clean_negative` | 普通宠物日常，无任何线索 | 十类全部 NOT_SUPPORTED / NONE |
 
@@ -117,11 +119,39 @@ fixtures/
 因此 PEAD 的价值上界 = 事实解析给出的事件指向质量 × 关系核验的准确率。
 这也正是 H2 必须用真实数据评估、而不能靠合成样例下结论的原因。
 
-> **已知改进缺口：** `config/policies_v03.json` 中 `R_DANGER_PROMOTION` 的
-> `warning_tags` 只配了 `["warning"]`；`education_context`、`news_context`、
-> `fiction_context` 只挂在 `R_VIOLENCE` 的 `context_tags` 下，不参与危险诱导的
-> 反证判断。若解析阶段把"请勿模仿"标成 `education_context` 而非 `warning`，
-> PEAD 就看不到这条反证。扩展反证语境的覆盖是当前最直接的改进方向。
+> **已知改进缺口：** `R_DANGER_PROMOTION` 的反证判断原先只认 `warning_tags = ["warning"]`，
+> 因此把同一条安全提醒标成 `education_context` 就会让它被判为推动诱导——**结论取决于
+> 解析阶段的用词选择**。现已加入 `counter_context_tags`（warning / education_context /
+> news_context / fiction_context），`counter_context_tagging` 用例守住这一行为。
+> 其余仍待改进的方向见本文末「PEAD 的待优化项」。
+
+## 穷举真值表：PEAD 决策函数的证据
+
+单条用例只能说明"我挑的例子过了"。因为关系回答只有四种取值，每个场景的组合是**可穷举**
+的，于是可以不做采样、直接把决策函数的定义域跑完：
+
+```bash
+python -m fixtures.truth_table           # 打印；检查全定义/确定性/协议合规/单调保守
+python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{md,json}
+```
+
+当前覆盖 7 个含候选对的用例、**64 种关系回答组合**。这里上游是 mock 输入，PEAD 与结果
+融合是真实代码，因此能证明的是**决策函数本身的性质**：
+
+- **全定义** —— 每种可达组合都能得出结论，不会漏判或抛异常；
+- **确定性** —— 同一输入必然得到同一结论（每条组合都跑两遍比对）；
+- **符合协议** —— 结论始终是文档化的 judgement / disposition 与已知 reason code；
+- **单调保守** —— 把某个回答从 `encourages_same` 弱化，绝不会让结论变强；
+- **不依赖标注用词** —— 同一内容标为 `warning` 或 `education_context` 结论一致。
+
+**这些性质无法用合成数据伪造**，因为它们说的是"函数在所有输入下如何表现"，而不是
+"函数在真实视频上有多准"。真值表恰好是正确答案已知的场合。
+
+由此得到一条可直接引用的保守性规则：**`danger_promotion` 有两个候选对时，
+只有两个都确认"鼓励同一事件"才会判 FLAG；任一候选对持异议即转为人工复核。**
+
+> **真值表不度量准确率。** 上游回答是合成的，因此表里没有任何数字说明 PEAD 对真实视频
+> 判断得对不对。那是 H1/H2 要做、且必须用真实视频和人工标注完成的事。
 
 ## 曾经固定的缺陷（均已修复）
 
@@ -213,3 +243,19 @@ fixtures/
 
 `expectations.json` 是人工维护的，生成器只负责原样写出；`generate.py` 不会根据运行结果
 反推期望值——否则用例就失去断言意义了。
+
+## PEAD 的待优化项
+
+按收益排序，均为已知且可独立验证的改进点（`counter_context_tags` 已完成，见上文）：
+
+1. **关系核验只服务一条策略。** `relation_fusion.py` 的 `POLICY = "R_DANGER_PROMOTION"`，
+   其余九条策略没有语义关系核验。但 `R_VIOLENCE` 有 `context_tags`（新闻/影视/教育）、
+   `R_MARKETING_CLAIM` 需要区分"声称"与"真实性"，这些都依赖语境判断。
+2. **阈值双份且未校准。** `RELATION_GAP_MS = 15000` 在 `pead_engine.py` 与
+   `relation_client.py` 各写一份，配置里还有一份 `max_relation_gap_ms`。三份不一致时
+   会静默失效（配对用一套窗口、判定用另一套）。`0.85` / `0.49` 也未标定。
+3. **四条策略仍是硬编码分支。** `pead_engine.py` 中 R_DANGER_PROMOTION /
+   R_VIOLENCE / R_PRIVACY_EXPOSURE / R_MARKETING_CLAIM 为 `if/elif` 硬编码，
+   与 `policies_v03.json` 注释所称"扩展审核点不改主流程"不一致。
+4. **反证 provenance。** `counter_ids` 为空时，报告无法区分"确实没有反证"与
+   "没有去找反证"。

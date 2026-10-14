@@ -1154,6 +1154,99 @@ def _case_relation_wrong_encouragement() -> dict:
     }
 
 
+# ===========================================================================
+# Case 18: counter-evidence must not depend on which tag the parse chose
+# ===========================================================================
+
+
+def _case_counter_context_tagging() -> dict:
+    """Encouragement and cautionary framing in the same event.
+
+    The framing is tagged ``education_context`` (not ``warning``). Before
+    ``counter_context_tags`` existed, only an explicit ``warning`` cue counted as
+    counter-evidence, so this identical content was reported as promotion purely
+    because of the label the parse happened to pick. The verdict must now be
+    independent of that choice.
+    """
+    refs = ["S002:F001", "S003:F001", "S003:F002"]
+    shots = [
+        shot("S001", 0, 5000, "室内开场",
+             visual_facts=[fact("F001", 200, 4800, "画面为室内自拍场景。")],
+             speech_transcript=[fact("F002", 300, 4600, "博主说明本期内容。",
+                                     verbatim="今天讲一个动作")],
+             quality_block=quality(audio_refs=["S001:F002"], visual_refs=["S001:F001"])),
+        shot("S002", 5000, 12000, "演示动作",
+             visual_facts=[fact("F001", 5200, 11_500, "博主在无防护条件下完成一项高风险动作。")],
+             quality_block=quality(audio_refs=[], audio_status="MANUAL_REVIEW",
+                                   voice_clarity="NOT_APPLICABLE",
+                                   audio_evidence="该镜头无口播内容。",
+                                   visual_refs=["S002:F001"])),
+        shot("S003", 12000, 19000, "同一片段既有鼓励也有安全提醒",
+             speech_transcript=[
+                 fact("F001", 12_200, 15_000, "博主鼓励观众模仿该动作。",
+                      verbatim="你们也来试试"),
+                 fact("F002", 15_500, 18_500, "同一片段中博主提醒该动作有危险、不要模仿。",
+                      verbatim="不过这个很危险，别学我"),
+             ],
+             quality_block=quality(audio_refs=["S003:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S004", 19000, 24000, "收尾",
+             speech_transcript=[fact("F001", 19_200, 23_500, "博主结束视频。",
+                                     verbatim="今天就到这里")],
+             quality_block=quality(audio_refs=["S004:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+    ]
+    parse = video_parse(
+        shots=shots,
+        events=[
+            event("EVT_MIXED", 5000, 19000, "mixed_stance",
+                  "同一事件中同时出现鼓励模仿与安全提醒。",
+                  ["S002:F001", "S003:F001", "S003:F002"], stance="UNKNOWN",
+                  target_relation="UNCERTAIN", referent_key="EVT_MIXED",
+                  counter_refs=["S003:F002"]),
+        ],
+        summary=_summary("博主演示危险动作，同一片段中既鼓励模仿也提醒不要模仿。", refs,
+                         fact_catalog(shots)),
+        content_analysis=_analysis(
+            "素材为室内自拍，动作、鼓励与安全提醒出现在同一事件中。",
+            ["室内画面", "动作演示", "口播"],
+            fact_catalog(shots), _clean_structure(), refs,
+            section_refs={"hook": ["S001:F002"]},
+        ),
+        video_end_ms=DURATION_MS,
+    )
+    locator = issue_locator([
+        cue("E01", "danger_action", "EVT_MIXED", "visual", ["S002:F001"],
+            "画面中博主在无防护条件下完成高风险动作。"),
+        cue("E02", "encouragement", "EVT_MIXED", "speech", ["S003:F001"],
+            "博主鼓励观众模仿该动作。", verbatim="你们也来试试"),
+        # The same cautionary content, tagged as education rather than warning.
+        cue("E03", "education_context", "EVT_MIXED", "speech", ["S003:F002"],
+            "同一片段中博主提醒该动作危险、不要模仿。",
+            verbatim="不过这个很危险，别学我"),
+    ])
+    return {
+        "title": "反证不依赖标注用词（education_context 也计入冲突）",
+        "what_it_tests": "同一事件同时出现鼓励与安全提醒时，必须判为语境冲突并转人工。"
+                         "反证曾只认 warning 标签，因此把同一条提醒标成 education_context "
+                         "会使其被判为推动诱导——结论取决于解析阶段的用词选择。"
+                         "counter_context_tags 把 education/news/fiction 语境一并纳入反证，"
+                         "本用例守住这一行为。",
+        "video_parse": parse,
+        "issue_locator": locator,
+        # CONFLICTED is a hard PEAD uncertainty, so the relation stage is not
+        # consulted and no relation response is needed.
+        "relation_choice": None,
+        "expectations": {
+            "coverage": "FULL",
+            "findings": {"R_DANGER_PROMOTION": ["CONFLICTED", "REVIEW"]},
+            "active_finding_policies": ["R_DANGER_PROMOTION"],
+            "event_findings_at_least": 0,
+            "cues": ["E01", "E02", "E03"],
+        },
+    }
+
+
 CASES = {
     "danger_promotion": _case_danger_promotion,
     "warning_context": _case_warning_context,
@@ -1170,6 +1263,7 @@ CASES = {
     "minors_protection_cue": _case_minors_protection_cue,
     "relation_override_conflict": _case_relation_override_conflict,
     "relation_wrong_encouragement": _case_relation_wrong_encouragement,
+    "counter_context_tagging": _case_counter_context_tagging,
     "partial_coverage": _case_partial_coverage,
     "clean_negative": _case_clean_negative,
 }

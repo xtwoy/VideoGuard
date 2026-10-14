@@ -7,6 +7,7 @@
       "action_tags": ["danger_action", "danger_description"],
       "promotion_tags": ["encouragement", "challenge"],
       "warning_tags": ["warning"],
+      "counter_context_tags": ["warning", "education_context", "news_context", "fiction_context"],
       "max_relation_gap_ms": 15000
     },
     "R_VIOLENCE": {
