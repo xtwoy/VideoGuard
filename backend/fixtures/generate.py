@@ -76,14 +76,22 @@ def build_case(name: str) -> dict:
     duration = case_defs.DURATION_MS
 
     relation_raw = None
-    if case["relation_choice"] and case["relation_choice"] != "none":
+    choice = case["relation_choice"]
+    if choice and choice != "none":
         # Pair ids are assigned by the real selection step, so ask it first.
         probe = simulate(case["video_parse"], case["issue_locator"], duration,
                          relation_raw=None)
         if not probe["pairs"]:
             raise ValueError(f"{name}: relation_choice set but no candidate pairs exist")
-        choices = {pair["pair_id"]: case["relation_choice"] for pair in probe["pairs"]}
-        relation_raw = relation_response(choices)
+        if isinstance(choice, dict):
+            # Adversarial cases can answer per pair; skipping a pair leaves it
+            # unanswered, which the adapter reports as an invalid response rather
+            # than silently treating it as agreement.
+            choices = {pair["pair_id"]: choice[pair["pair_id"]]
+                       for pair in probe["pairs"] if choice.get(pair["pair_id"])}
+        else:
+            choices = {pair["pair_id"]: choice for pair in probe["pairs"]}
+        relation_raw = relation_response(choices) if choices else None
 
     state = simulate(case["video_parse"], case["issue_locator"], duration,
                      relation_raw=relation_raw)

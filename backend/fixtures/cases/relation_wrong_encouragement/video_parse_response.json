@@ -1,0 +1,443 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 24000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 6000,
+        "continuity": "CUT",
+        "scene_summary": "安全教育短片开场",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 300,
+            "end_ms": 5800,
+            "summary_zh": "旁白说明这是安全教育内容。",
+            "verbatim_redacted": "接下来是安全教育",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 6000,
+        "end_ms": 15000,
+        "continuity": "CUT",
+        "scene_summary": "素材画面出现危险动作",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "MANUAL_REVIEW",
+            "voice_clarity": "NOT_APPLICABLE",
+            "bgm_interference": "PASS",
+            "evidence": "该镜头无口播内容。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的音频证据，未据此判断音质。"
+            ]
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 6200,
+            "end_ms": 14500,
+            "summary_zh": "素材画面出现危险动作。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 15000,
+        "end_ms": 19000,
+        "continuity": "CUT",
+        "scene_summary": "旁白明确警示不要模仿",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 15200,
+            "end_ms": 17000,
+            "summary_zh": "旁白提醒不要模仿该动作。",
+            "verbatim_redacted": "请勿模仿",
+            "confidence": "HIGH",
+            "limitations": []
+          },
+          {
+            "fact_id": "F002",
+            "start_ms": 17200,
+            "end_ms": 18800,
+            "summary_zh": "旁白说明该行为非常危险。",
+            "verbatim_redacted": "这非常危险",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S004",
+        "start_ms": 19000,
+        "end_ms": 24000,
+        "continuity": "CUT",
+        "scene_summary": "收尾",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "口播清晰，无持续背景噪声。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "该镜头无新增视觉判断。",
+            "evidence_refs": [],
+            "limitations": [
+              "该镜头没有可定位的视觉证据，未据此判断画质。"
+            ]
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 19200,
+            "end_ms": 23500,
+            "summary_zh": "旁白提示注意安全。",
+            "verbatim_redacted": "请注意安全",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_EDU",
+        "start_ms": 6000,
+        "end_ms": 19000,
+        "event_type": "education_warning",
+        "referent_key": "EVT_EDU",
+        "summary": "教育短片展示危险动作并明确警示不要模仿。",
+        "evidence_refs": [
+          "S002:F001",
+          "S003:F001",
+          "S003:F002"
+        ],
+        "context": {
+          "stance": "WARNING",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": [
+            "S003:F001",
+            "S003:F002"
+          ]
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "evidence_refs": [
+      "S002:F001",
+      "S003:F001",
+      "S003:F002"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 6200,
+        "end_ms": 14500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      },
+      {
+        "start_ms": 15200,
+        "end_ms": 17000,
+        "evidence_refs": [
+          "S003:F001"
+        ]
+      },
+      {
+        "start_ms": 17200,
+        "end_ms": 18800,
+        "evidence_refs": [
+          "S003:F002"
+        ]
+      }
+    ],
+    "limitations": [],
+    "summary_zh": "教育短片展示危险动作，旁白明确警示不要模仿。"
+  },
+  "content_analysis": {
+    "material_completeness": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 17000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 17200,
+          "end_ms": 18800,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "素材为教育短片，包含危险动作与明确警示。",
+      "observed_materials": [
+        "教育画面",
+        "素材画面",
+        "旁白警示"
+      ],
+      "issues": []
+    },
+    "structure": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 17000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 17200,
+          "end_ms": 18800,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "视频按开场、展开、收束推进，信息顺序连贯。",
+      "opening": "开场直接给出主体与场景。",
+      "body": "中段展开主体行为与相关说明。",
+      "ending": "结尾给出收束性表述。",
+      "sequence": [
+        "开场建立场景",
+        "中段展开主体内容",
+        "结尾收束"
+      ],
+      "issues": []
+    },
+    "hook": {
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 5800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "开场以主体与场景建立观看理由。",
+      "opening": "开场即出现主体与相关表述。",
+      "script": "开场有口播引入。",
+      "visual": "开场画面主体清晰。",
+      "issues": []
+    },
+    "subject_presentation": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 17000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 17200,
+          "end_ms": 18800,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "主体在画面中持续可见。",
+      "visibility": "主体可辨认。",
+      "demonstration": "主体完成了相关内容呈现。",
+      "context": "场景为室内或户外自拍环境。",
+      "issues": []
+    },
+    "audio_visual_quality": {
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 17000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 17200,
+          "end_ms": 18800,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "limitations": [],
+      "summary": "音画信息总体清晰，口播可辨认。",
+      "issues": []
+    }
+  }
+}

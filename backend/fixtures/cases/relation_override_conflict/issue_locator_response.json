@@ -1,0 +1,32 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_FIRE",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F002"
+      ],
+      "observation": "画面中博主在室内点燃明火烟花。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    },
+    {
+      "cue_id": "E02",
+      "tag": "encouragement",
+      "event_id": "EVT_SKYDIVE",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F001"
+      ],
+      "observation": "博主表示想尝试跳伞，指向另一个事件。",
+      "verbatim_redacted": "我一直想试试跳伞",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

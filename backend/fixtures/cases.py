@@ -976,6 +976,184 @@ def _case_minors_protection_cue() -> dict:
     return case
 
 
+# ===========================================================================
+# Case 16: the relation service asserts a link the structure contradicts
+# ===========================================================================
+
+
+def _case_relation_override_conflict() -> dict:
+    """The mechanism that lets PEAD overrule a confident model answer.
+
+    The dangerous action and the encouraging line belong to two *different*
+    events (different ``referent_key``), so the structural constraint fires and
+    PEAD refuses to turn temporal proximity plus a confident answer into a flag.
+    """
+    refs = ["S002:F002", "S003:F001"]
+    shots = [
+        shot("S001", 0, 5000, "室内开场",
+             visual_facts=[fact("F001", 200, 4800, "画面为室内场景。")],
+             speech_transcript=[fact("F002", 300, 4600, "博主说明本期内容。",
+                                     verbatim="今天分享两件事")],
+             quality_block=quality(audio_refs=["S001:F002"], visual_refs=["S001:F001"])),
+        shot("S002", 5000, 12000, "博主演示危险动作",
+             visual_facts=[fact("F001", 5200, 7000, "画面为室内桌面。"),
+                           fact("F002", 7200, 11_500, "博主在室内点燃明火烟花。")],
+             quality_block=quality(audio_refs=[], audio_status="MANUAL_REVIEW",
+                                   voice_clarity="NOT_APPLICABLE",
+                                   audio_evidence="该镜头无口播内容。",
+                                   visual_refs=["S002:F001", "S002:F002"])),
+        shot("S003", 12000, 19000, "博主提到另一件事：自己想尝试跳伞",
+             speech_transcript=[fact("F001", 12_200, 18_000,
+                                     "博主表示自己想尝试跳伞，与刚才的室内动作无关。",
+                                     verbatim="我一直想试试跳伞")],
+             quality_block=quality(audio_refs=["S003:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S004", 19000, 24000, "收尾",
+             speech_transcript=[fact("F001", 19_200, 23_500, "博主结束视频。",
+                                     verbatim="今天就到这里")],
+             quality_block=quality(audio_refs=["S004:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+    ]
+    parse = video_parse(
+        shots=shots,
+        events=[
+            event("EVT_FIRE", 5000, 12000, "danger_demonstration",
+                  "博主在室内点燃明火烟花。", ["S002:F002"],
+                  stance="UNKNOWN", target_relation="UNCERTAIN", referent_key="EVT_FIRE"),
+            event("EVT_SKYDIVE", 12000, 19000, "personal_plan",
+                  "博主提到自己想尝试跳伞，与室内动作无关。", ["S003:F001"],
+                  stance="UNKNOWN", target_relation="UNCERTAIN",
+                  referent_key="EVT_SKYDIVE"),
+        ],
+        summary=_summary("博主演示一次室内明火动作，随后提到自己想尝试跳伞。", refs,
+                         fact_catalog(shots)),
+        content_analysis=_analysis(
+            "素材为室内生活记录，动作演示与随后的个人计划属于两个话题。",
+            ["室内画面", "动作演示", "口播"],
+            fact_catalog(shots), _clean_structure(), refs,
+            section_refs={"hook": ["S001:F002"]},
+        ),
+        video_end_ms=DURATION_MS,
+    )
+    locator = issue_locator([
+        cue("E01", "danger_action", "EVT_FIRE", "visual", ["S002:F002"],
+            "画面中博主在室内点燃明火烟花。", needs_human_review=True),
+        cue("E02", "encouragement", "EVT_SKYDIVE", "speech", ["S003:F001"],
+            "博主表示想尝试跳伞，指向另一个事件。",
+            verbatim="我一直想试试跳伞"),
+    ])
+    return {
+        "title": "对抗性：结构冲突时 PEAD 覆盖模型的错误自信回答",
+        "what_it_tests": "关系服务对两条指向**不同事件**的线索回答 encourages_same 时，"
+                         "PEAD 必须依据 referent_key 冲突否决该回答，判为语境冲突并转人工，"
+                         "不得仅凭模型置信度输出强提示。这是 PEAD 的覆盖机制，"
+                         "也是它相对“无约束大模型”的可验证增量。",
+        "video_parse": parse,
+        "issue_locator": locator,
+        # Adversarial: the provider is confidently wrong.
+        "relation_choice": {"pair_0": "encourages_same"},
+        "expectations": {
+            "coverage": "FULL",
+            "findings": {"R_DANGER_PROMOTION": ["CONFLICTED", "REVIEW"]},
+            "active_finding_policies": ["R_DANGER_PROMOTION"],
+            "event_findings_at_least": 0,
+            "cues": ["E01", "E02"],
+        },
+    }
+
+
+# ===========================================================================
+# Case 17: a wrong confident answer that PEAD cannot contradict (limitation)
+# ===========================================================================
+
+
+def _case_relation_wrong_encouragement() -> dict:
+    """Documents a limitation rather than a success.
+
+    This is a safety-education clip: the action and the explicit warning belong to
+    the *same* event, so there is no structural conflict for PEAD to rely on. When
+    the relation service answers ``encourages_same`` with high confidence, PEAD has
+    no independent signal that contradicts it, and the warning footage is reported
+    as promotion.
+    """
+    refs = ["S002:F001", "S003:F001", "S003:F002"]
+    shots = [
+        shot("S001", 0, 6000, "安全教育短片开场",
+             speech_transcript=[fact("F001", 300, 5800, "旁白说明这是安全教育内容。",
+                                     verbatim="接下来是安全教育")],
+             quality_block=quality(audio_refs=["S001:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S002", 6000, 15_000, "素材画面出现危险动作",
+             visual_facts=[fact("F001", 6200, 14_500, "素材画面出现危险动作。")],
+             quality_block=quality(audio_refs=[], audio_status="MANUAL_REVIEW",
+                                   voice_clarity="NOT_APPLICABLE",
+                                   audio_evidence="该镜头无口播内容。",
+                                   visual_refs=["S002:F001"])),
+        shot("S003", 15_000, 19_000, "旁白明确警示不要模仿",
+             speech_transcript=[
+                 fact("F001", 15_200, 17_000, "旁白提醒不要模仿该动作。",
+                      verbatim="请勿模仿"),
+                 fact("F002", 17_200, 18_800, "旁白说明该行为非常危险。",
+                      verbatim="这非常危险"),
+             ],
+             quality_block=quality(audio_refs=["S003:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S004", 19_000, 24_000, "收尾",
+             speech_transcript=[fact("F001", 19_200, 23_500, "旁白提示注意安全。",
+                                     verbatim="请注意安全")],
+             quality_block=quality(audio_refs=["S004:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+    ]
+    parse = video_parse(
+        shots=shots,
+        events=[
+            event("EVT_EDU", 6000, 19_000, "education_warning",
+                  "教育短片展示危险动作并明确警示不要模仿。",
+                  ["S002:F001", "S003:F001", "S003:F002"], stance="WARNING",
+                  target_relation="SAME_EVENT", referent_key="EVT_EDU",
+                  counter_refs=["S003:F001", "S003:F002"]),
+        ],
+        summary=_summary("教育短片展示危险动作，旁白明确警示不要模仿。", refs,
+                         fact_catalog(shots)),
+        content_analysis=_analysis(
+            "素材为教育短片，包含危险动作与明确警示。",
+            ["教育画面", "素材画面", "旁白警示"],
+            fact_catalog(shots), _clean_structure(), refs,
+            section_refs={"hook": ["S001:F001"]},
+        ),
+        video_end_ms=DURATION_MS,
+    )
+    locator = issue_locator([
+        cue("E01", "danger_action", "EVT_EDU", "visual", ["S002:F001"],
+            "素材画面出现危险动作。", needs_human_review=True),
+        cue("E02", "warning", "EVT_EDU", "speech", ["S003:F001"],
+            "旁白提醒不要模仿该动作。", verbatim="请勿模仿"),
+        cue("E03", "warning", "EVT_EDU", "speech", ["S003:F002"],
+            "旁白说明该行为非常危险。", verbatim="这非常危险"),
+    ])
+    return {
+        "title": "已记录局限：模型对安全语境答错时 PEAD 无法纠正",
+        "what_it_tests": "动作与警示同属一个事件时不存在结构性冲突，PEAD 只认 referent_key。"
+                         "关系服务若高置信度地回答 encourages_same，警示素材会被判为诱导。"
+                         "本用例把这一局限固定下来：它说明 PEAD 的价值上界取决于"
+                         "事实解析给出的 referent_key 质量与关系核验的准确率，"
+                         "也说明为什么 H2 必须用真实数据评估。",
+        "video_parse": parse,
+        "issue_locator": locator,
+        "relation_choice": {"pair_0": "encourages_same", "pair_1": "encourages_same"},
+        "expectations": {
+            "coverage": "FULL",
+            "findings": {"R_DANGER_PROMOTION": ["SUPPORTED", "FLAG"]},
+            "active_finding_policies": ["R_DANGER_PROMOTION"],
+            "event_findings_at_least": 1,
+            "cues": ["E01", "E02", "E03"],
+        },
+        "known_limitation": (
+            "误报：安全语境被判为危险诱导。PEAD 的反证规则只认 warning 标签的同源时间"
+            "接近，而覆盖机制只依赖 referent_key 冲突；本例两者都不提供额外信号。"),
+    }
+
+
 CASES = {
     "danger_promotion": _case_danger_promotion,
     "warning_context": _case_warning_context,
@@ -990,6 +1168,8 @@ CASES = {
     "fraud_scam_cue": _case_fraud_scam_cue,
     "controlled_goods_cue": _case_controlled_goods_cue,
     "minors_protection_cue": _case_minors_protection_cue,
+    "relation_override_conflict": _case_relation_override_conflict,
+    "relation_wrong_encouragement": _case_relation_wrong_encouragement,
     "partial_coverage": _case_partial_coverage,
     "clean_negative": _case_clean_negative,
 }

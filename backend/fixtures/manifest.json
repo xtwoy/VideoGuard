@@ -20,6 +20,8 @@
     "fraud_scam_cue",
     "controlled_goods_cue",
     "minors_protection_cue",
+    "relation_override_conflict",
+    "relation_wrong_encouragement",
     "partial_coverage",
     "clean_negative"
   ],
@@ -437,6 +439,77 @@
         "audit_report_response.json": "0fa348b6bfd0c60e",
         "expectations.json": "db2abe64f16da091",
         "case.json": "8170a704e73ffd0f"
+      }
+    },
+    {
+      "name": "relation_override_conflict",
+      "title": "对抗性：结构冲突时 PEAD 覆盖模型的错误自信回答",
+      "what_it_tests": "关系服务对两条指向**不同事件**的线索回答 encourages_same 时，PEAD 必须依据 referent_key 冲突否决该回答，判为语境冲突并转人工，不得仅凭模型置信度输出强提示。这是 PEAD 的覆盖机制，也是它相对“无约束大模型”的可验证增量。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "LIVE",
+      "semantic_check": "COMPLETE",
+      "candidate_pair_count": 1,
+      "cue_count": 2,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+          "supporting_ids": [
+            "E01",
+            "E02"
+          ],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 2,
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "6e0073055ed942e1",
+        "issue_locator_response.json": "5951fe3bc1d46fa3",
+        "relation_response.json": "3379e4db199e7579",
+        "audit_report_response.json": "b2bdd51cee8f3df9",
+        "expectations.json": "975b6fe04002224f",
+        "case.json": "90544e0a37bfdd0f"
+      }
+    },
+    {
+      "name": "relation_wrong_encouragement",
+      "title": "已记录局限：模型对安全语境答错时 PEAD 无法纠正",
+      "what_it_tests": "动作与警示同属一个事件时不存在结构性冲突，PEAD 只认 referent_key。关系服务若高置信度地回答 encourages_same，警示素材会被判为诱导。本用例把这一局限固定下来：它说明 PEAD 的价值上界取决于事实解析给出的 referent_key 质量与关系核验的准确率，也说明为什么 H2 必须用真实数据评估。",
+      "duration_ms": 24000,
+      "coverage": "FULL",
+      "relation_status": "LIVE",
+      "semantic_check": "COMPLETE",
+      "candidate_pair_count": 2,
+      "cue_count": 3,
+      "active_findings": {
+        "R_DANGER_PROMOTION": {
+          "judgement": "SUPPORTED",
+          "disposition": "FLAG",
+          "reason_code": "RELATION_LINK_ASSISTED",
+          "supporting_ids": [
+            "E01",
+            "E02",
+            "E03"
+          ],
+          "counter_ids": []
+        }
+      },
+      "event_finding_count": 1,
+      "audit_verdict": "BLOCKED",
+      "audit_score": 20,
+      "audit_report_error": "",
+      "files": {
+        "video_parse_response.json": "7a52661a44060dfa",
+        "issue_locator_response.json": "8738a369943475d4",
+        "relation_response.json": "dd32163e34e95d2d",
+        "audit_report_response.json": "2c874b36ceeb2746",
+        "expectations.json": "610d923102bc884a",
+        "case.json": "e643c2fbd87cf9ca"
       }
     },
     {

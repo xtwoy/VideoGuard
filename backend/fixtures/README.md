@@ -62,7 +62,7 @@ fixtures/
 > `demo_video_parse_response.json` / `demo_issue_locator_response.json` 是 `/api/demo`
 > 正在使用的旧样例，未纳入本数据集的用例管理。
 
-## 十五个用例
+## 十七个用例
 
 | 用例 | 覆盖场景 | 期望结论 |
 | --- | --- | --- |
@@ -79,6 +79,8 @@ fixtures/
 | `fraud_scam_cue` | 口播引导参与无法核实的高收益活动 | `R_FRAUD_SCAM` = SUPPORTED / REVIEW |
 | `controlled_goods_cue` | 画面展示受控商品并提示可交易 | `R_CONTROLLED_GOODS` = SUPPORTED / REVIEW |
 | `minors_protection_cue` | 画面出现疑似未成年人风险线索 | `R_MINORS_PROTECTION` = SUPPORTED / FLAG |
+| `relation_override_conflict` | 模型对**不同事件**的两条线索硬说 `encourages_same` | **CONFLICTED / REVIEW**（PEAD 否决模型） |
+| `relation_wrong_encouragement` | 模型对**安全语境**错误回答 `encourages_same` | ⚠️ SUPPORTED / FLAG（**已记录局限**） |
 | `partial_coverage` | 覆盖 PARTIAL、音轨损坏 | 十类全部 UNKNOWN / RECHECK，**不得判为安全** |
 | `clean_negative` | 普通宠物日常，无任何线索 | 十类全部 NOT_SUPPORTED / NONE |
 
@@ -91,6 +93,35 @@ fixtures/
 `python -m unittest` 中的 `test_every_policy_is_exercised_by_some_case`
 会守住这一点，另有 `test_studied_risks_have_a_case_beyond_partial_coverage`
 确保四条重点风险不只依赖 `partial_coverage` 的 RECHECK。
+
+## PEAD 的覆盖机制与它的上界
+
+这两个用例是整套数据里唯一能回答"**为什么需要 PEAD，而不是直接信大模型**"的证据，
+它们是一对对照：
+
+| | `relation_override_conflict` | `relation_wrong_encouragement` |
+| --- | --- | --- |
+| 片段性质 | 危险动作与鼓励语分属**不同事件** | 安全教育短片，动作与警示**同一事件** |
+| `referent_key` | 两条线索不同 → **冲突** | 两条线索相同 → 一致 |
+| 模型回答 | `encourages_same`（0.94） | `encourages_same`（0.94） |
+| PEAD 结论 | **CONFLICTED / REVIEW** | SUPPORTED / FLAG |
+| 判定依据 | `RELATION_REFERENT_DISAGREEMENT`（结构性否决） | `RELATION_LINK_ASSISTED`（采纳模型） |
+
+**结论一（能力）：** 当事实解析给出的 `referent_key` 相互冲突时，PEAD 会否决模型的
+高置信度回答，只输出"语境冲突、转人工"，而不是给出强提示。模型置信度不能覆盖这一约束。
+
+**结论二（上界，必须如实说明）：** 安全性**完全取决于 `referent_key` 是否提供了冲突信号**。
+在安全语境下，动作与警示本就指向同一事件，不存在结构冲突；此时 PEAD 没有任何独立于
+模型的证据，只能采纳模型回答——**模型答错就是误报**。
+
+因此 PEAD 的价值上界 = 事实解析给出的事件指向质量 × 关系核验的准确率。
+这也正是 H2 必须用真实数据评估、而不能靠合成样例下结论的原因。
+
+> **已知改进缺口：** `config/policies_v03.json` 中 `R_DANGER_PROMOTION` 的
+> `warning_tags` 只配了 `["warning"]`；`education_context`、`news_context`、
+> `fiction_context` 只挂在 `R_VIOLENCE` 的 `context_tags` 下，不参与危险诱导的
+> 反证判断。若解析阶段把"请勿模仿"标成 `education_context` 而非 `warning`，
+> PEAD 就看不到这条反证。扩展反证语境的覆盖是当前最直接的改进方向。
 
 ## 曾经固定的缺陷（均已修复）
 

@@ -1,0 +1,14 @@
+{
+  "name": "relation_override_conflict",
+  "title": "对抗性：结构冲突时 PEAD 覆盖模型的错误自信回答",
+  "what_it_tests": "关系服务对两条指向**不同事件**的线索回答 encourages_same 时，PEAD 必须依据 referent_key 冲突否决该回答，判为语境冲突并转人工，不得仅凭模型置信度输出强提示。这是 PEAD 的覆盖机制，也是它相对“无约束大模型”的可验证增量。",
+  "duration_ms": 24000,
+  "relation_choice": {
+    "pair_0": "encourages_same"
+  },
+  "relation_status": "LIVE",
+  "semantic_check": "COMPLETE",
+  "candidate_pairs": [
+    "pair_0"
+  ]
+}

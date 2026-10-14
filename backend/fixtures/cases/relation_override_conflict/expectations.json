@@ -1,0 +1,17 @@
+{
+  "coverage": "FULL",
+  "findings": {
+    "R_DANGER_PROMOTION": [
+      "CONFLICTED",
+      "REVIEW"
+    ]
+  },
+  "active_finding_policies": [
+    "R_DANGER_PROMOTION"
+  ],
+  "event_findings_at_least": 0,
+  "cues": [
+    "E01",
+    "E02"
+  ]
+}

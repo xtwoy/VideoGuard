@@ -1,0 +1,45 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_EDU",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "素材画面出现危险动作。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    },
+    {
+      "cue_id": "E02",
+      "tag": "warning",
+      "event_id": "EVT_EDU",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F001"
+      ],
+      "observation": "旁白提醒不要模仿该动作。",
+      "verbatim_redacted": "请勿模仿",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E03",
+      "tag": "warning",
+      "event_id": "EVT_EDU",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F002"
+      ],
+      "observation": "旁白说明该行为非常危险。",
+      "verbatim_redacted": "这非常危险",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ],
+  "limitations": []
+}

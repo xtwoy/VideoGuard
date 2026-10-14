@@ -101,5 +101,39 @@ class FixturePackTests(unittest.TestCase):
                     f"{policy} is only exercised by the partial-coverage case")
 
 
+    # --- the mechanism that makes PEAD more than a model wrapper -------------
+
+    def _judgement_and_disposition(self, name: str) -> tuple[str, str]:
+        state = validate.simulate(
+            validate.load(name, "video_parse_response.json"),
+            validate.load(name, "issue_locator_response.json"),
+            case_defs.DURATION_MS,
+            relation_raw=validate.load(name, "relation_response.json"))
+        finding = next(f for f in state["findings"]
+                       if f["policy_id"] == "R_DANGER_PROMOTION")
+        return finding["judgement"], finding["disposition"]
+
+    def test_pead_overrides_a_confident_answer_the_structure_contradicts(self):
+        """A provider that is confidently wrong must not force a strong flag.
+
+        The two cues cite different referent keys, so the structural constraint
+        fires even though the provider answered ``encourages_same``.
+        """
+        self.assertEqual(self._judgement_and_disposition("relation_override_conflict"),
+                         ("CONFLICTED", "REVIEW"))
+
+    def test_known_limitation_model_error_on_warning_footage_is_not_corrected(self):
+        """The counterpart of the test above, and a limitation we publish.
+
+        When the action and the warning belong to the same event there is no
+        structural conflict, so PEAD has no independent signal and follows the
+        provider. If this ever starts behaving differently, update the limitation
+        note in fixtures/README.md rather than silently dropping it.
+        """
+        self.assertEqual(
+            self._judgement_and_disposition("relation_wrong_encouragement"),
+            ("SUPPORTED", "FLAG"))
+
+
 if __name__ == "__main__":
     unittest.main()
