@@ -100,13 +100,13 @@ def main() -> int:
             check("ten policies evaluated", len(result.get("findings", [])) == 10)
             check("event audit records present", len(result.get("event_findings", [])) == 5)
             check(
-                "omni marked synthetic",
-                result.get("meta", {}).get("omni") == "DEMO_SYNTHETIC",
+                "video parse marked synthetic",
+                result.get("meta", {}).get("video_parse") == "DEMO_SYNTHETIC",
                 json.dumps(result.get("meta", {}), ensure_ascii=False),
             )
             check(
-                "missing Jev key is a skip, not a failure",
-                result.get("meta", {}).get("jev") == "SKIPPED_NO_KEY",
+                "missing relation service is a skip, not a failure",
+                result.get("meta", {}).get("relation_check") == "SKIPPED_NO_KEY",
                 json.dumps(result.get("meta", {}), ensure_ascii=False),
             )
 
@@ -119,7 +119,7 @@ def main() -> int:
             check("report states it is synthetic", "合成演示" in body)
             check("report carries findings", "危险行为诱导" in body)
             check("report carries event audit", "事件级审计记录" in body)
-            check("report leaks no provider name", not any(w in body for w in ("Omni", "Jev", "Qwen")))
+            check("report leaks no internal stage code", "RELATION_CHECK_UNAVAILABLE" not in body)
             check("report leaks no internal policy id", "R_DANGER_PROMOTION" not in body)
 
             print("\n[4] upload validation (must reject before any model call)")
@@ -170,7 +170,7 @@ def main() -> int:
                           stored.get("result", {}).get("findings") == [])
                     check("real duration was probed before failure",
                           stored.get("duration_ms", 0) > 3000, str(stored.get("duration_ms")))
-                print("  NOTE  no usable DASHSCOPE key: this run proves the fail-closed path only.")
+                print("  NOTE  no usable video-model configuration: this run proves the fail-closed path only.")
             elif live.status_code == 422:
                 check("ffprobe must be installed", False, live.text)
             else:
