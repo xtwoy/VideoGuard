@@ -1,0 +1,10 @@
+{
+  "name": "fraud_scam_cue",
+  "title": "诈骗与高风险诱导线索（直接线索规则）",
+  "what_it_tests": "虚假获利、转账或高风险交易诱导线索应转为人工复核，且不得断言构成诈骗。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

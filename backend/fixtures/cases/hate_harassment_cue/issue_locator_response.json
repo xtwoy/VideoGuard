@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "hate_or_harassment",
+      "event_id": "EVT_MAIN",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "口播出现针对群体的贬损表述。",
+      "verbatim_redacted": "这类人就是不行",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

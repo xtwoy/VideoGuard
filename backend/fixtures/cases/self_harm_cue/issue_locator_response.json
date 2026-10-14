@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "self_harm_action",
+      "event_id": "EVT_MAIN",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "口播出现自伤相关线索。",
+      "verbatim_redacted": "我曾经有过这样的想法",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

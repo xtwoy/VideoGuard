@@ -1,0 +1,10 @@
+{
+  "name": "sexual_content_cue",
+  "title": "性内容风险线索（直接线索规则）",
+  "what_it_tests": "疑似不适宜的性内容或性暗示线索应转为标注关注，且不推断人物年龄。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

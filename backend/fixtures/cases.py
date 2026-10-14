@@ -19,8 +19,8 @@ every authored object through the project's own validators.
 from __future__ import annotations
 
 from fixtures._build import (
-    cue, event, fact, fact_catalog, issue_locator, quality, shot, trace,
-    video_parse,
+    MODALITY_FIELD, cue, event, fact, fact_catalog, issue_locator, quality, shot,
+    trace, video_parse,
 )
 
 DURATION_MS = 24_000
@@ -733,6 +733,249 @@ def _case_clean_negative() -> dict:
     }
 
 
+def _single_cue_case(*, title: str, what: str, opening: str, cue_span: tuple[int, int],
+                     scene: str, fact_summary: str, verbatim: str, modality: str,
+                     tag: str, cue_text: str,
+                     needs_human_review: bool = True) -> dict:
+    """One direct-cue policy in a four-shot video.
+
+    Used by the six single-cue policies. The shape is deliberately uniform so a
+    reader can diff two cases and see only the content change. The caller fills in
+    ``expectations`` because the expected policy outcome differs per rule.
+    """
+    opening_start, opening_end = 200, 4800
+    cue_start, cue_end = cue_span
+    closing_start, closing_end = 19_200, 23_500
+    # Map the cue modality onto the timeline field that carries it.
+    cue_field = MODALITY_FIELD[modality]
+    cue_is_audio = cue_field in ("speech_transcript", "audio_observations")
+    shots = [
+        shot("S001", 0, 6000, opening,
+             speech_transcript=[fact("F001", opening_start, opening_end,
+                                     "博主说明本期内容主题。",
+                                     verbatim="今天讲一个话题")],
+             quality_block=quality(audio_refs=["S001:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S002", 6000, 15_000, scene,
+             **{cue_field: [fact("F001", cue_start, cue_end, fact_summary,
+                                 verbatim=verbatim)]},
+             quality_block=quality(audio_refs=["S002:F001"] if cue_is_audio else [],
+                                   audio_status="PASS" if cue_is_audio else "MANUAL_REVIEW",
+                                   voice_clarity="PASS" if cue_is_audio else "NOT_APPLICABLE",
+                                   audio_evidence=("口播清晰。" if cue_is_audio
+                                                   else "该镜头无口播内容。"),
+                                   visual_refs=[] if cue_is_audio else ["S002:F001"],
+                                   visual_evidence=("该镜头无新增视觉判断。" if cue_is_audio
+                                                    else "画面主体清晰。"))),
+        shot("S003", 15_000, 19_000, "补充说明",
+             speech_transcript=[fact("F001", 15_200, 18_800, "博主补充说明相关内容。",
+                                     verbatim="以上就是相关说明")],
+             quality_block=quality(audio_refs=["S003:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+        shot("S004", 19_000, 24_000, "收尾",
+             speech_transcript=[fact("F001", closing_start, closing_end,
+                                     "博主结束视频。", verbatim="今天就到这里")],
+             quality_block=quality(audio_refs=["S004:F001"],
+                                   visual_evidence="该镜头无新增视觉判断。")),
+    ]
+    refs = ["S002:F001"]
+    parse = video_parse(
+        shots=shots,
+        events=[event("EVT_MAIN", 6000, 15_000, "single_cue",
+                      fact_summary, refs, stance="UNKNOWN",
+                      target_relation="UNCERTAIN", referent_key="EVT_MAIN")],
+        summary=_summary(fact_summary, refs, fact_catalog(shots)),
+        content_analysis=_analysis(
+            f"素材为口播与{cue_text}，包含一处需要人工核对的线索。",
+            ["口播讲解", cue_text],
+            fact_catalog(shots), _clean_structure(), refs,
+            section_refs={"hook": ["S001:F001"]},
+        ),
+        video_end_ms=DURATION_MS,
+    )
+    locator = issue_locator([
+        cue("E01", tag, "EVT_MAIN", modality, refs, cue_text,
+            verbatim=verbatim, needs_human_review=needs_human_review),
+    ])
+    return {
+        "title": title,
+        "what_it_tests": what,
+        "video_parse": parse,
+        "issue_locator": locator,
+        "relation_choice": None,
+        "expectations": {},
+    }
+
+
+# ===========================================================================
+# Case 9: self-harm cue
+# ===========================================================================
+
+
+def _case_self_harm_cue() -> dict:
+    case = _single_cue_case(
+        title="自伤风险线索（直接线索规则）",
+        what="自伤相关线索应转为标注关注，且不得描述具体实施细节。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="口播提到自伤相关内容",
+        fact_summary="博主提到自伤相关状态，未描述具体实施方法。",
+        verbatim="我曾经有过这样的想法",
+        modality="speech",
+        tag="self_harm_action",
+        cue_text="口播出现自伤相关线索。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_SELF_HARM": ["SUPPORTED", "FLAG"]},
+        "active_finding_policies": ["R_SELF_HARM"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
+# ===========================================================================
+# Case 10: sexual content cue
+# ===========================================================================
+
+
+def _case_sexual_content_cue() -> dict:
+    case = _single_cue_case(
+        title="性内容风险线索（直接线索规则）",
+        what="疑似不适宜的性内容或性暗示线索应转为标注关注，且不推断人物年龄。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="画面出现性暗示表述",
+        fact_summary="画面文字出现明显的性暗示表述，未涉及未成年人线索。",
+        verbatim="今晚来点刺激的",
+        modality="screen_text",
+        tag="sexual_content",
+        cue_text="屏幕文字出现性暗示内容。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_SEXUAL_CONTENT": ["SUPPORTED", "FLAG"]},
+        "active_finding_policies": ["R_SEXUAL_CONTENT"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
+# ===========================================================================
+# Case 11: hate or harassment cue
+# ===========================================================================
+
+
+def _case_hate_harassment_cue() -> dict:
+    case = _single_cue_case(
+        title="仇恨与骚扰线索（直接线索规则）",
+        what="针对个人或群体的侮辱、歧视线索应转为人工复核。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="口播出现针对特定群体的贬损表述",
+        fact_summary="口播出现针对某一群体的贬损性表述。",
+        verbatim="这类人就是不行",
+        modality="speech",
+        tag="hate_or_harassment",
+        cue_text="口播出现针对群体的贬损表述。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_HATE_HARASSMENT": ["SUPPORTED", "REVIEW"]},
+        "active_finding_policies": ["R_HATE_HARASSMENT"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
+# ===========================================================================
+# Case 12: fraud or scam cue
+# ===========================================================================
+
+
+def _case_fraud_scam_cue() -> dict:
+    case = _single_cue_case(
+        title="诈骗与高风险诱导线索（直接线索规则）",
+        what="虚假获利、转账或高风险交易诱导线索应转为人工复核，且不得断言构成诈骗。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="口播引导参与无法核实的高收益活动",
+        fact_summary="口播引导观众参与无法核实的高收益活动。",
+        verbatim="投进来就能翻倍，稳赚不赔",
+        modality="speech",
+        tag="financial_inducement",
+        cue_text="口播出现高收益诱导表述。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_FRAUD_SCAM": ["SUPPORTED", "REVIEW"]},
+        "active_finding_policies": ["R_FRAUD_SCAM"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
+# ===========================================================================
+# Case 13: controlled goods cue
+# ===========================================================================
+
+
+def _case_controlled_goods_cue() -> dict:
+    case = _single_cue_case(
+        title="受控商品风险线索（直接线索规则）",
+        what="展示、交易或引导获取受控商品的线索应转为人工复核，且不输出获取方式。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="画面展示受控商品并提示可交易",
+        fact_summary="画面展示疑似受控商品，并出现可交易的提示。",
+        verbatim="需要的话私信我",
+        modality="visual",
+        tag="controlled_goods",
+        cue_text="画面出现受控商品展示与交易提示。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_CONTROLLED_GOODS": ["SUPPORTED", "REVIEW"]},
+        "active_finding_policies": ["R_CONTROLLED_GOODS"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
+# ===========================================================================
+# Case 14: minors protection cue
+# ===========================================================================
+
+
+def _case_minors_protection_cue() -> dict:
+    case = _single_cue_case(
+        title="未成年人保护线索（直接线索规则）",
+        what="可能涉及未成年人不适宜或人身安全风险的线索应转为标注关注，"
+             "不确定年龄时必须说明不确定性。",
+        opening="博主在室内开场",
+        cue_span=(6200, 14_500),
+        scene="画面出现疑似未成年人不适宜内容",
+        fact_summary="画面出现疑似由未成年人参与的不适宜场景，年龄无法确认。",
+        verbatim="",
+        modality="visual",
+        tag="minor_risk",
+        cue_text="画面出现可能涉及未成年人的风险线索。",
+    )
+    case["expectations"] = {
+        "coverage": "FULL",
+        "findings": {"R_MINORS_PROTECTION": ["SUPPORTED", "FLAG"]},
+        "active_finding_policies": ["R_MINORS_PROTECTION"],
+        "event_findings_at_least": 1,
+        "cues": ["E01"],
+    }
+    return case
+
+
 CASES = {
     "danger_promotion": _case_danger_promotion,
     "warning_context": _case_warning_context,
@@ -741,6 +984,12 @@ CASES = {
     "news_violence": _case_news_violence,
     "privacy_screen_text": _case_privacy_screen_text,
     "credential_claim": _case_credential_claim,
+    "self_harm_cue": _case_self_harm_cue,
+    "sexual_content_cue": _case_sexual_content_cue,
+    "hate_harassment_cue": _case_hate_harassment_cue,
+    "fraud_scam_cue": _case_fraud_scam_cue,
+    "controlled_goods_cue": _case_controlled_goods_cue,
+    "minors_protection_cue": _case_minors_protection_cue,
     "partial_coverage": _case_partial_coverage,
     "clean_negative": _case_clean_negative,
 }

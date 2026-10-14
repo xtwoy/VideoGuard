@@ -1,0 +1,16 @@
+{
+  "coverage": "FULL",
+  "findings": {
+    "R_HATE_HARASSMENT": [
+      "SUPPORTED",
+      "REVIEW"
+    ]
+  },
+  "active_finding_policies": [
+    "R_HATE_HARASSMENT"
+  ],
+  "event_findings_at_least": 1,
+  "cues": [
+    "E01"
+  ]
+}

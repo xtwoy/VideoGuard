@@ -1,0 +1,573 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "MANUAL_REVIEW",
+  "overall_score": 55,
+  "executive_summary": "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S002:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S003:F001",
+            "S004:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 18800,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            },
+            {
+              "start_ms": 19200,
+              "end_ms": 23500,
+              "evidence_refs": [
+                "S004:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S002:F001",
+        "S001:F001",
+        "S003:F001",
+        "S004:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 18800,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 19200,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S004:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_E01",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E01 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "E01"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 55,
+      "status": "MANUAL_REVIEW",
+      "summary": "安全风险控制中部分子项需要人工复核。",
+      "items": [
+        {
+          "key": "finding_R_CONTROLLED_GOODS",
+          "label": "受控商品风险",
+          "score": 55,
+          "status": "MANUAL_REVIEW",
+          "summary": "观察到可能涉及受控商品展示、交易或引导的线索。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "E01"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_MAIN"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6000,
+              "end_ms": 15000,
+              "evidence_refs": [
+                "EVT_MAIN"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_MAIN"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6000,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "EVT_MAIN"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "material_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已评估素材完整性，未发现需要处理的已定位问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "素材完整性",
+          "score": 90,
+          "status": "PASS",
+          "summary": "已评估素材完整性，未发现需要处理的已定位问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "narrative_structure": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已评估内容结构，未发现需要处理的已定位问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "内容结构",
+          "score": 90,
+          "status": "PASS",
+          "summary": "已评估内容结构，未发现需要处理的已定位问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "hook_clarity": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已评估开头信息建立，未发现需要处理的已定位问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "开头信息建立",
+          "score": 90,
+          "status": "PASS",
+          "summary": "已评估开头信息建立，未发现需要处理的已定位问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "subject_presentation": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "已评估主体展示，未发现需要处理的已定位问题。",
+      "items": [
+        {
+          "key": "observed_result",
+          "label": "主体展示",
+          "score": 90,
+          "status": "PASS",
+          "summary": "已评估主体展示，未发现需要处理的已定位问题。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 70,
+      "status": "WARNING",
+      "summary": "部分镜头的音画可读性需要人工回看。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 70,
+          "status": "WARNING",
+          "summary": "部分镜头的音画信息需要人工回看。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 200,
+              "end_ms": 4800,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 200,
+          "end_ms": 4800,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [
+    {
+      "id": "R01",
+      "section": "画面展示疑似受控商品，并出现可交易的提示。",
+      "scope": "EVENT",
+      "event_id": "EVT_MAIN",
+      "video": {
+        "summary": "画面展示疑似受控商品，并出现可交易的提示。",
+        "time_ranges": [
+          {
+            "start_ms": 6000,
+            "end_ms": 15000,
+            "evidence_refs": [
+              "EVT_MAIN"
+            ]
+          }
+        ]
+      },
+      "issues": [
+        {
+          "id": "I01",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_CONTROLLED_GOODS"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P1",
+          "category": "受控商品风险",
+          "title": "受控商品风险",
+          "description": "观察到可能涉及受控商品展示、交易或引导的线索。",
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E01",
+              "type": "OBSERVATION",
+              "content": "画面出现受控商品展示与交易提示。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 14500,
+                  "evidence_refs": [
+                    "E01"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F001",
+              "type": "FACT",
+              "content": "画面展示疑似受控商品，并出现可交易的提示。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 14500,
+                  "evidence_refs": [
+                    "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "REMOVE",
+          "detail": "移除或替换对应的引导性表述及其关联内容，避免继续传播该风险线索。",
+          "target_time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "回看对应片段时，已不再保留原有引导性表述或关联呈现。"
+        }
+      ]
+    }
+  ],
+  "overall_direction": "先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。",
+  "limitations": [
+    "该报告由机器观察和规则结果生成，需回看原视频并进行人工复核。"
+  ]
+}

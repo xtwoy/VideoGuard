@@ -1,0 +1,10 @@
+{
+  "name": "minors_protection_cue",
+  "title": "未成年人保护线索（直接线索规则）",
+  "what_it_tests": "可能涉及未成年人不适宜或人身安全风险的线索应转为标注关注，不确定年龄时必须说明不确定性。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

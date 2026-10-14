@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "controlled_goods",
+      "event_id": "EVT_MAIN",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "画面出现受控商品展示与交易提示。",
+      "verbatim_redacted": "需要的话私信我",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

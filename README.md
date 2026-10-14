@@ -33,7 +33,7 @@ VideoGuard-E-v0.6/
 │   ├── src/                     # PEAD、结果融合、各阶段适配器、报告校验、脱敏
 │   ├── config/policies_v03.json
 │   ├── prompts/                 # 各阶段系统提示词与输出协议 schema
-│   ├── fixtures/                # 9 个可复用样例用例 + 生成/校验工具
+│   ├── fixtures/                # 15 个可复用样例用例 + 生成/校验工具
 │   ├── tests/                   # 单元测试 + smoke_live.py 真实 HTTP 冒烟检查
 │   ├── requirements.txt
 │   ├── pyproject.toml            # uv 项目定义（不打包，仅用于锁定依赖）
@@ -138,14 +138,14 @@ npm run lint
 npm run build
 ```
 
-后端测试当前 52 项，分四部分：
+后端测试当前 53 项，分四部分：
 
 | 文件 | 项数 | 覆盖 |
 | --- | --- | --- |
 | `tests/test_mvp.py` | 17 | 四阶段协议：分镜连续编号、FULL 覆盖连续性、画质证据不得跨分镜、问题定位引用校验、关系请求/响应类型、审核报告维度证据、整改计划覆盖、不相连证据范围、内嵌报告模式 |
 | `tests/test_http_surface.py` | 18 | HTTP 接口与失败路径：上传校验（授权/空文件/扩展名/容器签名/6MB 边界）、文件名净化、成功落库与 SHA256、模型失败必须落 ERROR 且不得读成安全、错误摘要不泄露密钥、失败记录仍可导出报告、HTML 转义 |
 | `tests/test_audit_report_regressions.py` | 10 | 已修复缺陷的回归：无事件归属的 finding 仍能出报告、每个问题都带证据、父维度必须聚合子项、未观察模态不得评为通过、未评估维度阻止可发布结论 |
-| `tests/test_fixture_pack.py` + `test_event_audit.py` | 7 | 样例数据集回归与事件级审计 |
+| `tests/test_fixture_pack.py` + `test_event_audit.py` | 8 | 样例数据集回归（含十条策略覆盖守护）与事件级审计 |
 
 **任何实际接入的视频解析、问题定位或问题汇总服务，都必须使用自己的 Key 单独联调。**
 `ffprobe` 相关路径由 `tests/smoke_live.py` 覆盖（单元测试中一律打桩，因此套件不需要 ffprobe）。
@@ -157,7 +157,7 @@ npm run build
 .venv/Scripts/python.exe tests/smoke_live.py --base http://127.0.0.1:8000
 ```
 
-**样例数据集（无 API Key 也能演示与调试）**，9 个用例覆盖核心研究场景与关键边界行为：
+**样例数据集（无 API Key 也能演示与调试）**，15 个用例覆盖十条风险策略、核心研究场景与关键边界行为：
 
 ```bash
 .venv/Scripts/python.exe -m fixtures.validate          # 走真实流水线并核对期望值

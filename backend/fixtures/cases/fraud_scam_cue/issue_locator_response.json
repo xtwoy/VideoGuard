@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "financial_inducement",
+      "event_id": "EVT_MAIN",
+      "modality": "speech",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "口播出现高收益诱导表述。",
+      "verbatim_redacted": "投进来就能翻倍，稳赚不赔",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

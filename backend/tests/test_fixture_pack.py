@@ -77,14 +77,28 @@ class FixturePackTests(unittest.TestCase):
         self.assertEqual(disposition(answered), "NONE")
         self.assertEqual(disposition(unanswered), "REVIEW")
 
-    def test_studied_risks_are_exercised_by_some_case(self):
+    def test_every_policy_is_exercised_by_some_case(self):
+        """All ten policies must have a case asserting a non-NONE disposition.
+
+        The four studied risks are required to have a substantive positive case;
+        the six direct-cue policies are covered by their own single-cue cases.
+        """
+        matrix = validate.policy_matrix()
+        for policy in case_defs.ALL_POLICIES:
+            with self.subTest(policy=policy):
+                self.assertTrue(
+                    matrix[policy],
+                    f"{policy} has no case with a non-NONE disposition")
+
+    def test_studied_risks_have_a_case_beyond_partial_coverage(self):
+        """The four studied risks must not rely on RECHECK alone."""
         matrix = validate.policy_matrix()
         for policy in ("R_DANGER_PROMOTION", "R_VIOLENCE",
                        "R_PRIVACY_EXPOSURE", "R_MARKETING_CLAIM"):
             with self.subTest(policy=policy):
                 self.assertTrue(
-                    matrix[policy],
-                    f"{policy} has no case with a non-NONE disposition")
+                    [name for name in matrix[policy] if name != "partial_coverage"],
+                    f"{policy} is only exercised by the partial-coverage case")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,16 @@
+{
+  "coverage": "FULL",
+  "findings": {
+    "R_SELF_HARM": [
+      "SUPPORTED",
+      "FLAG"
+    ]
+  },
+  "active_finding_policies": [
+    "R_SELF_HARM"
+  ],
+  "event_findings_at_least": 1,
+  "cues": [
+    "E01"
+  ]
+}

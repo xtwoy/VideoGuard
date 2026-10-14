@@ -1,0 +1,10 @@
+{
+  "name": "controlled_goods_cue",
+  "title": "受控商品风险线索（直接线索规则）",
+  "what_it_tests": "展示、交易或引导获取受控商品的线索应转为人工复核，且不输出获取方式。",
+  "duration_ms": 24000,
+  "relation_choice": null,
+  "relation_status": "NOT_NEEDED",
+  "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+  "candidate_pairs": []
+}

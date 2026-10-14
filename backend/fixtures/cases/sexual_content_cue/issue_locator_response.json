@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "sexual_content",
+      "event_id": "EVT_MAIN",
+      "modality": "screen_text",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "屏幕文字出现性暗示内容。",
+      "verbatim_redacted": "今晚来点刺激的",
+      "time_confidence": "HIGH",
+      "needs_human_review": true
+    }
+  ],
+  "limitations": []
+}

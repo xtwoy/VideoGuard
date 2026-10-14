@@ -62,7 +62,7 @@ fixtures/
 > `demo_video_parse_response.json` / `demo_issue_locator_response.json` 是 `/api/demo`
 > 正在使用的旧样例，未纳入本数据集的用例管理。
 
-## 九个用例
+## 十五个用例
 
 | 用例 | 覆盖场景 | 期望结论 |
 | --- | --- | --- |
@@ -73,12 +73,24 @@ fixtures/
 | `news_violence` | 新闻语境下的冲突画面 | `R_VIOLENCE` = SUPPORTED / REVIEW |
 | `privacy_screen_text` | 仅屏幕文字出现疑似手机号 | `R_PRIVACY_EXPOSURE` = SUPPORTED / FLAG |
 | `credential_claim` | 自称专业资质＋绝对化营销表述 | `R_MARKETING_CLAIM` = SUPPORTED / VERIFY_EXTERNAL |
+| `self_harm_cue` | 口播出现自伤相关线索，未描述实施方法 | `R_SELF_HARM` = SUPPORTED / FLAG |
+| `sexual_content_cue` | 屏幕文字出现性暗示内容 | `R_SEXUAL_CONTENT` = SUPPORTED / FLAG |
+| `hate_harassment_cue` | 口播出现针对群体的贬损表述 | `R_HATE_HARASSMENT` = SUPPORTED / REVIEW |
+| `fraud_scam_cue` | 口播引导参与无法核实的高收益活动 | `R_FRAUD_SCAM` = SUPPORTED / REVIEW |
+| `controlled_goods_cue` | 画面展示受控商品并提示可交易 | `R_CONTROLLED_GOODS` = SUPPORTED / REVIEW |
+| `minors_protection_cue` | 画面出现疑似未成年人风险线索 | `R_MINORS_PROTECTION` = SUPPORTED / FLAG |
 | `partial_coverage` | 覆盖 PARTIAL、音轨损坏 | 十类全部 UNKNOWN / RECHECK，**不得判为安全** |
 | `clean_negative` | 普通宠物日常，无任何线索 | 十类全部 NOT_SUPPORTED / NONE |
 
-覆盖矩阵（`--matrix`）显示 `R_SELF_HARM`、`R_SEXUAL_CONTENT`、`R_HATE_HARASSMENT`、
-`R_FRAUD_SCAM`、`R_CONTROLLED_GOODS`、`R_MINORS_PROTECTION` 目前只由
-`partial_coverage` 的 RECHECK 覆盖，**尚无正面用例**——需要时按同样方式补充。
+后六个用例由 `_single_cue_case` 生成，四镜结构完全一致，两个用例之间的差异只有
+线索内容与期望策略，便于逐步 diff 阅读。它们的期望处置由
+`config/policies_v03.json` 的 `disposition` 决定：`FLAG` 类策略使报告总评为
+`BLOCKED`，`REVIEW` 类为 `MANUAL_REVIEW`。
+
+**覆盖矩阵（`--matrix`）现在十条策略全部有用例覆盖，无缺口。**
+`python -m unittest` 中的 `test_every_policy_is_exercised_by_some_case`
+会守住这一点，另有 `test_studied_risks_have_a_case_beyond_partial_coverage`
+确保四条重点风险不只依赖 `partial_coverage` 的 RECHECK。
 
 ## 曾经固定的缺陷（均已修复）
 
