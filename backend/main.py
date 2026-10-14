@@ -28,7 +28,9 @@ ALLOWED_SUFFIXES = {".mp4", ".mov", ".webm"}
 app = FastAPI(title="VideoGuard-E",version="0.6.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
+    # Next development servers may choose another free local port. Keep this
+    # prototype local-only while permitting those loopback origins.
+    allow_origin_regex=r"^http://(127\.0\.0\.1|localhost):\d+$",
     allow_methods=["GET","POST"],
     allow_headers=["Content-Type"]
 )
@@ -108,12 +110,12 @@ def create_review(
         status,error="DONE",""
     except Exception as error_obj:
         status="ERROR"
-        error=("未配置阿里云百炼API环境变量"
-               if "未配置阿里云" in str(error_obj)
+        error=("未配置视频模型API环境变量"
+               if "未配置视频模型" in str(error_obj)
                else "模型调用或输出解析失败，请检查API权限、额度、网络或日志")
         result={"coverage":"ERROR","observations":[],"findings":[],
-                "recommendations":[],"meta":{"omni":"ERROR","jev":"NOT_RUN",
-                                              "max":"NOT_RUN"}}
+                "audit_report":None,"meta":{"video_parse":"ERROR","issue_locator":"NOT_RUN","relation_check":"NOT_RUN",
+                                               "audit_report":"NOT_RUN"}}
     record={
         "id":review_id,"video_name":filename,
         "sha256":hashlib.sha256(contents).hexdigest(),
@@ -148,7 +150,9 @@ def report(review_id: str):
     return HTMLResponse(
         render_html(record),
         headers={
-            "Content-Disposition":f'attachment; filename="VideoGuard-{record["id"][:12]}.html"',
+            # The same endpoint feeds the in-app iframe and the “open in new tab” view.
+            # Forcing an attachment makes the iframe blank in standard browsers.
+            "Content-Disposition":f'inline; filename="VideoGuard-{record["id"][:12]}.html"',
             "X-Content-Type-Options":"nosniff"
         }
     )
