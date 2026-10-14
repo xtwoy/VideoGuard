@@ -28,10 +28,23 @@ def relation_gap_ms()->int:
     return params.relation_gap_ms()
 
 def _f(policy_id: str, judgement: str, disposition: str,
-       reason_code: str, supporting=(), counter=()) -> dict:
+       reason_code: str, supporting=(), counter=(), *,
+       counter_checked: bool = False, counter_source: str = "NOT_APPLICABLE",
+       relation_checked: bool = False) -> dict:
+    """Build one finding, including the provenance of its counter evidence.
+
+    ``counter_ids`` being empty is ambiguous on its own: it can mean "the counter
+    evidence was looked for and none exists" or "this rule never looks for counter
+    evidence". ``counter_checked`` records which, so a reader — or an auditor —
+    can tell an examined absence from an unexamined one.
+    """
     return dict(policy_id=policy_id, judgement=judgement, disposition=disposition,
                 reason_code=reason_code, supporting_ids=list(supporting),
-                counter_ids=list(counter))
+                counter_ids=list(counter),
+                counter_evidence=dict(checked=counter_checked,
+                                      source=counter_source,
+                                      found=bool(counter),
+                                      relation_checked=relation_checked))
 
 def _valid_obs(e: dict, duration_ms: int) -> bool:
     if not isinstance(e,dict) or not isinstance(e.get("id"),str) or not e["id"]:
@@ -102,21 +115,37 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
             if matches and related_counter:
                 ids=sorted({x["id"] for pair in matches for x in pair})
                 findings.append(_f(p,"CONFLICTED","REVIEW","CONFLICTING_STANCE",
-                                   ids,sorted({x["id"] for x in related_counter})))
+                                   ids,sorted({x["id"] for x in related_counter}),
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS",
+                                   relation_checked=True))
             elif matches:
                 ids=sorted({x["id"] for pair in matches for x in pair})
-                findings.append(_f(p,"SUPPORTED","FLAG","RELATED_ACTION_AND_PROMOTION",ids))
+                findings.append(_f(p,"SUPPORTED","FLAG","RELATED_ACTION_AND_PROMOTION",ids,
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS",
+                                   relation_checked=True))
             elif (actions and promos and not matches) or (
                 invalid_tags & set(policies[p]["action_tags"]+
                                    policies[p]["promotion_tags"]+
                                    list(counter_tags))):
-                findings.append(_f(p,"INSUFFICIENT","REVIEW","MISSING_SEMANTIC_RELATION"))
+                findings.append(_f(p,"INSUFFICIENT","REVIEW","MISSING_SEMANTIC_RELATION",
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS",
+                                   relation_checked=True))
             elif coverage!="FULL":
-                findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
+                findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION",
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS"))
             elif actions and any(not _located(e) for e in all_with_tag("encouragement","challenge")):
-                findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_PROMOTION"))
+                findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_PROMOTION",
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS"))
             else:
-                findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_SUPPORTING_RELATION"))
+                findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_SUPPORTING_RELATION",
+                                   counter_checked=True,
+                                   counter_source="COUNTER_CONTEXT_TAGS",
+                                   relation_checked=True))
         elif p=="R_VIOLENCE":
             acts=[e for e in tags(*policies[p]["action_tags"]) if e["modality"]=="visual"]
             if acts:
@@ -124,17 +153,22 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
                           any(_same_referent(e,a) and _near(e,a,gap_ms) for a in acts)]
                 if contexts:
                     findings.append(_f(p,"SUPPORTED","REVIEW","DEPICTION_WITH_CONTEXT",
-                                      [x["id"] for x in acts],[x["id"] for x in contexts]))
+                                      [x["id"] for x in acts],[x["id"] for x in contexts],
+                                      counter_checked=True, counter_source="CONTEXT_TAGS"))
                 else:
                     findings.append(_f(p,"SUPPORTED","FLAG","VIOLENCE_DEPICTION",
-                                      [x["id"] for x in acts]))
+                                      [x["id"] for x in acts],
+                                      counter_checked=True, counter_source="CONTEXT_TAGS"))
             elif all_with_tag("violence") or (
                 invalid_tags & set(policies[p]["action_tags"])):
-                findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED"))
+                findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED",
+                                   counter_checked=True, counter_source="CONTEXT_TAGS"))
             elif coverage!="FULL":
-                findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
+                findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION",
+                                   counter_checked=True, counter_source="CONTEXT_TAGS"))
             else:
-                findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_OBSERVED_VIOLENCE"))
+                findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_OBSERVED_VIOLENCE",
+                                   counter_checked=True, counter_source="CONTEXT_TAGS"))
         elif p=="R_PRIVACY_EXPOSURE":
             pii=[e for e in tags(*policies[p]["action_tags"]) if e["modality"] in {"visual","screen_text","speech"}]
             if pii:

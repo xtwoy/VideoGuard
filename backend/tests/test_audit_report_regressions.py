@@ -162,5 +162,51 @@ class UnevaluatedDimensionTests(unittest.TestCase):
         self.assertEqual(report["overall_verdict"], "PUBLISHABLE")
 
 
+class CounterEvidenceProvenanceInReportTests(unittest.TestCase):
+    """The report must state whether counter evidence was searched for.
+
+    An empty counter list is ambiguous without this: "searched and none exists"
+    and "never searched" are different facts about a finding.
+    """
+
+    def _report_with(self, block: dict | None) -> dict:
+        located = _located()
+        finding = _finding("R_DANGER_PROMOTION", "SUPPORTED", "FLAG",
+                           "RELATED_ACTION_AND_PROMOTION", ["E01", "E02"])
+        if block is not None:
+            finding["counter_evidence"] = block
+        return build_fallback_audit_report(located, [finding], DURATION_MS)
+
+    def test_plan_carries_the_provenance_block(self):
+        block = self._report_with({
+            "checked": True, "source": "COUNTER_CONTEXT_TAGS",
+            "found": False, "relation_checked": True})["revision_plan"][0]["counter_evidence"]
+        self.assertTrue(block["checked"])
+        self.assertEqual(block["source"], "COUNTER_CONTEXT_TAGS")
+        self.assertFalse(block["found"])
+        self.assertTrue(block["relation_checked"])
+
+    def test_missing_provenance_is_reported_as_not_checked(self):
+        block = self._report_with(None)["revision_plan"][0]["counter_evidence"]
+        self.assertFalse(block["checked"])
+        self.assertEqual(block["source"], "NOT_CHECKED")
+
+    def test_unknown_source_is_normalised(self):
+        block = self._report_with({"checked": True, "source": "INVENTED",
+                                   "found": True, "relation_checked": False}
+                                  )["revision_plan"][0]["counter_evidence"]
+        self.assertEqual(block["source"], "NOT_CHECKED")
+
+    def test_html_report_distinguishes_the_two_readings(self):
+        from report import counter_evidence
+
+        checked = counter_evidence({"checked": True, "source": "CONTEXT_TAGS",
+                                    "found": False, "relation_checked": False})
+        unchecked = counter_evidence({"checked": False, "source": "NOT_CHECKED",
+                                      "found": False, "relation_checked": False})
+        self.assertIn("已检查，未发现", checked)
+        self.assertIn("未执行反证检查", unchecked)
+
+
 if __name__ == "__main__":
     unittest.main()

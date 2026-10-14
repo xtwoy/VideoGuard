@@ -80,5 +80,56 @@ class RelationParameterTests(unittest.TestCase):
             self.assertIn("环境变量", config.describe()["relation_gap_ms"]["source"])
 
 
+class CounterEvidenceProvenanceTests(unittest.TestCase):
+    """An empty counter list must say whether anyone looked.
+
+    ``counter_ids == []`` is ambiguous on its own. These tests pin the field that
+    removes the ambiguity, so a report can distinguish an examined absence from an
+    unexamined one.
+    """
+
+    def _findings(self, case_name: str) -> dict:
+        from fixtures import cases as case_defs
+        from pipeline import clean_issue_locator, clean_video_parse
+        from src.pead_engine import assess
+
+        case = case_defs.CASES[case_name]()
+        located = clean_issue_locator(
+            case["issue_locator"],
+            clean_video_parse(case["video_parse"], case_defs.DURATION_MS))
+        return {f["policy_id"]: f for f in assess(located, case_defs.DURATION_MS)["findings"]}
+
+    def test_every_finding_carries_provenance(self):
+        for policy_id, finding in self._findings("danger_promotion").items():
+            with self.subTest(policy=policy_id):
+                block = finding.get("counter_evidence")
+                self.assertIsInstance(block, dict)
+                for key in ("checked", "source", "found", "relation_checked"):
+                    self.assertIn(key, block)
+
+    def test_policies_that_search_for_counter_evidence_say_so(self):
+        findings = self._findings("danger_promotion")
+        self.assertEqual(
+            findings["R_DANGER_PROMOTION"]["counter_evidence"],
+            {"checked": True, "source": "COUNTER_CONTEXT_TAGS",
+             "found": False, "relation_checked": True})
+        self.assertEqual(findings["R_VIOLENCE"]["counter_evidence"]["source"],
+                         "CONTEXT_TAGS")
+
+    def test_policies_without_a_counter_notion_are_marked_not_applicable(self):
+        findings = self._findings("danger_promotion")
+        block = findings["R_PRIVACY_EXPOSURE"]["counter_evidence"]
+        self.assertFalse(block["checked"])
+        self.assertEqual(block["source"], "NOT_APPLICABLE")
+
+    def test_found_flag_matches_the_counter_id_list(self):
+        """The flag is derived from the ids, so the two can never disagree."""
+        for case_name in ("danger_promotion", "warning_context", "counter_context_tagging"):
+            for policy_id, finding in self._findings(case_name).items():
+                with self.subTest(case=case_name, policy=policy_id):
+                    self.assertEqual(finding["counter_evidence"]["found"],
+                                     bool(finding["counter_ids"]))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -597,6 +597,12 @@
           }
         ]
       },
+      "counter_evidence": {
+        "checked": true,
+        "source": "COUNTER_CONTEXT_TAGS",
+        "found": true,
+        "relation_checked": true
+      },
       "issues": [
         {
           "id": "I01",

@@ -615,6 +615,12 @@
         "summary": "该问题缺少可归属的独立视频事件。",
         "time_ranges": []
       },
+      "counter_evidence": {
+        "checked": true,
+        "source": "COUNTER_CONTEXT_TAGS",
+        "found": false,
+        "relation_checked": false
+      },
       "issues": [
         {
           "id": "I01",

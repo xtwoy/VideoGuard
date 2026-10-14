@@ -93,13 +93,41 @@ def action_card(raw: dict) -> str:
 <p><b>验收标准：</b>{h(raw.get('acceptance_criteria'))}</p></article>"""
 
 
+COUNTER_SOURCE_LABELS = {
+    "COUNTER_CONTEXT_TAGS": "警示或教育、新闻、影视等语境线索",
+    "CONTEXT_TAGS": "新闻、影视或教育语境线索",
+    "NOT_APPLICABLE": "该审核项不涉及反证",
+    "NOT_CHECKED": "未执行反证检查",
+}
+
+
+def counter_evidence(raw: object) -> str:
+    """State whether counter evidence was searched for, and what it found.
+
+    An empty counter list is ambiguous without this line: it can mean "searched
+    and none exists" or "never searched". The report must not blur the two.
+    """
+    if not isinstance(raw, dict):
+        return ""
+    source = COUNTER_SOURCE_LABELS.get(raw.get("source"), raw.get("source"))
+    if not raw.get("checked"):
+        verdict = "本次未执行反证检查，不能据此认为不存在反向语境。"
+    elif raw.get("found"):
+        verdict = "已找到反向语境证据，见问题定位中的反向证据。"
+    else:
+        verdict = "已检查，未发现反向语境证据。"
+    relation = "已调用语义关系核验。" if raw.get("relation_checked") else "本项不涉及语义关系核验。"
+    return (f"<p class=\"muted\"><b>反证检查：</b>{h(verdict)}"
+            f"（检查范围：{h(source)}；{h(relation)}）</p>")
+
+
 def plan_card(raw: dict) -> str:
     video = raw.get("video") if isinstance(raw.get("video"), dict) else {}
     issues = raw.get("issues") if isinstance(raw.get("issues"), list) else []
     actions = raw.get("actions") if isinstance(raw.get("actions"), list) else []
     return f"""<section class="plan"><div class="plan-head"><div><h3>{h(raw.get('section') or '审核项')}</h3>
 <span class="muted">{h(raw.get('id'))} · {h(raw.get('scope'))}</span></div><div>{ranges(video.get('time_ranges'))}</div></div>
-<p>{h(video.get('summary'))}</p><h4>问题定位</h4>{''.join(issue_card(item) for item in issues if isinstance(item, dict))}
+<p>{h(video.get('summary'))}</p>{counter_evidence(raw.get('counter_evidence'))}<h4>问题定位</h4>{''.join(issue_card(item) for item in issues if isinstance(item, dict))}
 <h4>处理动作</h4>{''.join(action_card(item) for item in actions if isinstance(item, dict))}</section>"""
 
 

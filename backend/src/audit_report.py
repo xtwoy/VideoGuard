@@ -264,6 +264,25 @@ def _clean_dimensions(raw: object, catalog: dict[str, dict], duration_ms: int) -
     return output
 
 
+COUNTER_SOURCES = {"COUNTER_CONTEXT_TAGS", "CONTEXT_TAGS", "NOT_APPLICABLE", "NOT_CHECKED"}
+
+
+def _clean_counter_evidence(raw: object) -> dict:
+    """Normalise the counter-evidence provenance block, defaulting to unknown."""
+    if not isinstance(raw, dict):
+        return {"checked": False, "source": "NOT_CHECKED",
+                "found": False, "relation_checked": False}
+    source = raw.get("source")
+    if source not in COUNTER_SOURCES:
+        source = "NOT_CHECKED"
+    return {
+        "checked": bool(raw.get("checked")),
+        "source": source,
+        "found": bool(raw.get("found")),
+        "relation_checked": bool(raw.get("relation_checked")),
+    }
+
+
 def validate_audit_report(raw: dict, observation_result: dict, findings: list[dict], duration_ms: int) -> dict | None:
     """Return a cleaned report only when it is fully traceable to validated inputs."""
     if not isinstance(raw, dict) or raw.get("schema_version") != "videoguard_audit_report_v1":
@@ -371,6 +390,7 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 raise ValueError("每个整改问题必须关联至少一个动作")
             clean_plans.append({"id":plan_id, "section":_text(plan.get("section"),160), "scope":plan["scope"], "event_id":event_id,
                                 "video":{"summary":_text(video.get("summary"),1000),"time_ranges":video_ranges},
+                                "counter_evidence":_clean_counter_evidence(plan.get("counter_evidence")),
                                 "issues":clean_issues,"actions":clean_actions})
         if set(active) != covered_findings:
             raise ValueError("每个需处理 finding 必须进入整改计划")
@@ -676,6 +696,19 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             plan["issues"].append(issue)
             plan["actions"].append({"id":f"A{action_number:02d}","related_issue_ids":[issue_id],"action":action,"detail":detail_text,
                                     "target_time_ranges":target,"reuse_time_ranges":[],"insertion_position":None,"requires_reshoot":False,"acceptance_criteria":acceptance})
+        # Carry the counter-evidence provenance up to the plan. Without it the
+        # report cannot tell "counter evidence was searched for and none exists"
+        # apart from "this rule never looks for counter evidence".
+        for finding in grouped[event_id]:
+            block=finding.get("counter_evidence")
+            if isinstance(block,dict):
+                plan["counter_evidence"]={
+                    "checked":bool(block.get("checked")),
+                    "source":_text(block.get("source"),40),
+                    "found":bool(block.get("found")),
+                    "relation_checked":bool(block.get("relation_checked")),
+                }
+                break
         plans.append(plan)
     if analysis_entries:
         analysis_plan, issue_number, action_number=_analysis_plan(

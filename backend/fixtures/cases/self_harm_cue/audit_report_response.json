@@ -491,6 +491,12 @@
           }
         ]
       },
+      "counter_evidence": {
+        "checked": false,
+        "source": "NOT_APPLICABLE",
+        "found": false,
+        "relation_checked": false
+      },
       "issues": [
         {
           "id": "I01",

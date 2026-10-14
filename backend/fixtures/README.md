@@ -246,16 +246,27 @@ python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{m
 
 ## PEAD 的待优化项
 
-按收益排序，均为已知且可独立验证的改进点（`counter_context_tags` 已完成，见上文）：
+按收益排序。已完成两项，其余为**有意未做**或待办，理由一并写明。
 
-1. **关系核验只服务一条策略。** `relation_fusion.py` 的 `POLICY = "R_DANGER_PROMOTION"`，
-   其余九条策略没有语义关系核验。但 `R_VIOLENCE` 有 `context_tags`（新闻/影视/教育）、
-   `R_MARKETING_CLAIM` 需要区分"声称"与"真实性"，这些都依赖语境判断。
-2. **阈值双份且未校准。** `RELATION_GAP_MS = 15000` 在 `pead_engine.py` 与
-   `relation_client.py` 各写一份，配置里还有一份 `max_relation_gap_ms`。三份不一致时
-   会静默失效（配对用一套窗口、判定用另一套）。`0.85` / `0.49` 也未标定。
-3. **四条策略仍是硬编码分支。** `pead_engine.py` 中 R_DANGER_PROMOTION /
+1. ~~**关系时间窗与置信度阈值写在三处且互不校验**~~ —— **已完成**（`src/config.py`）。
+   原先 `pead_engine.MAX_RELATION_GAP_MS`、`relation_client.RELATION_GAP_MS` 与
+   `policies_v03.json` 的 `max_relation_gap_ms` 各一份，配对用一个窗口、判定用另一个，
+   漂移后静默失效。现在集中到单一模块，支持环境变量覆盖，配置与生效值不一致时
+   **直接报错并说明两种修法**。
+
+2. ~~**反证 provenance 缺失**~~ —— **已完成**。每个 finding 现在带
+   `counter_evidence = {checked, source, found, relation_checked}`，
+   报告在整改分组下渲染"反证检查"一行。此前 `counter_ids` 为空无法区分
+   "检查过且确实没有"与"根本没检查"，现在两者在报告里读起来不同。
+
+3. **关系核验只服务一条策略** —— **评估后有意不做**。
+   `relation_fusion.py` 的 `POLICY = "R_DANGER_PROMOTION"` 并非疏漏：只有该策略存在
+   "两条线索是否指向同一事件"这一需要核验的二元关系。`R_VIOLENCE` 的 `context_tags`
+   只是把处置降级为 REVIEW，`R_PRIVACY_EXPOSURE` / `R_MARKETING_CLAIM` 是单线索，
+   其余六条是直接线索——它们没有可核验的语义关系。给它们套上关系核验只会增加
+   API 调用而不改变结论。**建议在有真实数据能证明收益之前不做。**
+
+4. **四条策略仍是硬编码分支** —— 待办。`pead_engine.py` 中 R_DANGER_PROMOTION /
    R_VIOLENCE / R_PRIVACY_EXPOSURE / R_MARKETING_CLAIM 为 `if/elif` 硬编码，
-   与 `policies_v03.json` 注释所称"扩展审核点不改主流程"不一致。
-4. **反证 provenance。** `counter_ids` 为空时，报告无法区分"确实没有反证"与
-   "没有去找反证"。
+   与 `policies_v03.json` 注释所称"扩展审核点不改主流程"不一致。属可维护性问题，
+   不影响当前正确性。
