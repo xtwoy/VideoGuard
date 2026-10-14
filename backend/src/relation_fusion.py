@@ -50,6 +50,7 @@ def assess_joint(observation_result: dict, duration_ms: int,
     referent_disagreements=[]
     reviewed_base_pairs=[]
     ambiguous_pairs=[]
+    gated_unrelated=[]
     for pair, dec in zip(selected_pairs, decisions):
         stance=semantic_gate(dec)
         ids={pair["action_id"],pair["stance_id"]}
@@ -63,6 +64,12 @@ def assess_joint(observation_result: dict, duration_ms: int,
                 reviewed_base_pairs.append(pair)
             if stance in {"insufficient","REVIEW"}:
                 ambiguous_pairs.append(pair)
+            if stance=="unrelated":
+                # A high-confidence "unrelated" answer is real information even
+                # when PEAD could not decide the relation itself. For the policy
+                # that owns these tags, an explicit "does not refer to the same
+                # event" is enough to stop treating temporal proximity as support.
+                gated_unrelated.append(pair)
 
     if finding["judgement"] in {"UNKNOWN", "CONFLICTED"}:
         # Hard PEAD uncertainty dominates third-party model answers.
@@ -85,6 +92,15 @@ def assess_joint(observation_result: dict, duration_ms: int,
         finding["reason_code"]="RELATION_LINK_ASSISTED"
         finding["supporting_ids"]=sorted(set(finding["supporting_ids"]+
             [x for p in positives for x in (p["action_id"],p["stance_id"])]))
+    elif gated_unrelated and finding["judgement"] in {"INSUFFICIENT","NOT_SUPPORTED"}:
+        # Every candidate pair for this policy was answered "unrelated". Keep the
+        # cues as counter evidence so the conclusion stays traceable, and do not
+        # leave the case in permanent manual review.
+        finding["judgement"]="NOT_SUPPORTED"
+        finding["disposition"]="NONE"
+        finding["reason_code"]="RELATION_UNRELATED_CONFIRMED"
+        finding["counter_ids"]=sorted(set(finding["counter_ids"]+
+            [x for p in gated_unrelated for x in (p["action_id"],p["stance_id"])]))
     elif finding["disposition"]=="FLAG":
         # The relation stage did not confirm the only baseline relation.
         finding["judgement"]="INSUFFICIENT"

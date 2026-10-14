@@ -29,14 +29,10 @@ HERE = Path(__file__).resolve().parent
 CASE_ROOT = HERE / "cases"
 
 # Findings that the deterministic builder cannot currently turn into a report.
-# See fixtures/README.md: the builder drops every cue of a finding that has no
-# event of its own (src/audit_report.py, the `event_id` filter), so the report
-# it builds fails its own protocol check and it raises instead of degrading.
-KNOWN_REPORT_FAILURES = {
-    "unrelated_promotion",
-    "unrelated_without_relation_service",
-    "partial_coverage",
-}
+# Empty since 2026-10: build_fallback_audit_report no longer drops every cue of a
+# finding that has no event of its own. Kept as the guard's source of truth — a
+# new entry here should always come with a fixtures/README.md note.
+KNOWN_REPORT_FAILURES: set[str] = set()
 
 VALID_JUDGEMENTS = {"SUPPORTED", "NOT_SUPPORTED", "INSUFFICIENT", "CONFLICTED", "UNKNOWN"}
 VALID_DISPOSITIONS = {"FLAG", "NONE", "REVIEW", "VERIFY_EXTERNAL", "RECHECK", "RETRY"}

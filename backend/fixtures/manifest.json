@@ -49,7 +49,7 @@
         "video_parse_response.json": "731e4bc17c64b08d",
         "issue_locator_response.json": "e9d993f0bc4de976",
         "relation_response.json": "dd32163e34e95d2d",
-        "audit_report_response.json": "221d017deee106b8",
+        "audit_report_response.json": "74a1d6975ef0865f",
         "expectations.json": "610d923102bc884a",
         "case.json": "43a69f407cfea45f"
       }
@@ -73,7 +73,7 @@
         "video_parse_response.json": "318d0d383272dd69",
         "issue_locator_response.json": "99045e291d238c87",
         "relation_response.json": "645d32a243b91e23",
-        "audit_report_response.json": "916bff8c8e7d50ed",
+        "audit_report_response.json": "b92af2d58973d124",
         "expectations.json": "46500e36c0f0d13f",
         "case.json": "f7595d92c3d812af"
       }
@@ -81,33 +81,25 @@
     {
       "name": "unrelated_promotion",
       "title": "时间接近但事件不同＋语义判断为无关（H1 错误关联控制）",
-      "what_it_tests": "两条线索指向不同事件、且语义判断明确回答 unrelated 时，PEAD 应当据此判定不构成诱导。当前实现做不到：assess 在 MISSING_SEMANTIC_RELATION分支产出的 finding 的 supporting_ids/counter_ids 都是空的，而assess_joint 的每个分支都要求 pair 的两个 id 出现在这两个列表里，因此 unrelated 结论被丢弃，结果停在 INSUFFICIENT/REVIEW。本用例把这一现状固定下来，修好后应回落到 NOT_SUPPORTED/NONE。",
+      "what_it_tests": "两条线索指向不同事件、且语义核验明确回答 unrelated 时，PEAD 必须拒绝把时间接近当作诱导证据，直接判为不成立，而不是一律转人工。与 unrelated_without_relation_service 构成对照：同一份证据，仅“关系服务是否作答”不同，结论就从 REVIEW 变为 NONE。",
       "duration_ms": 24000,
       "coverage": "FULL",
       "relation_status": "LIVE",
       "semantic_check": "COMPLETE",
       "candidate_pair_count": 1,
       "cue_count": 2,
-      "active_findings": {
-        "R_DANGER_PROMOTION": {
-          "judgement": "INSUFFICIENT",
-          "disposition": "REVIEW",
-          "reason_code": "MISSING_SEMANTIC_RELATION",
-          "supporting_ids": [],
-          "counter_ids": []
-        }
-      },
-      "event_finding_count": 0,
-      "audit_verdict": null,
-      "audit_score": null,
-      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "active_findings": {},
+      "event_finding_count": 2,
+      "audit_verdict": "PUBLISHABLE",
+      "audit_score": 90,
+      "audit_report_error": "",
       "files": {
         "video_parse_response.json": "c5694ed58dcbedc5",
         "issue_locator_response.json": "c76c0a40bb0613fe",
         "relation_response.json": "e134a34166fd5bf1",
-        "audit_report_response.json": "38e0b9de817f645c",
-        "expectations.json": "2ead55c0e170c65e",
-        "case.json": "01abf79e6a033dbb"
+        "audit_report_response.json": "745608a724285c59",
+        "expectations.json": "41990c0aaeb7aa96",
+        "case.json": "e97848f1c83eb389"
       }
     },
     {
@@ -130,13 +122,13 @@
         }
       },
       "event_finding_count": 0,
-      "audit_verdict": null,
-      "audit_score": null,
-      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
       "files": {
         "video_parse_response.json": "c5694ed58dcbedc5",
         "issue_locator_response.json": "c76c0a40bb0613fe",
-        "audit_report_response.json": "38e0b9de817f645c",
+        "audit_report_response.json": "05ca601205ce930e",
         "expectations.json": "2ead55c0e170c65e",
         "case.json": "6a10bf0cbc219f0f"
       }
@@ -171,7 +163,7 @@
       "files": {
         "video_parse_response.json": "ebb8e6644bb0a0a4",
         "issue_locator_response.json": "7deb1c1afee49bb5",
-        "audit_report_response.json": "6f7f9bff7bdfb063",
+        "audit_report_response.json": "9b0dba9c3c0e4791",
         "expectations.json": "0f0f80853b74d1f0",
         "case.json": "154651c056a9dc9f"
       }
@@ -204,7 +196,7 @@
       "files": {
         "video_parse_response.json": "786b33af25516258",
         "issue_locator_response.json": "153d1a685ade7628",
-        "audit_report_response.json": "29cc277cce9e8466",
+        "audit_report_response.json": "81135eac8f40d467",
         "expectations.json": "d425d832ece2b27c",
         "case.json": "2c3407e3d76b1d81"
       }
@@ -238,7 +230,7 @@
       "files": {
         "video_parse_response.json": "ea70d6760bd65074",
         "issue_locator_response.json": "a97738b1280c91ac",
-        "audit_report_response.json": "c900e193e3fdb0a6",
+        "audit_report_response.json": "acc1a03bdf5d9277",
         "expectations.json": "504ed973467e1ebb",
         "case.json": "3d6a8bfcc933f65b"
       }
@@ -326,13 +318,13 @@
         }
       },
       "event_finding_count": 0,
-      "audit_verdict": null,
-      "audit_score": null,
-      "audit_report_error": "ValueError: 兜底审核报告未通过正式协议校验",
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
+      "audit_report_error": "",
       "files": {
         "video_parse_response.json": "9f27db440891bb59",
         "issue_locator_response.json": "c1551c338010480e",
-        "audit_report_response.json": "38e0b9de817f645c",
+        "audit_report_response.json": "6eb9f5c4e2ffe0f1",
         "expectations.json": "d5dbaf46d9aaf2bd",
         "case.json": "c87097aaae601f5d"
       }
@@ -355,7 +347,7 @@
       "files": {
         "video_parse_response.json": "b6834c03048873af",
         "issue_locator_response.json": "445d185f3cbb2ce2",
-        "audit_report_response.json": "14802f4810910eb7",
+        "audit_report_response.json": "becad2c9bd690881",
         "expectations.json": "3c9dac2560732fab",
         "case.json": "14ee2574e07a9614"
       }

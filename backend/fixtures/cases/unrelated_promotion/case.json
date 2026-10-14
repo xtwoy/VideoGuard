@@ -1,7 +1,7 @@
 {
   "name": "unrelated_promotion",
   "title": "时间接近但事件不同＋语义判断为无关（H1 错误关联控制）",
-  "what_it_tests": "两条线索指向不同事件、且语义判断明确回答 unrelated 时，PEAD 应当据此判定不构成诱导。当前实现做不到：assess 在 MISSING_SEMANTIC_RELATION分支产出的 finding 的 supporting_ids/counter_ids 都是空的，而assess_joint 的每个分支都要求 pair 的两个 id 出现在这两个列表里，因此 unrelated 结论被丢弃，结果停在 INSUFFICIENT/REVIEW。本用例把这一现状固定下来，修好后应回落到 NOT_SUPPORTED/NONE。",
+  "what_it_tests": "两条线索指向不同事件、且语义核验明确回答 unrelated 时，PEAD 必须拒绝把时间接近当作诱导证据，直接判为不成立，而不是一律转人工。与 unrelated_without_relation_service 构成对照：同一份证据，仅“关系服务是否作答”不同，结论就从 REVIEW 变为 NONE。",
   "duration_ms": 24000,
   "relation_choice": "unrelated",
   "relation_status": "LIVE",

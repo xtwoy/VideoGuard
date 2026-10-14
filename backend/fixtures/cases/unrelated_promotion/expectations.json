@@ -2,13 +2,11 @@
   "coverage": "FULL",
   "findings": {
     "R_DANGER_PROMOTION": [
-      "INSUFFICIENT",
-      "REVIEW"
+      "NOT_SUPPORTED",
+      "NONE"
     ]
   },
-  "active_finding_policies": [
-    "R_DANGER_PROMOTION"
-  ],
+  "active_finding_policies": [],
   "event_findings_at_least": 0,
   "cues": [
     "E01",

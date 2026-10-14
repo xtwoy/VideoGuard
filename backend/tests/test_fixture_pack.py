@@ -38,17 +38,44 @@ class FixturePackTests(unittest.TestCase):
         self.assertEqual(len(manifest["cases"]), len(case_defs.CASE_ORDER))
 
     def test_known_report_failures_are_still_pinned(self):
-        """If the report builder is fixed, this test says to update the pack."""
-        for name in sorted(validate.KNOWN_REPORT_FAILURES):
+        """Every case in KNOWN_REPORT_FAILURES must still fail, and nothing else.
+
+        The set is empty now that the builder handles findings without an event of
+        their own. If a future regression reintroduces a crash, the case that
+        exposes it must be listed here with a fixtures/README.md note.
+        """
+        for name in case_defs.CASE_ORDER:
+            state = validate.simulate(
+                validate.load(name, "video_parse_response.json"),
+                validate.load(name, "issue_locator_response.json"),
+                case_defs.DURATION_MS, relation_raw=None)
             with self.subTest(case=name):
-                state = validate.simulate(
-                    validate.load(name, "video_parse_response.json"),
-                    validate.load(name, "issue_locator_response.json"),
-                    case_defs.DURATION_MS, relation_raw=None)
-                self.assertIsNone(
-                    state["audit_report"],
-                    f"{name} now produces an audit report; remove it from "
-                    "KNOWN_REPORT_FAILURES and record the verdict in its expectations")
+                if name in validate.KNOWN_REPORT_FAILURES:
+                    self.assertIsNone(state["audit_report"])
+                else:
+                    self.assertIsNotNone(
+                        state["audit_report"],
+                        f"{name} can no longer produce a report: "
+                        f"{state['audit_report_error']}")
+
+    def test_missing_relation_service_is_more_conservative_than_a_negative_answer(self):
+        """The H1 contrast: same evidence, only the relation answer differs."""
+        answered = validate.simulate(
+            validate.load("unrelated_promotion", "video_parse_response.json"),
+            validate.load("unrelated_promotion", "issue_locator_response.json"),
+            case_defs.DURATION_MS,
+            relation_raw=validate.load("unrelated_promotion", "relation_response.json"))
+        unanswered = validate.simulate(
+            validate.load("unrelated_without_relation_service", "video_parse_response.json"),
+            validate.load("unrelated_without_relation_service", "issue_locator_response.json"),
+            case_defs.DURATION_MS, relation_raw=None)
+
+        def disposition(state):
+            return next(f["disposition"] for f in state["findings"]
+                        if f["policy_id"] == "R_DANGER_PROMOTION")
+
+        self.assertEqual(disposition(answered), "NONE")
+        self.assertEqual(disposition(unanswered), "REVIEW")
 
     def test_studied_risks_are_exercised_by_some_case(self):
         matrix = validate.policy_matrix()

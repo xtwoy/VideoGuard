@@ -113,12 +113,16 @@ def main() -> int:
             print("\n[3] exported HTML report")
             report = client.get(f"/api/reviews/{payload['id']}/report")
             check("report returns 200", report.status_code == 200)
-            check("report is an attachment", "attachment" in report.headers.get("content-disposition", ""))
+            # The same endpoint feeds the in-app iframe, so it must render inline;
+            # forcing attachment would leave the embedded view blank.
+            check("report renders inline for the embedded view",
+                  "inline" in report.headers.get("content-disposition", ""))
             check("report is self-contained html", report.headers.get("content-type", "").startswith("text/html"))
             body = report.text
             check("report states it is synthetic", "合成演示" in body)
             check("report carries findings", "危险行为诱导" in body)
-            check("report carries event audit", "事件级审计记录" in body)
+            check("report carries the nine-dimension scores", "维度评分" in body)
+            check("report carries the revision plan", "问题定位与整改" in body)
             check("report leaks no internal stage code", "RELATION_CHECK_UNAVAILABLE" not in body)
             check("report leaks no internal policy id", "R_DANGER_PROMOTION" not in body)
 

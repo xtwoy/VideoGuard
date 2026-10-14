@@ -206,6 +206,7 @@ const REASON_LABELS: Record<string, string> = {
   RELATION_CHECK_UNAVAILABLE: "关键语义关系尚未完成自动核验，需要人工复核。",
   RELATION_DISPUTES_BASELINE: "自动分析对原有支持关系存在分歧，需要人工复核。",
   RELATION_NOT_CONFIRMED: "未能确认危险动作与相关表述存在明确关联。",
+  RELATION_UNRELATED_CONFIRMED: "语义核验确认相关表述指向另一事件，不构成危险行为诱导。",
   RELATION_AMBIGUITY: "相关表述的语义存在歧义，需要人工复核。",
   RELATION_REFERENT_DISAGREEMENT: "不同观察对所指事件存在分歧，需要人工复核。",
   VIOLENCE_DEPICTION: "观察到疑似暴力或危险行为画面。",

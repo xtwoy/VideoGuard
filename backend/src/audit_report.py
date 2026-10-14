@@ -377,8 +377,18 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
             raise ValueError("只有复核类 finding 时必须人工复核")
         if not active and analysis and verdict != ("NEEDS_REVISION" if observation_result.get("coverage") == "FULL" else "MANUAL_REVIEW"):
             raise ValueError("存在内容分析问题时报告总评不一致")
-        if not active and not analysis and verdict != ("PUBLISHABLE" if observation_result.get("coverage") == "FULL" else "MANUAL_REVIEW"):
-            raise ValueError("无风险 finding 时报告总评不一致")
+        if not active and not analysis:
+            # A content-quality dimension that received no located evidence is
+            # reported as MANUAL_REVIEW / 40 by _analysis_dimension, and the report
+            # then cannot claim the video is publishable. Accept either verdict so
+            # "nothing found" and "nothing evaluated" stay distinguishable.
+            unevaluated=any(item["status"] == "MANUAL_REVIEW" and item["score"] == 40
+                            for item in dimensions.values())
+            expected={"PUBLISHABLE"} if observation_result.get("coverage") == "FULL" else {"MANUAL_REVIEW"}
+            if unevaluated:
+                expected.add("MANUAL_REVIEW")
+            if verdict not in expected:
+                raise ValueError("无风险 finding 时报告总评不一致")
         return {"schema_version":"videoguard_audit_report_v1", "overall_verdict":verdict, "overall_score":raw["overall_score"],
                 "executive_summary":_text(raw.get("executive_summary"),1000), "dimension_scores":dimensions,
                 "revision_plan":clean_plans, "overall_direction":_text(raw.get("overall_direction"),1600),
@@ -462,9 +472,31 @@ def _action_for(finding: dict, ranges: list[dict]) -> tuple[str, str, list[dict]
     return "MANUAL_REVIEW", "人工回看对应片段并核对语境、对象和发布要求；确认后再决定是否编辑或调整发布。", [], "人工已完成原视频和对应证据的复核，并记录处理结论。"
 
 
+def _evaluated_sections(detail: dict) -> dict[str, bool]:
+    """Which content-quality sections the parse actually assessed.
+
+    A section counts as assessed only when it cites traceable evidence. A section
+    with neither located issues nor evidence was never examined, and must not be
+    scored as if it had passed.
+    """
+    content=detail.get("content_analysis") if isinstance(detail, dict) else {}
+    return {
+        section.upper(): bool(
+            isinstance(content.get(section), dict)
+            and (content[section].get("evidence_refs") or content[section].get("issues")))
+        for section in ANALYSIS_SECTIONS
+    }
+
+
 def _analysis_dimension(issue_entries: list[tuple[str, dict]], category: str,
-                        fallback_refs: list[str], label: str, catalog: dict[str, dict]) -> dict:
-    """Score only the parsed issue set for one content-quality dimension."""
+                        fallback_refs: list[str], label: str, catalog: dict[str, dict],
+                        evaluated: bool = True) -> dict:
+    """Score one content-quality dimension from its parsed issues.
+
+    ``evaluated`` says whether the parse assessed this dimension at all. When it
+    did not, the dimension is reported as unevaluated rather than as a pass, so a
+    report cannot manufacture quality scores for dimensions nobody looked at.
+    """
     matched=[issue for _, issue in issue_entries if issue.get("category") == category]
     refs=[issue["id"] for issue in matched] or fallback_refs
     severities={issue.get("severity") for issue in matched}
@@ -474,8 +506,10 @@ def _analysis_dimension(issue_entries: list[tuple[str, dict]], category: str,
         status="WARNING"; score=60; summary=f"已定位到需要处理的{label}问题。"
     elif "LOW" in severities:
         status="WARNING"; score=75; summary=f"已定位到可优化的{label}问题。"
+    elif evaluated:
+        status="PASS"; score=90; summary=f"已评估{label}，未发现需要处理的已定位问题。"
     else:
-        status="PASS"; score=90; summary=f"未记录已定位的{label}问题。"
+        status="MANUAL_REVIEW"; score=40; summary=f"未对{label}完成评估，需人工判断。"
     if matched:
         items=[_dimension_item(
             key=issue["id"], label=label,
@@ -491,17 +525,23 @@ def _analysis_dimension(issue_entries: list[tuple[str, dict]], category: str,
 
 def _audiovisual_dimension(issue_entries: list[tuple[str, dict]], fallback_refs: list[str],
                            readability: str, catalog: dict[str, dict]) -> dict:
-    """Prefer explicit audio/visual issues over a generic shot-quality aggregate."""
-    item=_analysis_dimension(issue_entries,"AUDIOVISUAL",fallback_refs,"音画可读性",catalog)
+    """Prefer explicit audio/visual issues over a generic shot-quality aggregate.
+
+    The shot-quality fallback is only meaningful when the parse actually recorded
+    per-shot quality, which ``readability`` distinguishes.
+    """
     if any(issue.get("category") == "AUDIOVISUAL" for _, issue in issue_entries):
-        return item
+        return _analysis_dimension(issue_entries,"AUDIOVISUAL",fallback_refs,"音画可读性",catalog)
     if readability == "PASS":
         return _dimension(95,"PASS","已解析镜头的音画信息总体可辨认。",[
             _dimension_item("shot_readability","镜头可读性",95,"PASS","已解析镜头的音画信息总体可辨认。",fallback_refs,catalog),
         ],catalog)
-    return _dimension(70,"WARNING","部分镜头的音画可读性需要人工回看。",[
-        _dimension_item("shot_readability","镜头可读性",70,"WARNING","部分镜头的音画信息需要人工回看。",fallback_refs,catalog),
-    ],catalog)
+    if readability == "WARNING":
+        return _dimension(70,"WARNING","部分镜头的音画可读性需要人工回看。",[
+            _dimension_item("shot_readability","镜头可读性",70,"WARNING","部分镜头的音画信息需要人工回看。",fallback_refs,catalog),
+        ],catalog)
+    return _analysis_dimension(issue_entries,"AUDIOVISUAL",fallback_refs,"音画可读性",catalog,
+                               evaluated=False)
 
 
 def _analysis_plan(issue_entries: list[tuple[str, dict]], catalog: dict[str, dict],
@@ -569,7 +609,16 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             fid=finding.get("id",finding.get("policy_id"))
             ids=list(dict.fromkeys(finding.get("supporting_ids",[])+finding.get("counter_ids",[])))
             if event_id:
+                # Only keep the cues that belong to this event; a finding can cite
+                # cues from several events and each event gets its own plan.
                 ids=[item for item in ids if cues.get(item,{}).get("event_id") == event_id]
+            elif not ids:
+                # A global plan has no event to filter against. Findings without
+                # any event-bound cue (MISSING_SEMANTIC_RELATION, and every
+                # INCOMPLETE_OBSERVATION under partial coverage) reach this branch;
+                # without a fallback the issue would carry no evidence and
+                # validate_audit_report would reject the whole report.
+                ids=list(cues)
             fact_refs=[]
             for observation_id in ids:
                 fact_refs.extend(cues.get(observation_id,{}).get("evidence_refs",[]))
@@ -579,6 +628,15 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             if not evidence and event_refs:
                 evidence=[_evidence_for(ref,catalog) for ref in event_refs]
                 ranges=_range_for(event_refs,catalog)
+            if not evidence:
+                # Last resort: anchor the issue to a real, cited fact and keep the
+                # limitation explicit. Never emit an issue with no evidence at all.
+                anchor=next(iter(catalog),None)
+                if anchor is None:
+                    raise ValueError("无法为缺少事件归属的问题提供可回溯证据")
+                evidence=[_evidence_for(anchor,catalog,
+                                        ["该问题没有可直接定位的观察证据，仅以视频事实作为锚点。"])]
+                ranges=_range_for([anchor],catalog)
             priority="P0" if finding.get("disposition") == "FLAG" else "P1"
             issue_id=f"I{issue_number:02d}"
             description=REASONS.get(finding.get("reason_code"),"该审核项需要结合原视频和可回溯证据人工核对。")
@@ -643,6 +701,7 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
     if not safety_items:
         safety_items.append(_dimension_item("active_findings","需处理风险项",100,"PASS","未发现需要处置的风险 finding。",refs,catalog))
     context_uncertain=any(f.get("judgement") in {"CONFLICTED","INSUFFICIENT","UNKNOWN"} for f in active)
+    assessed=_evaluated_sections(detail)
     dimensions={
         "audit_coverage":_dimension(100 if coverage == "FULL" else 55,"PASS" if coverage == "FULL" else "MANUAL_REVIEW","视频解析覆盖完整。" if coverage == "FULL" else "视频解析覆盖存在限制。",coverage_items,catalog),
         "evidence_traceability":_dimension(95 if active_refs or not active else 60,"PASS" if active_refs or not active else "WARNING","风险线索可回溯到时间化观察。" if active else "未发现需处理的风险线索。",trace_items,catalog),
@@ -650,24 +709,38 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         "context_completeness":_dimension(55 if context_uncertain else 90,"MANUAL_REVIEW" if context_uncertain else "PASS","部分语境仍需人工核验。" if context_uncertain else "已记录可观察的语境信息。",[
             _dimension_item("observable_context","可观察语境",55 if context_uncertain else 90,"MANUAL_REVIEW" if context_uncertain else "PASS","相关语境只能以输入中的提示、画面或口播为准。",context_refs,catalog),
         ],catalog),
-        "material_completeness":_analysis_dimension(analysis_entries,"MATERIAL_COMPLETENESS",refs,"素材完整性",catalog),
-        "narrative_structure":_analysis_dimension(analysis_entries,"STRUCTURE",refs,"内容结构",catalog),
-        "hook_clarity":_analysis_dimension(analysis_entries,"HOOK",refs,"开头信息建立",catalog),
-        "subject_presentation":_analysis_dimension(analysis_entries,"SUBJECT_PRESENTATION",refs,"主体展示",catalog),
+        "material_completeness":_analysis_dimension(analysis_entries,"MATERIAL_COMPLETENESS",refs,"素材完整性",catalog,evaluated=assessed["MATERIAL_COMPLETENESS"]),
+        "narrative_structure":_analysis_dimension(analysis_entries,"STRUCTURE",refs,"内容结构",catalog,evaluated=assessed["STRUCTURE"]),
+        "hook_clarity":_analysis_dimension(analysis_entries,"HOOK",refs,"开头信息建立",catalog,evaluated=assessed["HOOK"]),
+        "subject_presentation":_analysis_dimension(analysis_entries,"SUBJECT_PRESENTATION",refs,"主体展示",catalog,evaluated=assessed["SUBJECT_PRESENTATION"]),
         "audiovisual_readability":_audiovisual_dimension(analysis_entries,refs,readability,catalog),
     }
+    # A content-quality dimension that cites no evidence of its own is counted as
+    # unevaluated, so the report cannot claim a publishable verdict on the
+    # strength of the dimensions that were examined.
+    unevaluated=any(dimension["status"] == "MANUAL_REVIEW" and dimension["score"] == 40
+                    for dimension in dimensions.values())
     if flag:
         verdict="BLOCKED"; direction="先处理 P0 风险项并回看对应原片段；完成遮挡、移除或替换后，再进行人工复核。"
     elif active:
         verdict="MANUAL_REVIEW"; direction="先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。"
     elif analysis_entries and coverage == "FULL":
         verdict="NEEDS_REVISION"; direction="先回看并处理 P1、P2 内容呈现问题，确认具体剪辑或补充素材方案后，再进行人工复核。"
-    elif coverage == "FULL":
+    elif coverage == "FULL" and not unevaluated:
         verdict="PUBLISHABLE"; direction="当前没有 PEAD 标记的需处理事项；发布前仍应完成常规人工复核。"
     else:
-        verdict="MANUAL_REVIEW"; direction="解析覆盖不足，需先补充原视频核查，不能据此给出发布结论。"
+        # A dimension with no located evidence was not evaluated, so the report
+        # must not conclude "publishable" on the strength of the dimensions that
+        # did have evidence.
+        verdict="MANUAL_REVIEW"
+        direction=("存在未完成评估的维度，需先补充该维度的证据或由人工判断，"
+                   "不能据此给出可发布结论。")
     candidate={"schema_version":"videoguard_audit_report_v1","overall_verdict":verdict,"overall_score":min(item["score"] for item in dimensions.values()),
-            "executive_summary":"基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。","dimension_scores":dimensions,
+            "executive_summary":("基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。"
+                                 if not unevaluated else
+                                 "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告；"
+                                 "其中部分维度缺少可定位证据，尚未完成评估。"),
+            "dimension_scores":dimensions,
             "revision_plan":plans,"overall_direction":direction,"limitations":["该报告由机器观察和规则结果生成，需回看原视频并进行人工复核。"]}
     validated=validate_audit_report(candidate,observation_result,findings,duration_ms)
     if validated is None:

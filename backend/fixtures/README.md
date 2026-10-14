@@ -68,7 +68,7 @@ fixtures/
 | --- | --- | --- |
 | `danger_promotion` | 危险动作＋鼓励模仿，同一事件 | `R_DANGER_PROMOTION` = SUPPORTED / FLAG |
 | `warning_context` | 同一危险动作，旁白明确警示不要模仿 | NOT_SUPPORTED / NONE（警示不进入鼓励语义） |
-| `unrelated_promotion` | 两条线索指向不同事件，关系服务答 `unrelated` | 目前停在 INSUFFICIENT / REVIEW（见缺陷 B） |
+| `unrelated_promotion` | 两条线索指向不同事件，关系服务答 `unrelated` | NOT_SUPPORTED / NONE（H1 对照） |
 | `unrelated_without_relation_service` | 同上，但没有关系服务 | INSUFFICIENT / REVIEW（保守转人工） |
 | `news_violence` | 新闻语境下的冲突画面 | `R_VIOLENCE` = SUPPORTED / REVIEW |
 | `privacy_screen_text` | 仅屏幕文字出现疑似手机号 | `R_PRIVACY_EXPOSURE` = SUPPORTED / FLAG |
@@ -80,12 +80,12 @@ fixtures/
 `R_FRAUD_SCAM`、`R_CONTROLLED_GOODS`、`R_MINORS_PROTECTION` 目前只由
 `partial_coverage` 的 RECHECK 覆盖，**尚无正面用例**——需要时按同样方式补充。
 
-## 三个已固定的缺陷
+## 曾经固定的缺陷（均已修复）
 
-样例数据不只是"能跑通"，它还固定了当前实现中三个会影响实验结论的问题。修改相关代码后
-`tests/test_fixture_pack.py` 会失败并提示更新，这是有意为之。
+样例数据不只是"能跑通"，它还固定过三个会影响实验结论的问题。三者都已修复，
+用例继续留在数据集里作为回归保护。
 
-### 缺陷 A：降级审核报告在"无事件归属"的 finding 上崩溃
+### 缺陷 A（已修复）：降级审核报告在"无事件归属"的 finding 上崩溃
 
 `src/audit_report.py` 的 `build_fallback_audit_report` 在构造无 `event_id` 的计划时，
 会执行 `ids = [item for item in ids if cues.get(item, {}).get("event_id") == event_id]`。
@@ -94,39 +94,72 @@ fixtures/
 
 触发条件很宽：任何 `disposition != NONE` 却没有任何事件归属的 finding。例如
 
-* `MISSING_SEMANTIC_RELATION`（supporting/counter 均为空）→ `unrelated_promotion`；
+* `MISSING_SEMANTIC_RELATION`（supporting/counter 均为空）→ `unrelated_*`；
 * 覆盖不完整导致十类全部 `INCOMPLETE_OBSERVATION` → `partial_coverage`。
 
-后果：**覆盖不完整的视频——恰恰是最需要降级路径的场景——会因为降级报告自身崩溃而 500**，
-而不是给出"需要补充观察"的报告。`partial_coverage` 用例就是最小复现。
+后果：**覆盖不完整的视频——恰恰是最需要降级路径的场景——会因为降级报告自身崩溃而 500**。
 
-### 缺陷 B：关系服务的 `unrelated` 结论被丢弃
+修复：全局计划不再按事件过滤证据；仍无证据时以一条真实事实为锚点，并在该证据上
+显式写明"没有可直接定位的观察证据"，不再产出空证据的问题条目。
+`unrelated_promotion`、`unrelated_without_relation_service`、`partial_coverage`
+三个用例现在都能正常出报告。
+
+### 缺陷 B（已修复）：关系服务的 `unrelated` 结论被丢弃
 
 `src/pead_engine.py` 在 `MISSING_SEMANTIC_RELATION` 分支产出的 finding，
-`supporting_ids` 与 `counter_ids` 都是空的；而 `src/semantic_fusion.py` 的每个分支
+`supporting_ids` 与 `counter_ids` 都是空的；而 `src/relation_fusion.py` 的每个分支
 都建立在"pair 的两个证据 id 出现在这两个列表之一"的前提上，因此
-`assess_joint` 永远进不了"Jev 判定无关 → 不构成风险"的分支。
-
-`unrelated_promotion` 用例里关系服务给出 `choice=unrelated, confidence=0.94`（`semantic_gate`
-也返回 `unrelated`），最终仍是 `INSUFFICIENT / REVIEW`。
+`assess_joint` 永远进不了"语义核验判定无关 → 不构成风险"的分支。
+`unrelated_promotion` 用例里关系服务给出 `choice=unrelated, confidence=0.94`，
+最终仍是 `INSUFFICIENT / REVIEW`。
 
 这与 `docs/04` 的 H1 直接相关：**在"时间接近但语义无关"这个 PEAD 最该发挥作用的场景上，
-当前实现无法把语义否证转成"不成立"，只能转人工复核。** 修好后该用例应回落到
-`NOT_SUPPORTED / NONE`。
+实现无法把语义否证转成"不成立"，只能全量转人工。**
 
-### 缺陷 C：未评估的维度被给予高分
+修复：当该策略的全部候选对都被语义核验回答为 `unrelated`、且 PEAD 基线未给出
+`SUPPORTED` 时，判为 `NOT_SUPPORTED / NONE`，并把两个线索记为 `counter_ids`
+（reason_code `RELATION_UNRELATED_CONFIRMED`），使结论仍然可回溯。
 
-`src/audit_report.py` 的 `_analysis_dimension` 在某一类分析问题为空时，返回
-`status=PASS, score=90, summary="未记录已定位的…问题"`。于是没有任何素材分析证据的
-降级报告里，`material_completeness`、`narrative_structure`、`hook_clarity`、
-`subject_presentation` 都会拿到 90 分 PASS。
+现在两个用例构成对照，可直接作为 H1 的证据：
 
-这与 `prompts/audit_report_system.md` 自己的第 25 条要求相矛盾：
+| 用例 | 关系服务 | `R_DANGER_PROMOTION` 处置 |
+| --- | --- | --- |
+| `unrelated_promotion` | 回答 `unrelated` | `NOT_SUPPORTED` / `NONE` |
+| `unrelated_without_relation_service` | 未配置 | `INSUFFICIENT` / `REVIEW` |
+
+同一份证据，只有"关系服务是否作答"不同，结论就从人工复核变为不成立——
+这正是 PEAD 相对"无约束大模型"应有的增量。
+
+### 缺陷 C（已修复）：未评估的维度被给予高分
+
+`src/audit_report.py` 的 `_analysis_dimension` 在某一类分析问题为空时，
+一律返回 `status=PASS, score=90`。降级报告里 `material_completeness`、
+`narrative_structure`、`hook_clarity`、`subject_presentation` 因此都会拿到 90 分 PASS，
+即使模型根本没有对这几个维度给出任何证据。这与
+`prompts/audit_report_system.md` 自己的第 25 条要求相矛盾：
 
 > 没有 finding 不等于所有维度满分；分数必须由本维度输入证据决定。
 
-演示态下即可复现（`/api/demo` 的 `audit_report.dimension_scores`）。建议无证据维度改为
-`MANUAL_REVIEW` 或明确标注"未评估"，而不是 90 分。
+修复：新增 `_evaluated_sections`，只有引用了可追溯证据（`evidence_refs` 或已定位
+问题）的分析区块才算"已评估"；已评估且无问题才给 `PASS/90`，未评估则给
+`MANUAL_REVIEW/40` 并在摘要中写明"未对…完成评估"。同时
+
+* `build_fallback_audit_report` 在存在未评估维度时总评改为 `MANUAL_REVIEW`，
+  不再在维度未被评估的情况下给出 `PUBLISHABLE`；
+* `validate_audit_report` 的总评一致性规则接受这一新状态（此前它强制要求
+  "无 finding 且覆盖完整 ⇒ PUBLISHABLE"，与上面的结论直接冲突）。
+
+效果：`clean_negative`、`warning_context` 仍为 `PUBLISHABLE`（维度确有证据支撑），
+而没有任何内容分析证据的视频不再被"打上 90 分放行"。
+
+## 尚未处理的一致性问题
+
+以下问题在修复 A/C 的过程中观察到，但**未改动**，留待确认：
+
+`build_fallback_audit_report` 的 `audit_coverage` 维度，在某一模态没有任何
+已定位事实时，仍然给该模态 100 分 / PASS，摘要却写着"该模态未记录可辨认证据，
+不能据此推断不存在内容"。摘要与分数不一致，建议改为与缺陷 C 相同的处理方式：
+未记录证据的模态应给 `MANUAL_REVIEW`，而不是 PASS。
 
 ## 扩展方式
 
