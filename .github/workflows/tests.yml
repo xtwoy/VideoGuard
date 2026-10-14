@@ -7,7 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  backend:
+    name: 后端单元测试
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,6 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # ffprobe 是上传路径的硬依赖；缺失时上传会以 422 失败，
+      # 而单元测试仍可能通过，因此在 CI 里显式安装。
       - name: 安装 ffprobe
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
@@ -29,6 +32,29 @@ jobs:
       - name: 运行后端单元测试
         run: uv run --no-sync python -m unittest discover -s tests -v
 
-      - name: 前端语法检查
-        run: npm ci && npm run lint && npm run build
+      - name: 校验 fixtures 与用例定义一致
+        run: uv run --no-sync python -m fixtures.generate --check
+
+  frontend:
+    name: 前端类型检查与构建
+    runs-on: ubuntu-latest
+    defaults:
+      run:
         working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 按 package-lock.json 安装依赖
+        run: npm ci
+
+      - name: 类型检查
+        run: npm run lint
+
+      - name: 生产构建
+        run: npm run build
