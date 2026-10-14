@@ -4,6 +4,8 @@ from typing import Any
 import json
 from pathlib import Path
 
+from src import config as params
+
 MODALITIES = {"visual","speech","screen_text","sound","metadata"}
 TAGS = {"danger_action","danger_description","encouragement","challenge","warning",
         "violence","news_context","fiction_context","pii_candidate","credential_claim",
@@ -12,11 +14,18 @@ TAGS = {"danger_action","danger_description","encouragement","challenge","warnin
         "financial_inducement","controlled_goods","controlled_goods_promotion","minor_risk",
         "education_context","other"}
 REQUIRED_COVERAGES = {"FULL","PARTIAL","UNKNOWN","REFUSED","ERROR"}
-MAX_RELATION_GAP_MS = 15000
 
 def load_policies()->dict:
     f=Path(__file__).resolve().parents[1]/"config/policies_v03.json"
     return json.loads(f.read_text(encoding="utf-8"))
+
+def relation_gap_ms()->int:
+    """Relation time window, taken from the single shared parameter module.
+
+    Delegating here (instead of keeping a local constant) is what stops the
+    selection window and the judgement window from drifting apart.
+    """
+    return params.relation_gap_ms()
 
 def _f(policy_id: str, judgement: str, disposition: str,
        reason_code: str, supporting=(), counter=()) -> dict:
@@ -51,12 +60,12 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     """
     if type(duration_ms) is not int or duration_ms<0:
         raise ValueError("duration_ms must be a non-negative integer")
-    config=policy_config if policy_config is not None else load_policies()
-    policies=config["policies"]
+    policy_source=policy_config if policy_config is not None else load_policies()
+    policies=policy_source["policies"]
     policy_ids=tuple(policies)
-    gap_ms=policies["R_DANGER_PROMOTION"]["max_relation_gap_ms"]
-    if type(gap_ms) is not int or gap_ms < 0:
-        raise ValueError("max_relation_gap_ms must be nonnegative integer")
+    # Fails loudly when the policy file and the effective code/env value disagree,
+    # instead of silently selecting pairs by one window and judging by another.
+    gap_ms=params.assert_policy_gap_agrees(policies)
     coverage=data.get("coverage","UNKNOWN")
     if coverage not in REQUIRED_COVERAGES: coverage="UNKNOWN"
     observations=data.get("observations",[])

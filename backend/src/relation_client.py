@@ -13,17 +13,18 @@ from typing import Any
 
 from src.pead_engine import _valid_obs
 from src.redaction import redact
+from src import config as params
 
 ENDPOINT_ENV = "RELATION_MODEL_ENDPOINT"
 MODEL_ID_ENV = "RELATION_MODEL_ID"
 ACTION_TAGS = frozenset({"danger_action", "danger_description"})
 STANCE_TAGS = frozenset({"encouragement", "challenge", "warning"})
 CHOICES = frozenset({"encourages_same", "warns_same", "unrelated", "insufficient"})
-RELATION_GAP_MS = 15000
-# For the competition prototype, tune using held-out annotated cases, never claim
-# Tune these defaults with held-out annotated cases.
-MIN_CHOICE_CONFIDENCE = 0.85
-MAX_REVIEW_PROBABILITY = 0.49
+# The relation window and the confidence gate live in src.config so that the
+# selection window, the PEAD judgement window and the policy file cannot drift
+# apart. These names stay as thin accessors for readability at the call sites;
+# tune the values through src.config (env overrides included), never here.
+# Defaults are uncalibrated and must be tuned on held-out annotated cases.
 
 
 def _gap_ms(a: dict, b: dict) -> int:
@@ -42,8 +43,14 @@ def _text_obs(o: dict) -> dict:
 
 
 def select_pairs(observations: list[dict], duration_ms: int,
-                 limit: int = 3, time_window_ms: int = RELATION_GAP_MS) -> list[dict]:
-    """Select small candidate pairs by known timestamps and cited issue cues."""
+                 limit: int = 3, time_window_ms: int | None = None) -> list[dict]:
+    """Select small candidate pairs by known timestamps and cited issue cues.
+
+    ``time_window_ms`` defaults to the shared relation window at call time, so an
+    environment override takes effect without reimporting the module.
+    """
+    if time_window_ms is None:
+        time_window_ms = params.relation_gap_ms()
     if type(duration_ms) is not int or duration_ms < 0:
         raise ValueError("duration_ms must be a nonnegative integer")
     if type(limit) is not int or not (1 <= limit <= 3):
@@ -196,10 +203,16 @@ def query_relations(payload: dict, api_key: str | None = None, timeout: int = 25
     return result
 
 
-def semantic_gate(row: dict, threshold: float = MIN_CHOICE_CONFIDENCE) -> str:
-    """High confidence is only permission to use the model suggestion, not truth."""
+def semantic_gate(row: dict, threshold: float | None = None) -> str:
+    """High confidence is only permission to use the model suggestion, not truth.
+
+    ``threshold`` and the review probability ceiling come from the shared parameter
+    module, so this gate and the PEAD time window are configured in one place.
+    """
+    if threshold is None:
+        threshold = params.min_choice_confidence()
     if row["status"] != "VALID" or row["confidence"] < threshold:
         return "REVIEW"
-    if row["needs_review_probability"] > MAX_REVIEW_PROBABILITY:
+    if row["needs_review_probability"] > params.max_review_probability():
         return "REVIEW"
     return row["choice"]
