@@ -1,13 +1,13 @@
 {
   "schema_version": "videoguard_audit_report_v1",
   "overall_verdict": "MANUAL_REVIEW",
-  "overall_score": 55,
-  "executive_summary": "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。",
+  "overall_score": 40,
+  "executive_summary": "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告；其中部分维度缺少可定位证据，尚未完成评估。",
   "dimension_scores": {
     "audit_coverage": {
-      "score": 100,
-      "status": "PASS",
-      "summary": "视频解析覆盖完整。",
+      "score": 40,
+      "status": "MANUAL_REVIEW",
+      "summary": "审核覆盖中仍有子项未完成评估，需人工判断。",
       "items": [
         {
           "key": "visual",
@@ -88,9 +88,9 @@
         {
           "key": "sound",
           "label": "声音覆盖",
-          "score": 100,
-          "status": "PASS",
-          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "score": 40,
+          "status": "MANUAL_REVIEW",
+          "summary": "该模态仅记录为 PARTIAL，未被完整观察，不能据此推断不存在内容。",
           "evidence_refs": [
             "S001:F002"
           ],
@@ -143,7 +143,7 @@
     "evidence_traceability": {
       "score": 95,
       "status": "PASS",
-      "summary": "风险线索可回溯到时间化观察。",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
       "items": [
         {
           "key": "trace_E01",
@@ -205,7 +205,7 @@
     "safety_risk_control": {
       "score": 55,
       "status": "MANUAL_REVIEW",
-      "summary": "存在需处理的内容安全线索。",
+      "summary": "安全风险控制中部分子项需要人工复核。",
       "items": [
         {
           "key": "finding_R_VIOLENCE",
@@ -249,7 +249,7 @@
     "context_completeness": {
       "score": 90,
       "status": "PASS",
-      "summary": "已记录可观察的语境信息。",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
       "items": [
         {
           "key": "observable_context",

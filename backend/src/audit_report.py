@@ -33,6 +33,12 @@ ANALYSIS_SECTION_LABELS = {
     "audio_visual_quality": "音画可读性",
 }
 
+# Shared marker for "this dimension never received evidence of its own". Kept as a
+# named pair so every unevaluated branch reports the same score/status, and so the
+# report-level verdict check can recognise the state without magic numbers.
+UNEVALUATED_SCORE = 40
+UNEVALUATED_STATUS = "MANUAL_REVIEW"
+
 POLICY_NAMES = {
     "R_DANGER_PROMOTION": "危险行为诱导",
     "R_VIOLENCE": "暴力或危险行为画面",
@@ -378,11 +384,12 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
         if not active and analysis and verdict != ("NEEDS_REVISION" if observation_result.get("coverage") == "FULL" else "MANUAL_REVIEW"):
             raise ValueError("存在内容分析问题时报告总评不一致")
         if not active and not analysis:
-            # A content-quality dimension that received no located evidence is
-            # reported as MANUAL_REVIEW / 40 by _analysis_dimension, and the report
-            # then cannot claim the video is publishable. Accept either verdict so
+            # A dimension that received no evidence of its own is reported as
+            # UNEVALUATED_STATUS / UNEVALUATED_SCORE, and the report then cannot
+            # claim the video is publishable. Accept either verdict so
             # "nothing found" and "nothing evaluated" stay distinguishable.
-            unevaluated=any(item["status"] == "MANUAL_REVIEW" and item["score"] == 40
+            unevaluated=any(item["status"] == UNEVALUATED_STATUS
+                            and item["score"] == UNEVALUATED_SCORE
                             for item in dimensions.values())
             expected={"PUBLISHABLE"} if observation_result.get("coverage") == "FULL" else {"MANUAL_REVIEW"}
             if unevaluated:
@@ -488,6 +495,26 @@ def _evaluated_sections(detail: dict) -> dict[str, bool]:
     }
 
 
+def _roll_up(items: list[dict], label: str) -> tuple[int, str, str]:
+    """Aggregate a dimension from its items, taking the worst reported state.
+
+    A parent must never look healthier than its own children: if one modality or
+    one sub-check is unevaluated or failed, the dimension as a whole is too.
+    """
+    scores=[item["score"] for item in items]
+    score=min(scores) if scores else UNEVALUATED_SCORE
+    if any(item["status"] == "FAIL" for item in items):
+        return score, "FAIL", f"{label}中存在未通过的子项。"
+    if any(item["status"] == UNEVALUATED_STATUS and item["score"] == UNEVALUATED_SCORE
+           for item in items):
+        return score, UNEVALUATED_STATUS, f"{label}中仍有子项未完成评估，需人工判断。"
+    if any(item["status"] == "MANUAL_REVIEW" for item in items):
+        return score, "MANUAL_REVIEW", f"{label}中部分子项需要人工复核。"
+    if any(item["status"] == "WARNING" for item in items):
+        return score, "WARNING", f"{label}中部分子项需要关注。"
+    return score, "PASS", f"{label}的子项均已评估，未发现问题。"
+
+
 def _analysis_dimension(issue_entries: list[tuple[str, dict]], category: str,
                         fallback_refs: list[str], label: str, catalog: dict[str, dict],
                         evaluated: bool = True) -> dict:
@@ -509,7 +536,8 @@ def _analysis_dimension(issue_entries: list[tuple[str, dict]], category: str,
     elif evaluated:
         status="PASS"; score=90; summary=f"已评估{label}，未发现需要处理的已定位问题。"
     else:
-        status="MANUAL_REVIEW"; score=40; summary=f"未对{label}完成评估，需人工判断。"
+        status=UNEVALUATED_STATUS; score=UNEVALUATED_SCORE
+        summary=f"未对{label}完成评估，需人工判断。"
     if matched:
         items=[_dimension_item(
             key=issue["id"], label=label,
@@ -668,6 +696,7 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
     active_refs=[ref for finding in active for ref in [*finding.get("supporting_ids",[]), *finding.get("counter_ids",[])] if ref in catalog]
     context_refs=[event_id for event_id,event in events.items() if event.get("context",{}).get("stance") != "UNKNOWN"] or event_refs or refs
     coverage_items=[]
+    declared=detail.get("coverage",{}).get("modalities",{}) if isinstance(detail,dict) else {}
     for key,label,field in (
         ("visual","视觉覆盖","visual_facts"),
         ("speech","口播覆盖","speech_transcript"),
@@ -678,16 +707,26 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
                  if isinstance(shot,dict) for fact in shot.get(field,[]) if isinstance(fact,dict)
                  and f"{shot.get('shot_id')}:{fact.get('fact_id')}" in catalog]
         evidence=matched or refs
-        score=100 if coverage == "FULL" else 55
-        status="PASS" if coverage == "FULL" else "MANUAL_REVIEW"
-        note="该模态已纳入完整视频解析。" if matched else "该模态未记录可辨认证据，不能据此推断不存在内容。"
+        modality=declared.get(key,"UNKNOWN")
+        if modality == "FULL":
+            # The parse reports having examined this modality, so "examined and
+            # nothing of this kind found" is a real finding, whether or not it
+            # happened to record a fact here.
+            score=100
+            status="PASS"
+            note=("该模态已纳入完整视频解析。" if matched
+                  else "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。")
+        else:
+            # The modality was not fully observed: the dimension cannot be scored,
+            # and claiming a pass here is exactly the defect this guards against.
+            score=UNEVALUATED_SCORE
+            status=UNEVALUATED_STATUS
+            note=f"该模态仅记录为 {modality}，未被完整观察，不能据此推断不存在内容。"
         coverage_items.append(_dimension_item(key,label,score,status,note,evidence,catalog))
     trace_items=[]
     for ref in active_refs or refs:
         trace_items.append(_dimension_item(f"trace_{ref}","问题证据定位",95 if active_refs else 90,
                                            "PASS",f"{ref} 可回溯至已定位视频证据。",[ref],catalog))
-    safety_score=20 if flag else (55 if active else 100)
-    safety_status="FAIL" if flag else ("MANUAL_REVIEW" if active else "PASS")
     safety_items=[]
     for finding in active:
         finding_refs=[ref for ref in [*finding.get("supporting_ids",[]), *finding.get("counter_ids",[])] if ref in catalog] or refs
@@ -702,23 +741,30 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         safety_items.append(_dimension_item("active_findings","需处理风险项",100,"PASS","未发现需要处置的风险 finding。",refs,catalog))
     context_uncertain=any(f.get("judgement") in {"CONFLICTED","INSUFFICIENT","UNKNOWN"} for f in active)
     assessed=_evaluated_sections(detail)
+    context_items=[_dimension_item(
+        "observable_context","可观察语境",55 if context_uncertain else 90,
+        "MANUAL_REVIEW" if context_uncertain else "PASS",
+        "相关语境只能以输入中的提示、画面或口播为准。",context_refs,catalog)]
+    coverage_score,coverage_status,coverage_summary=_roll_up(coverage_items,"审核覆盖")
+    trace_score,trace_status,trace_summary=_roll_up(trace_items,"证据可追溯")
+    safety_score,safety_status,safety_summary=_roll_up(safety_items,"安全风险控制")
+    context_score,context_status,context_summary=_roll_up(context_items,"语境完整性")
     dimensions={
-        "audit_coverage":_dimension(100 if coverage == "FULL" else 55,"PASS" if coverage == "FULL" else "MANUAL_REVIEW","视频解析覆盖完整。" if coverage == "FULL" else "视频解析覆盖存在限制。",coverage_items,catalog),
-        "evidence_traceability":_dimension(95 if active_refs or not active else 60,"PASS" if active_refs or not active else "WARNING","风险线索可回溯到时间化观察。" if active else "未发现需处理的风险线索。",trace_items,catalog),
-        "safety_risk_control":_dimension(safety_score,safety_status,"存在需处理的内容安全线索。" if active else "未发现需处理的内容安全线索。",safety_items,catalog),
-        "context_completeness":_dimension(55 if context_uncertain else 90,"MANUAL_REVIEW" if context_uncertain else "PASS","部分语境仍需人工核验。" if context_uncertain else "已记录可观察的语境信息。",[
-            _dimension_item("observable_context","可观察语境",55 if context_uncertain else 90,"MANUAL_REVIEW" if context_uncertain else "PASS","相关语境只能以输入中的提示、画面或口播为准。",context_refs,catalog),
-        ],catalog),
+        "audit_coverage":_dimension(coverage_score,coverage_status,coverage_summary,coverage_items,catalog),
+        "evidence_traceability":_dimension(trace_score,trace_status,trace_summary,trace_items,catalog),
+        "safety_risk_control":_dimension(safety_score,safety_status,safety_summary,safety_items,catalog),
+        "context_completeness":_dimension(context_score,context_status,context_summary,context_items,catalog),
         "material_completeness":_analysis_dimension(analysis_entries,"MATERIAL_COMPLETENESS",refs,"素材完整性",catalog,evaluated=assessed["MATERIAL_COMPLETENESS"]),
         "narrative_structure":_analysis_dimension(analysis_entries,"STRUCTURE",refs,"内容结构",catalog,evaluated=assessed["STRUCTURE"]),
         "hook_clarity":_analysis_dimension(analysis_entries,"HOOK",refs,"开头信息建立",catalog,evaluated=assessed["HOOK"]),
         "subject_presentation":_analysis_dimension(analysis_entries,"SUBJECT_PRESENTATION",refs,"主体展示",catalog,evaluated=assessed["SUBJECT_PRESENTATION"]),
         "audiovisual_readability":_audiovisual_dimension(analysis_entries,refs,readability,catalog),
     }
-    # A content-quality dimension that cites no evidence of its own is counted as
+    # A dimension that never received evidence of its own is counted as
     # unevaluated, so the report cannot claim a publishable verdict on the
     # strength of the dimensions that were examined.
-    unevaluated=any(dimension["status"] == "MANUAL_REVIEW" and dimension["score"] == 40
+    unevaluated=any(dimension["status"] == UNEVALUATED_STATUS
+                    and dimension["score"] == UNEVALUATED_SCORE
                     for dimension in dimensions.values())
     if flag:
         verdict="BLOCKED"; direction="先处理 P0 风险项并回看对应原片段；完成遮挡、移除或替换后，再进行人工复核。"

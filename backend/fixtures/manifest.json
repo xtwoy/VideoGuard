@@ -49,7 +49,7 @@
         "video_parse_response.json": "731e4bc17c64b08d",
         "issue_locator_response.json": "e9d993f0bc4de976",
         "relation_response.json": "dd32163e34e95d2d",
-        "audit_report_response.json": "74a1d6975ef0865f",
+        "audit_report_response.json": "575ef27494809b7a",
         "expectations.json": "610d923102bc884a",
         "case.json": "43a69f407cfea45f"
       }
@@ -73,7 +73,7 @@
         "video_parse_response.json": "318d0d383272dd69",
         "issue_locator_response.json": "99045e291d238c87",
         "relation_response.json": "645d32a243b91e23",
-        "audit_report_response.json": "b92af2d58973d124",
+        "audit_report_response.json": "3d6b0ad7557bb6d9",
         "expectations.json": "46500e36c0f0d13f",
         "case.json": "f7595d92c3d812af"
       }
@@ -97,7 +97,7 @@
         "video_parse_response.json": "c5694ed58dcbedc5",
         "issue_locator_response.json": "c76c0a40bb0613fe",
         "relation_response.json": "e134a34166fd5bf1",
-        "audit_report_response.json": "745608a724285c59",
+        "audit_report_response.json": "63b217f498b6b6d6",
         "expectations.json": "41990c0aaeb7aa96",
         "case.json": "e97848f1c83eb389"
       }
@@ -128,7 +128,7 @@
       "files": {
         "video_parse_response.json": "c5694ed58dcbedc5",
         "issue_locator_response.json": "c76c0a40bb0613fe",
-        "audit_report_response.json": "05ca601205ce930e",
+        "audit_report_response.json": "09c76bec8a389819",
         "expectations.json": "2ead55c0e170c65e",
         "case.json": "6a10bf0cbc219f0f"
       }
@@ -158,12 +158,12 @@
       },
       "event_finding_count": 1,
       "audit_verdict": "MANUAL_REVIEW",
-      "audit_score": 55,
+      "audit_score": 40,
       "audit_report_error": "",
       "files": {
         "video_parse_response.json": "ebb8e6644bb0a0a4",
         "issue_locator_response.json": "7deb1c1afee49bb5",
-        "audit_report_response.json": "9b0dba9c3c0e4791",
+        "audit_report_response.json": "eed3408f1d378ff8",
         "expectations.json": "0f0f80853b74d1f0",
         "case.json": "154651c056a9dc9f"
       }
@@ -196,7 +196,7 @@
       "files": {
         "video_parse_response.json": "786b33af25516258",
         "issue_locator_response.json": "153d1a685ade7628",
-        "audit_report_response.json": "81135eac8f40d467",
+        "audit_report_response.json": "bd83cab70cc2c439",
         "expectations.json": "d425d832ece2b27c",
         "case.json": "2c3407e3d76b1d81"
       }
@@ -225,12 +225,12 @@
       },
       "event_finding_count": 1,
       "audit_verdict": "MANUAL_REVIEW",
-      "audit_score": 55,
+      "audit_score": 40,
       "audit_report_error": "",
       "files": {
         "video_parse_response.json": "ea70d6760bd65074",
         "issue_locator_response.json": "a97738b1280c91ac",
-        "audit_report_response.json": "acc1a03bdf5d9277",
+        "audit_report_response.json": "3b8248ea29498ef3",
         "expectations.json": "504ed973467e1ebb",
         "case.json": "3d6a8bfcc933f65b"
       }
@@ -319,12 +319,12 @@
       },
       "event_finding_count": 0,
       "audit_verdict": "MANUAL_REVIEW",
-      "audit_score": 55,
+      "audit_score": 40,
       "audit_report_error": "",
       "files": {
         "video_parse_response.json": "9f27db440891bb59",
         "issue_locator_response.json": "c1551c338010480e",
-        "audit_report_response.json": "6eb9f5c4e2ffe0f1",
+        "audit_report_response.json": "5c3fc43484bf125d",
         "expectations.json": "d5dbaf46d9aaf2bd",
         "case.json": "c87097aaae601f5d"
       }
@@ -347,7 +347,7 @@
       "files": {
         "video_parse_response.json": "b6834c03048873af",
         "issue_locator_response.json": "445d185f3cbb2ce2",
-        "audit_report_response.json": "becad2c9bd690881",
+        "audit_report_response.json": "678a0054912c9114",
         "expectations.json": "3c9dac2560732fab",
         "case.json": "14ee2574e07a9614"
       }

@@ -7,14 +7,14 @@
     "audit_coverage": {
       "score": 100,
       "status": "PASS",
-      "summary": "视频解析覆盖完整。",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
       "items": [
         {
           "key": "visual",
           "label": "视觉覆盖",
           "score": 100,
           "status": "PASS",
-          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
           "evidence_refs": [
             "S001:F001"
           ],
@@ -82,7 +82,7 @@
           "label": "声音覆盖",
           "score": 100,
           "status": "PASS",
-          "summary": "该模态未记录可辨认证据，不能据此推断不存在内容。",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
           "evidence_refs": [
             "S001:F001"
           ],
@@ -131,7 +131,7 @@
     "evidence_traceability": {
       "score": 95,
       "status": "PASS",
-      "summary": "风险线索可回溯到时间化观察。",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
       "items": [
         {
           "key": "trace_E01",
@@ -171,7 +171,7 @@
     "safety_risk_control": {
       "score": 20,
       "status": "FAIL",
-      "summary": "存在需处理的内容安全线索。",
+      "summary": "安全风险控制中存在未通过的子项。",
       "items": [
         {
           "key": "finding_R_PRIVACY_EXPOSURE",
@@ -211,7 +211,7 @@
     "context_completeness": {
       "score": 90,
       "status": "PASS",
-      "summary": "已记录可观察的语境信息。",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
       "items": [
         {
           "key": "observable_context",
