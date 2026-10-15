@@ -1,5 +1,5 @@
 target : http://127.0.0.1:8009
-sample : /workspace/scratch/265a556ed5f7/review/VideoGuard-main/backend/tmp_dao3tkp/smoke_sample.mp4 (87816 bytes)
+sample : /workspace/scratch/265a556ed5f7/graph-upgrade/VideoGuard-main/backend/tmpka9bdzrz/smoke_sample.mp4 (87816 bytes)
 
 [1] service availability
   PASS  health returns 200

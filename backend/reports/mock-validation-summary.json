@@ -1,15 +1,19 @@
 {
-  "scope": "Mock failure-path repair and same-input PEAD decision comparison",
+  "engine_version": "pead-evidence-graph-v1",
   "mode": "MOCK_SYNTHETIC",
   "real_model_calls": 0,
   "backend_unit_tests": {
-    "passed": 100,
-    "total": 100
+    "passed": 120,
+    "total": 120
+  },
+  "grounded_kernel_oracle": {
+    "nodes": 3,
+    "attack_graphs_checked": 512,
+    "method": "intersection of independently enumerated complete extensions"
   },
   "fixture_cases": {
     "passed": 18,
-    "total": 18,
-    "generation_drift": false
+    "total": 18
   },
   "relation_truth_table": {
     "combinations": 64,
@@ -17,67 +21,53 @@
   },
   "comparison": {
     "count": 10,
-    "changed": 1,
+    "changed": 2,
     "without_pead": {
       "FLAG": 3,
       "NONE": 4,
       "REVIEW": 3
     },
     "with_pead": {
-      "FLAG": 2,
+      "FLAG": 1,
       "NONE": 4,
-      "REVIEW": 4
+      "REVIEW": 5
     },
     "without_pead_meets_synthetic_expectation": 8,
-    "with_pead_meets_synthetic_expectation": 9
+    "with_pead_meets_synthetic_expectation": 10
   },
   "comparison_enumeration": {
     "count": 64,
-    "changed": 29,
+    "changed": 14,
     "without_pead": {
       "FLAG": 7,
       "NONE": 20,
       "REVIEW": 37
     },
     "with_pead": {
-      "FLAG": 15,
-      "NONE": 15,
-      "REVIEW": 34
+      "FLAG": 3,
+      "NONE": 14,
+      "REVIEW": 47
     }
   },
+  "previous_revision_same_curated_inputs_verified": true,
+  "previous_revision_with_pead_meets_synthetic_expectation": 9,
   "real_http_smoke": {
     "passed": 29,
     "total": 29,
-    "note": "Local HTTP, ffprobe and no-key fail-closed path; no video-model inference."
+    "note": "Local HTTP, ffprobe and no-key fail-closed only."
   },
-  "frontend_typecheck": "PASS",
-  "frontend_production_build": {
-    "status": "NOT_COMPLETED",
-    "error": "Node process.memoryUsage() raises ENOENT uv_resident_set_memory in this sandbox; both default and webpack builds stop before compilation. Frontend source unchanged."
+  "html_report": {
+    "structure_escape_and_http_checks": "PASS",
+    "browser_visual_layout": "NOT_CHECKED: Chromium executable unavailable"
   },
-  "python": "3.12.14",
-  "node": "v24.19.0",
-  "changed_original_files": [
-    ".github/workflows/tests.yml",
-    "HANDOFF.md",
-    "README.md",
-    "backend/.env.example",
-    "backend/fixtures/validate.py",
-    "backend/pipeline.py",
-    "backend/src/issue_locator_client.py",
-    "backend/src/relation_client.py",
-    "backend/tests/test_http_surface.py",
-    "backend/tests/test_mvp.py",
-    "docs/00_文档导航与使用说明.md",
-    "docs/03_系统设计与工程实现说明.md",
-    "docs/04_核心技术与实验验证计划.md",
-    "docs/05_任务拆分与开发交接说明.md"
-  ],
+  "frontend_source": "unchanged; previous strict typecheck passed",
+  "frontend_production_build": "previous sandbox uv_resident_set_memory ENOENT remains unresolved",
+  "scope": "Danger-promotion graph enhanced; other policies use existing rules.",
   "remaining_limitations": [
     "仅比较危险行为诱导策略，不代表所有风险策略或整个应用。",
     "合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。",
     "未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。",
-    "同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。",
+    "已有显式警示的错误鼓励回答现在转冲突复核；如果上游遗漏警示或事件指向错误，仍无法独立纠正。",
     "穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。"
   ]
 }

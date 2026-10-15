@@ -20,14 +20,32 @@ test_unevaluated_dimension_blocks_a_publishable_verdict (test_audit_report_regre
 test_unobserved_modality_is_not_scored_as_a_pass (test_audit_report_regressions.UnevaluatedDimensionTests.test_unobserved_modality_is_not_scored_as_a_pass)
 A modality the parse did not fully observe cannot be scored. ... ok
 test_events_keep_separate_contexts (test_event_audit.EventAuditTest.test_events_keep_separate_contexts) ... ok
+test_a_warning_in_another_event_does_not_cancel_supported_risk (test_evidence_graph.EvidenceGraphTests.test_a_warning_in_another_event_does_not_cancel_supported_risk) ... ok
+test_audit_model_gets_summary_not_the_full_argument_graph (test_evidence_graph.EvidenceGraphTests.test_audit_model_gets_summary_not_the_full_argument_graph) ... ok
+test_counterfactuals_use_frozen_evidence_ids_and_remove_all_aliases (test_evidence_graph.EvidenceGraphTests.test_counterfactuals_use_frozen_evidence_ids_and_remove_all_aliases) ... ok
+test_duplicate_risk_references_do_not_break_report_dimension_keys (test_evidence_graph.EvidenceGraphTests.test_duplicate_risk_references_do_not_break_report_dimension_keys) ... ok
+test_every_attack_and_certificate_refers_to_real_graph_nodes (test_evidence_graph.EvidenceGraphTests.test_every_attack_and_certificate_refers_to_real_graph_nodes) ... ok
+test_explicit_warning_defeats_wrong_model_confidence_by_conflict (test_evidence_graph.EvidenceGraphTests.test_explicit_warning_defeats_wrong_model_confidence_by_conflict) ... ok
+test_html_explanation_escapes_every_graph_field (test_evidence_graph.EvidenceGraphTests.test_html_explanation_escapes_every_graph_field) ... ok
+test_invalid_time_duplicate_ids_and_refused_coverage_fail_closed (test_evidence_graph.EvidenceGraphTests.test_invalid_time_duplicate_ids_and_refused_coverage_fail_closed) ... ok
+test_missing_upstream_warning_cannot_be_invented (test_evidence_graph.EvidenceGraphTests.test_missing_upstream_warning_cannot_be_invented) ... ok
+test_model_unrelated_for_another_phrase_does_not_defeat_valid_support (test_evidence_graph.EvidenceGraphTests.test_model_unrelated_for_another_phrase_does_not_defeat_valid_support) ... ok
+test_permutations_have_identical_graphs_and_do_not_modify_inputs (test_evidence_graph.EvidenceGraphTests.test_permutations_have_identical_graphs_and_do_not_modify_inputs) ... ok
+test_real_fusion_returns_independent_event_decisions (test_evidence_graph.EvidenceGraphTests.test_real_fusion_returns_independent_event_decisions) ... ok
+test_same_event_warning_cannot_be_removed_by_duplicate_support (test_evidence_graph.EvidenceGraphTests.test_same_event_warning_cannot_be_removed_by_duplicate_support) ... ok
+test_same_source_aliases_keep_the_least_reliable_time_quality (test_evidence_graph.EvidenceGraphTests.test_same_source_aliases_keep_the_least_reliable_time_quality) ... ok
+test_timestamp_window_boundary (test_evidence_graph.EvidenceGraphTests.test_timestamp_window_boundary) ... ok
+test_unknown_provenance_is_not_assumed_independent_or_merged_by_text (test_evidence_graph.EvidenceGraphTests.test_unknown_provenance_is_not_assumed_independent_or_merged_by_text) ... ok
+test_unknown_target_low_time_quality_and_missing_relation_cannot_flag (test_evidence_graph.EvidenceGraphTests.test_unknown_target_low_time_quality_and_missing_relation_cannot_flag) ... ok
+test_all_three_node_attack_graphs_match_independent_complete_extension_oracle (test_evidence_graph.GroundedSemanticsTests.test_all_three_node_attack_graphs_match_independent_complete_extension_oracle) ... ok
+test_empty_self_attack_mutual_attack_and_defended_chain (test_evidence_graph.GroundedSemanticsTests.test_empty_self_attack_mutual_attack_and_defended_chain) ... ok
+test_invalid_graphs_are_rejected (test_evidence_graph.GroundedSemanticsTests.test_invalid_graphs_are_rejected) ... ok
 test_counter_evidence_does_not_depend_on_the_chosen_tag (test_fixture_pack.FixturePackTests.test_counter_evidence_does_not_depend_on_the_chosen_tag)
 Encouragement plus cautionary framing must be a conflict either way. ... ok
 test_every_case_matches_its_expectations (test_fixture_pack.FixturePackTests.test_every_case_matches_its_expectations) ... ok
 test_every_policy_is_exercised_by_some_case (test_fixture_pack.FixturePackTests.test_every_policy_is_exercised_by_some_case)
 All ten policies must have a case asserting a non-NONE disposition. ... ok
 test_fixtures_match_their_case_definitions (test_fixture_pack.FixturePackTests.test_fixtures_match_their_case_definitions) ... ok
-test_known_limitation_model_error_on_warning_footage_is_not_corrected (test_fixture_pack.FixturePackTests.test_known_limitation_model_error_on_warning_footage_is_not_corrected)
-The counterpart of the test above, and a limitation we publish. ... ok
 test_known_report_failures_are_still_pinned (test_fixture_pack.FixturePackTests.test_known_report_failures_are_still_pinned)
 Every case in KNOWN_REPORT_FAILURES must still fail, and nothing else. ... ok
 test_manifest_indexes_every_case (test_fixture_pack.FixturePackTests.test_manifest_indexes_every_case) ... ok
@@ -35,13 +53,14 @@ test_missing_relation_service_is_more_conservative_than_a_negative_answer (test_
 The H1 contrast: same evidence, only the relation answer differs. ... ok
 test_pead_overrides_a_confident_answer_the_structure_contradicts (test_fixture_pack.FixturePackTests.test_pead_overrides_a_confident_answer_the_structure_contradicts)
 A provider that is confidently wrong must not force a strong flag. ... ok
+test_same_event_warning_blocks_wrong_model_encouragement (test_fixture_pack.FixturePackTests.test_same_event_warning_blocks_wrong_model_encouragement)
+The former pinned failure is now an explicit corrected regression. ... ok
 test_studied_risks_have_a_case_beyond_partial_coverage (test_fixture_pack.FixturePackTests.test_studied_risks_have_a_case_beyond_partial_coverage)
 The four studied risks must not rely on RECHECK alone. ... ok
-test_a_single_dissent_prevents_a_strong_flag (test_fixture_pack.TruthTableTests.test_a_single_dissent_prevents_a_strong_flag)
-with two candidate pairs, only full agreement may produce a FLAG. ... ok
+test_a_supported_pair_survives_an_unrelated_other_phrase (test_fixture_pack.TruthTableTests.test_a_supported_pair_survives_an_unrelated_other_phrase)
+An unrelated second phrase is not a warning against the first claim. ... ok
 test_every_combination_is_total_and_deterministic (test_fixture_pack.TruthTableTests.test_every_combination_is_total_and_deterministic) ... ok
-test_reported_limitation_is_still_reachable_in_the_table (test_fixture_pack.TruthTableTests.test_reported_limitation_is_still_reachable_in_the_table)
-The published limitation must stay visible rather than be tuned away. ... ok
+test_warning_regression_cannot_flag_under_any_relation_choice (test_fixture_pack.TruthTableTests.test_warning_regression_cannot_flag_under_any_relation_choice) ... ok
 test_demo_endpoint_is_marked_synthetic (test_http_surface.HttpSurfaceTests.test_demo_endpoint_is_marked_synthetic) ... ok
 test_disallowed_extension_is_rejected (test_http_surface.HttpSurfaceTests.test_disallowed_extension_is_rejected) ... ok
 test_empty_locator_answers_fail_the_real_pipeline_and_persist_error (test_http_surface.HttpSurfaceTests.test_empty_locator_answers_fail_the_real_pipeline_and_persist_error)
@@ -87,7 +106,7 @@ test_control_already_reviews_mixed_low_confidence_and_missing_answers (test_mock
 test_control_does_not_call_pead (test_mock_comparison.MockComparisonTests.test_control_does_not_call_pead) ... ok
 test_enumeration_covers_every_choice_combination_exactly_once (test_mock_comparison.MockComparisonTests.test_enumeration_covers_every_choice_combination_exactly_once) ... ok
 test_frozen_inputs_and_outputs_are_reproducible (test_mock_comparison.MockComparisonTests.test_frozen_inputs_and_outputs_are_reproducible) ... ok
-test_structural_conflict_is_corrected_but_known_semantic_failure_remains (test_mock_comparison.MockComparisonTests.test_structural_conflict_is_corrected_but_known_semantic_failure_remains) ... ok
+test_structural_and_same_event_counter_context_conflicts_are_reviewed (test_mock_comparison.MockComparisonTests.test_structural_and_same_event_counter_context_conflicts_are_reviewed) ... ok
 test_summary_reconciles_to_rows_and_keeps_review_separate (test_mock_comparison.MockComparisonTests.test_summary_reconciles_to_rows_and_keeps_review_separate) ... ok
 test_two_arms_share_input_and_do_not_modify_it (test_mock_comparison.MockComparisonTests.test_two_arms_share_input_and_do_not_modify_it) ... ok
 test_analysis_issues_must_enter_the_revision_plan (test_mvp.ProtocolTests.test_analysis_issues_must_enter_the_revision_plan) ... ok
@@ -125,139 +144,6 @@ test_selecting_and_judging_share_one_window (test_parameters.RelationParameterTe
 The adapter and the engine must read the same value, not two copies. ... ok
 
 ----------------------------------------------------------------------
-Ran 100 tests in 1.859s
+Ran 120 tests in 2.403s
 
 OK
-  PASS  danger_promotion
-  PASS  warning_context
-  PASS  unrelated_promotion
-  PASS  unrelated_without_relation_service
-  PASS  news_violence
-  PASS  privacy_screen_text
-  PASS  credential_claim
-  PASS  self_harm_cue
-  PASS  sexual_content_cue
-  PASS  hate_harassment_cue
-  PASS  fraud_scam_cue
-  PASS  controlled_goods_cue
-  PASS  minors_protection_cue
-  PASS  relation_override_conflict
-  PASS  relation_wrong_encouragement
-  PASS  counter_context_tagging
-  PASS  partial_coverage
-  PASS  clean_negative
-
-  danger_promotion       coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=BLOCKED
-  warning_context        coverage=FULL     relation=LIVE             pairs=2 event_findings=0 verdict=PUBLISHABLE
-  unrelated_promotion    coverage=FULL     relation=LIVE             pairs=1 event_findings=2 verdict=PUBLISHABLE
-  unrelated_without_relation_service coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=0 verdict=MANUAL_REVIEW
-  news_violence          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
-  privacy_screen_text    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
-  credential_claim       coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
-  self_harm_cue          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
-  sexual_content_cue     coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
-  hate_harassment_cue    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
-  fraud_scam_cue         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
-  controlled_goods_cue   coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
-  minors_protection_cue  coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
-  relation_override_conflict coverage=FULL     relation=LIVE             pairs=1 event_findings=2 verdict=MANUAL_REVIEW
-  relation_wrong_encouragement coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=BLOCKED
-  counter_context_tagging coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=1 verdict=MANUAL_REVIEW
-  partial_coverage       coverage=PARTIAL  relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=MANUAL_REVIEW
-  clean_negative         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=PUBLISHABLE
-
-all 18 fixture cases behave as documented
-all fixtures up to date (18 cases)
-枚举 7 个含候选对的用例，共 64 种关系回答组合
-  danger_promotion                 pairs=2 combinations=16
-      -> CONFLICTED     REVIEW           RELATION_DISPUTES_BASELINE
-      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
-  warning_context                  pairs=2 combinations=16
-      -> INSUFFICIENT   REVIEW           RELATION_AMBIGUITY
-      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
-      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
-      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
-  unrelated_promotion              pairs=1 combinations=4
-      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
-      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
-      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
-  unrelated_without_relation_service pairs=1 combinations=4
-      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
-      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
-      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
-  relation_override_conflict       pairs=1 combinations=4
-      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
-      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
-      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
-  relation_wrong_encouragement     pairs=2 combinations=16
-      -> INSUFFICIENT   REVIEW           RELATION_AMBIGUITY
-      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
-      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
-      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
-  counter_context_tagging          pairs=1 combinations=4
-      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
-
-检查通过：全定义、确定性、符合协议、单调保守。
-# PEAD Mock 同输入对照验证
-
-**模式：MOCK_SYNTHETIC。没有调用真实 LLM，也没有分析原视频。**
-
-合成结构化输入下的决策约束消融；不是视频识别准确率评估。
-
-## 对照条件
-
-共享解析/协议校验/候选对/置信门限；简单映射含缺服务、低可信与混合回答复核。
-
-相同输入经过现有 PEAD 引擎及关系融合；保持已有阈值。
-
-reference_action 是预先写明的合成场景处置预期，不是独立视频人工标注。
-
-FLAG/NONE 保留；REVIEW、RECHECK、VERIFY_EXTERNAL、RETRY 统一计入复核桶，原始处置仍逐条保留。
-
-## 场景结果
-
-| 场景 | 合成处置预期 | 无 PEAD | 有 PEAD | PEAD 原因 |
-|---|---|---|---|---|
-| 明确鼓励同一危险动作 | FLAG | FLAG | FLAG | RELATION_LINK_ASSISTED |
-| 明确警示不要模仿 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
-| 模型确认鼓励话语与动作无关 | NONE | NONE | NONE | RELATION_UNRELATED_CONFIRMED |
-| 关联未核验，保留复核 | REVIEW | REVIEW | REVIEW | MISSING_SEMANTIC_RELATION |
-| 新闻画面未提供危险诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
-| 不同事件，模型却自信回答鼓励同一动作 | REVIEW | FLAG | REVIEW | RELATION_REFERENT_DISAGREEMENT |
-| 同一事件有警示，模型却自信答错 | REVIEW | FLAG | FLAG | RELATION_LINK_ASSISTED |
-| 鼓励与教育警示的立场冲突 | REVIEW | REVIEW | REVIEW | CONFLICTING_STANCE |
-| 观察不完整，不能放行 | REVIEW | REVIEW | RECHECK | INCOMPLETE_OBSERVATION |
-| 完整观察且无诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
-
-场景数：10；处置桶不同：1。
-符合合成处置预期：无 PEAD 8，有 PEAD 9。这是测试预期计数，不是视频准确率。
-
-## 各组处置数量
-
-| 组别 | 强提示 FLAG | 暂无动作 NONE | 复核桶 |
-|---|---|---|---|
-| without_pead | 3 | 4 | 3 |
-| with_pead | 2 | 4 | 4 |
-
-## 关系回答穷举
-
-在有候选对的场景上，枚举 64 种关系回答组合；其中 29 种的处置桶不同。差异数量不等于改善数量。
-具体每一组答案、处置、理由和输入哈希见同名 JSON；不对替换回答后的组合计算准确率。
-
-## 局限
-
-- 仅比较危险行为诱导策略，不代表所有风险策略或整个应用。
-- 合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。
-- 未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。
-- 同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。
-- 穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。
-
-## 复现
-
-从 backend 运行 `python -m fixtures.compare_pead --write`。
-再次运行 `python -m fixtures.compare_pead --check` 应确认输出无漂移。
-输入快照保存在 mock-pead-inputs.json；两个分支共用同一输入哈希。
-关系穷举回包由 fixtures.truth_table 的固定生成器产生。
-输出不含时间戳或运行耗时，便于逐字节复现。
-
-Mock validation passed. Reports are in backend/reports.
