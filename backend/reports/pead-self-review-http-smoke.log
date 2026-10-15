@@ -1,0 +1,53 @@
+target : http://127.0.0.1:8128
+sample : /workspace/scratch/265a556ed5f7/upgrade/VideoGuard-main/backend/tmpbfuz25s9/smoke_sample.mp4 (87816 bytes)
+
+[1] service availability
+  PASS  health returns 200
+  PASS  health payload ok
+  PASS  health exposes PyArg solver
+  PASS  backend root explains where the UI is
+
+[2] synthetic demo path (never a real video audit)
+  PASS  demo returns 200
+  PASS  demo mode is DEMO
+  PASS  ten policies evaluated
+  PASS  event audit records present
+  PASS  video parse marked synthetic
+  PASS  missing relation service is a skip, not a failure
+  PASS  demo uses PyArg
+  PASS  demo records rule firings
+  PASS  demo and health agree on rule snapshot
+  PASS  stored graph preserves decision trace
+
+[3] exported HTML report
+  PASS  report returns 200
+  PASS  report renders inline for the embedded view
+  PASS  report is self-contained html
+  PASS  report states it is synthetic
+  PASS  report exposes selected rules
+  PASS  report carries same rule fingerprint
+  PASS  report carries findings
+  PASS  report carries the nine-dimension scores
+  PASS  report carries the revision plan
+  PASS  report leaks no internal stage code
+  PASS  report leaks no internal policy id
+
+[4] upload validation (must reject before any model call)
+  PASS  missing consent is rejected
+  PASS  wrong extension is rejected
+  PASS  empty upload is rejected
+
+[5] real video through the live path
+  PASS  unconfigured credentials fail closed
+  PASS  failure exposes a review id
+  PASS  failure is persisted
+  PASS  failed record is marked ERROR
+  PASS  failed run is not reported as safe
+  PASS  failed run stores no findings
+  PASS  real duration was probed before failure
+  NOTE  no usable video-model configuration: this run proves the fail-closed path only.
+
+[6] missing record handling
+  PASS  unknown id returns 404
+
+36/36 checks passed

@@ -1,0 +1,31 @@
+枚举 7 个含候选对的用例，共 64 种关系回答组合
+  danger_promotion                 pairs=2 combinations=16
+      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> SUPPORTED      FLAG             RELATION_LINK_ASSISTED
+  warning_context                  pairs=2 combinations=16
+      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  unrelated_promotion              pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  unrelated_without_relation_service pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  relation_override_conflict       pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           RELATION_REFERENT_DISAGREEMENT
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  relation_wrong_encouragement     pairs=2 combinations=16
+      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
+      -> INSUFFICIENT   REVIEW           MISSING_SEMANTIC_RELATION
+      -> NOT_SUPPORTED  NONE             NO_SUPPORTING_RELATION
+      -> NOT_SUPPORTED  NONE             RELATION_UNRELATED_CONFIRMED
+  counter_context_tagging          pairs=1 combinations=4
+      -> CONFLICTED     REVIEW           CONFLICTING_STANCE
+
+检查通过：全定义、确定性、符合协议、单调保守。

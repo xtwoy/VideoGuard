@@ -1,0 +1,122 @@
+{
+  "engine": "pead-pyarg-rules-v2.1",
+  "ruleset": {
+    "version": "1.1.0",
+    "sha256": "f0e2cf934180e5410c2839d14b9279f97cebf7179e8d8b6ef161eb5001324bdc"
+  },
+  "solver": {
+    "name": "PyArg",
+    "distribution": "python-argumentation",
+    "version": "2.0.2",
+    "graph_library": "NetworkX",
+    "graph_version": "3.6.1",
+    "semantics": "grounded",
+    "fallback": false
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "linux",
+    "locked_dependencies": true
+  },
+  "unit_tests": {
+    "passed": 169,
+    "failed": 0,
+    "new_self_review_test_methods": 30
+  },
+  "business_invariant_combinations": 5184,
+  "three_node_attack_graph_oracle": 512,
+  "real_http_ffprobe": {
+    "passed": 36,
+    "total": 36,
+    "live_model_tested": false
+  },
+  "frozen_upstream_replies": {
+    "count": 61,
+    "unchanged_from_previous_delivered_zip": true,
+    "read_only_under_tests": true
+  },
+  "existing_case_primary_verdict_parity": {
+    "danger_promotion": true,
+    "warning_context": true,
+    "unrelated_promotion": true,
+    "unrelated_without_relation_service": true,
+    "news_violence": true,
+    "privacy_screen_text": true,
+    "credential_claim": true,
+    "self_harm_cue": true,
+    "sexual_content_cue": true,
+    "hate_harassment_cue": true,
+    "fraud_scam_cue": true,
+    "controlled_goods_cue": true,
+    "minors_protection_cue": true,
+    "relation_override_conflict": true,
+    "relation_wrong_encouragement": true,
+    "counter_context_tagging": true,
+    "partial_coverage": true,
+    "clean_negative": true
+  },
+  "six_minimal_counterexamples": {
+    "before": {
+      "unlocated_warning": {
+        "actual": "FLAG",
+        "counter_found": false
+      },
+      "wrong_event_model_warning": {
+        "actual": "REVIEW",
+        "counter_ids": [
+          "W"
+        ]
+      },
+      "config_bypasses_warning": {
+        "validated": true,
+        "actual": "FLAG"
+      },
+      "no_model_called": {
+        "relation_checked": true
+      },
+      "argument_id_collision": {
+        "expected_local_arguments": 4,
+        "actual_local_arguments": 3
+      },
+      "late_resource_check": {
+        "max_arguments": 1,
+        "constructed_arguments": 6,
+        "actual": "REVIEW"
+      }
+    },
+    "after": {
+      "unlocated_warning": {
+        "actual": "REVIEW",
+        "counter_found": true
+      },
+      "wrong_event_model_warning": {
+        "actual": "FLAG",
+        "counter_ids": []
+      },
+      "config_bypasses_warning": {
+        "validated": false,
+        "actual": "CONFIGURATION_REJECTED"
+      },
+      "no_model_called": {
+        "relation_checked": false
+      },
+      "argument_id_collision": {
+        "expected_local_arguments": 4,
+        "actual_local_arguments": 4
+      },
+      "late_resource_check": {
+        "max_arguments": 1,
+        "constructed_arguments": 1,
+        "actual": "REVIEW"
+      }
+    }
+  },
+  "python_311_syntax_checked": true,
+  "python_311_runtime_tested": false,
+  "real_model_api_calls": 0,
+  "limitations": [
+    "检查覆盖当前引擎、报告和失败路径，不构成无缺陷证明。",
+    "未验证真实模型效果与 Windows 实机运行。",
+    "原有样例主要裁决保持，并不意味着旧版的核验状态和整改动作正确。"
+  ]
+}

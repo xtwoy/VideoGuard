@@ -1,0 +1,134 @@
+{
+  "engine": "pead-pyarg-rules-v2",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "linux",
+    "installation": "uv sync --locked"
+  },
+  "solver": {
+    "name": "PyArg",
+    "distribution": "python-argumentation",
+    "version": "2.0.2",
+    "graph_library": "NetworkX",
+    "graph_version": "3.6.1",
+    "semantics": "grounded",
+    "fallback": false
+  },
+  "ruleset": {
+    "id": "PEAD_DANGER_PROMOTION",
+    "version": "1.0.0",
+    "sha256": "0958dbbe45c1ae97ce43685a911d7fa35cd5d5ef9d20f26b4db1bacd639b2dc2"
+  },
+  "unit_tests": {
+    "passed": 139,
+    "failed": 0,
+    "new_test_methods": 19
+  },
+  "real_http_ffprobe": {
+    "passed": 36,
+    "total": 36,
+    "scope": "local server, synthetic demo and no-key failure handling; no live model calls"
+  },
+  "migration_parity": {
+    "baseline": "uploaded VideoGuard-PEAD-graph.zip",
+    "fixture_cases": 18,
+    "core_policy_findings_and_event_decisions_unchanged": true
+  },
+  "unchanged_mock_response_files": {
+    "count": 61,
+    "sha256": {
+      "backend/fixtures/cases/clean_negative/audit_report_response.json": "678a0054912c9114a177f34d6cb67c4e7b6fbf7d4996357955b85a4d9f615ea2",
+      "backend/fixtures/cases/clean_negative/issue_locator_response.json": "445d185f3cbb2ce212ad3245d9bd93a1c491a8958c4870c66759d6424016d1e7",
+      "backend/fixtures/cases/clean_negative/video_parse_response.json": "b6834c03048873af68d932fbfad25bd1aae973029e64ce8b2451d5e08dee9f26",
+      "backend/fixtures/cases/controlled_goods_cue/audit_report_response.json": "6cca408618035b36af37258cb70e10ab7c60d4d3a6a0a9d643723a650b4d1a88",
+      "backend/fixtures/cases/controlled_goods_cue/issue_locator_response.json": "0d93add2390a0cf5682124549205a59375e21b35d8543913442caa3a1cabf00f",
+      "backend/fixtures/cases/controlled_goods_cue/video_parse_response.json": "85d94b6d92a3a6d3c18bc994f70b1398e1dd78dc6000547607346852cee9f374",
+      "backend/fixtures/cases/counter_context_tagging/audit_report_response.json": "40dd59a285797ba1aada7bc4a33b9a562fec5b39276bf01fae7691cc7c55e023",
+      "backend/fixtures/cases/counter_context_tagging/issue_locator_response.json": "ccbc6359fba76a214dea01c0ae4649ce0a6abe26671e1c36bb7eb863cf1bb702",
+      "backend/fixtures/cases/counter_context_tagging/video_parse_response.json": "dc4014d7a91628d383a58999099ea217563950bf48b3265f6529d24964945da6",
+      "backend/fixtures/cases/credential_claim/audit_report_response.json": "db175bd9e1840ac7fed5c3a006b94f1f8a0912577338a61249ccbd859912ec71",
+      "backend/fixtures/cases/credential_claim/issue_locator_response.json": "a97738b1280c91acdae84bb982ade719edab5cb0238ea4d764929783e3910950",
+      "backend/fixtures/cases/credential_claim/video_parse_response.json": "ea70d6760bd6507495bbb9e7b54ebd585d629bab6890fcf0e6607fd8b339d13b",
+      "backend/fixtures/cases/danger_promotion/audit_report_response.json": "45c39875acd67d7b273620bd04932a26c2f0626737ac9e6fba45a098f19740a4",
+      "backend/fixtures/cases/danger_promotion/issue_locator_response.json": "e9d993f0bc4de976f617280826cb1929ce8e13d41964ec28b718f4aa547428bb",
+      "backend/fixtures/cases/danger_promotion/relation_response.json": "dd32163e34e95d2d634f19923015a5027b695d5d03e2cb5ce59e28cb93886c86",
+      "backend/fixtures/cases/danger_promotion/video_parse_response.json": "731e4bc17c64b08d820f062f6f3bbaba2e2c25a60eaf2922427b54a698623b08",
+      "backend/fixtures/cases/fraud_scam_cue/audit_report_response.json": "0aa9c1f76ad5531f59af951594109749051f59d635447532448fe56458e343c9",
+      "backend/fixtures/cases/fraud_scam_cue/issue_locator_response.json": "e99de553f9c592adf9e9719a1a706995255fff2f0646430f32886f03d55450e0",
+      "backend/fixtures/cases/fraud_scam_cue/video_parse_response.json": "7c5aa0637cb6045d5a3c6454e30cb579ae359a94a3c27cb511af4eb261eebd7b",
+      "backend/fixtures/cases/hate_harassment_cue/audit_report_response.json": "fb4f69969b70063d56e162db368dcf9da82fc7d4b383e497afb10e49d726594e",
+      "backend/fixtures/cases/hate_harassment_cue/issue_locator_response.json": "4422f33527b85f94bd4ca64987b555d39a71187ca036911f4122b151c1a52072",
+      "backend/fixtures/cases/hate_harassment_cue/video_parse_response.json": "e37698a56ff1fd555b444c501d28a5bd30321b5451fc1757b79848b95a393644",
+      "backend/fixtures/cases/minors_protection_cue/audit_report_response.json": "97aaae47a2e7d6a18cf8b5c90c2eee173494aac013a80b8f4a314da398f42c88",
+      "backend/fixtures/cases/minors_protection_cue/issue_locator_response.json": "0095fda9506837bed34841082d3639921bb3b877641b33d5af0d69f4184c6dbb",
+      "backend/fixtures/cases/minors_protection_cue/video_parse_response.json": "9233a368848a2bc832a4f7a1426fabcb637fe77a3b08f0bc0c4279376521a629",
+      "backend/fixtures/cases/news_violence/audit_report_response.json": "c910a9be0d96cdda6a92a7dbfa9fde95497e0aab7fb138332ea41a1ce9a21792",
+      "backend/fixtures/cases/news_violence/issue_locator_response.json": "7deb1c1afee49bb535ae4d48bf75c2d386a0ce5771cbb7d736a9ecac3fa9bedc",
+      "backend/fixtures/cases/news_violence/video_parse_response.json": "ebb8e6644bb0a0a454e9f176ee9a5d3c88da120e59abf608426d7c446d6b90de",
+      "backend/fixtures/cases/partial_coverage/audit_report_response.json": "aca3bd0a62d049a8b62aa9310c0d6fb1f123f0f0a97ac7f590b0cdc5e3c0d659",
+      "backend/fixtures/cases/partial_coverage/issue_locator_response.json": "c1551c338010480eee13a4f5bf6e76b6d21152ec7a53d2ffca1f5bd04224f2b5",
+      "backend/fixtures/cases/partial_coverage/video_parse_response.json": "9f27db440891bb592b80443fd1723ba28db13536c0b6599d15e8c6568ed535c9",
+      "backend/fixtures/cases/privacy_screen_text/audit_report_response.json": "a5634931b0bcbdc8c6b10840baa3a7044e6629342bed60f01266f77d98bbd613",
+      "backend/fixtures/cases/privacy_screen_text/issue_locator_response.json": "153d1a685ade7628e7bedc77deabb72ef874e97b0b2cf7f8c5420496d8645910",
+      "backend/fixtures/cases/privacy_screen_text/video_parse_response.json": "786b33af25516258e22b0bb8e05a1d94eb4832b1c5afd58f4afad05bc30ba0fd",
+      "backend/fixtures/cases/relation_override_conflict/audit_report_response.json": "9c96e35a45db0bf8f58803c4e450fa027e62b1cb3e3c9e3ec7ccb657d639a87f",
+      "backend/fixtures/cases/relation_override_conflict/issue_locator_response.json": "5951fe3bc1d46fa3a79a41ff107f18fe73fbdf5b6412dcdbdda21326d8e759f3",
+      "backend/fixtures/cases/relation_override_conflict/relation_response.json": "3379e4db199e75795721f974dc4817b038f26847ec9c698186c148642946ea96",
+      "backend/fixtures/cases/relation_override_conflict/video_parse_response.json": "6e0073055ed942e1fd1aff3de50264b1c041e2d20b175ddd2084662ad1e6af10",
+      "backend/fixtures/cases/relation_wrong_encouragement/audit_report_response.json": "0fb66ec07b824209e5687d989d585e3dbf780db0bfcb923b19c423ca69778cb7",
+      "backend/fixtures/cases/relation_wrong_encouragement/issue_locator_response.json": "8738a369943475d4c3d5bfba521e214836a2f6454041b061cfb210845cf3b147",
+      "backend/fixtures/cases/relation_wrong_encouragement/relation_response.json": "dd32163e34e95d2d634f19923015a5027b695d5d03e2cb5ce59e28cb93886c86",
+      "backend/fixtures/cases/relation_wrong_encouragement/video_parse_response.json": "7a52661a44060dfab9cac881d38c3f43c451f707d8a18c9efe11871525566084",
+      "backend/fixtures/cases/self_harm_cue/audit_report_response.json": "3846b00c1c7a4be3ce8d36db8a57b9f336d67f95adc2872f321f1afdbddc2f9a",
+      "backend/fixtures/cases/self_harm_cue/issue_locator_response.json": "4f54c4f871d4fbb52cc619bc5cb17bca9061f9bf2045ad9c7f216552f02379a4",
+      "backend/fixtures/cases/self_harm_cue/video_parse_response.json": "8553d0f978491ea04b4dd3fd1b7eb0554d6219fd8a426c35f5fa3201be07c9da",
+      "backend/fixtures/cases/sexual_content_cue/audit_report_response.json": "d64e146e2a66c1e0d558a2790a00eed4128e81884434bc78d8bbe868f710d313",
+      "backend/fixtures/cases/sexual_content_cue/issue_locator_response.json": "b6c7fb78e74de0eef54e7190c66d77aa5d8fc82ce8d0248d61be9dac02d25482",
+      "backend/fixtures/cases/sexual_content_cue/video_parse_response.json": "b6e8c9e6033563405893ed26ed297dfa5912d0ce36064de9cf00d62f20cf01c6",
+      "backend/fixtures/cases/unrelated_promotion/audit_report_response.json": "63b217f498b6b6d6f3934e33fc8536eeffa025fa1b7a9e0bc99d2595da4c54d3",
+      "backend/fixtures/cases/unrelated_promotion/issue_locator_response.json": "c76c0a40bb0613fead9862cd22d659d6a4f8ba918ce8553be2481aa5638d3ee1",
+      "backend/fixtures/cases/unrelated_promotion/relation_response.json": "e134a34166fd5bf1a4293459b493a1338bbdaac386b4db08f19d33a2239ad002",
+      "backend/fixtures/cases/unrelated_promotion/video_parse_response.json": "c5694ed58dcbedc5f0ce7edbd737e4772f3564b54b237ea4dd16b2457af0612a",
+      "backend/fixtures/cases/unrelated_without_relation_service/audit_report_response.json": "db4050579b0f92c10fe6fc09951b65edffc5c2d6c8be39e4a5b68352f9802939",
+      "backend/fixtures/cases/unrelated_without_relation_service/issue_locator_response.json": "c76c0a40bb0613fead9862cd22d659d6a4f8ba918ce8553be2481aa5638d3ee1",
+      "backend/fixtures/cases/unrelated_without_relation_service/video_parse_response.json": "c5694ed58dcbedc5f0ce7edbd737e4772f3564b54b237ea4dd16b2457af0612a",
+      "backend/fixtures/cases/warning_context/audit_report_response.json": "3d6b0ad7557bb6d900bf990d3cc0d9e45aceb9e41eb4d396ada3a2fbd506aff6",
+      "backend/fixtures/cases/warning_context/issue_locator_response.json": "99045e291d238c879a7741eae5e623d97ed050fd81792e0d4fc1ed56976dcdac",
+      "backend/fixtures/cases/warning_context/relation_response.json": "645d32a243b91e23ef421e039516e960f034e0da849f3e2098472d601d834fc8",
+      "backend/fixtures/cases/warning_context/video_parse_response.json": "318d0d383272dd69253b996395d454dbe258bf2181d54790f88095b3f60082d9",
+      "backend/fixtures/demo_issue_locator_response.json": "6b658355c7d15ae37f1df8a25a28101f56b3388aa68a9bb3502ffa3f9696ab58",
+      "backend/fixtures/demo_video_parse_response.json": "d22255695411294c1fb52a10527a6a1a58780c608ad612a62a0410064b0a5925"
+    }
+  },
+  "grounded_oracle": {
+    "nodes": 3,
+    "graphs": 512,
+    "oracle": "intersection of independently enumerated complete extensions"
+  },
+  "relation_combinations": 64,
+  "curated_mock_comparison": {
+    "count": 10,
+    "changed": 2,
+    "without_pead": {
+      "FLAG": 3,
+      "NONE": 4,
+      "REVIEW": 3
+    },
+    "with_pead": {
+      "FLAG": 1,
+      "NONE": 4,
+      "REVIEW": 5
+    },
+    "without_pead_meets_synthetic_expectation": 8,
+    "with_pead_meets_synthetic_expectation": 10
+  },
+  "python_311_syntax_check": true,
+  "python_311_runtime_tested": false,
+  "external_model_api_calls": 0,
+  "scope": "工程接入与确定性逻辑验证；不证明真实视频审核准确率改善。",
+  "limitations": [
+    "未调用真实模型，不能补齐上游遗漏的警示。",
+    "Windows 实机启动与可执行包未验证。",
+    "前端源码未修改，本轮未重新构建前端。"
+  ]
+}

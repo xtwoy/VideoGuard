@@ -1,0 +1,39 @@
+  PASS  danger_promotion
+  PASS  warning_context
+  PASS  unrelated_promotion
+  PASS  unrelated_without_relation_service
+  PASS  news_violence
+  PASS  privacy_screen_text
+  PASS  credential_claim
+  PASS  self_harm_cue
+  PASS  sexual_content_cue
+  PASS  hate_harassment_cue
+  PASS  fraud_scam_cue
+  PASS  controlled_goods_cue
+  PASS  minors_protection_cue
+  PASS  relation_override_conflict
+  PASS  relation_wrong_encouragement
+  PASS  counter_context_tagging
+  PASS  partial_coverage
+  PASS  clean_negative
+
+  danger_promotion       coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=BLOCKED
+  warning_context        coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=PUBLISHABLE
+  unrelated_promotion    coverage=FULL     relation=LIVE             pairs=1 event_findings=1 verdict=PUBLISHABLE
+  unrelated_without_relation_service coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=1 verdict=MANUAL_REVIEW
+  news_violence          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  privacy_screen_text    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  credential_claim       coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  self_harm_cue          coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  sexual_content_cue     coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  hate_harassment_cue    coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  fraud_scam_cue         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  controlled_goods_cue   coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=MANUAL_REVIEW
+  minors_protection_cue  coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=1 verdict=BLOCKED
+  relation_override_conflict coverage=FULL     relation=LIVE             pairs=1 event_findings=1 verdict=MANUAL_REVIEW
+  relation_wrong_encouragement coverage=FULL     relation=LIVE             pairs=2 event_findings=1 verdict=MANUAL_REVIEW
+  counter_context_tagging coverage=FULL     relation=SKIPPED_NO_KEY   pairs=1 event_findings=1 verdict=MANUAL_REVIEW
+  partial_coverage       coverage=PARTIAL  relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=MANUAL_REVIEW
+  clean_negative         coverage=FULL     relation=NOT_NEEDED       pairs=0 event_findings=0 verdict=PUBLISHABLE
+
+all 18 fixture cases behave as documented

@@ -454,9 +454,9 @@
           "answers": [
             "warns_same"
           ],
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_SUPPORTING_RELATION",
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
           "semantic_check": "COMPLETE",
           "deterministic": true
         }
@@ -471,11 +471,6 @@
           "INSUFFICIENT",
           "REVIEW",
           "MISSING_SEMANTIC_RELATION"
-        ],
-        [
-          "NOT_SUPPORTED",
-          "NONE",
-          "NO_SUPPORTING_RELATION"
         ],
         [
           "NOT_SUPPORTED",
@@ -524,9 +519,9 @@
           "answers": [
             "warns_same"
           ],
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_SUPPORTING_RELATION",
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
           "semantic_check": "COMPLETE",
           "deterministic": true
         }
@@ -541,11 +536,6 @@
           "INSUFFICIENT",
           "REVIEW",
           "MISSING_SEMANTIC_RELATION"
-        ],
-        [
-          "NOT_SUPPORTED",
-          "NONE",
-          "NO_SUPPORTING_RELATION"
         ],
         [
           "NOT_SUPPORTED",
@@ -594,9 +584,9 @@
           "answers": [
             "warns_same"
           ],
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_SUPPORTING_RELATION",
+          "judgement": "INSUFFICIENT",
+          "disposition": "REVIEW",
+          "reason_code": "MISSING_SEMANTIC_RELATION",
           "semantic_check": "COMPLETE",
           "deterministic": true
         }
@@ -611,11 +601,6 @@
           "INSUFFICIENT",
           "REVIEW",
           "MISSING_SEMANTIC_RELATION"
-        ],
-        [
-          "NOT_SUPPORTED",
-          "NONE",
-          "NO_SUPPORTING_RELATION"
         ],
         [
           "NOT_SUPPORTED",

@@ -1,0 +1,20 @@
+INFO:     Started server process [5]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8128 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41706 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "POST /api/demo HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "GET /api/reviews/d1a7be6aaa7c4ebd93adcd6f656a9f3d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "GET /api/reviews/d1a7be6aaa7c4ebd93adcd6f656a9f3d/report HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "POST /api/reviews HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:41708 - "POST /api/reviews HTTP/1.1" 415 Unsupported Media Type
+INFO:     127.0.0.1:41708 - "POST /api/reviews HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:41708 - "POST /api/reviews HTTP/1.1" 502 Bad Gateway
+INFO:     127.0.0.1:41708 - "GET /api/reviews/f87138273d9d4102a56582b2c5ec6a55 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41708 - "GET /api/reviews/does-not-exist HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [5]
