@@ -8,18 +8,18 @@
 保持已有 Next.js 16 前端 + FastAPI + SQLite单表的一条主线架构。v0.6 已修正无 Jev Key 时的语义检查状态，`SKIPPED_NO_KEY` 不应被解释为 API 调用失败。
 模型真实接口尚未联调，离线模拟不能冒充实际模型测试。
 
-新AI接手后的第一步（环境已用 uv 建好，`backend/.venv`，Python 3.11.15）：
+新AI接手后，先按锁文件安装环境，再运行测试（本轮工程包不包含虚拟环境）：
 
 ```bash
 cd backend
-.venv/Scripts/python.exe -m unittest discover -s tests -v      # 当前 120 项；以命令实际输出为准
+.venv/Scripts/python.exe -m unittest discover -s tests -v      # 以命令实际输出为准
 ```
 
 若 `.venv` 不存在或需要重建：
 
 ```bash
 cd backend
-uv sync --python 3.11            # 按 uv.lock 复现已验证的依赖版本
+uv sync --locked --python 3.11            # 按 uv.lock 复现已验证的依赖版本
 ```
 
 **两个环境前提，缺任何一个都会导致"测试全绿但功能不可用"：**
@@ -41,3 +41,11 @@ uv sync --python 3.11            # 按 uv.lock 复现已验证的依赖版本
 同一事件的显式警示现在会反驳错误鼓励回答；旧版“仍可能 FLAG”的反例记录是历史行为。
 来源别名、逐事件判断、论证轨迹和证据移除检验均可查看。请以 `07_PEAD证据图与开源参考.md` 和当前生成结果为准。
 仍无法补齐上游遗漏的警示，也不代表真实视频效果已经验证。
+
+## 开源求解与规则工程化更新
+
+当前为 `pead-pyarg-rules-v2`。实际运行依赖 PyArg 与 NetworkX，规则文件通过 Pydantic 校验。请先读 `docs/08_PEAD开源引擎接入与规则工程化.md`。不要恢复旧自研求解器作为隐式回退，也不要把本轮使用的抽象论证功能表述为已接入完整 ASPIC+。规则快照、逐条决策和攻击防御解释均随 HTTP 结果保存。依赖及锁文件必须与代码一同更新。
+
+## 自查修订（接手前必读）
+
+当前引擎 `pead-pyarg-rules-v2.1`、规则 `1.1.0`；以 `docs/09_PEAD自查与缺陷修复.md` 及 `backend/reports/pead-self-review-validation.json` 为当前验证口径。`pead-upgrade-*` 是上轮记录。不得恢复以对象键代替明确事件 ID 的隔离逻辑，也不得把静态判断标为模型关系已核验。新回归保留了此次复现的反例和组合枚举。

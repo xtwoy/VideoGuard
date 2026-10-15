@@ -1,8 +1,12 @@
-# VideoGuard-E｜PEAD 证据图增强版
+# VideoGuard-E｜PEAD 开源引擎与规则工程化版
 
 > **2026-10-14 Mock 验证修订：** 已修复问题定位空/缺项/非法回答被当成无风险、关系无效回包错误标记 LIVE，以及关系校验在 `python -O` 下失效的问题。新增同输入有/无 PEAD 对照、输入快照和回归测试。先读 [`docs/06_Mock验证与失败路径修复.md`](docs/06_Mock验证与失败路径修复.md)。本次没有调用真实云端模型，也不声称真实视频准确率改善。
 >
 > **后续证据图增强：** 危险诱导进入事件级论证裁决，新增来源合并、支持／反驳关系、逐事件结论和证据移除检验；原先同一事件警示被忽略的 Mock 反例已修复。先读 [`docs/07_PEAD证据图与开源参考.md`](docs/07_PEAD证据图与开源参考.md)。
+
+> **本轮开源接入：** PyArg 已进入危险诱导的实际求解路径，NetworkX 提供循环与防御解释，新增可校验的规则文件、优先级、不可变规则快照和决策追踪。运行前重新安装后端依赖，详见 [`docs/08_PEAD开源引擎接入与规则工程化.md`](docs/08_PEAD开源引擎接入与规则工程化.md)。本轮仍是 Mock 验证，未证明真实模型效果提升。
+
+> **自查修订：** 当前引擎为 `pead-pyarg-rules-v2.1`，规则集为 `1.1.0`。已修复事件作用域、未定位警示、配置保护、构图预算及报告一致性问题；最新验证见 [`docs/09_PEAD自查与缺陷修复.md`](docs/09_PEAD自查与缺陷修复.md)。
 
 **团队：小白**（团队形象：<img src="docs/assets/team-mascot.png" alt="小白团队形象" width="220" align="middle">）
 
@@ -73,7 +77,7 @@ copy .env.example .env           # 在 .env 填入当前阶段服务配置
 
 **已知依赖风险：** 当前 starlette 会对 `httpx` 报 `StarletteDeprecationWarning`（提示改用 `httpx2`）。本版测试全绿，但若日后升级后 `tests/test_mvp.py` 出现 `TestClient` 导入失败，先检查 `httpx`/`starlette` 这一对版本，而不是怀疑业务代码。
 
-**本次修订验证：** Python 3.12 按现有 uv.lock 安装依赖后，120 项后端测试与29项真实 HTTP/ffprobe 冒烟通过（未配置真实模型，只验证无密钥失败路径）；前端类型检查通过。生产构建因沙盒 Node 的 `uv_resident_set_memory` 读取报 ENOENT 而未完成，前端源码未修改。详见 `backend/reports/mock-validation-summary.json`。
+**前期 Mock 修订的历史记录：** Python 3.12 按现有 uv.lock 安装依赖后，120 项后端测试与29项真实 HTTP/ffprobe 冒烟通过（未配置真实模型，只验证无密钥失败路径）；前端类型检查通过。生产构建因沙盒 Node 的 `uv_resident_set_memory` 读取报 ENOENT 而未完成，前端源码未修改。详见 `backend/reports/mock-validation-summary.json`。
 
 ### 方式二：系统 Python
 
@@ -156,7 +160,7 @@ npm run lint
 npm run build
 ```
 
-后端测试当前 120 项（以运行输出为准）：
+后端测试数量以实际运行输出及 `backend/reports/pead-upgrade-tests.log` 为准：
 
 | 文件 | 项数 | 覆盖 |
 | --- | --- | --- |
