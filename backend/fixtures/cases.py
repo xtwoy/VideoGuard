@@ -1068,13 +1068,10 @@ def _case_relation_override_conflict() -> dict:
 
 
 def _case_relation_wrong_encouragement() -> dict:
-    """Documents a limitation rather than a success.
+    """Regression: explicit counter-context must challenge a wrong model claim.
 
-    This is a safety-education clip: the action and the explicit warning belong to
-    the *same* event, so there is no structural conflict for PEAD to rely on. When
-    the relation service answers ``encourages_same`` with high confidence, PEAD has
-    no independent signal that contradicts it, and the warning footage is reported
-    as promotion.
+    Previously the same-event warning was ignored. The graph engine now makes
+    it a counter-argument, yielding conflict/review rather than a strong flag.
     """
     refs = ["S002:F001", "S003:F001", "S003:F002"]
     shots = [
@@ -1132,25 +1129,21 @@ def _case_relation_wrong_encouragement() -> dict:
             "旁白说明该行为非常危险。", verbatim="这非常危险"),
     ])
     return {
-        "title": "已记录局限：模型对安全语境答错时 PEAD 无法纠正",
-        "what_it_tests": "动作与警示同属一个事件时不存在结构性冲突，PEAD 只认 referent_key。"
-                         "关系服务若高置信度地回答 encourages_same，警示素材会被判为诱导。"
-                         "本用例把这一局限固定下来：它说明 PEAD 的价值上界取决于"
-                         "事实解析给出的 referent_key 质量与关系核验的准确率，"
-                         "也说明为什么 H2 必须用真实数据评估。",
+        "title": "回归：同一事件的警示阻止错误鼓励强提示",
+        "what_it_tests": "关系模型误答 encourages_same 时，显式警示构成反向论证；"
+                         "两者相互攻击，grounded 裁决保持未决并转人工复核。"
+                         "原先的 SUPPORTED/FLAG 行为已修复；仍不能补齐上游遗漏的警示。",
         "video_parse": parse,
         "issue_locator": locator,
         "relation_choice": {"pair_0": "encourages_same", "pair_1": "encourages_same"},
         "expectations": {
             "coverage": "FULL",
-            "findings": {"R_DANGER_PROMOTION": ["SUPPORTED", "FLAG"]},
+            "findings": {"R_DANGER_PROMOTION": ["CONFLICTED", "REVIEW"]},
             "active_finding_policies": ["R_DANGER_PROMOTION"],
             "event_findings_at_least": 1,
             "cues": ["E01", "E02", "E03"],
         },
-        "known_limitation": (
-            "误报：安全语境被判为危险诱导。PEAD 的反证规则只认 warning 标签的同源时间"
-            "接近，而覆盖机制只依赖 referent_key 冲突；本例两者都不提供额外信号。"),
+
     }
 
 

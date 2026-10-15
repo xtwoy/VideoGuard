@@ -440,7 +440,9 @@ def clean_issue_locator(raw: dict, parsed: dict) -> dict:
                              "start_ms":cue_start,"end_ms":cue_end,
                              "referent_key":event["referent_key"] or event_id,
                              "description_redacted":observation,"text_redacted":verbatim,
-                             "verification":"MODEL_REPORTED_V2"})
+                             "verification":"MODEL_REPORTED_V2",
+                             "source_refs":refs[:30], "event_id":event_id,
+                             "time_confidence":cues[-1]["time_confidence"]})
     detail["risk_cues"]=cues
     detail["issue_locator_limitations"]=[_text(x,180) for x in raw.get("limitations",[]) if isinstance(x,str)][:10]
     return {"coverage":parsed["coverage"],"coverage_notes":parsed["coverage_notes"],
@@ -507,6 +509,7 @@ def _run_models(observations: dict, duration_ms: int,
         "observation_detail":observations.get("observation_detail"),
         "findings":findings,
         "event_findings":event_findings,
+        "pead_audit":merged["merged"].get("pead_audit"),
         "audit_report":audit_report,
         "meta":{
             "video_parse":"LIVE",

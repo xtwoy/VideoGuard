@@ -74,7 +74,7 @@
       "candidate_pair_count": 2,
       "cue_count": 3,
       "active_findings": {},
-      "event_finding_count": 0,
+      "event_finding_count": 1,
       "audit_verdict": "PUBLISHABLE",
       "audit_score": 70,
       "audit_report_error": "",
@@ -98,7 +98,7 @@
       "candidate_pair_count": 1,
       "cue_count": 2,
       "active_findings": {},
-      "event_finding_count": 2,
+      "event_finding_count": 1,
       "audit_verdict": "PUBLISHABLE",
       "audit_score": 90,
       "audit_report_error": "",
@@ -126,18 +126,21 @@
           "judgement": "INSUFFICIENT",
           "disposition": "REVIEW",
           "reason_code": "MISSING_SEMANTIC_RELATION",
-          "supporting_ids": [],
+          "supporting_ids": [
+            "E01",
+            "E02"
+          ],
           "counter_ids": []
         }
       },
-      "event_finding_count": 0,
+      "event_finding_count": 1,
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
       "files": {
         "video_parse_response.json": "c5694ed58dcbedc5",
         "issue_locator_response.json": "c76c0a40bb0613fe",
-        "audit_report_response.json": "796df47e0649f8d6",
+        "audit_report_response.json": "db4050579b0f92c1",
         "expectations.json": "2ead55c0e170c65e",
         "case.json": "6a10bf0cbc219f0f"
       }
@@ -464,7 +467,7 @@
           "counter_ids": []
         }
       },
-      "event_finding_count": 2,
+      "event_finding_count": 1,
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
@@ -479,8 +482,8 @@
     },
     {
       "name": "relation_wrong_encouragement",
-      "title": "已记录局限：模型对安全语境答错时 PEAD 无法纠正",
-      "what_it_tests": "动作与警示同属一个事件时不存在结构性冲突，PEAD 只认 referent_key。关系服务若高置信度地回答 encourages_same，警示素材会被判为诱导。本用例把这一局限固定下来：它说明 PEAD 的价值上界取决于事实解析给出的 referent_key 质量与关系核验的准确率，也说明为什么 H2 必须用真实数据评估。",
+      "title": "回归：同一事件的警示阻止错误鼓励强提示",
+      "what_it_tests": "关系模型误答 encourages_same 时，显式警示构成反向论证；两者相互攻击，grounded 裁决保持未决并转人工复核。原先的 SUPPORTED/FLAG 行为已修复；仍不能补齐上游遗漏的警示。",
       "duration_ms": 24000,
       "coverage": "FULL",
       "relation_status": "LIVE",
@@ -489,28 +492,29 @@
       "cue_count": 3,
       "active_findings": {
         "R_DANGER_PROMOTION": {
-          "judgement": "SUPPORTED",
-          "disposition": "FLAG",
-          "reason_code": "RELATION_LINK_ASSISTED",
+          "judgement": "CONFLICTED",
+          "disposition": "REVIEW",
+          "reason_code": "CONFLICTING_STANCE",
           "supporting_ids": [
-            "E01",
+            "E01"
+          ],
+          "counter_ids": [
             "E02",
             "E03"
-          ],
-          "counter_ids": []
+          ]
         }
       },
       "event_finding_count": 1,
-      "audit_verdict": "BLOCKED",
-      "audit_score": 20,
+      "audit_verdict": "MANUAL_REVIEW",
+      "audit_score": 55,
       "audit_report_error": "",
       "files": {
         "video_parse_response.json": "7a52661a44060dfa",
         "issue_locator_response.json": "8738a369943475d4",
         "relation_response.json": "dd32163e34e95d2d",
-        "audit_report_response.json": "1504b0ceed3695bd",
-        "expectations.json": "610d923102bc884a",
-        "case.json": "e643c2fbd87cf9ca"
+        "audit_report_response.json": "0fb66ec07b824209",
+        "expectations.json": "31c1be64b965d450",
+        "case.json": "200fd47a1c4b8289"
       }
     },
     {
@@ -544,7 +548,7 @@
       "files": {
         "video_parse_response.json": "dc4014d7a91628d3",
         "issue_locator_response.json": "ccbc6359fba76a21",
-        "audit_report_response.json": "b16f3f727131dc22",
+        "audit_report_response.json": "40dd59a285797ba1",
         "expectations.json": "851a54f223c00728",
         "case.json": "afb5f64c8ffda4d8"
       }

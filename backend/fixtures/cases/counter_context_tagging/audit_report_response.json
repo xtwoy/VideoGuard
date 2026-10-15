@@ -601,7 +601,7 @@
         "checked": true,
         "source": "COUNTER_CONTEXT_TAGS",
         "found": true,
-        "relation_checked": true
+        "relation_checked": false
       },
       "issues": [
         {

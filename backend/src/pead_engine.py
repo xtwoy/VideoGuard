@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from src import config as params
+from src.evidence_graph import decide as graph_decide
 
 MODALITIES = {"visual","speech","screen_text","sound","metadata"}
 TAGS = {"danger_action","danger_description","encouragement","challenge","warning",
@@ -93,6 +94,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
         else:
             seen.add(oid); good.append(obj)
     findings=[]
+    pead_audit=None
     if coverage in {"ERROR","REFUSED"}:
         return {"coverage":coverage,"invalid_evidence_ids":invalid,
                 "findings":[_f(p,"UNKNOWN","RETRY","MODEL_UNAVAILABLE") for p in policy_ids]}
@@ -100,52 +102,9 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     all_with_tag=lambda *wanted:[e for e in good if e["tag"] in wanted]
     for p in policy_ids:
         if p=="R_DANGER_PROMOTION":
-            actions=tags(*policies[p]["action_tags"])
-            promos=tags(*policies[p]["promotion_tags"])
-            # Counter-context evidence is anything that marks the same material as
-            # cautionary rather than promotional: an explicit warning, or an
-            # education/news/fiction framing. Keeping the wider list in config
-            # means the verdict no longer depends on whether the parse happened to
-            # label "请勿模仿" as `warning` or as `education_context`.
-            counter_tags=policies[p].get("counter_context_tags") or policies[p]["warning_tags"]
-            counters=tags(*counter_tags)
-            matches=[(a,b) for a in actions for b in promos if _same_referent(a,b) and _near(a,b,gap_ms)]
-            related_counter=[w for a,b in matches for w in counters if
-                             (_same_referent(w,a) or _same_referent(w,b)) and _near(w,a,gap_ms)]
-            if matches and related_counter:
-                ids=sorted({x["id"] for pair in matches for x in pair})
-                findings.append(_f(p,"CONFLICTED","REVIEW","CONFLICTING_STANCE",
-                                   ids,sorted({x["id"] for x in related_counter}),
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS",
-                                   relation_checked=True))
-            elif matches:
-                ids=sorted({x["id"] for pair in matches for x in pair})
-                findings.append(_f(p,"SUPPORTED","FLAG","RELATED_ACTION_AND_PROMOTION",ids,
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS",
-                                   relation_checked=True))
-            elif (actions and promos and not matches) or (
-                invalid_tags & set(policies[p]["action_tags"]+
-                                   policies[p]["promotion_tags"]+
-                                   list(counter_tags))):
-                findings.append(_f(p,"INSUFFICIENT","REVIEW","MISSING_SEMANTIC_RELATION",
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS",
-                                   relation_checked=True))
-            elif coverage!="FULL":
-                findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION",
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS"))
-            elif actions and any(not _located(e) for e in all_with_tag("encouragement","challenge")):
-                findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_PROMOTION",
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS"))
-            else:
-                findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_SUPPORTING_RELATION",
-                                   counter_checked=True,
-                                   counter_source="COUNTER_CONTEXT_TAGS",
-                                   relation_checked=True))
+            finding, pead_audit = graph_decide(observations, duration_ms, coverage, gap_ms,
+                                                require_relation=False)
+            findings.append(finding)
         elif p=="R_VIOLENCE":
             acts=[e for e in tags(*policies[p]["action_tags"]) if e["modality"]=="visual"]
             if acts:
@@ -214,18 +173,32 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_RELEVANT_CUE"))
-    return {"coverage":coverage,"invalid_evidence_ids":invalid,"findings":findings,"event_findings":build_event_findings(good, findings, duration_ms)}
+    return {"coverage":coverage,"invalid_evidence_ids":invalid,"findings":findings,"event_findings":build_event_findings(good, findings, duration_ms), "pead_audit":pead_audit}
 
 def build_event_findings(observations: list[dict], findings: list[dict],
                          duration_ms: int) -> list[dict]:
     """Create event-level audit records.
 
-    The video-level finding remains for backward compatibility.  Event records
-    prevent one conflicting scene from hiding another independent scene.
+    Graph policies supply independently evaluated event decisions. Other
+    policies retain traceable grouping of their supporting observations.
     This function only groups model observations; it does not invent evidence.
     """
     valid=[x for x in observations if isinstance(x,dict) and isinstance(x.get("id"),str)]
     events=[]
+    for finding in findings:
+        for decision in finding.get("event_decisions", []):
+            events.append({
+                "event_id": f"{finding['policy_id']}:{decision['event_key']}",
+                "policy_id": finding["policy_id"],
+                "evidence_ids": decision["evidence_ids"],
+                "judgement": decision["judgement"],
+                "disposition": decision["disposition"],
+                "reason_code": decision["reason_code"],
+                "audit": {"evidence_checked": len(decision["evidence_ids"]),
+                          "duration_ms": duration_ms, "scope": "event",
+                          "argument_summary": {label: len(decision["argument_labels"][label])
+                                               for label in ("accepted", "rejected", "undecided")}},
+            })
     def event_key(obs):
         return obs.get("referent_key") or f"timeline:{obs.get('start_ms')}:{obs.get('end_ms')}"
 
@@ -236,7 +209,7 @@ def build_event_findings(observations: list[dict], findings: list[dict],
     for key, group in groups.items():
         ids=[x["id"] for x in group]
         related=[f for f in findings
-                 if any(i in f.get("supporting_ids",[])+f.get("counter_ids",[])
+                 if "event_decisions" not in f and any(i in f.get("supporting_ids",[])+f.get("counter_ids",[])
                         for i in ids)]
         if related:
             # Keep every local judgement. Do not collapse different events.

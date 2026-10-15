@@ -2,8 +2,8 @@
   "coverage": "FULL",
   "findings": {
     "R_DANGER_PROMOTION": [
-      "SUPPORTED",
-      "FLAG"
+      "CONFLICTED",
+      "REVIEW"
     ]
   },
   "active_finding_policies": [

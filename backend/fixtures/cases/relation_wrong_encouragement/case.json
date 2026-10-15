@@ -1,7 +1,7 @@
 {
   "name": "relation_wrong_encouragement",
-  "title": "已记录局限：模型对安全语境答错时 PEAD 无法纠正",
-  "what_it_tests": "动作与警示同属一个事件时不存在结构性冲突，PEAD 只认 referent_key。关系服务若高置信度地回答 encourages_same，警示素材会被判为诱导。本用例把这一局限固定下来：它说明 PEAD 的价值上界取决于事实解析给出的 referent_key 质量与关系核验的准确率，也说明为什么 H2 必须用真实数据评估。",
+  "title": "回归：同一事件的警示阻止错误鼓励强提示",
+  "what_it_tests": "关系模型误答 encourages_same 时，显式警示构成反向论证；两者相互攻击，grounded 裁决保持未决并转人工复核。原先的 SUPPORTED/FLAG 行为已修复；仍不能补齐上游遗漏的警示。",
   "duration_ms": 24000,
   "relation_choice": {
     "pair_0": "encourages_same",

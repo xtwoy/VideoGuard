@@ -130,17 +130,10 @@ class FixturePackTests(unittest.TestCase):
         self.assertEqual(self._judgement_and_disposition("relation_override_conflict"),
                          ("CONFLICTED", "REVIEW"))
 
-    def test_known_limitation_model_error_on_warning_footage_is_not_corrected(self):
-        """The counterpart of the test above, and a limitation we publish.
-
-        When the action and the warning belong to the same event there is no
-        structural conflict, so PEAD has no independent signal and follows the
-        provider. If this ever starts behaving differently, update the limitation
-        note in fixtures/README.md rather than silently dropping it.
-        """
-        self.assertEqual(
-            self._judgement_and_disposition("relation_wrong_encouragement"),
-            ("SUPPORTED", "FLAG"))
+    def test_same_event_warning_blocks_wrong_model_encouragement(self):
+        """The former pinned failure is now an explicit corrected regression."""
+        self.assertEqual(self._judgement_and_disposition("relation_wrong_encouragement"),
+                         ("CONFLICTED", "REVIEW"))
 
     def test_counter_evidence_does_not_depend_on_the_chosen_tag(self):
         """Encouragement plus cautionary framing must be a conflict either way."""
@@ -161,20 +154,21 @@ class TruthTableTests(unittest.TestCase):
                 self.assertEqual(result["combination_count"],
                                  4 ** result["pair_count"])
 
-    def test_a_single_dissent_prevents_a_strong_flag(self):
-        """with two candidate pairs, only full agreement may produce a FLAG."""
+    def test_a_supported_pair_survives_an_unrelated_other_phrase(self):
+        """An unrelated second phrase is not a warning against the first claim."""
         from fixtures import truth_table
         result = truth_table.enumerate_case("danger_promotion")
         flagged = [row for row in result["rows"] if row["disposition"] == "FLAG"]
-        self.assertEqual(len(flagged), 1, "只有在全部候选对都确认时才能判 FLAG")
-        self.assertEqual(set(flagged[0]["answers"]), {"encourages_same"})
+        self.assertTrue(flagged)
+        for row in flagged:
+            self.assertIn("encourages_same", row["answers"])
+            self.assertTrue(set(row["answers"]).issubset({"encourages_same", "unrelated"}))
 
-    def test_reported_limitation_is_still_reachable_in_the_table(self):
-        """The published limitation must stay visible rather than be tuned away."""
+    def test_warning_regression_cannot_flag_under_any_relation_choice(self):
         from fixtures import truth_table
         result = truth_table.enumerate_case("relation_wrong_encouragement")
-        flagged = [row for row in result["rows"] if row["disposition"] == "FLAG"]
-        self.assertTrue(flagged, "已记录的误报组合不应从真值表中消失")
+        self.assertTrue(result["rows"])
+        self.assertFalse([row for row in result["rows"] if row["disposition"] == "FLAG"])
 
 
 if __name__ == "__main__":

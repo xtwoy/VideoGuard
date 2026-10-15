@@ -112,6 +112,7 @@ def compare_input(name: str, frozen: dict, reference: str | None = None) -> dict
                       "disposition": finding["disposition"], "reason": finding["reason_code"],
                       "supporting_ids": finding["supporting_ids"], "counter_ids": finding["counter_ids"]},
         "changed": bucket(control["disposition"]) != bucket(finding["disposition"]),
+        "pead_audit": treatment["merged"].get("pead_audit"),
     }
     if reference is not None:
         row["without_pead_meets_synthetic_expectation"] = bucket(control["disposition"]) == reference
@@ -151,6 +152,7 @@ def build() -> tuple[dict, dict]:
             row[f"{arm}_meets_synthetic_expectation"] for row in curated)
     source_files = ("fixtures/compare_pead.py", "fixtures/truth_table.py", "fixtures/cases.py",
                     "pipeline.py", "src/pead_engine.py", "src/relation_fusion.py",
+                    "src/argumentation.py", "src/evidence_graph.py",
                     "src/relation_client.py", "src/config.py", "config/policies_v03.json")
     report = {
         "schema_version": "videoguard_mock_pead_comparison_v1", "mode": MODE,
@@ -168,7 +170,7 @@ def build() -> tuple[dict, dict]:
             "仅比较危险行为诱导策略，不代表所有风险策略或整个应用。",
             "合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。",
             "未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。",
-            "同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。",
+            "已有显式警示的错误鼓励回答现在转冲突复核；如果上游遗漏警示或事件指向错误，仍无法独立纠正。",
             "穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。",
         ],
     }

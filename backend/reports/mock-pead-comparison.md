@@ -24,24 +24,24 @@ FLAG/NONE 保留；REVIEW、RECHECK、VERIFY_EXTERNAL、RETRY 统一计入复核
 | 关联未核验，保留复核 | REVIEW | REVIEW | REVIEW | MISSING_SEMANTIC_RELATION |
 | 新闻画面未提供危险诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
 | 不同事件，模型却自信回答鼓励同一动作 | REVIEW | FLAG | REVIEW | RELATION_REFERENT_DISAGREEMENT |
-| 同一事件有警示，模型却自信答错 | REVIEW | FLAG | FLAG | RELATION_LINK_ASSISTED |
+| 同一事件有警示，模型却自信答错 | REVIEW | FLAG | REVIEW | CONFLICTING_STANCE |
 | 鼓励与教育警示的立场冲突 | REVIEW | REVIEW | REVIEW | CONFLICTING_STANCE |
 | 观察不完整，不能放行 | REVIEW | REVIEW | RECHECK | INCOMPLETE_OBSERVATION |
 | 完整观察且无诱导线索 | NONE | NONE | NONE | NO_SUPPORTING_RELATION |
 
-场景数：10；处置桶不同：1。
-符合合成处置预期：无 PEAD 8，有 PEAD 9。这是测试预期计数，不是视频准确率。
+场景数：10；处置桶不同：2。
+符合合成处置预期：无 PEAD 8，有 PEAD 10。这是测试预期计数，不是视频准确率。
 
 ## 各组处置数量
 
 | 组别 | 强提示 FLAG | 暂无动作 NONE | 复核桶 |
 |---|---|---|---|
 | without_pead | 3 | 4 | 3 |
-| with_pead | 2 | 4 | 4 |
+| with_pead | 1 | 4 | 5 |
 
 ## 关系回答穷举
 
-在有候选对的场景上，枚举 64 种关系回答组合；其中 29 种的处置桶不同。差异数量不等于改善数量。
+在有候选对的场景上，枚举 64 种关系回答组合；其中 14 种的处置桶不同。差异数量不等于改善数量。
 具体每一组答案、处置、理由和输入哈希见同名 JSON；不对替换回答后的组合计算准确率。
 
 ## 局限
@@ -49,7 +49,7 @@ FLAG/NONE 保留；REVIEW、RECHECK、VERIFY_EXTERNAL、RETRY 统一计入复核
 - 仅比较危险行为诱导策略，不代表所有风险策略或整个应用。
 - 合成用例用于展示机制且选择并不随机，不能据此计算真实视频的准确率或泛化增益。
 - 未运行真实模型，不测视频感知、实际时间定位、API 延迟或费用。
-- 同一事件内的警示被模型高可信误答为鼓励时，当前 PEAD 仍可能 FLAG；反例保留。
+- 已有显式警示的错误鼓励回答现在转冲突复核；如果上游遗漏警示或事件指向错误，仍无法独立纠正。
 - 穷举仅覆盖当前合成用例产生的候选对及四种高可信关系回答，不覆盖所有可能输入。
 
 ## 复现

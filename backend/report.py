@@ -162,6 +162,46 @@ def audit_content(audit: object) -> str:
 <details><summary>报告限制与人工复核提示</summary><ul>{limit_html}</ul></details>"""
 
 
+def evidence_graph_content(raw: object) -> str:
+    if not isinstance(raw, dict):
+        return ""
+    kinds = {"LOCAL_PROMOTION": "动作与鼓励线索关联", "MODEL_PROMOTION": "模型提出鼓励关系",
+             "COUNTER_CONTEXT": "警示或其他反向语境", "MODEL_COUNTER": "模型提出警示或无关关系",
+             "REFERENT_CONFLICT": "事件指向冲突", "TARGET_UNKNOWN": "事件指向待核实",
+             "RELATION_UNCERTAIN": "关系回答不充分", "RELATION_MISSING": "关系未核验",
+             "TIME_UNCERTAIN": "时间定位不可靠", "UNLOCATED": "证据尚未定位"}
+    labels = {"IN": "本次采纳", "OUT": "被反驳", "UNDECIDED": "待复核"}
+    dispositions = {"FLAG": "风险提示", "NONE": "暂无进一步动作", "REVIEW": "人工复核",
+                    "RECHECK": "补充观察", "RETRY": "服务重试"}
+    arguments = raw.get("arguments", [])
+    arguments = arguments if isinstance(arguments, list) else []
+    rows = "".join(
+        f"<tr><td>{h(kinds.get(a.get('kind'), '证据论证'))}</td>"
+        f"<td>{h('、'.join(map(str, a.get('premise_ids', []))))}</td>"
+        f"<td>{h('、'.join(map(str, a.get('source_refs', []))) or '来源未提供')}</td>"
+        f"<td>{h(labels.get(a.get('label'), '待复核'))}</td></tr>"
+        for a in arguments[:60] if isinstance(a, dict))
+    event_rows = "".join(
+        f"<li><b>事件 {h(e.get('event_key'))}</b>："
+        f"{h(dispositions.get(e.get('disposition'), '人工复核'))}；"
+        f"支持引用 {h('、'.join(map(str, e.get('supporting_ids', []))) or '无')}；"
+        f"反向引用 {h('、'.join(map(str, e.get('counter_ids', []))) or '无')}</li>"
+        for e in raw.get("event_decisions", []) if isinstance(e, dict))
+    counterfactuals = "".join(
+        f"<li>移除 {h('、'.join(map(str, item.get('removed_ids', []))))} 后："
+        f"{h(dispositions.get(item.get('disposition'), '人工复核'))}"
+        f"（{'结论发生变化' if item.get('changed') else '结论保持'}）。</li>"
+        for item in raw.get("counterfactuals", []) if isinstance(item, dict))
+    truncation = "<p class=muted>此处仅展示前六十条论证；完整图保存在结构化审核结果中。</p>" if len(arguments) > 60 else ""
+    counter_limit = "<p class=muted>移除检验只覆盖部分证据，并非全部组合的因果证明。</p>" if raw.get("counterfactuals_truncated") else ""
+    return f"""<h2>证据论证与裁决</h2><section class="plan"><p>系统按事件分别检查支持、反向语境和信息缺口。
+相互攻击且无法裁决的论证保留人工复核；模型关系判断仍基于同一批观察，不构成独立视频证据。</p>
+<ul>{event_rows}</ul><details><summary>展开论证与事实引用</summary><table class="proof-table">
+<thead><tr><th>论证</th><th>线索引用</th><th>原始事实引用</th><th>裁决</th></tr></thead><tbody>{rows}</tbody></table>{truncation}</details>
+<details><summary>证据移除检验</summary><p class="muted">复用冻结的关系回答，仅移除指定观察；不重新分析视频。</p>
+<ul>{counterfactuals}</ul>{counter_limit}</details></section>"""
+
+
 def render_html(record: dict) -> str:
     result = record.get("result") if isinstance(record.get("result"), dict) else {}
     findings = result.get("findings") if isinstance(result.get("findings"), list) else []
@@ -173,4 +213,5 @@ def render_html(record: dict) -> str:
     :root{--ink:#172033;--muted:#667085;--line:#d9dee7;--paper:#fff;--bg:#f7f8fa;--accent:#4f46e5;--red:#b42318;--amber:#b54708;--green:#067647}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Microsoft YaHei","Noto Sans SC",system-ui,sans-serif}main{max-width:980px;margin:auto;padding:46px 28px 72px}.eyebrow{font-size:11px;color:var(--accent);font-weight:800;letter-spacing:.13em}h1{font-size:30px;line-height:1.2;margin:8px 0}h2{font-size:21px;margin:34px 0 14px}h3{font-size:16px;margin:0}h4{font-size:13px;margin:16px 0 6px}.meta,.muted,small{font-size:12px;color:var(--muted)}.summary,.scores{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0}.scores{grid-template-columns:repeat(3,1fr)}.summary>div,.score,.plan,.notice{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px}.summary small,.score small{display:block}.summary b,.score b{display:block;margin-top:3px;overflow-wrap:anywhere}.score{min-height:125px}.score-number{font-size:27px;line-height:1.1}.score-title{margin:10px 0}.score-details{border-top:1px solid var(--line);margin-top:10px;padding-top:7px}.score-details li{font-size:11px}.pill{display:inline-flex;align-items:center;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:800;background:#eef2ff;color:#3730a3}.pill.fail{background:#fef3f2;color:var(--red)}.pill.warning{background:#fffaeb;color:var(--amber)}.pill.pass{background:#ecfdf3;color:var(--green)}.notice{border-left:3px solid var(--amber);background:#fffaeb}.plan{margin:14px 0 18px;break-inside:avoid}.plan-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}.issue,.action{margin-top:12px;padding:13px;border-left:3px solid #c7d2fe;background:#f8faff}.action{border-left-color:#6ce9a6;background:#f0fdf4}.issue p,.action p{margin:6px 0}.time{display:inline-block;border-radius:4px;background:#eef2ff;color:#3730a3;font-weight:700;font-size:11px;padding:1px 5px}.priority{font-size:11px;font-weight:800;color:var(--red)}ul{padding-left:20px;margin:6px 0}li{margin:4px 0;overflow-wrap:anywhere}footer{border-top:1px solid var(--line);margin-top:36px;padding-top:14px;color:var(--muted);font-size:12px}@media print{body{background:#fff}main{padding:0 12px}}@media(max-width:640px){main{padding:26px 16px}.summary,.scores{grid-template-columns:1fr}}
     """
-    return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><title>{h(record.get('video_name'))} · 视鉴</title><style>{css}</style></head><body><main><div class="eyebrow">VIDEOGUARD-E / AUDIT REPORT</div><h1>视频内容审核报告</h1><p class="meta">{h(mode)} · 审核编号 {h(record.get('id'))} · {h(record.get('created_at'))}</p><div class="summary"><div><small>审核状态</small><b>{h(record.get('status'))}</b></div><div><small>视频名称</small><b>{h(record.get('video_name'))}</b></div><div><small>视频观察覆盖</small><b>{h(result.get('coverage', 'UNKNOWN'))}</b></div><div><small>已评估审核点</small><b>{h(policy_count)} 类</b></div><div><small>需要进一步处理的项目</small><b>{h(needed)} 项</b></div></div><div class="notice"><b>重要说明：</b>本报告用于辅助审核。所有模型观察、时间定位和整改建议均需结合原始视频与适用规范进行人工复核，不构成事实或法律认定。</div><p class="meta">观察限制：{h(result.get('coverage_notes') or '未提供')}</p>{audit_content(result.get('audit_report'))}<footer>审核状态：{h(record.get('status', '-'))} · {h(record.get('error') or '请以原视频和结构化证据为准进行人工核查。')}<p>VideoGuard-E — 辅助审核，不替代人工复核。</p></footer></main></body></html>"""
+    css += ".proof-table{width:100%;border-collapse:collapse;font-size:12px}.proof-table th,.proof-table td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top;overflow-wrap:anywhere}details{margin-top:14px}"
+    return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><title>{h(record.get('video_name'))} · 视鉴</title><style>{css}</style></head><body><main><div class="eyebrow">VIDEOGUARD-E / AUDIT REPORT</div><h1>视频内容审核报告</h1><p class="meta">{h(mode)} · 审核编号 {h(record.get('id'))} · {h(record.get('created_at'))}</p><div class="summary"><div><small>审核状态</small><b>{h(record.get('status'))}</b></div><div><small>视频名称</small><b>{h(record.get('video_name'))}</b></div><div><small>视频观察覆盖</small><b>{h(result.get('coverage', 'UNKNOWN'))}</b></div><div><small>已评估审核点</small><b>{h(policy_count)} 类</b></div><div><small>需要进一步处理的项目</small><b>{h(needed)} 项</b></div></div><div class="notice"><b>重要说明：</b>本报告用于辅助审核。所有模型观察、时间定位和整改建议均需结合原始视频与适用规范进行人工复核，不构成事实或法律认定。</div><p class="meta">观察限制：{h(result.get('coverage_notes') or '未提供')}</p>{audit_content(result.get('audit_report'))}{evidence_graph_content(result.get('pead_audit'))}<footer>审核状态：{h(record.get('status', '-'))} · {h(record.get('error') or '请以原视频和结构化证据为准进行人工核查。')}<p>VideoGuard-E — 辅助审核，不替代人工复核。</p></footer></main></body></html>"""

@@ -141,7 +141,9 @@ def build_audit_context(observation_result: dict, findings: list[dict], event_fi
         "coverage": observation_result.get("coverage", "UNKNOWN"),
         "video_parse": detail,
         "observations": observation_result.get("observations", []),
-        "findings": findings,
+        "findings": [{key: value if key != "event_decisions" else [
+            {k: v for k, v in row.items() if k != "argument_labels"} for row in value]
+                      for key, value in finding.items()} for finding in findings],
         "event_findings": event_findings,
         "analysis_issues": analysis_issues,
     }
@@ -726,7 +728,8 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         raise ValueError("无法基于空证据目录生成审核报告")
     quality_states=[shot.get("quality",{}) for shot in detail.get("timeline",{}).get("shots",[]) if isinstance(shot,dict)]
     readability="PASS" if quality_states and all(item.get("visual",{}).get("clarity") == "PASS" and item.get("audio",{}).get("status") == "PASS" for item in quality_states) else "WARNING"
-    active_refs=[ref for finding in active for ref in [*finding.get("supporting_ids",[]), *finding.get("counter_ids",[])] if ref in catalog]
+    active_refs=list(dict.fromkeys(ref for finding in active for ref in
+                                  [*finding.get("supporting_ids",[]), *finding.get("counter_ids",[])] if ref in catalog))
     context_refs=[event_id for event_id,event in events.items() if event.get("context",{}).get("stance") != "UNKNOWN"] or event_refs or refs
     coverage_items=[]
     declared=detail.get("coverage",{}).get("modalities",{}) if isinstance(detail,dict) else {}

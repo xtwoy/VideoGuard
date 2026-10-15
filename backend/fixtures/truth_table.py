@@ -9,37 +9,17 @@ mocked fixtures. PEAD itself is the real ``src.pead_engine.assess`` plus the rea
 
 What this can and cannot establish
 ----------------------------------
-The upstream answers are synthetic, so nothing here measures *accuracy*: no number
-in this file says how often PEAD is right about a real video. What it does
-establish, and what a synthetic input cannot fake, are properties of the decision
-function itself:
-
-* **totality** — every reachable combination of relation answers yields a verdict;
-* **determinism** — the same input always yields the same verdict;
-* **contract conformance** — every verdict is a documented judgement/disposition
-  pair with a known reason code, and never an invented one;
-* **monotonic conservatism** — replacing a confident "encourages_same" with
-  anything weaker never turns a flag into a non-flag, and "unrelated" can only
-  reduce, never increase, the strength of a finding;
-* **independence from labelling** — the same content tagged ``warning`` or
-  ``education_context`` reaches the same verdict.
-
-Together these are the defensible claim: PEAD behaves as specified on every input
-the upstream stages can produce. Accuracy against real video is a separate,
-unfinished experiment.
+Stored fixtures and four high-confidence relation choices define a finite test
+family. We check deterministic, protocol-valid decisions and a limited ordered
+single-pair conservatism property. This is not a proof over every possible
+provider output, timestamp, probability or graph; it does not measure accuracy.
+The grounded kernel is independently checked on all three-node attack graphs.
 
 Reading the table
 -----------------
-Two rows deserve care because a ``FLAG`` does not always mean the same thing:
-
-* ``warning_context`` carries a warning cue but **no** encouragement cue, so the
-  provider is the only source of a promotion claim. A ``FLAG`` there means PEAD
-  followed a provider answer it had no structural reason to doubt — the input was
-  wrong, not the rule.
-* ``relation_wrong_encouragement`` carries encouragement **and** an explicit
-  warning on the same event. A ``FLAG`` there is a genuine false positive: the
-  counter-evidence exists but PEAD cannot use it, because both cues share the same
-  referent key and the provider's answer is taken at face value.
+The same-event warning regression is now guarded by counter-arguments and must
+not FLAG. These combinations cover this fixture family only, not all possible
+inputs. Missing upstream counter-context remains a limitation.
 """
 from __future__ import annotations
 
@@ -176,7 +156,7 @@ def build() -> dict:
     return {
         "generated_by": "python -m fixtures.truth_table",
         "scope": ("上游阶段为 mock 数据，PEAD 与结果融合为真实代码。"
-                  "本表证明决策函数的性质（全定义、确定性、符合协议、单调保守、"
+                  "本表证明决策函数的性质（枚举范围内全定义、确定性、符合协议、单对保守性、"
                   "结论不依赖标注用词），不度量真实视频上的准确率。"),
         "relation_choices": sorted(CHOICES),
         "cases": results,
@@ -213,13 +193,8 @@ def render_markdown(table: dict) -> str:
         "",
         table["scope"],
         "",
-        "两种 FLAG 的语义不同，读表时注意：",
-        "",
-        "- `warning_context` 只有警示线索、**没有**鼓励线索：出现 FLAG 表示 PEAD 采纳了"
-        "提供方的回答，而它没有结构性理由怀疑——错在输入，不在规则。",
-        "- `relation_wrong_encouragement` 同一事件内同时有鼓励与警示：出现 FLAG 是**真实误报**，"
-        "反证存在却用不上，因为两条线索共享同一 referent_key。",
-        "",
+        "显式警示与模型鼓励回答冲突时必须转人工；不同事件独立裁决。",
+        "", "注意：本表仅枚举当前合成用例。上游遗漏的警示无法凭空补齐。", "",
         f"关系回答取值：`{'`、`'.join(table['relation_choices'])}`",
         "",
     ]

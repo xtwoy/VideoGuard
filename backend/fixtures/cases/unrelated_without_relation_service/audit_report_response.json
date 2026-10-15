@@ -165,25 +165,45 @@
       "limitations": []
     },
     "evidence_traceability": {
-      "score": 90,
+      "score": 95,
       "status": "PASS",
       "summary": "证据可追溯的子项均已评估，未发现问题。",
       "items": [
         {
-          "key": "trace_S001:F001",
+          "key": "trace_E01",
           "label": "问题证据定位",
-          "score": 90,
+          "score": 95,
           "status": "PASS",
-          "summary": "S001:F001 可回溯至已定位视频证据。",
+          "summary": "E01 可回溯至已定位视频证据。",
           "evidence_refs": [
-            "S001:F001"
+            "E01"
           ],
           "time_ranges": [
             {
-              "start_ms": 200,
-              "end_ms": 4800,
+              "start_ms": 5200,
+              "end_ms": 11500,
               "evidence_refs": [
-                "S001:F001"
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "trace_E02",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E02 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 12200,
+              "end_ms": 18000,
+              "evidence_refs": [
+                "E02"
               ]
             }
           ],
@@ -191,14 +211,22 @@
         }
       ],
       "evidence_refs": [
-        "S001:F001"
+        "E01",
+        "E02"
       ],
       "time_ranges": [
         {
-          "start_ms": 200,
-          "end_ms": 4800,
+          "start_ms": 5200,
+          "end_ms": 11500,
           "evidence_refs": [
-            "S001:F001"
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 18000,
+          "evidence_refs": [
+            "E02"
           ]
         }
       ],
@@ -216,14 +244,22 @@
           "status": "MANUAL_REVIEW",
           "summary": "存在相关线索，但现有证据无法确认语义关联。",
           "evidence_refs": [
-            "S001:F001"
+            "E01",
+            "E02"
           ],
           "time_ranges": [
             {
-              "start_ms": 200,
-              "end_ms": 4800,
+              "start_ms": 5200,
+              "end_ms": 11500,
               "evidence_refs": [
-                "S001:F001"
+                "E01"
+              ]
+            },
+            {
+              "start_ms": 12200,
+              "end_ms": 18000,
+              "evidence_refs": [
+                "E02"
               ]
             }
           ],
@@ -231,14 +267,22 @@
         }
       ],
       "evidence_refs": [
-        "S001:F001"
+        "E01",
+        "E02"
       ],
       "time_ranges": [
         {
-          "start_ms": 200,
-          "end_ms": 4800,
+          "start_ms": 5200,
+          "end_ms": 11500,
           "evidence_refs": [
-            "S001:F001"
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 12200,
+          "end_ms": 18000,
+          "evidence_refs": [
+            "E02"
           ]
         }
       ],
@@ -488,18 +532,26 @@
   "revision_plan": [
     {
       "id": "R01",
-      "section": "全局审核项",
-      "scope": "GLOBAL",
-      "event_id": null,
+      "section": "博主演示并讲解滑板动作。",
+      "scope": "EVENT",
+      "event_id": "EVT_SKATE",
       "video": {
-        "summary": "该问题缺少可归属的独立视频事件。",
-        "time_ranges": []
+        "summary": "博主演示并讲解滑板动作。",
+        "time_ranges": [
+          {
+            "start_ms": 5000,
+            "end_ms": 12000,
+            "evidence_refs": [
+              "EVT_SKATE"
+            ]
+          }
+        ]
       },
       "counter_evidence": {
         "checked": true,
         "source": "COUNTER_CONTEXT_TAGS",
         "found": false,
-        "relation_checked": true
+        "relation_checked": false
       },
       "issues": [
         {
@@ -521,14 +573,6 @@
                 "E01",
                 "S002:F001"
               ]
-            },
-            {
-              "start_ms": 12200,
-              "end_ms": 18000,
-              "evidence_refs": [
-                "E02",
-                "S003:F001"
-              ]
             }
           ],
           "supporting_evidence": [
@@ -548,21 +592,6 @@
               "limitations": []
             },
             {
-              "ref": "E02",
-              "type": "OBSERVATION",
-              "content": "博主鼓励观众尝试咖啡店，指向另一个话题。",
-              "time_ranges": [
-                {
-                  "start_ms": 12200,
-                  "end_ms": 18000,
-                  "evidence_refs": [
-                    "E02"
-                  ]
-                }
-              ],
-              "limitations": []
-            },
-            {
               "ref": "S002:F001",
               "type": "FACT",
               "content": "博主在广场上完成一次滑板翻板动作。",
@@ -572,6 +601,96 @@
                   "end_ms": 11500,
                   "evidence_refs": [
                     "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "REMOVE",
+          "detail": "移除或替换对应的引导性表述及其关联内容，避免继续传播该风险线索。",
+          "target_time_ranges": [
+            {
+              "start_ms": 5200,
+              "end_ms": 11500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "回看对应片段时，已不再保留原有引导性表述或关联呈现。"
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "section": "博主推荐附近的咖啡店，与滑板动作无关。",
+      "scope": "EVENT",
+      "event_id": "EVT_COFFEE",
+      "video": {
+        "summary": "博主推荐附近的咖啡店，与滑板动作无关。",
+        "time_ranges": [
+          {
+            "start_ms": 12000,
+            "end_ms": 19000,
+            "evidence_refs": [
+              "EVT_COFFEE"
+            ]
+          }
+        ]
+      },
+      "counter_evidence": {
+        "checked": true,
+        "source": "COUNTER_CONTEXT_TAGS",
+        "found": false,
+        "relation_checked": false
+      },
+      "issues": [
+        {
+          "id": "I02",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_DANGER_PROMOTION"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P1",
+          "category": "危险行为诱导",
+          "title": "危险行为诱导",
+          "description": "存在相关线索，但现有证据无法确认语义关联。",
+          "time_ranges": [
+            {
+              "start_ms": 12200,
+              "end_ms": 18000,
+              "evidence_refs": [
+                "E02",
+                "S003:F001"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E02",
+              "type": "OBSERVATION",
+              "content": "博主鼓励观众尝试咖啡店，指向另一个话题。",
+              "time_ranges": [
+                {
+                  "start_ms": 12200,
+                  "end_ms": 18000,
+                  "evidence_refs": [
+                    "E02"
                   ]
                 }
               ],
@@ -598,21 +717,13 @@
       ],
       "actions": [
         {
-          "id": "A01",
+          "id": "A02",
           "related_issue_ids": [
-            "I01"
+            "I02"
           ],
           "action": "REMOVE",
           "detail": "移除或替换对应的引导性表述及其关联内容，避免继续传播该风险线索。",
           "target_time_ranges": [
-            {
-              "start_ms": 5200,
-              "end_ms": 11500,
-              "evidence_refs": [
-                "E01",
-                "S002:F001"
-              ]
-            },
             {
               "start_ms": 12200,
               "end_ms": 18000,

@@ -54,13 +54,13 @@ class MockComparisonTests(unittest.TestCase):
             with self.subTest(relation=relation):
                 self.assertEqual(simple_mapping(located, frozen["duration_ms"], relation)["disposition"], "REVIEW")
 
-    def test_structural_conflict_is_corrected_but_known_semantic_failure_remains(self):
+    def test_structural_and_same_event_counter_context_conflicts_are_reviewed(self):
         conflict = compare_input("relation_override_conflict", load_input("relation_override_conflict"), "REVIEW")
         failure = compare_input("relation_wrong_encouragement", load_input("relation_wrong_encouragement"), "REVIEW")
         self.assertEqual(conflict["without_pead"]["disposition"], "FLAG")
         self.assertEqual(conflict["with_pead"]["disposition"], "REVIEW")
-        self.assertEqual(failure["with_pead"]["disposition"], "FLAG")
-        self.assertFalse(failure["with_pead_meets_synthetic_expectation"])
+        self.assertEqual(failure["with_pead"]["disposition"], "REVIEW")
+        self.assertTrue(failure["with_pead_meets_synthetic_expectation"])
 
     def test_enumeration_covers_every_choice_combination_exactly_once(self):
         report, inputs = build()
