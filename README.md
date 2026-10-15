@@ -1,6 +1,8 @@
-# VideoGuard-E v0.6｜工程收口与团队文档版
+# VideoGuard-E｜PEAD 证据图增强版
 
 > **2026-10-14 Mock 验证修订：** 已修复问题定位空/缺项/非法回答被当成无风险、关系无效回包错误标记 LIVE，以及关系校验在 `python -O` 下失效的问题。新增同输入有/无 PEAD 对照、输入快照和回归测试。先读 [`docs/06_Mock验证与失败路径修复.md`](docs/06_Mock验证与失败路径修复.md)。本次没有调用真实云端模型，也不声称真实视频准确率改善。
+>
+> **后续证据图增强：** 危险诱导进入事件级论证裁决，新增来源合并、支持／反驳关系、逐事件结论和证据移除检验；原先同一事件警示被忽略的 Mock 反例已修复。先读 [`docs/07_PEAD证据图与开源参考.md`](docs/07_PEAD证据图与开源参考.md)。
 
 **团队：小白**（团队形象：<img src="docs/assets/team-mascot.png" alt="小白团队形象" width="220" align="middle">）
 
@@ -71,7 +73,7 @@ copy .env.example .env           # 在 .env 填入当前阶段服务配置
 
 **已知依赖风险：** 当前 starlette 会对 `httpx` 报 `StarletteDeprecationWarning`（提示改用 `httpx2`）。本版测试全绿，但若日后升级后 `tests/test_mvp.py` 出现 `TestClient` 导入失败，先检查 `httpx`/`starlette` 这一对版本，而不是怀疑业务代码。
 
-**本次修订验证：** Python 3.12 按现有 uv.lock 安装依赖后，100 项后端测试与29项真实 HTTP/ffprobe 冒烟通过（未配置真实模型，只验证无密钥失败路径）；前端类型检查通过。生产构建因沙盒 Node 的 `uv_resident_set_memory` 读取报 ENOENT 而未完成，前端源码未修改。详见 `backend/reports/mock-validation-summary.json`。
+**本次修订验证：** Python 3.12 按现有 uv.lock 安装依赖后，120 项后端测试与29项真实 HTTP/ffprobe 冒烟通过（未配置真实模型，只验证无密钥失败路径）；前端类型检查通过。生产构建因沙盒 Node 的 `uv_resident_set_memory` 读取报 ENOENT 而未完成，前端源码未修改。详见 `backend/reports/mock-validation-summary.json`。
 
 ### 方式二：系统 Python
 
@@ -154,7 +156,7 @@ npm run lint
 npm run build
 ```
 
-后端测试当前 100 项（以运行输出为准）：
+后端测试当前 120 项（以运行输出为准）：
 
 | 文件 | 项数 | 覆盖 |
 | --- | --- | --- |
@@ -164,7 +166,8 @@ npm run build
 | `tests/test_fixture_pack.py` + `test_event_audit.py` | 14 | 样例回归、十条策略覆盖、真值表与事件级审计 |
 | `tests/test_parameters.py` | 12 | 共享阈值、参数来源及策略一致性 |
 | `tests/test_locator_failures.py` | 16 | 空/缺项/错类型/非法概率/超时/截断、明确降级、合法否定及 Python 优化模式 |
-| `tests/test_mock_comparison.py` | 8 | 同输入、无外部调用、公平控制组、穷举覆盖、已知反例与统计核对 |
+| `tests/test_mock_comparison.py` | 8 | 同输入、无外部调用、公平控制组、穷举覆盖、反例修复与统计核对 |
+| `tests/test_evidence_graph.py` | 20 | Grounded 语义独立穷举核对、来源合并、事件隔离、冲突裁决、证据移除、报告和精简模型输入 |
 
 **Mock 对照复现：** 在 `backend` 运行 `python -m fixtures.compare_pead --write`，生成 `reports/mock-pead-comparison.{md,json,csv}` 与输入快照；`--check` 检查输出无漂移。Windows 可运行 `run_mock_checks.cmd`，Linux/macOS 可运行 `sh run_mock_checks.sh`。完整测试需要先安装项目依赖；对照脚本本身无需 API Key。
 

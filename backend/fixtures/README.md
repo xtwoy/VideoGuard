@@ -81,7 +81,7 @@ fixtures/
 | `controlled_goods_cue` | 画面展示受控商品并提示可交易 | `R_CONTROLLED_GOODS` = SUPPORTED / REVIEW |
 | `minors_protection_cue` | 画面出现疑似未成年人风险线索 | `R_MINORS_PROTECTION` = SUPPORTED / FLAG |
 | `relation_override_conflict` | 模型对**不同事件**的两条线索硬说 `encourages_same` | **CONFLICTED / REVIEW**（PEAD 否决模型） |
-| `relation_wrong_encouragement` | 模型对**安全语境**错误回答 `encourages_same` | ⚠️ SUPPORTED / FLAG（**已记录局限**） |
+| `relation_wrong_encouragement` | 模型对**安全语境**错误回答 `encourages_same` | CONFLICTED / REVIEW（**证据图增强修复**） |
 | `counter_context_tagging` | 同一事件内既有鼓励也有安全提醒，提醒标为 `education_context` | **CONFLICTED / REVIEW**（反证不依赖标注用词） |
 | `partial_coverage` | 覆盖 PARTIAL、音轨损坏 | 十类全部 UNKNOWN / RECHECK，**不得判为安全** |
 | `clean_negative` | 普通宠物日常，无任何线索 | 十类全部 NOT_SUPPORTED / NONE |
@@ -106,24 +106,14 @@ fixtures/
 | 片段性质 | 危险动作与鼓励语分属**不同事件** | 安全教育短片，动作与警示**同一事件** |
 | `referent_key` | 两条线索不同 → **冲突** | 两条线索相同 → 一致 |
 | 模型回答 | `encourages_same`（0.94） | `encourages_same`（0.94） |
-| PEAD 结论 | **CONFLICTED / REVIEW** | SUPPORTED / FLAG |
-| 判定依据 | `RELATION_REFERENT_DISAGREEMENT`（结构性否决） | `RELATION_LINK_ASSISTED`（采纳模型） |
+| PEAD 结论 | **CONFLICTED / REVIEW** | **CONFLICTED / REVIEW** |
+| 判定依据 | `RELATION_REFERENT_DISAGREEMENT`（结构性质疑） | `CONFLICTING_STANCE`（警示与模型判断相互攻击） |
 
 **结论一（能力）：** 当事实解析给出的 `referent_key` 相互冲突时，PEAD 会否决模型的
 高置信度回答，只输出"语境冲突、转人工"，而不是给出强提示。模型置信度不能覆盖这一约束。
 
-**结论二（上界，必须如实说明）：** 安全性**完全取决于 `referent_key` 是否提供了冲突信号**。
-在安全语境下，动作与警示本就指向同一事件，不存在结构冲突；此时 PEAD 没有任何独立于
-模型的证据，只能采纳模型回答——**模型答错就是误报**。
-
-因此 PEAD 的价值上界 = 事实解析给出的事件指向质量 × 关系核验的准确率。
-这也正是 H2 必须用真实数据评估、而不能靠合成样例下结论的原因。
-
-> **已知改进缺口：** `R_DANGER_PROMOTION` 的反证判断原先只认 `warning_tags = ["warning"]`，
-> 因此把同一条安全提醒标成 `education_context` 就会让它被判为推动诱导——**结论取决于
-> 解析阶段的用词选择**。现已加入 `counter_context_tags`（warning / education_context /
-> news_context / fiction_context），`counter_context_tagging` 用例守住这一行为。
-> 其余仍待改进的方向见本文末「PEAD 的待优化项」。
+**结论二（本次修复）：** 显式同事件警示现在构成反向论证，模型自信回答不能消除它；相互攻击无法裁决时转为复核。
+仍不能补齐上游没有报告的警示，也不能独立核实原视频。此前将上界写为两个准确率乘积的表述不成立，已经撤销。
 
 ## 穷举真值表：PEAD 决策函数的证据
 
@@ -144,11 +134,9 @@ python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{m
 - **单调保守** —— 把某个回答从 `encourages_same` 弱化，绝不会让结论变强；
 - **不依赖标注用词** —— 同一内容标为 `warning` 或 `education_context` 结论一致。
 
-**这些性质无法用合成数据伪造**，因为它们说的是"函数在所有输入下如何表现"，而不是
-"函数在真实视频上有多准"。真值表恰好是正确答案已知的场合。
+这些检查只覆盖当前用例及枚举范围，不能推出所有可能输入都成立，也不衡量真实视频准确率。
 
-由此得到一条可直接引用的保守性规则：**`danger_promotion` 有两个候选对时，
-只有两个都确认"鼓励同一事件"才会判 FLAG；任一候选对持异议即转为人工复核。**
+当前规则按论证对象处理：已有独立支持的鼓励关系可保留；另一句话被判断为无关不自动推翻它。相关警示或关系缺口仍可要求复核。
 
 > **真值表不度量准确率。** 上游回答是合成的，因此表里没有任何数字说明 PEAD 对真实视频
 > 判断得对不对。那是 H1/H2 要做、且必须用真实视频和人工标注完成的事。
