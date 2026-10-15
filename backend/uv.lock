@@ -1,6 +1,10 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
 
 [[package]]
 name = "annotated-doc"
@@ -246,6 +250,15 @@ wheels = [
 ]
 
 [[package]]
+name = "networkx"
+version = "3.6.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6a/51/63fe664f3908c97be9d2e4f1158eb633317598cfa6e1fc14af5383f17512/networkx-3.6.1.tar.gz", hash = "sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509", size = 2517025, upload-time = "2025-12-08T17:02:39.908Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9e/c9/b2622292ea83fbb4ec318f5b9ab867d0a28ab43c5717bb85b0a5f6b3b0a4/networkx-3.6.1-py3-none-any.whl", hash = "sha256:d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762", size = 2068504, upload-time = "2025-12-08T17:02:38.159Z" },
+]
+
+[[package]]
 name = "openai"
 version = "2.54.0"
 source = { registry = "https://pypi.org/simple" }
@@ -274,6 +287,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/2e/02/6e0ae9cc61bd3169d401077b507b3ebc344745171e1051ab430be012dcd9/opentelemetry_api-1.45.1.tar.gz", hash = "sha256:aa38ed19bcc084ba42782a73255b3582283eced7ad6dddbd6695189e69adfb75", size = 72804, upload-time = "2026-10-06T17:32:58.133Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/41/f7dcf80b81ee8e71c1a2b59f14208bc723edbd89ed027a73b175abf6348e/opentelemetry_api-1.45.1-py3-none-any.whl", hash = "sha256:b31553efa588ae44bc306f863c785c5333a9ecc091248c6ee68b4b6c87fdedfb", size = 60256, upload-time = "2026-10-06T17:32:33.506Z" },
+]
+
+[[package]]
+name = "parse"
+version = "1.22.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/64/47/3d816e5e8f65b17667a4fcc672806d9ecf3dd997691d56ae5345a445b653/parse-1.22.3.tar.gz", hash = "sha256:7e79bb39c72c3bf1613510fd5cdffe5baa9a7873892bef1d4566f1672c8a42f4", size = 37944, upload-time = "2026-10-10T17:29:41.029Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/04/07/5c578992b965e9c5101c7ad377440ca250769b34542a1781ab06b25c56fc/parse-1.22.3-py2.py3-none-any.whl", hash = "sha256:2cd33a301b5a4b400ee79952f42364fe486e5f10701fbf819fbbab1eab478139", size = 21221, upload-time = "2026-10-10T17:29:39.676Z" },
 ]
 
 [[package]]
@@ -425,6 +447,18 @@ wheels = [
 ]
 
 [[package]]
+name = "python-argumentation"
+version = "2.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "parse" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/67/8f83d8d71e32ac203a43f2959e7ef9dc445c4381055712dc41f49cb6a2f4/python-argumentation-2.0.2.tar.gz", hash = "sha256:a6fc86f363bfd998608033fbffeab4931d7742a6da1e32888691d535aa4d18bf", size = 86752, upload-time = "2024-02-02T08:22:11.23Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/15/a3af4cea0c286fce3ff57b4d7b2631a5456e625e9cc37c8698bb9b930643/python_argumentation-2.0.2-py3-none-any.whl", hash = "sha256:8f1182d092445b61bfbf7db6c9d6096d62114a3ca625df33e9acef3909009c14", size = 170203, upload-time = "2024-02-02T08:22:09.362Z" },
+]
+
+[[package]]
 name = "python-dotenv"
 version = "1.2.4"
 source = { registry = "https://pypi.org/simple" }
@@ -517,7 +551,10 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "httpx" },
+    { name = "networkx" },
     { name = "openai" },
+    { name = "pydantic" },
+    { name = "python-argumentation" },
     { name = "python-dotenv" },
     { name = "python-multipart" },
     { name = "uvicorn" },
@@ -527,7 +564,10 @@ dependencies = [
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115,<1" },
     { name = "httpx", specifier = ">=0.27" },
+    { name = "networkx", specifier = "==3.6.1" },
     { name = "openai", specifier = ">=1.50,<3" },
+    { name = "pydantic", specifier = ">=2.7,<3" },
+    { name = "python-argumentation", specifier = "==2.0.2" },
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "python-multipart", specifier = ">=0.0.9" },
     { name = "uvicorn", specifier = ">=0.30,<1" },

@@ -113,6 +113,7 @@ COUNTER_SOURCE_LABELS = {
     "CONTEXT_TAGS": "新闻、影视或教育语境线索",
     "NOT_APPLICABLE": "该审核项不涉及反证",
     "NOT_CHECKED": "未执行反证检查",
+    "MIXED": "多个审核项的反向语境检查",
 }
 
 
@@ -131,7 +132,13 @@ def counter_evidence(raw: object) -> str:
         verdict = "已找到反向语境证据，见问题定位中的反向证据。"
     else:
         verdict = "已检查，未发现反向语境证据。"
-    relation = "已调用语义关系核验。" if raw.get("relation_checked") else "本项不涉及语义关系核验。"
+    relation = {
+        "COMPLETE": "本次候选关系均已获得有效门控结果。",
+        "PARTIAL": "仅完成部分候选关系核验，不能视为全部核验。",
+        "NOT_CHECKED": "尚未完成候选关系核验。",
+        "NOT_REQUIRED": "本次按静态规则判断，或没有需核验的候选关系。",
+        "INCOMPLETE": "构图未完成，不能声称已完成关系核验。",
+    }.get(raw.get("relation_status"), "已记录关系核验。" if raw.get("relation_checked") else "未记录关系核验。")
     return (f"<p class=\"muted\"><b>反证检查：</b>{h(verdict)}"
             f"（检查范围：{h(source)}；{h(relation)}）</p>")
 
@@ -162,6 +169,19 @@ def audit_content(audit: object) -> str:
 <details><summary>报告限制与人工复核提示</summary><ul>{limit_html}</ul></details>"""
 
 
+def argument_explanation(argument: dict) -> str:
+    proof = argument.get("explanation")
+    if not isinstance(proof, dict):
+        return "未提供推理路径"
+    if proof.get("not_evaluated"):
+        return "超出图规模预算，本次未执行求解，交由人工复核"
+    if argument.get("label") == "IN":
+        return "没有攻击者" if not proof.get("attacker_ids") else "所有攻击者均被已采纳的防御论证反驳"
+    if argument.get("label") == "OUT":
+        return "被已采纳论证反驳：" + "、".join(map(str, proof.get("defeated_by", [])))
+    return "缺少可采纳的防御，相关攻击仍未解决：" + "、".join(map(str, proof.get("unresolved_attacker_ids", [])))
+
+
 def evidence_graph_content(raw: object) -> str:
     if not isinstance(raw, dict):
         return ""
@@ -169,6 +189,7 @@ def evidence_graph_content(raw: object) -> str:
              "COUNTER_CONTEXT": "警示或其他反向语境", "MODEL_COUNTER": "模型提出警示或无关关系",
              "REFERENT_CONFLICT": "事件指向冲突", "TARGET_UNKNOWN": "事件指向待核实",
              "RELATION_UNCERTAIN": "关系回答不充分", "RELATION_MISSING": "关系未核验",
+             "UNLOCATED_COUNTER": "反向语境尚未定位", "COUNTER_REFERENT_CONFLICT": "警示关系指向不一致或未确定",
              "TIME_UNCERTAIN": "时间定位不可靠", "UNLOCATED": "证据尚未定位"}
     labels = {"IN": "本次采纳", "OUT": "被反驳", "UNDECIDED": "待复核"}
     dispositions = {"FLAG": "风险提示", "NONE": "暂无进一步动作", "REVIEW": "人工复核",
@@ -179,7 +200,8 @@ def evidence_graph_content(raw: object) -> str:
         f"<tr><td>{h(kinds.get(a.get('kind'), '证据论证'))}</td>"
         f"<td>{h('、'.join(map(str, a.get('premise_ids', []))))}</td>"
         f"<td>{h('、'.join(map(str, a.get('source_refs', []))) or '来源未提供')}</td>"
-        f"<td>{h(labels.get(a.get('label'), '待复核'))}</td></tr>"
+        f"<td>{h(labels.get(a.get('label'), '待复核'))}</td>"
+        f"<td>{h(argument_explanation(a))}<br><span class=muted>{h('、'.join(map(str, a.get('rule_ids', []))))}</span></td></tr>"
         for a in arguments[:60] if isinstance(a, dict))
     event_rows = "".join(
         f"<li><b>事件 {h(e.get('event_key'))}</b>："
@@ -190,14 +212,31 @@ def evidence_graph_content(raw: object) -> str:
     counterfactuals = "".join(
         f"<li>移除 {h('、'.join(map(str, item.get('removed_ids', []))))} 后："
         f"{h(dispositions.get(item.get('disposition'), '人工复核'))}"
-        f"（{'结论发生变化' if item.get('changed') else '结论保持'}）。</li>"
+        f"（{'整体处置发生变化' if item.get('changed') else '整体处置保持'}）。"
+        f"{h('事件变化：' + '、'.join(str(change.get('event_key')) for change in item.get('event_changes', []))) if item.get('event_changes') else ''}</li>"
         for item in raw.get("counterfactuals", []) if isinstance(item, dict))
     truncation = "<p class=muted>此处仅展示前六十条论证；完整图保存在结构化审核结果中。</p>" if len(arguments) > 60 else ""
     counter_limit = "<p class=muted>移除检验只覆盖部分证据，并非全部组合的因果证明。</p>" if raw.get("counterfactuals_truncated") else ""
+    if raw.get("counterfactuals_skipped_reason"):
+        counter_limit += ("<p class=muted>本次证据移除预算为零，未执行移除检验。</p>" if raw["counterfactuals_skipped_reason"] == "DISABLED"
+                          else "<p class=muted>本次超出求解规模预算，已跳过证据移除检验。</p>")
+    ruleset = raw.get("ruleset") if isinstance(raw.get("ruleset"), dict) else {}
+    solver = raw.get("solver") if isinstance(raw.get("solver"), dict) else {}
+    decision_rows = "".join(
+        f"<li>事件 {h(e.get('event_key'))}：{h(e.get('decision_trace', {}).get('selected_rule_id'))}"
+        f"<ul>{''.join('<li>' + h(r.get('rule_id')) + '：' + h(r.get('description')) + '</li>' for r in e.get('decision_trace', {}).get('evaluated_rules', []) if isinstance(r, dict) and r.get('matched'))}</ul></li>"
+        for e in raw.get("event_decisions", []) if isinstance(e, dict))
+    cycle_rows = "".join(
+        f"<li>事件 {h(e.get('event_key'))} 的循环组：{h('、'.join(map(str, cycle)))}</li>"
+        for e in raw.get("event_decisions", []) if isinstance(e, dict)
+        for cycle in e.get("argument_labels", {}).get("cycles", []))
+    provenance = (f"<p class=muted>求解组件：{h(solver.get('name'))} {h(solver.get('version'))}；"
+                  f"规则版本：{h(ruleset.get('version'))}；规则指纹：{h(ruleset.get('sha256'))}</p>") if solver else ""
     return f"""<h2>证据论证与裁决</h2><section class="plan"><p>系统按事件分别检查支持、反向语境和信息缺口。
 相互攻击且无法裁决的论证保留人工复核；模型关系判断仍基于同一批观察，不构成独立视频证据。</p>
-<ul>{event_rows}</ul><details><summary>展开论证与事实引用</summary><table class="proof-table">
-<thead><tr><th>论证</th><th>线索引用</th><th>原始事实引用</th><th>裁决</th></tr></thead><tbody>{rows}</tbody></table>{truncation}</details>
+{provenance}<ul>{event_rows}</ul><details><summary>展开论证与事实引用</summary><table class="proof-table">
+<thead><tr><th>论证</th><th>线索引用</th><th>原始事实引用</th><th>裁决</th><th>裁决依据与规则</th></tr></thead><tbody>{rows}</tbody></table>{truncation}</details>
+<details><summary>规则命中与冲突追踪</summary><p class=muted>按优先级选择首条命中规则；下面同时保留其他命中规则供核查。</p><ul>{decision_rows}</ul><p>循环攻击关系：</p><ul>{cycle_rows or '<li>未检出循环，或本次未执行求解；以各事件的求解状态为准。</li>'}</ul></details>
 <details><summary>证据移除检验</summary><p class="muted">复用冻结的关系回答，仅移除指定观察；不重新分析视频。</p>
 <ul>{counterfactuals}</ul>{counter_limit}</details></section>"""
 

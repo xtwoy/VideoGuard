@@ -1,0 +1,20 @@
+{
+  "clean_negative": "678a0054912c9114a177f34d6cb67c4e7b6fbf7d4996357955b85a4d9f615ea2",
+  "controlled_goods_cue": "6cca408618035b36af37258cb70e10ab7c60d4d3a6a0a9d643723a650b4d1a88",
+  "counter_context_tagging": "40dd59a285797ba1aada7bc4a33b9a562fec5b39276bf01fae7691cc7c55e023",
+  "credential_claim": "db175bd9e1840ac7fed5c3a006b94f1f8a0912577338a61249ccbd859912ec71",
+  "danger_promotion": "45c39875acd67d7b273620bd04932a26c2f0626737ac9e6fba45a098f19740a4",
+  "fraud_scam_cue": "0aa9c1f76ad5531f59af951594109749051f59d635447532448fe56458e343c9",
+  "hate_harassment_cue": "fb4f69969b70063d56e162db368dcf9da82fc7d4b383e497afb10e49d726594e",
+  "minors_protection_cue": "97aaae47a2e7d6a18cf8b5c90c2eee173494aac013a80b8f4a314da398f42c88",
+  "news_violence": "c910a9be0d96cdda6a92a7dbfa9fde95497e0aab7fb138332ea41a1ce9a21792",
+  "partial_coverage": "aca3bd0a62d049a8b62aa9310c0d6fb1f123f0f0a97ac7f590b0cdc5e3c0d659",
+  "privacy_screen_text": "a5634931b0bcbdc8c6b10840baa3a7044e6629342bed60f01266f77d98bbd613",
+  "relation_override_conflict": "9c96e35a45db0bf8f58803c4e450fa027e62b1cb3e3c9e3ec7ccb657d639a87f",
+  "relation_wrong_encouragement": "0fb66ec07b824209e5687d989d585e3dbf780db0bfcb923b19c423ca69778cb7",
+  "self_harm_cue": "3846b00c1c7a4be3ce8d36db8a57b9f336d67f95adc2872f321f1afdbddc2f9a",
+  "sexual_content_cue": "d64e146e2a66c1e0d558a2790a00eed4128e81884434bc78d8bbe868f710d313",
+  "unrelated_promotion": "63b217f498b6b6d6f3934e33fc8536eeffa025fa1b7a9e0bc99d2595da4c54d3",
+  "unrelated_without_relation_service": "db4050579b0f92c10fe6fc09951b65edffc5c2d6c8be39e4a5b68352f9802939",
+  "warning_context": "3d6b0ad7557bb6d900bf990d3cc0d9e45aceb9e41eb4d396ada3a2fbd506aff6"
+}

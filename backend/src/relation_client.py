@@ -11,7 +11,7 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from src.pead_engine import _valid_obs
+from src.pead_engine import _valid_obs, _same_referent
 from src.redaction import redact
 from src import config as params
 
@@ -87,10 +87,10 @@ def select_pairs(observations: list[dict], duration_ms: int,
             "action_id": a["id"], "stance_id": s["id"],
             "original_start_ms": min(a["start_ms"], s["start_ms"]),
             "original_end_ms": max(a["end_ms"], s["end_ms"]),
-            "referents_match": (bool(a.get("referent_key")) and
-                                a.get("referent_key")==s.get("referent_key")),
-            "referents_conflict": bool(a.get("referent_key") and s.get("referent_key") and
-                                      a.get("referent_key")!=s.get("referent_key")),
+            "referents_match": _same_referent(a, s),
+            "referents_conflict": bool((a.get("event_id") or a.get("referent_key"))
+                                      and (s.get("event_id") or s.get("referent_key"))
+                                      and not _same_referent(a, s)),
             "action": _text_obs(a), "stance": _text_obs(s)
         }
         for i, (_, __, ___, ____, a, s) in enumerate(pairs[:limit])

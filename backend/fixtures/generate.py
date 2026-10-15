@@ -30,7 +30,8 @@ from fixtures.simulate import simulate
 HERE = Path(__file__).resolve().parent
 CASE_ROOT = HERE / "cases"
 MANIFEST = HERE / "manifest.json"
-CHECKING = False
+FROZEN_REPORT_INPUTS = HERE / "frozen_report_inputs.json"
+CHECKING = True
 
 
 STALE: list[str] = []
@@ -106,7 +107,8 @@ def build_case(name: str) -> dict:
         report.pop("_source", None)
 
     directory = CASE_ROOT / name
-    directory.mkdir(parents=True, exist_ok=True)
+    if not CHECKING:
+        directory.mkdir(parents=True, exist_ok=True)
     digests: dict[str, str] = {}
     digests["video_parse_response.json"] = _sha256(
         _dump(directory / "video_parse_response.json", case["video_parse"]))
@@ -115,8 +117,18 @@ def build_case(name: str) -> dict:
     if relation_raw is not None:
         digests["relation_response.json"] = _sha256(
             _dump(directory / "relation_response.json", relation_raw))
-    digests["audit_report_response.json"] = _sha256(
-        _dump(directory / "audit_report_response.json", report))
+    frozen_hashes = json.loads(FROZEN_REPORT_INPUTS.read_text(encoding="utf-8"))
+    if name in frozen_hashes:
+        # A model reply is an input. Never rewrite it using the new engine's
+        # output just to make a migration regression pass.
+        frozen_bytes = (directory / "audit_report_response.json").read_bytes()
+        if hashlib.sha256(frozen_bytes).hexdigest() != frozen_hashes[name]:
+            raise ValueError(f"{name}: frozen model report input changed; review the input and its hash explicitly")
+        report = json.loads(frozen_bytes)
+        digests["audit_report_response.json"] = _sha256(frozen_bytes)
+    else:
+        digests["audit_report_response.json"] = _sha256(
+            _dump(directory / "audit_report_response.json", report))
     digests["expectations.json"] = _sha256(
         _dump(directory / "expectations.json", case["expectations"]))
     digests["case.json"] = _sha256(_dump(directory / "case.json", {
@@ -164,6 +176,16 @@ def build_manifest(entries: list[dict]) -> dict:
 
 
 def _write_all() -> dict:
+    global CHECKING
+    previous = CHECKING
+    CHECKING = False
+    try:
+        return _write_all_enabled()
+    finally:
+        CHECKING = previous
+
+
+def _write_all_enabled() -> dict:
     CASE_ROOT.mkdir(parents=True, exist_ok=True)
     # Remove stale case directories so a renamed or deleted case cannot leave
     # misleading fixture files behind.
@@ -187,6 +209,7 @@ def stale_files() -> list[str]:
     """
     global CHECKING
     STALE.clear()
+    previous = CHECKING
     CHECKING = True
     try:
         entries = [build_case(name) for name in case_defs.CASE_ORDER]
@@ -196,7 +219,7 @@ def stale_files() -> list[str]:
             STALE.append("manifest.json")
         return list(STALE)
     finally:
-        CHECKING = False
+        CHECKING = previous
 
 
 def _check_all() -> int:

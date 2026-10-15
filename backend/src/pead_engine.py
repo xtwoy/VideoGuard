@@ -6,6 +6,7 @@ from pathlib import Path
 
 from src import config as params
 from src.evidence_graph import decide as graph_decide
+from src.pead_rules import RuleSet, load_rules
 
 MODALITIES = {"visual","speech","screen_text","sound","metadata"}
 TAGS = {"danger_action","danger_description","encouragement","challenge","warning",
@@ -50,7 +51,11 @@ def _f(policy_id: str, judgement: str, disposition: str,
 def _valid_obs(e: dict, duration_ms: int) -> bool:
     if not isinstance(e,dict) or not isinstance(e.get("id"),str) or not e["id"]:
         return False
-    if e.get("modality") not in MODALITIES or e.get("tag") not in TAGS:
+    if (not isinstance(e.get("modality"), str) or e["modality"] not in MODALITIES
+            or not isinstance(e.get("tag"), str) or e["tag"] not in TAGS
+            or (e.get("referent_key") is not None and not isinstance(e["referent_key"], str))
+            or (e.get("event_id") is not None and not isinstance(e["event_id"], str))
+            or (e.get("time_confidence") is not None and e["time_confidence"] not in ("HIGH", "MEDIUM", "LOW", "UNAVAILABLE"))):
         return False
     a,b=e.get("start_ms"),e.get("end_ms")
     if a is None and b is None:  # admissible but unlocated; not enough for STRONG support
@@ -66,14 +71,17 @@ def _near(a: dict,b: dict,max_gap_ms: int)->bool:
     return max(0,a["start_ms"]-b["end_ms"],b["start_ms"]-a["end_ms"]) <= max_gap_ms
 
 def _same_referent(a: dict,b: dict)->bool:
+    if a.get("event_id") or b.get("event_id"):
+        return bool(a.get("event_id") and b.get("event_id") and a["event_id"] == b["event_id"])
     return bool(a.get("referent_key")) and a.get("referent_key")==b.get("referent_key")
 
-def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
+def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, ruleset: RuleSet | None=None)->dict:
     """Evaluate all policies, *not only* model-reported candidate risks.
     Input keys: coverage and observations. Never asserts illegality.
     """
     if type(duration_ms) is not int or duration_ms<0:
         raise ValueError("duration_ms must be a non-negative integer")
+    ruleset = ruleset if ruleset is not None else load_rules()
     policy_source=policy_config if policy_config is not None else load_policies()
     policies=policy_source["policies"]
     policy_ids=tuple(policies)
@@ -81,13 +89,13 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     # instead of silently selecting pairs by one window and judging by another.
     gap_ms=params.assert_policy_gap_agrees(policies)
     coverage=data.get("coverage","UNKNOWN")
-    if coverage not in REQUIRED_COVERAGES: coverage="UNKNOWN"
+    if not isinstance(coverage,str) or coverage not in REQUIRED_COVERAGES: coverage="UNKNOWN"
     observations=data.get("observations",[])
     if not isinstance(observations,list): observations=[]
     seen=set(); good=[]; invalid=[]; invalid_tags=set()
     for obj in observations:
         oid=obj.get("id") if isinstance(obj,dict) else None
-        if oid in seen or not _valid_obs(obj,duration_ms):
+        if not _valid_obs(obj,duration_ms) or oid in seen:
             invalid.append(oid if isinstance(oid,str) else "(no id)")
             if isinstance(obj,dict) and isinstance(obj.get("tag"),str):
                 invalid_tags.add(obj["tag"])
@@ -103,7 +111,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None)->dict:
     for p in policy_ids:
         if p=="R_DANGER_PROMOTION":
             finding, pead_audit = graph_decide(observations, duration_ms, coverage, gap_ms,
-                                                require_relation=False)
+                                                require_relation=False, ruleset=ruleset)
             findings.append(finding)
         elif p=="R_VIOLENCE":
             acts=[e for e in tags(*policies[p]["action_tags"]) if e["modality"]=="visual"]

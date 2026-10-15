@@ -85,6 +85,9 @@ def main() -> int:
             check("health returns 200", health.status_code == 200, health.text)
             check("health payload ok", health.json().get("ok") is True)
 
+            pead_health = health.json().get("pead", {})
+            check("health exposes PyArg solver", pead_health.get("solver", {}).get("name") == "PyArg")
+
             # Opening :8000 in a browser is a common mistake; it must explain
             # where the UI actually lives instead of returning a bare 404.
             root = client.get("/")
@@ -110,6 +113,14 @@ def main() -> int:
                 json.dumps(result.get("meta", {}), ensure_ascii=False),
             )
 
+            graph = result.get("pead_audit", {})
+            check("demo uses PyArg", graph.get("solver", {}).get("name") == "PyArg")
+            check("demo records rule firings", bool(graph.get("rule_firings")))
+            fingerprint = graph.get("ruleset", {}).get("sha256")
+            check("demo and health agree on rule snapshot", bool(fingerprint) and fingerprint == pead_health.get("ruleset_sha256"))
+            stored_demo = client.get(f"/api/reviews/{payload['id']}").json()
+            check("stored graph preserves decision trace", stored_demo.get("result", {}).get("pead_audit") == graph)
+
             print("\n[3] exported HTML report")
             report = client.get(f"/api/reviews/{payload['id']}/report")
             check("report returns 200", report.status_code == 200)
@@ -120,6 +131,8 @@ def main() -> int:
             check("report is self-contained html", report.headers.get("content-type", "").startswith("text/html"))
             body = report.text
             check("report states it is synthetic", "合成演示" in body)
+            check("report exposes selected rules", "规则命中与冲突追踪" in body)
+            check("report carries same rule fingerprint", bool(fingerprint) and fingerprint in body)
             check("report carries findings", "危险行为诱导" in body)
             check("report carries the nine-dimension scores", "维度评分" in body)
             check("report carries the revision plan", "问题定位与整改" in body)

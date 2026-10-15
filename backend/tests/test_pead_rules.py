@@ -1,0 +1,232 @@
+"""Runtime integration, configuration safety, resource boundaries and provenance."""
+from __future__ import annotations
+import copy
+import json
+import os
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from pydantic import ValidationError
+from src.argumentation import ArgumentationLimitError, grounded
+from src.evidence_graph import decide
+from src.pead_rules import Condition, FACTS, RuleSet, load_rules
+
+
+def observations():
+    return [{"id": oid, "tag": tag, "referent_key": "event-A", "modality": modality,
+             "start_ms": 0, "end_ms": 1000, "source_refs": ["source:" + oid], "time_confidence": "HIGH"}
+            for oid, tag, modality in [("action", "danger_action", "visual"),
+                                       ("promotion", "encouragement", "speech")]]
+
+
+def relation():
+    return [{"action_id": "action", "stance_id": "promotion", "stance": "encourages_same"}]
+
+
+class OpenSourceSolverTests(unittest.TestCase):
+    def test_pyarg_is_the_runtime_solver_and_exception_has_no_fallback(self):
+        from src import argumentation
+        with patch.object(argumentation, "get_grounded_extension", wraps=argumentation.get_grounded_extension) as solver:
+            result = grounded(["a", "b"], [("a", "b")])
+            solver.assert_called_once()
+        self.assertEqual(result["backend"]["name"], "PyArg")
+        self.assertFalse(result["backend"]["fallback"])
+        with patch.object(argumentation, "get_grounded_extension", side_effect=RuntimeError("broken solver")):
+            with self.assertRaisesRegex(RuntimeError, "broken solver"):
+                grounded(["a"], [])
+
+    def test_networkx_cycles_and_defense_witnesses_are_consistent(self):
+        result = grounded(["a", "b", "c", "d", "e"], [("a", "b"), ("b", "c"), ("d", "e"), ("e", "d")])
+        self.assertEqual(result["cycles"], [["d", "e"]])
+        self.assertEqual(result["explanations"]["c"]["defenses"],
+                         [{"attacker_id": "b", "accepted_defender_ids": ["a"]}])
+        self.assertEqual(result["explanations"]["b"]["defeated_by"], ["a"])
+        self.assertEqual(result["explanations"]["d"]["unresolved_attacker_ids"], ["e"])
+        self.assertEqual(grounded(["a"], [("a", "a")])["cycles"], [["a"]])
+
+    def test_budget_boundaries_and_duplicate_attacks(self):
+        result = grounded(["a", "b"], [("a", "b"), ("a", "b")], max_arguments=2, max_attacks=1)
+        self.assertEqual(result["statistics"]["attacks"], 1)
+        with self.assertRaises(ArgumentationLimitError):
+            grounded(["a", "b"], [], max_arguments=1)
+        with self.assertRaises(ArgumentationLimitError):
+            grounded(["a", "b"], [("a", "b"), ("b", "a")], max_attacks=1)
+
+
+class RuleConfigurationTests(unittest.TestCase):
+    def setUp(self):
+        self.rules = load_rules()
+        self.raw = self.rules.model_dump(mode="json")
+
+    def test_unknown_predicate_extra_field_and_invalid_limits_rejected(self):
+        edits = []
+        bad = copy.deepcopy(self.raw);bad["argument_rules"][0]["when"] = {"all_of": ["typo"]};edits.append(bad)
+        bad = copy.deepcopy(self.raw);bad["extra"] = True;edits.append(bad)
+        for invalid in (0, -1, True, "512", 2049):
+            bad = copy.deepcopy(self.raw);bad["limits"]["max_arguments"] = invalid;edits.append(bad)
+        bad = copy.deepcopy(self.raw);bad["argument_rules"][0]["when"] = {"all_of": ["same_event"], "none_of": ["same_event"]};edits.append(bad)
+        for bad in edits:
+            with self.subTest(bad=bad):
+                with self.assertRaises(ValidationError):RuleSet.model_validate(bad)
+
+    def test_duplicate_ids_tied_priorities_missing_kinds_and_missing_default_rejected(self):
+        edits=[]
+        bad=copy.deepcopy(self.raw);bad["argument_rules"][1]["id"]=bad["argument_rules"][0]["id"];edits.append(bad)
+        bad=copy.deepcopy(self.raw);bad["decision_rules"][1]["priority"]=bad["decision_rules"][0]["priority"];edits.append(bad)
+        bad=copy.deepcopy(self.raw);bad["argument_rules"]=[r for r in bad["argument_rules"] if r["kind"]!="LOCAL_PROMOTION"];edits.append(bad)
+        bad=copy.deepcopy(self.raw);bad["decision_rules"]=[r for r in bad["decision_rules"] if r["id"]!="D_DEFAULT"];edits.append(bad)
+        for bad in edits:
+            with self.assertRaises(ValidationError):RuleSet.model_validate(bad)
+
+    def test_critical_guards_cannot_be_removed_weakened_or_bypassed(self):
+        for rid in ("D_UNAVAILABLE", "D_RESOURCE", "D_INVALID", "D_UNCERTAIN", "D_PARTIAL", "D_STANCE_CONFLICT", "D_REFERENT_CONFLICT"):
+            for operation in ("remove", "weaken"):
+                bad=copy.deepcopy(self.raw)
+                if operation=="remove":bad["decision_rules"]=[r for r in bad["decision_rules"] if r["id"]!=rid]
+                else:next(r for r in bad["decision_rules"] if r["id"]==rid)["when"]={}
+                with self.subTest(rule=rid, operation=operation):
+                    with self.assertRaises(ValidationError):RuleSet.model_validate(bad)
+        bad=copy.deepcopy(self.raw)
+        next(r for r in bad["decision_rules"] if r["id"]=="D_MODEL_SUPPORTED")["when"]={}
+        with self.assertRaises(ValidationError):RuleSet.model_validate(bad)
+        bad=copy.deepcopy(self.raw)
+        next(r for r in bad["decision_rules"] if r["id"]=="D_MODEL_SUPPORTED")["priority"]=995
+        with self.assertRaises(ValidationError):RuleSet.model_validate(bad)
+
+    def test_snapshot_is_deeply_immutable_and_hash_ignores_json_formatting(self):
+        with self.assertRaises(ValidationError):self.rules.version="2.0.0"
+        with self.assertRaises(ValidationError):self.rules.limits.max_arguments=1
+        with self.assertRaises(ValidationError):self.rules.argument_rules[0].when.all_of=()
+        roundtrip=RuleSet.model_validate_json(json.dumps(self.raw,indent=4,sort_keys=True))
+        self.assertEqual(roundtrip.fingerprint,self.rules.fingerprint)
+        changed=copy.deepcopy(self.raw);changed["version"]="1.0.1"
+        self.assertNotEqual(RuleSet.model_validate(changed).fingerprint,self.rules.fingerprint)
+
+    def test_malformed_file_fails_instead_of_loading_defaults(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/"rules.json";path.write_text('{broken',encoding='utf-8')
+            with self.assertRaises(ValidationError):load_rules(path)
+
+    def test_predicates_use_boolean_values_and_no_eval(self):
+        condition=Condition(all_of=("same_event",),none_of=("time_uncertain",))
+        self.assertTrue(condition.matches({"same_event":True,"time_uncertain":False}))
+        self.assertFalse(condition.matches({"same_event":False,"time_uncertain":False}))
+        with self.assertRaises(ValueError):condition.matches({"same_event":1,"time_uncertain":False})
+        with self.assertRaises(ValueError):condition.matches({})
+
+    def test_config_changes_actual_argument_construction(self):
+        default,_=decide(observations(),2000,"FULL",15000,require_relation=False,ruleset=self.rules)
+        self.assertEqual(default["disposition"],"FLAG")
+        changed=copy.deepcopy(self.raw)
+        next(r for r in changed["argument_rules"] if r["kind"]=="LOCAL_PROMOTION")["when"]["all_of"].append("relation_review")
+        alternate,graph=decide(observations(),2000,"FULL",15000,require_relation=False,ruleset=RuleSet.model_validate(changed))
+        self.assertEqual(alternate["disposition"],"NONE")
+        self.assertFalse(any(a["kind"]=="LOCAL_PROMOTION" for a in graph["arguments"]))
+        self.assertNotEqual(graph["ruleset"]["sha256"],self.rules.fingerprint)
+
+    def test_all_matching_decisions_recorded_and_highest_priority_wins(self):
+        facts={name:False for name in FACTS};facts.update(coverage_failure=True,accepted_support=True,accepted_model_support=True)
+        selected,trace=self.rules.decision(facts)
+        self.assertEqual(selected.id,"D_UNAVAILABLE")
+        matches=[r for r in trace["evaluated_rules"] if r["matched"]]
+        self.assertEqual(selected.priority,max(r["priority"] for r in matches))
+        self.assertIn("D_MODEL_SUPPORTED",{r["rule_id"] for r in matches})
+
+
+class RuntimeTraceTests(unittest.TestCase):
+    def test_graph_overflow_routes_to_review_without_running_solver(self):
+        raw=load_rules().model_dump(mode="json");raw["limits"]["max_arguments"]=1
+        with patch("src.argumentation.get_grounded_extension",side_effect=AssertionError("must not run")):
+            finding,graph=decide(observations(),2000,"FULL",15000,relation(),ruleset=RuleSet.model_validate(raw))
+        self.assertEqual(finding["disposition"],"REVIEW")
+        self.assertEqual(finding["reason_code"],"ARGUMENTATION_RESOURCE_LIMIT")
+        self.assertFalse(graph["certificates"])
+        self.assertFalse(graph["event_decisions"][0]["argument_labels"]["executed"])
+
+    def test_removal_checks_reuse_same_snapshot_and_frozen_relations(self):
+        rules=load_rules()
+        with patch("src.evidence_graph.load_rules",return_value=rules) as loader:
+            finding,graph=decide(observations(),2000,"FULL",15000,relation())
+        loader.assert_called_once()
+        self.assertEqual(finding["disposition"],"FLAG")
+        self.assertTrue(graph["counterfactuals"])
+        self.assertTrue(all(row["ruleset_sha256"]==graph["ruleset"]["sha256"] for row in graph["counterfactuals"]))
+        ids={r.id for r in rules.argument_rules}
+        self.assertTrue(all(row["rule_id"] in ids for row in graph["rule_firings"]))
+
+    def test_joint_assessment_uses_one_snapshot_for_baseline_and_treatment(self):
+        from src.relation_fusion import assess_joint
+        with patch("src.relation_fusion.load_rules",wraps=load_rules) as loader:
+            result=assess_joint({"coverage":"FULL","observations":observations()},2000)
+        loader.assert_called_once()
+        self.assertEqual(result["baseline"]["pead_audit"]["ruleset"],result["merged"]["pead_audit"]["ruleset"])
+
+    def test_counterfactual_budget_and_invalid_parameters(self):
+        raw=load_rules().model_dump(mode="json");raw["limits"]["max_counterfactuals"]=1
+        _,graph=decide(observations(),2000,"FULL",15000,relation(),counterfactual_limit=100,ruleset=RuleSet.model_validate(raw))
+        self.assertEqual(len(graph["counterfactuals"]),1)
+        self.assertTrue(graph["counterfactuals_truncated"])
+        for invalid in (-1,True,"8"):
+            with self.assertRaises(ValueError):decide([],2000,"FULL",15000,counterfactual_limit=invalid)
+
+    def test_report_exposes_rules_and_escapes_new_explanation_fields(self):
+        from report import evidence_graph_content
+        _,graph=decide(observations(),2000,"FULL",15000,relation())
+        html=evidence_graph_content(graph)
+        self.assertIn("PyArg",html);self.assertIn("规则命中与冲突追踪",html)
+        evil='<script>alert(1)</script>'
+        graph["ruleset"]["sha256"]=evil
+        graph["arguments"][0]["rule_ids"]=[evil]
+        graph["event_decisions"][0]["decision_trace"]["selected_rule_id"]=evil
+        graph["event_decisions"][0]["argument_labels"]["cycles"]=[[evil]]
+        graph["arguments"][0]["label"]="OUT"
+        graph["arguments"][0]["explanation"]={"defeated_by":[evil]}
+        rendered=evidence_graph_content(graph)
+        self.assertNotIn(evil,rendered);self.assertIn('&lt;script&gt;',rendered)
+
+    def test_health_exposes_actual_solver_and_rule_snapshot(self):
+        from fastapi.testclient import TestClient
+        from main import app
+        response=TestClient(app).get('/api/health')
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json()["pead"]["solver"]["name"],"PyArg")
+        self.assertEqual(response.json()["pead"]["ruleset_sha256"],load_rules().fingerprint)
+
+    def test_demo_http_roundtrip_preserves_solver_trace_and_exported_report(self):
+        from fastapi.testclient import TestClient
+        from main import app
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"VIDEOGUARD_DB": str(Path(directory)/"reviews.db")}):
+            client=TestClient(app)
+            response=client.post('/api/demo')
+            self.assertEqual(response.status_code,200)
+            record=response.json()
+            graph=record["result"]["pead_audit"]
+            self.assertEqual(graph["solver"]["name"],"PyArg")
+            self.assertTrue(graph["rule_firings"])
+            stored=client.get('/api/reviews/'+record['id']).json()
+            self.assertEqual(stored['result']['pead_audit'],graph)
+            report=client.get('/api/reviews/'+record['id']+'/report')
+            self.assertEqual(report.status_code,200)
+            self.assertIn(graph['ruleset']['sha256'],report.text)
+            self.assertIn('规则命中与冲突追踪',report.text)
+            self.assertIn('合成演示，非真实视频审核',report.text)
+
+    def test_solver_failure_on_upload_is_persisted_as_error(self):
+        from fastapi.testclient import TestClient
+        from main import app
+        from pipeline import run_demo
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"VIDEOGUARD_DB": str(Path(directory)/"reviews.db")}), \
+                patch('main.probe_duration_ms',return_value=25000), \
+                patch('main.run_live',side_effect=lambda *args:run_demo()), \
+                patch('src.argumentation.get_grounded_extension',side_effect=RuntimeError('solver failed')):
+            client=TestClient(app)
+            response=client.post('/api/reviews',data={'consent':'true'},files={'video':('test.mp4',b'\x00\x00\x00\x18ftypisom','video/mp4')})
+            self.assertEqual(response.status_code,502)
+            record=client.get('/api/reviews/'+response.json()['detail']['review_id']).json()
+            self.assertEqual(record['status'],'ERROR')
+            self.assertEqual(record['result']['findings'],[])
+
+
+if __name__ == '__main__':unittest.main()

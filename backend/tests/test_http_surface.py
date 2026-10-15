@@ -151,7 +151,7 @@ class HttpSurfaceTests(unittest.TestCase):
         from pipeline import run_live
         from src.issue_locator_client import adapt_jev_response, build_jev_request
         parse_raw = json.loads((Path(__file__).resolve().parents[1] /
-                                "fixtures/demo_video_parse_response.json").read_text())
+                                "fixtures/demo_video_parse_response.json").read_text(encoding="utf-8"))
 
         def locator(detail):
             return adapt_jev_response(build_jev_request(detail), {"answers": {}})

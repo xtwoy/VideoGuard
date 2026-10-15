@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "ruleset_id": "PEAD_DANGER_PROMOTION",
+  "version": "1.1.0",
+  "limits": {
+    "max_arguments": 512,
+    "max_attacks": 8192,
+    "max_counterfactuals": 8
+  },
+  "argument_rules": [
+    {
+      "id": "A_ACTION_UNLOCATED",
+      "description": "动作缺少有效时间定位",
+      "scope": "ACTION",
+      "kind": "UNLOCATED",
+      "priority": 500,
+      "when": {
+        "all_of": [
+          "action_unlocated"
+        ]
+      }
+    },
+    {
+      "id": "A_LOCAL_COUNTER",
+      "description": "同一事件存在警示或反向语境",
+      "scope": "PAIR",
+      "kind": "COUNTER_CONTEXT",
+      "priority": 499,
+      "when": {
+        "all_of": [
+          "same_event",
+          "counter_tag"
+        ]
+      }
+    },
+    {
+      "id": "A_LOCAL_PROMOTION",
+      "description": "同一事件存在鼓励或挑战线索",
+      "scope": "PAIR",
+      "kind": "LOCAL_PROMOTION",
+      "priority": 498,
+      "when": {
+        "all_of": [
+          "same_event",
+          "promotion_tag"
+        ]
+      }
+    },
+    {
+      "id": "A_MODEL_PROMOTION",
+      "description": "冻结模型回答主张鼓励同一动作",
+      "scope": "PAIR",
+      "kind": "MODEL_PROMOTION",
+      "priority": 497,
+      "when": {
+        "all_of": [
+          "encourages_same"
+        ]
+      }
+    },
+    {
+      "id": "A_REFERENT_CONFLICT",
+      "description": "模型关系与已知事件指向冲突",
+      "scope": "PAIR",
+      "kind": "REFERENT_CONFLICT",
+      "priority": 496,
+      "when": {
+        "all_of": [
+          "encourages_same",
+          "different_event"
+        ]
+      }
+    },
+    {
+      "id": "A_MODEL_TARGET_UNKNOWN",
+      "description": "模型鼓励关系缺少已知事件指向",
+      "scope": "PAIR",
+      "kind": "TARGET_UNKNOWN",
+      "priority": 495,
+      "when": {
+        "all_of": [
+          "encourages_same",
+          "target_unknown"
+        ]
+      }
+    },
+    {
+      "id": "A_MODEL_COUNTER",
+      "description": "模型回答主张警示或无关关系",
+      "scope": "PAIR",
+      "kind": "MODEL_COUNTER",
+      "priority": 494,
+      "when": {
+        "any_of": [
+          "warns_same",
+          "unrelated"
+        ]
+      }
+    },
+    {
+      "id": "A_RELATION_UNCERTAIN",
+      "description": "模型关系回答不足或未通过门控",
+      "scope": "PAIR",
+      "kind": "RELATION_UNCERTAIN",
+      "priority": 493,
+      "when": {
+        "any_of": [
+          "relation_review",
+          "relation_insufficient"
+        ]
+      }
+    },
+    {
+      "id": "A_RELATION_MISSING",
+      "description": "鼓励线索尚未完成所需关系核验",
+      "scope": "PAIR",
+      "kind": "RELATION_MISSING",
+      "priority": 492,
+      "when": {
+        "all_of": [
+          "require_relation",
+          "promotion_tag",
+          "no_relation"
+        ]
+      }
+    },
+    {
+      "id": "A_UNLINKED_TARGET",
+      "description": "鼓励线索尚未关联到当前动作",
+      "scope": "PAIR",
+      "kind": "TARGET_UNKNOWN",
+      "priority": 491,
+      "when": {
+        "all_of": [
+          "promotion_tag",
+          "no_relation"
+        ],
+        "none_of": [
+          "same_event"
+        ]
+      }
+    },
+    {
+      "id": "A_TIME_UNCERTAIN",
+      "description": "动作或话语时间定位可靠性不足",
+      "scope": "PAIR",
+      "kind": "TIME_UNCERTAIN",
+      "priority": 490,
+      "when": {
+        "all_of": [
+          "time_uncertain"
+        ]
+      }
+    },
+    {
+      "id": "A_STANCE_UNLOCATED",
+      "description": "同一事件的鼓励线索缺少时间定位",
+      "scope": "UNLOCATED_PAIR",
+      "kind": "UNLOCATED",
+      "priority": 489,
+      "when": {
+        "all_of": [
+          "stance_unlocated",
+          "same_event",
+          "promotion_tag"
+        ]
+      }
+    },
+    {
+      "id": "A_COUNTER_UNLOCATED",
+      "description": "同一事件的反向语境尚未定位，不能忽略",
+      "scope": "UNLOCATED_PAIR",
+      "kind": "UNLOCATED_COUNTER",
+      "priority": 488,
+      "when": {
+        "all_of": [
+          "stance_unlocated",
+          "same_event",
+          "counter_tag"
+        ]
+      }
+    },
+    {
+      "id": "A_COUNTER_REFERENT_CONFLICT",
+      "description": "模型警示关系与已知事件指向不符或尚未确定",
+      "scope": "PAIR",
+      "kind": "COUNTER_REFERENT_CONFLICT",
+      "priority": 487,
+      "when": {
+        "all_of": [
+          "negative_relation_conflict"
+        ]
+      }
+    }
+  ],
+  "decision_rules": [
+    {
+      "id": "D_UNAVAILABLE",
+      "description": "模型失败或拒绝时重试",
+      "priority": 1000,
+      "when": {
+        "all_of": [
+          "coverage_failure"
+        ]
+      },
+      "judgement": "UNKNOWN",
+      "disposition": "RETRY",
+      "reason_code": "MODEL_UNAVAILABLE"
+    },
+    {
+      "id": "D_RESOURCE",
+      "description": "论证图超出资源预算时人工复核",
+      "priority": 990,
+      "when": {
+        "all_of": [
+          "resource_exceeded"
+        ]
+      },
+      "judgement": "INSUFFICIENT",
+      "disposition": "REVIEW",
+      "reason_code": "ARGUMENTATION_RESOURCE_LIMIT"
+    },
+    {
+      "id": "D_INVALID",
+      "description": "相关证据无效时人工复核",
+      "priority": 980,
+      "when": {
+        "all_of": [
+          "invalid_evidence"
+        ]
+      },
+      "judgement": "INSUFFICIENT",
+      "disposition": "REVIEW",
+      "reason_code": "UNVERIFIED_OR_UNLOCATED"
+    },
+    {
+      "id": "D_MODEL_SUPPORTED",
+      "description": "采纳包含模型关系的支持论证",
+      "priority": 900,
+      "when": {
+        "all_of": [
+          "accepted_support",
+          "accepted_model_support"
+        ]
+      },
+      "judgement": "SUPPORTED",
+      "disposition": "FLAG",
+      "reason_code": "RELATION_LINK_ASSISTED"
+    },
+    {
+      "id": "D_LOCAL_SUPPORTED",
+      "description": "采纳同事件动作与鼓励论证",
+      "priority": 890,
+      "when": {
+        "all_of": [
+          "accepted_support"
+        ]
+      },
+      "judgement": "SUPPORTED",
+      "disposition": "FLAG",
+      "reason_code": "RELATED_ACTION_AND_PROMOTION"
+    },
+    {
+      "id": "D_REFERENT_CONFLICT",
+      "description": "支持与事件指向冲突时人工复核",
+      "priority": 800,
+      "when": {
+        "all_of": [
+          "has_support",
+          "referent_conflict"
+        ]
+      },
+      "judgement": "CONFLICTED",
+      "disposition": "REVIEW",
+      "reason_code": "RELATION_REFERENT_DISAGREEMENT"
+    },
+    {
+      "id": "D_STANCE_CONFLICT",
+      "description": "支持与反向语境冲突时人工复核",
+      "priority": 790,
+      "when": {
+        "all_of": [
+          "has_support",
+          "has_counter"
+        ]
+      },
+      "judgement": "CONFLICTED",
+      "disposition": "REVIEW",
+      "reason_code": "CONFLICTING_STANCE"
+    },
+    {
+      "id": "D_UNCERTAIN",
+      "description": "仍有信息缺口时人工复核",
+      "priority": 700,
+      "when": {
+        "all_of": [
+          "has_uncertainty"
+        ]
+      },
+      "judgement": "INSUFFICIENT",
+      "disposition": "REVIEW",
+      "reason_code": "MISSING_SEMANTIC_RELATION"
+    },
+    {
+      "id": "D_PARTIAL",
+      "description": "观察覆盖不完整时补充观察",
+      "priority": 600,
+      "when": {
+        "all_of": [
+          "partial_coverage"
+        ]
+      },
+      "judgement": "UNKNOWN",
+      "disposition": "RECHECK",
+      "reason_code": "INCOMPLETE_OBSERVATION"
+    },
+    {
+      "id": "D_UNRELATED",
+      "description": "模型确认无关且无其他支持或信息缺口",
+      "priority": 100,
+      "when": {
+        "all_of": [
+          "model_counter",
+          "unrelated_confirmed"
+        ],
+        "none_of": [
+          "has_support",
+          "has_uncertainty"
+        ]
+      },
+      "judgement": "NOT_SUPPORTED",
+      "disposition": "NONE",
+      "reason_code": "RELATION_UNRELATED_CONFIRMED"
+    },
+    {
+      "id": "D_DEFAULT",
+      "description": "未形成支持关系",
+      "priority": 0,
+      "when": {},
+      "judgement": "NOT_SUPPORTED",
+      "disposition": "NONE",
+      "reason_code": "NO_SUPPORTING_RELATION"
+    }
+  ]
+}

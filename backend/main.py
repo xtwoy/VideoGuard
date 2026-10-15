@@ -14,6 +14,11 @@ from fastapi.responses import HTMLResponse
 from database import get_review, save_review
 from pipeline import run_live, run_demo
 from report import render_html
+from src.argumentation import backend_info
+from src.pead_rules import load_rules
+
+# Validate the bundled configuration before accepting any requests.
+load_rules()
 
 try:
     from dotenv import load_dotenv
@@ -91,7 +96,10 @@ def index():
 
 @app.get("/api/health")
 def health():
-    return {"ok":True,"service":"VideoGuard-E","version":"0.6"}
+    rules = load_rules()
+    return {"ok":True,"service":"VideoGuard-E","version":"0.6",
+            "pead": {"solver": backend_info(), "ruleset_version": rules.version,
+                     "ruleset_sha256": rules.fingerprint}}
 
 @app.post("/api/reviews")
 def create_review(

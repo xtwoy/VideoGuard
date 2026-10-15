@@ -152,7 +152,9 @@ def build() -> tuple[dict, dict]:
             row[f"{arm}_meets_synthetic_expectation"] for row in curated)
     source_files = ("fixtures/compare_pead.py", "fixtures/truth_table.py", "fixtures/cases.py",
                     "pipeline.py", "src/pead_engine.py", "src/relation_fusion.py",
-                    "src/argumentation.py", "src/evidence_graph.py",
+                    "src/argumentation.py", "src/evidence_graph.py", "src/pead_rules.py",
+                    "config/pead_rules_v1.json", "requirements.txt", "pyproject.toml", "uv.lock",
+                    "src/audit_report.py", "fixtures/generate.py", "fixtures/frozen_report_inputs.json",
                     "src/relation_client.py", "src/config.py", "config/policies_v03.json")
     report = {
         "schema_version": "videoguard_mock_pead_comparison_v1", "mode": MODE,

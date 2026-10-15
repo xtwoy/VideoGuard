@@ -258,3 +258,9 @@ python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{m
    R_VIOLENCE / R_PRIVACY_EXPOSURE / R_MARKETING_CLAIM 为 `if/elif` 硬编码，
    与 `policies_v03.json` 注释所称"扩展审核点不改主流程"不一致。属可维护性问题，
    不影响当前正确性。
+
+## 自查后的输入冻结与生成器约定
+
+模型回包是测试输入，不能随着被测审核引擎改变而自动改成新引擎的输出。既有 `audit_report_response.json` 保持原始字节，SHA-256 记录在 `frozen_report_inputs.json`；变更时必须明确审查输入及其摘要。视频解析、问题定位和关系回包继续由固定场景定义校验。
+
+`generate.build_case()` 和 `--check` 默认只读；只有显式执行生成命令才写可生成文件，且不会重写冻结的报告输入。冻结报告文件丢失或摘要不符时应从版本控制恢复或明确审查更新，不会偷偷生成替代输入。模型回包中的错误检查状态和复核编辑建议由正式报告校验器按 PEAD 结果重建／规范化；原始回包保留以验证这条边界。

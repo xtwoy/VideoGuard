@@ -142,7 +142,7 @@ def build_audit_context(observation_result: dict, findings: list[dict], event_fi
         "video_parse": detail,
         "observations": observation_result.get("observations", []),
         "findings": [{key: value if key != "event_decisions" else [
-            {k: v for k, v in row.items() if k != "argument_labels"} for row in value]
+            {k: v for k, v in row.items() if k not in {"argument_labels", "decision_trace"}} for row in value]
                       for key, value in finding.items()} for finding in findings],
         "event_findings": event_findings,
         "analysis_issues": analysis_issues,
@@ -266,23 +266,68 @@ def _clean_dimensions(raw: object, catalog: dict[str, dict], duration_ms: int) -
     return output
 
 
-COUNTER_SOURCES = {"COUNTER_CONTEXT_TAGS", "CONTEXT_TAGS", "NOT_APPLICABLE", "NOT_CHECKED"}
+COUNTER_SOURCES = {"COUNTER_CONTEXT_TAGS", "CONTEXT_TAGS", "NOT_APPLICABLE", "NOT_CHECKED", "MIXED"}
 
 
 def _clean_counter_evidence(raw: object) -> dict:
-    """Normalise the counter-evidence provenance block, defaulting to unknown."""
-    if not isinstance(raw, dict):
-        return {"checked": False, "source": "NOT_CHECKED",
-                "found": False, "relation_checked": False}
+    """Normalise trusted finding provenance, not a report model's assertions."""
+    raw = raw if isinstance(raw, dict) else {}
     source = raw.get("source")
-    if source not in COUNTER_SOURCES:
-        source = "NOT_CHECKED"
-    return {
-        "checked": bool(raw.get("checked")),
-        "source": source,
-        "found": bool(raw.get("found")),
-        "relation_checked": bool(raw.get("relation_checked")),
-    }
+    source = source if source in COUNTER_SOURCES else "NOT_CHECKED"
+    result = {"checked": raw.get("checked") is True and source != "NOT_CHECKED",
+              "source": source, "found": raw.get("found") is True,
+              "relation_checked": raw.get("relation_checked") is True}
+    status = raw.get("relation_status")
+    if status not in {"COMPLETE", "PARTIAL", "NOT_CHECKED", "NOT_REQUIRED", "INCOMPLETE"}:
+        status = "COMPLETE" if result["relation_checked"] else "NOT_REQUIRED"
+    result["relation_status"] = status
+    result["relation_checked"] = status == "COMPLETE"
+    for key in ("relation_candidate_pairs", "relation_checked_pairs"):
+        if type(raw.get(key)) is int and raw[key] >= 0:
+            result[key] = raw[key]
+    return result
+
+
+def _finding_at_event(finding: dict, event_id: str | None) -> dict:
+    row = next((row for row in finding.get("event_decisions", []) if row["event_key"] == event_id), None)
+    if row is None:
+        return finding
+    local = {**finding, **{key: row[key] for key in ("judgement", "disposition", "reason_code", "supporting_ids", "counter_ids")}}
+    relation = row.get("relation_check", {})
+    local["counter_evidence"] = {
+        "checked": row.get("argument_labels", {}).get("executed", False),
+        "source": "COUNTER_CONTEXT_TAGS", "found": bool(row["counter_ids"]),
+        "relation_checked": relation.get("status") == "COMPLETE",
+        "relation_status": relation.get("status", "NOT_CHECKED"),
+        "relation_candidate_pairs": relation.get("candidate_pairs", 0),
+        "relation_checked_pairs": relation.get("checked_pairs", 0)}
+    return local
+
+
+def _counter_for_findings(findings: list[dict], event_id: str | None = None) -> dict:
+    blocks = [_clean_counter_evidence(_finding_at_event(f, event_id).get("counter_evidence")) for f in findings]
+    relevant = [b for b in blocks if b["source"] != "NOT_APPLICABLE"]
+    if not relevant:
+        return {"checked": False, "source": "NOT_APPLICABLE" if blocks else "NOT_CHECKED",
+                "found": False, "relation_checked": False, "relation_status": "NOT_REQUIRED"}
+    sources = sorted({b["source"] for b in relevant})
+    relation_blocks = [b for b in relevant if b["relation_status"] != "NOT_REQUIRED"]
+    candidates = sum(b.get("relation_candidate_pairs", 0) for b in relation_blocks)
+    checked = sum(b.get("relation_checked_pairs", 0) for b in relation_blocks)
+    if any(b["relation_status"] == "INCOMPLETE" for b in relation_blocks):
+        status = "INCOMPLETE"
+    elif not relation_blocks:
+        status = "NOT_REQUIRED"
+    elif all(b["relation_status"] == "COMPLETE" for b in relation_blocks):
+        status = "COMPLETE"
+    elif checked or any(b["relation_checked"] for b in relation_blocks):
+        status = "PARTIAL"
+    else:
+        status = "NOT_CHECKED"
+    return {"checked": all(b["checked"] for b in relevant),
+            "source": sources[0] if len(sources) == 1 else "MIXED", "sources": sources,
+            "found": any(b["found"] for b in relevant), "relation_checked": status == "COMPLETE",
+            "relation_status": status, "relation_candidate_pairs": candidates, "relation_checked_pairs": checked}
 
 
 def validate_audit_report(raw: dict, observation_result: dict, findings: list[dict], duration_ms: int) -> dict | None:
@@ -306,6 +351,7 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
         if not isinstance(plans,list) or len(plans)>80:
             raise ValueError("revision_plan 无效")
         seen_plan_ids=set(); seen_issue_ids=set(); seen_action_ids=set(); covered_findings=set(); covered_analysis=set(); clean_plans=[]
+        covered_event_findings=set()
         for plan in plans:
             if not isinstance(plan,dict) or plan.get("scope") not in SCOPES:
                 raise ValueError("整改分组无效")
@@ -340,7 +386,14 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 if issue["source"] == "FINDING":
                     if not finding_ids or not set(finding_ids).issubset(active) or analysis_ids:
                         raise ValueError("FINDING 问题只能引用需处理 finding")
+                    for fid in finding_ids:
+                        rows = active[fid].get("event_decisions", [])
+                        eligible_events = {row["event_key"] if row["event_key"] in events else None
+                                           for row in rows if row["disposition"] != "NONE"}
+                        if rows and event_id not in eligible_events:
+                            raise ValueError("整改问题不能把事件裁决移到无关事件")
                     covered_findings.update(finding_ids)
+                    covered_event_findings.update((fid, event_id) for fid in finding_ids)
                 elif finding_ids or not analysis_ids or not set(analysis_ids).issubset(analysis):
                     raise ValueError("ANALYSIS 问题引用无效")
                 else:
@@ -382,23 +435,43 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 if action["action"] in {"VERIFY", "MANUAL_REVIEW"} and action["requires_reshoot"]:
                     raise ValueError("核验或人工复核不能要求重新拍摄")
                 seen_action_ids.add(action_id); linked.update(related)
+                linked_issues = [issue for issue in clean_issues if issue["id"] in related]
+                linked_findings = [_finding_at_event(active[fid], event_id)
+                                   for issue in linked_issues for fid in issue["finding_ids"]]
+                normalized_action = action["action"]
+                requires_reshoot = action["requires_reshoot"]
+                if linked_findings and all(issue["source"] == "FINDING" for issue in linked_issues) and all(
+                        finding["disposition"] in {"REVIEW", "RECHECK", "RETRY"} for finding in linked_findings):
+                    normalized_action, detail, target, acceptance = _action_for(linked_findings[0], [])
+                    reuse, requires_reshoot = [], False
                 clean_actions.append({
-                    "id":action_id, "related_issue_ids":related[:20], "action":action["action"],
+                    "id":action_id, "related_issue_ids":related[:20], "action":normalized_action,
                     "detail":detail, "target_time_ranges":target, "reuse_time_ranges":reuse,
                     "insertion_position":None if action.get("insertion_position") is None else _text(action.get("insertion_position"),300),
-                    "requires_reshoot":action["requires_reshoot"], "acceptance_criteria":acceptance,
+                    "requires_reshoot":requires_reshoot, "acceptance_criteria":acceptance,
                 })
             if linked != local_issue_ids:
                 raise ValueError("每个整改问题必须关联至少一个动作")
             clean_plans.append({"id":plan_id, "section":_text(plan.get("section"),160), "scope":plan["scope"], "event_id":event_id,
                                 "video":{"summary":_text(video.get("summary"),1000),"time_ranges":video_ranges},
-                                "counter_evidence":_clean_counter_evidence(plan.get("counter_evidence")),
+                                "counter_evidence":_counter_for_findings(
+                                    [active[fid] for fid in sorted({fid for issue in clean_issues for fid in issue["finding_ids"]})], event_id),
                                 "issues":clean_issues,"actions":clean_actions})
         if set(active) != covered_findings:
             raise ValueError("每个需处理 finding 必须进入整改计划")
+        for fid, finding in active.items():
+            for row in finding.get("event_decisions", []):
+                expected_event = row["event_key"] if row["event_key"] in events else None
+                if row["disposition"] != "NONE" and (fid, expected_event) not in covered_event_findings:
+                    raise ValueError("每个需处理事件必须进入对应整改计划")
         if set(analysis) != covered_analysis:
             raise ValueError("每个已定位内容分析问题必须进入整改计划")
         has_flag=any(f.get("disposition") == "FLAG" for f in active.values())
+        safety_status = dimensions["safety_risk_control"]["status"]
+        if has_flag and safety_status != "FAIL":
+            raise ValueError("存在 FLAG 时风险控制维度不得标为通过或仅提示")
+        if active and not has_flag and safety_status not in {"WARNING", "MANUAL_REVIEW"}:
+            raise ValueError("待复核 finding 的风险控制状态必须保留不确定性")
         if has_flag and verdict not in {"BLOCKED","NEEDS_REVISION"}:
             raise ValueError("存在 FLAG 时报告总评不一致")
         if not has_flag and active and verdict != "MANUAL_REVIEW":
@@ -492,6 +565,8 @@ def _dimension(score: int, status: str, summary: str, items: list[dict],
 
 def _action_for(finding: dict, ranges: list[dict]) -> tuple[str, str, list[dict], str]:
     policy=finding.get("policy_id")
+    if finding.get("disposition") in {"REVIEW", "RECHECK", "RETRY"}:
+        return "MANUAL_REVIEW", "人工回看原视频，核对语境、事件指向和证据缺口；复核后再决定是否编辑。", [], "已记录人工复核结论，未把未决线索直接当作确定风险。"
     if policy == "R_PRIVACY_EXPOSURE":
         return "MASK", "对疑似隐私文字所在画面进行遮挡或替换，避免保留可识别信息。", ranges, "回看对应画面时，疑似联系方式或其他个人信息已无法被识别。"
     if policy in {"R_DANGER_PROMOTION", "R_FRAUD_SCAM", "R_SELF_HARM", "R_CONTROLLED_GOODS"}:
@@ -643,6 +718,16 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
     active=[finding for finding in findings if isinstance(finding,dict) and finding.get("disposition") != "NONE"]
     grouped:dict[str|None,list[dict]]=defaultdict(list)
     for finding in active:
+        scoped_rows = [row for row in finding.get("event_decisions", []) if row["disposition"] != "NONE"]
+        if scoped_rows:
+            for row in scoped_rows:
+                local = _finding_at_event(finding, row["event_key"])
+                local_ids = local.get("supporting_ids", []) + local.get("counter_ids", [])
+                event_id = row["event_key"] if row["event_key"] in events else next(
+                    (cues[eid].get("event_id") for eid in local_ids
+                     if eid in cues and cues[eid].get("event_id") in events), None)
+                grouped[event_id].append(local)
+            continue
         ids=list(dict.fromkeys(finding.get("supporting_ids",[])+finding.get("counter_ids",[])))
         event_ids={cues[item].get("event_id") for item in ids if item in cues and cues[item].get("event_id") in events}
         for event_id in event_ids or {None}:
@@ -698,19 +783,7 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             plan["issues"].append(issue)
             plan["actions"].append({"id":f"A{action_number:02d}","related_issue_ids":[issue_id],"action":action,"detail":detail_text,
                                     "target_time_ranges":target,"reuse_time_ranges":[],"insertion_position":None,"requires_reshoot":False,"acceptance_criteria":acceptance})
-        # Carry the counter-evidence provenance up to the plan. Without it the
-        # report cannot tell "counter evidence was searched for and none exists"
-        # apart from "this rule never looks for counter evidence".
-        for finding in grouped[event_id]:
-            block=finding.get("counter_evidence")
-            if isinstance(block,dict):
-                plan["counter_evidence"]={
-                    "checked":bool(block.get("checked")),
-                    "source":_text(block.get("source"),40),
-                    "found":bool(block.get("found")),
-                    "relation_checked":bool(block.get("relation_checked")),
-                }
-                break
+        plan["counter_evidence"] = _counter_for_findings(grouped[event_id], event_id)
         plans.append(plan)
     if analysis_entries:
         analysis_plan, issue_number, action_number=_analysis_plan(

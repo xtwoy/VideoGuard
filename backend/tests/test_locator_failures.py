@@ -12,8 +12,8 @@ from pipeline import clean_issue_locator, clean_video_parse, _run_models, run_li
 from src.issue_locator_client import adapt_jev_response, build_jev_request, locate_issues
 
 ROOT = Path(__file__).resolve().parents[1]
-PARSE = json.loads((ROOT / "fixtures/demo_video_parse_response.json").read_text())
-LOCATOR = json.loads((ROOT / "fixtures/demo_issue_locator_response.json").read_text())
+PARSE = json.loads((ROOT / "fixtures/demo_video_parse_response.json").read_text(encoding="utf-8"))
+LOCATOR = json.loads((ROOT / "fixtures/demo_issue_locator_response.json").read_text(encoding="utf-8"))
 
 
 class LocatorFailureTests(unittest.TestCase):

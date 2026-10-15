@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 
 from src import config
+from src.pead_rules import RuleSet, load_rules
 from src.evidence_graph import decide
 from src.pead_engine import assess, build_event_findings
 from src.relation_client import select_pairs, build_request, validate_response, semantic_gate
@@ -12,19 +13,21 @@ POLICY = "R_DANGER_PROMOTION"
 
 def assess_joint(observation_result: dict, duration_ms: int,
                  relation_response: dict | None = None,
-                 relation_failed: bool = False) -> dict:
-    baseline = assess(observation_result, duration_ms)
+                 relation_failed: bool = False, *, ruleset: RuleSet | None = None) -> dict:
+    ruleset = ruleset if ruleset is not None else load_rules()
+    baseline = assess(observation_result, duration_ms, ruleset=ruleset)
     merged = copy.deepcopy(baseline)
     pairs = select_pairs(observation_result.get("observations", []), duration_ms)
     request = build_request(pairs) if pairs else None
     decisions = validate_response(request, relation_response) if request and relation_response is not None else []
     graph_decisions = [
-        {"action_id": pair["action_id"], "stance_id": pair["stance_id"], "stance": semantic_gate(decision)}
+        {"action_id": pair["action_id"], "stance_id": pair["stance_id"], "stance": semantic_gate(decision),
+         "valid": decision["status"] == "VALID"}
         for pair, decision in zip(pairs, decisions)
     ]
     finding, graph = decide(observation_result.get("observations", []), duration_ms,
                             observation_result.get("coverage", "UNKNOWN"), config.relation_gap_ms(),
-                            graph_decisions, require_relation=True)
+                            graph_decisions, require_relation=True, ruleset=ruleset)
     merged["findings"] = [finding if f["policy_id"] == POLICY else f for f in merged["findings"]]
     merged["pead_audit"] = graph
     merged["event_findings"] = build_event_findings(observation_result.get("observations", []),

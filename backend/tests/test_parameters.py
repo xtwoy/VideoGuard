@@ -112,7 +112,8 @@ class CounterEvidenceProvenanceTests(unittest.TestCase):
         self.assertEqual(
             findings["R_DANGER_PROMOTION"]["counter_evidence"],
             {"checked": True, "source": "COUNTER_CONTEXT_TAGS",
-             "found": False, "relation_checked": True})
+             "found": False, "relation_checked": False, "relation_status": "NOT_REQUIRED",
+             "relation_candidate_pairs": 2, "relation_checked_pairs": 0})
         self.assertEqual(findings["R_VIOLENCE"]["counter_evidence"]["source"],
                          "CONTEXT_TAGS")
 

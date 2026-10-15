@@ -411,6 +411,11 @@ def clean_issue_locator(raw: dict, parsed: dict) -> dict:
            ("visual_facts","speech_transcript","subtitle_text","screen_text","audio_observations")
            for fact in shot[field]}
     by_event={event["event_id"]:event for event in events}
+    reserved_ids = set(by_event) | set(facts)
+    for section in detail.get("content_analysis", {}).values():
+        if isinstance(section, dict):
+            reserved_ids.update(issue["id"] for issue in section.get("issues", [])
+                                if isinstance(issue, dict) and isinstance(issue.get("id"), str))
     raw_cues=raw.get("risk_cues",[])
     if not isinstance(raw_cues,list) or len(raw_cues)>MAX_CUES: raise ValueError("risk_cues 必须是受限数组")
     cues=[]; observations=[]; cue_ids=set()
@@ -421,7 +426,7 @@ def clean_issue_locator(raw: dict, parsed: dict) -> dict:
         tag=cue.get("tag")
         event_id=cue.get("event_id")
         refs=cue.get("evidence_refs",[])
-        if not cue_id or cue_id in cue_ids or tag not in VALID_TAGS or event_id not in by_event:
+        if not cue_id or cue_id in cue_ids or cue_id in reserved_ids or tag not in VALID_TAGS or event_id not in by_event:
             raise ValueError("risk cue ID、标签或事件无效")
         if not isinstance(refs,list) or not refs or not set(refs).issubset(facts):
             raise ValueError("risk cue 必须引用已有事实")
