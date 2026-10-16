@@ -50,6 +50,7 @@ fixtures/
 ├── generate.py            生成静态 JSON（写盘 / --check）
 ├── validate.py            真实校验 + 期望值核对 + 覆盖矩阵
 ├── truth_table.py         穷举关系回答组合，输出 PEAD 决策真值表
+├── argumentation_report.py 输出论证攻防报告（grounded 标签与攻击边）
 ├── manifest.json          全部用例的索引与结论摘要
 └── cases/<case>/          每个用例的静态 JSON
     ├── video_parse_response.json      阶段1 原始回包
@@ -231,6 +232,32 @@ python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{m
 
 `expectations.json` 是人工维护的，生成器只负责原样写出；`generate.py` 不会根据运行结果
 反推期望值——否则用例就失去断言意义了。
+
+## 论证攻防：grounded 语义实际在做什么
+
+`R_DANGER_PROMOTION` 的裁决不是打分或阈值，而是**构造可废止论证、用 grounded
+语义求解、再按显式优先级选规则**。生成一份可展示的报告：
+
+```bash
+python -m fixtures.argumentation_report           # 打印四个场景的标签与攻击
+python -m fixtures.argumentation_report --write   # 写入 reports/pead-argumentation.md
+```
+
+报告覆盖四种机制形态，每种都验证到 grounded 标签（`IN` / `OUT` / `UNDECIDED`）与攻击边：
+
+| 场景 | 论证与标签 | 说明 |
+| --- | --- | --- |
+| 同事件「鼓励」vs「反向语境」 | `LOCAL_PROMOTION` **OUT**，`COUNTER_CONTEXT` **IN** | 两个论证互相攻击；反向语境论证没有攻击者，因此被接受，支持论证被击倒。识别出 2-环。 |
+| 跨事件：模型断言同一事件 | `MODEL_PROMOTION` **OUT**，`REFERENT_CONFLICT` **IN** | 解析记录两个事件而模型答 `encourages_same`；结构冲突论证击倒模型论证，结论不被采纳。 |
+| 跨事件：模型声称警示同源 | `MODEL_COUNTER` **OUT**，`COUNTER_REFERENT_CONFLICT` **IN** | 模型的**反向**论证自己因结构矛盾被击倒，于是既无支持也无有效反证，落到保守复核。 |
+| 纯支持、无冲突 | 4 个论证全部 **IN**，攻击 0 条 | 输出关注标注，说明约束不会无故压制正常结论。 |
+
+**这四行是"为什么需要 PEAD 而不是直接信大模型"的可展示证据。** 前三个场景里，
+模型的回答都被**结构性约束**否决或降级，而不是被采信。
+
+> grounded skeptical 语义的保守性：奇环会产生 `UNDECIDED`。当前规则集下攻击关系
+> 主要是双向的（偶环），因此 `UNDECIDED` 在现有场景中不出现——这是**规则集的保守
+> 设计**，不是求解器未生效。`fallback=False` 表示求解失败时不静默降级为"无风险"。
 
 ## PEAD 的待优化项
 

@@ -171,5 +171,62 @@ class TruthTableTests(unittest.TestCase):
         self.assertFalse([row for row in result["rows"] if row["disposition"] == "FLAG"])
 
 
+class ArgumentationReportTests(unittest.TestCase):
+    """The attack/defence report is the evidence for PEAD's argumentation behaviour.
+
+    Each scenario must keep producing the grounded labels and attack edges it
+    documents. A silent change here would mean the published mechanism no longer
+    matches the code.
+    """
+
+    def test_every_scenario_matches_its_expected_labels(self):
+        from fixtures import argumentation_report
+
+        report = argumentation_report.build()
+        self.assertEqual(report["problems"], [])
+
+    def _labels(self, index: int) -> dict:
+        from fixtures import argumentation_report
+
+        scenario = argumentation_report.build()["scenarios"][index]
+        return {argument["id"]: argument["label"] for argument in scenario["arguments"]}
+
+    def test_a_counter_argument_really_defeats_local_support(self):
+        """Bidirectional attack where the counter has no attacker -> support is OUT."""
+        from fixtures import argumentation_report
+
+        labels = self._labels(0)
+        self.assertEqual(labels['LOCAL_PROMOTION:["E01","E02"]'], "OUT")
+        self.assertEqual(labels['COUNTER_CONTEXT:["E01","E03"]'], "IN")
+        self.assertTrue(argumentation_report.build()["scenarios"][0]["cycles"],
+                        "双向攻击应被识别为循环")
+
+    def test_a_confidently_wrong_model_answer_is_defeated_by_structure(self):
+        """The provider claims one event; the parse recorded two."""
+        from fixtures import argumentation_report
+
+        self.assertEqual(self._labels(1)['MODEL_PROMOTION:["E01","E02"]'], "OUT")
+        self.assertEqual(
+            argumentation_report.build()["scenarios"][1]["finding"]["judgement"],
+            "CONFLICTED")
+
+    def test_the_models_own_counter_argument_can_be_defeated(self):
+        """A claimed warning that structurally belongs elsewhere is rejected."""
+        from fixtures import argumentation_report
+
+        self.assertEqual(self._labels(2)['MODEL_COUNTER:["E01","E02"]'], "OUT")
+        self.assertEqual(
+            argumentation_report.build()["scenarios"][2]["finding"]["disposition"],
+            "REVIEW")
+
+    def test_pure_support_has_no_attacks_and_is_accepted(self):
+        from fixtures import argumentation_report
+
+        scenario = argumentation_report.build()["scenarios"][3]
+        self.assertEqual(scenario["attacks"], [])
+        self.assertEqual(scenario["labels"].get("IN"), 4)
+        self.assertEqual(scenario["finding"]["disposition"], "FLAG")
+
+
 if __name__ == "__main__":
     unittest.main()
