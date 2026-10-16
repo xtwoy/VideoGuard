@@ -51,6 +51,7 @@ fixtures/
 ├── validate.py            真实校验 + 期望值核对 + 覆盖矩阵
 ├── truth_table.py         穷举关系回答组合，输出 PEAD 决策真值表
 ├── argumentation_report.py 输出论证攻防报告（grounded 标签与攻击边）
+├── argumentation_html.py   把同一套场景渲染成自包含 HTML 演示页
 ├── manifest.json          全部用例的索引与结论摘要
 └── cases/<case>/          每个用例的静态 JSON
     ├── video_parse_response.json      阶段1 原始回包
@@ -241,7 +242,13 @@ python -m fixtures.truth_table --write   # 另写入 reports/pead-truth-table.{m
 ```bash
 python -m fixtures.argumentation_report           # 打印四个场景的标签与攻击
 python -m fixtures.argumentation_report --write   # 写入 reports/pead-argumentation.md
+python -m fixtures.argumentation_html             # 写入 reports/pead-argumentation.html
+python -m fixtures.argumentation_html --check     # 校验 HTML 与当前模型一致
 ```
+
+HTML 版由**同一套场景模型**渲染，因此与 markdown 报告不可能不一致；并且是**单文件自包含**：
+内联 CSS、内联 SVG 攻击图、**无脚本、无外链、无字体请求**，可以直接双击打开或离线演示
+（有测试守住这条约束）。
 
 报告覆盖四种机制形态，每种都验证到 grounded 标签（`IN` / `OUT` / `UNDECIDED`）与攻击边：
 

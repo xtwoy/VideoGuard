@@ -228,5 +228,36 @@ class ArgumentationReportTests(unittest.TestCase):
         self.assertEqual(scenario["finding"]["disposition"], "FLAG")
 
 
+class ArgumentationHtmlTests(unittest.TestCase):
+    """The demo page must stay self-contained and consistent with the models."""
+
+    def test_page_matches_the_current_scenarios(self):
+        from fixtures import argumentation_html
+
+        expected = argumentation_html.render(argumentation_html.build())
+        path = argumentation_html.REPORT
+        self.assertTrue(path.exists(), "reports/pead-argumentation.html 未生成")
+        self.assertEqual(path.read_text(encoding="utf-8"), expected,
+                         "HTML 与当前模型不一致；运行 python -m fixtures.argumentation_html")
+
+    def test_page_is_offline_safe(self):
+        """A demo shown on someone else's machine must need no network or script."""
+        from fixtures import argumentation_html
+
+        html = argumentation_html.REPORT.read_text(encoding="utf-8")
+        self.assertNotIn("<script", html)
+        self.assertNotIn("http://", html)
+        self.assertNotIn("https://", html)
+        self.assertIn('Content-Security-Policy', html)
+
+    def test_page_shows_labels_and_attack_edges(self):
+        from fixtures import argumentation_html
+
+        html = argumentation_html.REPORT.read_text(encoding="utf-8")
+        for token in (">IN<", ">OUT<", "REFERENT_CONFLICT", "COUNTER_CONTEXT", "<svg"):
+            with self.subTest(token=token):
+                self.assertIn(token, html)
+
+
 if __name__ == "__main__":
     unittest.main()
