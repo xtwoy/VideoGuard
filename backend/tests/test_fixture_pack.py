@@ -259,5 +259,45 @@ class ArgumentationHtmlTests(unittest.TestCase):
                 self.assertIn(token, html)
 
 
+class PromptContractTests(unittest.TestCase):
+    """Prompts must ask for exactly what the validators accept.
+
+    A prompt that names a field the validator drops wastes model output; a prompt
+    that omits a required field makes every real response fail at the parse stage.
+    Both are invisible until someone spends a key, so they are checked statically.
+    """
+
+    def test_every_prompt_contract_check_passes(self):
+        from fixtures import prompt_contract
+
+        report = prompt_contract.build()
+        self.assertEqual(report["failed"], [],
+                         "prompt 与校验器契约不一致；运行 "
+                         "python -m fixtures.prompt_contract 查看明细")
+
+    def test_enum_extraction_handles_both_prompt_notations(self):
+        """Regression: the scan must see pipe lists and backticked prose values."""
+        from fixtures import prompt_contract
+
+        self.assertEqual(
+            prompt_contract.token_sets('"a": "FULL | PARTIAL | UNKNOWN"'),
+            [{"FULL", "PARTIAL", "UNKNOWN"}])
+        self.assertIn({"SAME_EVENT", "UNCERTAIN"},
+                      prompt_contract.token_sets("使用 `SAME_EVENT`；否则 `UNCERTAIN`"))
+        # A whole document must never collapse into one bogus candidate.
+        self.assertEqual(prompt_contract.token_sets("no enum here"), [])
+
+    def test_video_parse_names_every_value_the_model_must_emit(self):
+        from fixtures import prompt_contract
+
+        document = (prompt_contract.PROMPTS / "video_parse_system.md").read_text(
+            encoding="utf-8")
+        template = prompt_contract.template_of("video_parse_system.md")
+        from pipeline import VALID_STANCE
+        matched, tokens = prompt_contract.match_enum(set(VALID_STANCE), document, template)
+        self.assertTrue(matched, "context.stance 的取值必须写在 prompt 里")
+        self.assertEqual(tokens, VALID_STANCE)
+
+
 if __name__ == "__main__":
     unittest.main()

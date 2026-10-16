@@ -52,6 +52,9 @@ fixtures/
 ├── truth_table.py         穷举关系回答组合，输出 PEAD 决策真值表
 ├── argumentation_report.py 输出论证攻防报告（grounded 标签与攻击边）
 ├── argumentation_html.py   把同一套场景渲染成自包含 HTML 演示页
+├── prompt_contract.py      静态校验 prompt 要求的字段与枚举是否被代码接受
+├── upstream_capture.py     采集一次真实上游回包（需密钥，真实调用）
+├── upstream_assumptions.py 校验 PEAD 的四项上游输入假设
 ├── manifest.json          全部用例的索引与结论摘要
 └── cases/<case>/          每个用例的静态 JSON
     ├── video_parse_response.json      阶段1 原始回包
@@ -314,6 +317,31 @@ python -m fixtures.upstream_assumptions           # 只打印，不写文件
 报告开头就写明这一点：**它只校验上游假设，不评价 PEAD 的准确率，也不判定视频内容
 是否合规**。未通过项会附上影响说明与修复方向——**A1–A4 任一不成立，PEAD 都是退化为
 保守复核，而不是编造结论**，所以未通过是可定位的工程问题，不会被静默变成"无风险"。
+
+## Prompt 契约检查：prompt 要的格式，校验器是否真的接受
+
+真实联调最怕的不是模型答得不好，而是**prompt 要的字段校验器不收**——那会让每一条真实
+回包都在解析阶段失败，而且只有花了 key 才知道。这类问题可以**静态查出来**：
+
+```bash
+python -m fixtures.prompt_contract           # 打印逐项结论
+python -m fixtures.prompt_contract --write   # 写入 reports/prompt-contract.md
+```
+
+检查三件事，覆盖四个阶段（事实解析 / 问题定位 / 关系核验 / 审核报告）：
+
+1. **字段存在性** —— prompt 模板要求的字段，校验器是否接受；校验器必需的字段，
+   prompt 是否要求；
+2. **枚举词表** —— prompt 给出的每个取值，代码是否接受（反向缺失按严重程度区分：
+   PEAD 依赖的取值缺失才算未通过，PEAD 不依赖的只记为文档缺口）；
+3. **协议自洽** —— prompt 内嵌模板与独立 schema 文件描述同一形状。
+
+**当前 34 项全部通过。** 一个已知的文档缺口：`context.target_relation` 代码接受
+`SAME_EVENT | DIFFERENT_EVENT | UNCERTAIN`，而 prompt 只说明了 `SAME_EVENT` 与
+`UNCERTAIN`。这不影响运行——PEAD 只在 `SAME_EVENT` 时触发匹配——因此记为缺口而非失败。
+
+> 本检查是**静态**的：它保证 prompt 与校验器的契约一致，从而排除"真实调用必然失败"
+> 的整类问题。它**不能**证明模型会遵循 prompt——那只能由一次真实调用回答。
 
 ## PEAD 的待优化项
 
