@@ -20,3 +20,7 @@ frontend/.env.local
 frontend/out/
 frontend/next-env.d.ts
 *.tsbuildinfo
+
+# 真实模型回包快照：由 fixtures.upstream_capture 现场生成，
+# 含真实模型输出，不随仓库分发；校验报告仍会提交。
+backend/fixtures/upstream_snapshot.json
