@@ -160,7 +160,11 @@ def build() -> tuple[dict, dict]:
         "schema_version": "videoguard_mock_pead_comparison_v1", "mode": MODE,
         "focus_policy": POLICY, "external_api_calls": 0,
         "parameters": config.describe(),
-        "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in source_files},
+        # Hash the LF form of each file. The repository stores text with LF, but a
+        # working tree may hold CRLF when a tool wrote it on Windows; hashing raw
+        # bytes would then disagree with a clean CI checkout for no real reason.
+        "source_sha256": {p: hashlib.sha256(
+            (ROOT / p).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for p in source_files},
         "scope": "合成结构化输入下的决策约束消融；不是视频识别准确率评估。",
         "control": "共享解析/协议校验/候选对/置信门限；简单映射含缺服务、低可信与混合回答复核。",
         "treatment": "相同输入经过现有 PEAD 引擎及关系融合；保持已有阈值。",
