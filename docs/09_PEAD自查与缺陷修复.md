@@ -67,7 +67,7 @@ python -m fixtures.compare_pead --check
 
 | 项 | 结果 |
 | --- | --- |
-| Windows 11 + Python 3.11.15 实机 | 后端 180 项测试全部通过；样例校验、真值表、攻防报告与 prompt 契约检查全部通过 |
+| Windows 11 + Python 3.11.15 实机 | 后端 184 项测试全部通过；样例校验、真值表、攻防报告与 prompt 契约检查全部通过 |
 | 前端 | 依赖安装、类型检查、生产构建与生产打包在 Windows 上执行通过 |
 | 独立克隆复现 | 全新目录从 `uv sync` 到全部检查通过，确认无本机残留依赖 |
 | 本轮修复的两处环境相关缺陷 | `report.py` 在 Python 3.11 下的语法错误（f-string 含反斜杠，PEP 701 需 3.12）；5 处文件读写未指定 UTF-8 编码，在中文 Windows 默认 GBK 下读取含中文 JSON 失败 |
