@@ -227,15 +227,22 @@ def build_event_findings(observations: list[dict], findings: list[dict],
         if related:
             # Keep every local judgement. Do not collapse different events.
             for f in related:
+                direct=[i for i in ids
+                        if i in f.get("supporting_ids",[]) or i in f.get("counter_ids",[])]
+                # Another policy's cue in the same event is background for this
+                # finding, not its evidence. Mixing them inflates the proof shown
+                # for a single judgement.
+                context=[i for i in ids if i not in direct]
                 events.append({
                     "event_id": f"{f['policy_id']}:{key}",
                     "policy_id": f["policy_id"],
-                    "evidence_ids": ids,
+                    "evidence_ids": direct,
+                    "context_evidence_ids": context,
                     "judgement": f["judgement"],
                     "disposition": f["disposition"],
                     "reason_code": f["reason_code"],
                     "audit": {
-                        "evidence_checked": len(ids),
+                        "evidence_checked": len(direct),
                         "duration_ms": duration_ms,
                         "scope": "event"
                     }

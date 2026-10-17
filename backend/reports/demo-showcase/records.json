@@ -1,7 +1,7 @@
 {
   "danger_promotion": {
-    "id": "588cce8e4b8f4befbf44e61362c22456",
-    "created_at": "2026-10-17 13:29:49",
+    "id": "6e628108d2f6478894fe311b8ebd5428",
+    "created_at": "2026-10-17 14:03:27",
     "video_name": "合成示例｜危险动作与鼓励模仿",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -2046,8 +2046,8 @@
     "error": ""
   },
   "warning_context": {
-    "id": "18de580bbd2b459a837a32c8dfc5748c",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "10da17fcb34747ecb6f1fd62531adf83",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜安全警示语境",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -3714,8 +3714,8 @@
     "error": ""
   },
   "relation_wrong_encouragement": {
-    "id": "caef528a03c84eb783ddc50b649670a1",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "5f451624d7b747c4b03935a1972ad6d6",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜警示与模型判断冲突",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -5892,8 +5892,8 @@
     "error": ""
   },
   "relation_override_conflict": {
-    "id": "d487e84d34ec4bf8bb254dabab5f3465",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "1d75b46b90fb41bdaeec4becc67bc4f6",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜跨事件误关联",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -7597,8 +7597,8 @@
     "error": ""
   },
   "privacy_screen_text": {
-    "id": "1341a4e50a794d22b7d140270d210689",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "214184e12bb94e2e856ad97aad44847d",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜屏幕文字隐私暴露",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -8031,6 +8031,7 @@
           "evidence_ids": [
             "E01"
           ],
+          "context_evidence_ids": [],
           "judgement": "SUPPORTED",
           "disposition": "FLAG",
           "reason_code": "POTENTIAL_PII",
@@ -8535,8 +8536,8 @@
     "error": ""
   },
   "credential_claim": {
-    "id": "8a8932b4c1f0445cb5c4e3ef9bb7da99",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "fb549f48cd29453ca4cfc940c1acfa1b",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜营销及资质声称",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -9026,6 +9027,7 @@
             "E01",
             "E02"
           ],
+          "context_evidence_ids": [],
           "judgement": "SUPPORTED",
           "disposition": "VERIFY_EXTERNAL",
           "reason_code": "CREDENTIAL_AUTHENTICITY_UNKNOWN",
@@ -9627,8 +9629,8 @@
     "error": ""
   },
   "partial_coverage": {
-    "id": "3df3a5b2ec9e4b75a14682504ebbb7ae",
-    "created_at": "2026-10-17 13:29:50",
+    "id": "9f62b254944b4d0c981e68a0cd1fd2b3",
+    "created_at": "2026-10-17 14:03:28",
     "video_name": "合成示例｜观察不完整",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -11029,8 +11031,8 @@
     "error": ""
   },
   "clean_negative": {
-    "id": "0803117077c7495383111763f07ecfd3",
-    "created_at": "2026-10-17 13:29:51",
+    "id": "194f913d523c4efa9a117bbb32e46467",
+    "created_at": "2026-10-17 14:03:29",
     "video_name": "合成示例｜普通宠物日常",
     "sha256": "demo",
     "duration_ms": 24000,

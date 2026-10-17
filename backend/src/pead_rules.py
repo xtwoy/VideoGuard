@@ -122,6 +122,12 @@ class RuleSet(FrozenModel):
             "A_STANCE_UNLOCATED": ("UNLOCATED_PAIR", "UNLOCATED", Condition(all_of=("stance_unlocated", "same_event", "promotion_tag"))),
             "A_COUNTER_UNLOCATED": ("UNLOCATED_PAIR", "UNLOCATED_COUNTER", Condition(all_of=("stance_unlocated", "same_event", "counter_tag"))),
             "A_COUNTER_REFERENT_CONFLICT": ("PAIR", "COUNTER_REFERENT_CONFLICT", Condition(all_of=("negative_relation_conflict",))),
+            # The support generators are protected too. They are the only path from
+            # observed evidence to "this risk is supported"; leaving them pliable
+            # means a stricter condition silently erases the risk instead of
+            # flagging it, and the tightening survives every other guard.
+            "A_LOCAL_PROMOTION": ("PAIR", "LOCAL_PROMOTION", Condition(all_of=("same_event", "promotion_tag"))),
+            "A_MODEL_PROMOTION": ("PAIR", "MODEL_PROMOTION", Condition(all_of=("encourages_same",))),
         }
         argument_by_id = {r.id: r for r in self.argument_rules}
         for rid, definition in protected_arguments.items():
@@ -162,6 +168,12 @@ class RuleSet(FrozenModel):
             "D_STANCE_CONFLICT": (Condition(all_of=("has_support", "has_counter")), "CONFLICTED", "REVIEW"),
             "D_UNCERTAIN": (Condition(all_of=("has_uncertainty",)), "INSUFFICIENT", "REVIEW"),
             "D_PARTIAL": (Condition(all_of=("partial_coverage",)), "UNKNOWN", "RECHECK"),
+            # Protecting only the conservative branches is not enough: the rules that
+            # turn accepted support into a risk decision must exist and keep their
+            # conditions, or a supported risk falls through to the default "nothing
+            # to do" without any earlier guard noticing.
+            "D_MODEL_SUPPORTED": (Condition(all_of=("accepted_support", "accepted_model_support")), "SUPPORTED", "FLAG"),
+            "D_LOCAL_SUPPORTED": (Condition(all_of=("accepted_support",)), "SUPPORTED", "FLAG"),
         }
         for rid, (condition, judgement, disposition) in protected.items():
             rule = by_id.get(rid)
@@ -178,6 +190,17 @@ class RuleSet(FrozenModel):
         if any(r.disposition == "NONE" and r.priority >= min(by_id[rid].priority for rid in protected)
                for r in self.decision_rules):
             raise ValueError("non-supporting decisions must follow conservative review rules")
+        # A semantic invariant, not only an ID check: with accepted support and no
+        # blocking condition the engine must still reach a risk decision. Deleting
+        # or widening the support rules would otherwise turn a supported risk into
+        # "nothing to do" while every conservative guard above still passes.
+        supported = {fact: False for fact in FACTS}
+        supported.update(accepted_support=True, has_support=True, accepted_model_support=True)
+        ordered = sorted(self.decision_rules, key=lambda r: (-r.priority, r.id))
+        winner = next(rule for rule in ordered if rule.when.matches(supported))
+        if (winner.judgement, winner.disposition) != ("SUPPORTED", "FLAG"):
+            raise ValueError("accepted support must reach a risk decision, "
+                             f"not {winner.judgement}/{winner.disposition} via {winner.id}")
         return self
 
     @cached_property

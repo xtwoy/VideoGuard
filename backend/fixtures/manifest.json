@@ -26,6 +26,7 @@
     "partial_coverage",
     "clean_negative"
   ],
+  "audit_report_origin_note": "所有 audit_report_response.json 都由本地确定性兜底生成器产生（见 fixtures/simulate.py），不是真实模型回包。frozen_report_inputs.json 只保证这些字节未被自动改写。",
   "cases": [
     {
       "name": "danger_promotion",
@@ -54,6 +55,7 @@
       "audit_verdict": "BLOCKED",
       "audit_score": 20,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "906afcc1a81c79f3",
         "issue_locator_response.json": "e9d993f0bc4de976",
@@ -78,6 +80,7 @@
       "audit_verdict": "PUBLISHABLE",
       "audit_score": 70,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "50b42c0182500c52",
         "issue_locator_response.json": "99045e291d238c87",
@@ -102,6 +105,7 @@
       "audit_verdict": "PUBLISHABLE",
       "audit_score": 90,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "4d5086566648c073",
         "issue_locator_response.json": "c76c0a40bb0613fe",
@@ -137,6 +141,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "4d5086566648c073",
         "issue_locator_response.json": "c76c0a40bb0613fe",
@@ -172,6 +177,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 40,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "70a2d577adbf1770",
         "issue_locator_response.json": "7deb1c1afee49bb5",
@@ -205,6 +211,7 @@
       "audit_verdict": "BLOCKED",
       "audit_score": 20,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "e9657848b137bae3",
         "issue_locator_response.json": "153d1a685ade7628",
@@ -239,6 +246,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 40,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "f4cd492ae8aef27c",
         "issue_locator_response.json": "a97738b1280c91ac",
@@ -272,6 +280,7 @@
       "audit_verdict": "BLOCKED",
       "audit_score": 20,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "f1838acabe4ac242",
         "issue_locator_response.json": "4f54c4f871d4fbb5",
@@ -305,6 +314,7 @@
       "audit_verdict": "BLOCKED",
       "audit_score": 20,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "43d040313832329c",
         "issue_locator_response.json": "b6c7fb78e74de0ee",
@@ -338,6 +348,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "5d4bfcb13be629e7",
         "issue_locator_response.json": "4422f33527b85f94",
@@ -371,6 +382,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "b6d726098c776453",
         "issue_locator_response.json": "e99de553f9c592ad",
@@ -404,6 +416,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "4c9f4802db3eedef",
         "issue_locator_response.json": "0d93add2390a0cf5",
@@ -437,6 +450,7 @@
       "audit_verdict": "BLOCKED",
       "audit_score": 20,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "12a3c6c8ee0f75f6",
         "issue_locator_response.json": "0095fda9506837be",
@@ -471,6 +485,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "33a1af490d2fe7e2",
         "issue_locator_response.json": "5951fe3bc1d46fa3",
@@ -508,6 +523,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "dc29f861ea648597",
         "issue_locator_response.json": "8738a369943475d4",
@@ -545,6 +561,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 55,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "b5222deb91855572",
         "issue_locator_response.json": "ccbc6359fba76a21",
@@ -639,6 +656,7 @@
       "audit_verdict": "MANUAL_REVIEW",
       "audit_score": 40,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "1278a096464ada00",
         "issue_locator_response.json": "c1551c338010480e",
@@ -662,6 +680,7 @@
       "audit_verdict": "PUBLISHABLE",
       "audit_score": 70,
       "audit_report_error": "",
+      "audit_report_origin": "synthetic_builder",
       "files": {
         "video_parse_response.json": "cec07786a43c273e",
         "issue_locator_response.json": "445d185f3cbb2ce2",

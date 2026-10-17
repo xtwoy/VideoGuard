@@ -1,4 +1,4 @@
-"""Fixture-pack regression tests.
+﻿"""Fixture-pack regression tests.
 
 These keep the curated mock cases (``backend/fixtures/cases``) honest:
 
@@ -14,6 +14,7 @@ Run with the rest of the suite from ``backend/``:
 """
 from __future__ import annotations
 
+import json
 import unittest
 
 from fixtures import cases as case_defs
@@ -298,6 +299,20 @@ class PromptContractTests(unittest.TestCase):
         self.assertTrue(matched, "context.stance 的取值必须写在 prompt 里")
         self.assertEqual(tokens, VALID_STANCE)
 
+class ManifestProvenanceTests(unittest.TestCase):
+    """Frozen stage-4 replies are synthetic; the manifest must say so.
+
+    Freezing proves the bytes were not rewritten. It does not turn a locally built
+    report into a captured provider response, so the origin is recorded per case.
+    """
+
+    def test_every_case_declares_where_its_stage4_reply_came_from(self):
+        manifest = json.loads((generate.HERE / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIn("audit_report_origin_note", manifest)
+        for entry in manifest["cases"]:
+            self.assertEqual(entry.get("audit_report_origin"), "synthetic_builder",
+                             f"{entry['name']} 缺少阶段四回包来源标注")
+        self.assertIn("不是真实模型回包", manifest["audit_report_origin_note"])
 
 if __name__ == "__main__":
     unittest.main()

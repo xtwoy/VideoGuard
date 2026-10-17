@@ -63,6 +63,8 @@ def _event_state(detail: dict) -> list[dict]:
                         "verbatim": redact(str(fact.get("verbatim_redacted") or ""))[:350],
                     }
     state=[]
+    coverage = detail.get("coverage") if isinstance(detail, dict) else None
+    time_localization = coverage.get("time_localization") if isinstance(coverage, dict) else None
     for event in events if isinstance(events, list) else []:
         if not isinstance(event, dict) or not isinstance(event.get("event_id"), str):
             continue
@@ -70,6 +72,9 @@ def _event_state(detail: dict) -> list[dict]:
         if refs:
             state.append({"event_id":event["event_id"], "summary":redact(str(event.get("summary") or ""))[:600],
                          "context":event.get("context", {}),
+                         # Carried through so time confidence comes from how well the
+                         # position is known, not from the tag probability.
+                         "time_localization":time_localization,
                          "facts":[{"ref":ref, **facts[ref]} for ref in refs]})
     return state
 
@@ -88,6 +93,53 @@ def build_jev_request(video_parse_detail: dict) -> dict:
                             "false":template["`criteria.false`"].replace("{{TAG}}",tag)}
             }
     return {"model":os.getenv(MODEL_ENV, ""),"state":{"events":events},"questions":questions}
+
+
+TAG_MODALITY = {
+    # Which modality a tag is about. JEV answers per event and per tag, not per
+    # fact, so the adapter must decide which evidence the answer refers to. Using
+    # the event's first fact made the result depend on fact ordering: a speech fact
+    # listed first turned a reported violence tag into a speech cue, and PEAD only
+    # accepts visual evidence for violence.
+    "danger_action": "visual", "danger_description": "visual", "violence": "visual",
+    "news_context": "visual", "fiction_context": "visual",
+    "encouragement": "speech", "challenge": "speech", "warning": "speech",
+    "education_context": "speech",
+    "pii_candidate": "screen_text", "credential_claim": "screen_text",
+    "marketing_claim": "screen_text", "absolute_claim": "screen_text",
+}
+
+
+def _cue_modality(tag: str, facts: list[dict]) -> tuple[str, bool]:
+    """Pick the evidence modality a tag refers to, and whether it was ambiguous.
+
+    Preferred modality wins; a single-modality event is unambiguous; anything else
+    falls back to `metadata` and is flagged for review instead of guessing.
+    """
+    available = {fact.get("modality") for fact in facts if isinstance(fact.get("modality"), str)}
+    preferred = TAG_MODALITY.get(tag)
+    if preferred in available:
+        return preferred, False
+    if len(available) == 1:
+        return next(iter(available)), False
+    return "metadata", True
+
+
+def _cue_time_confidence(facts: list[dict], time_localization: str | None) -> str:
+    """Describe how well the position is known — never how sure the label is.
+
+    The provider's `noul` is the probability that the event contains the tag. A
+    confident label says nothing about whether the position is accurate, so the two
+    must not share a field.
+    """
+    if not facts or time_localization == "UNAVAILABLE":
+        return "UNAVAILABLE"
+    if any(not isinstance(fact.get("start_ms"), int) or not isinstance(fact.get("end_ms"), int)
+           for fact in facts):
+        return "UNAVAILABLE"
+    if time_localization == "APPROXIMATE":
+        return "MEDIUM"
+    return "HIGH"
 
 
 def adapt_jev_response(request: dict, response: dict) -> dict:
@@ -125,12 +177,16 @@ def adapt_jev_response(request: dict, response: dict) -> dict:
                 raise ValueError("问题定位请求包含未知标签")
             if probability < MIN_CONFIDENCE:
                 continue
-            primary=event["facts"][0]
+            facts = event["facts"]
+            modality, modality_ambiguous = _cue_modality(tag, facts)
+            # Prefer a fact of the tag's modality for the human-facing description,
+            # falling back to the event's first fact only when no fact matches.
+            primary = next((fact for fact in facts if fact.get("modality") == modality), facts[0])
             cues.append({"cue_id":f"C{len(cues)+1:03d}","tag":tag,"event_id":event_id,
-                         "modality":primary["modality"],"evidence_refs":[x["ref"] for x in event["facts"]],
+                         "modality":modality,"evidence_refs":[x["ref"] for x in facts],
                          "observation":primary["summary"],"verbatim_redacted":primary["verbatim"],
-                         "time_confidence":"HIGH" if probability >= 0.93 else "MEDIUM",
-                         "needs_human_review":probability < 0.93})
+                         "time_confidence":_cue_time_confidence(facts, event.get("time_localization")),
+                         "needs_human_review":probability < 0.93 or modality_ambiguous})
         except (AttributeError, KeyError, IndexError, TypeError, ValueError):
             raise ValueError("问题定位请求的问题与事件事实无法对应") from None
     if len(cues) > 80:

@@ -45,5 +45,26 @@ class EventAuditTest(unittest.TestCase):
                          {"R_DANGER_PROMOTION:EVT_A","R_DANGER_PROMOTION:EVT_B"})
         self.assertEqual([item["evidence_ids"] for item in result], [["E1"],["E2"]])
 
+    def test_event_record_lists_only_the_policys_own_evidence(self):
+        """A cue belonging to another policy is context, not this finding's proof."""
+        observations=[
+            {"id":"V1","referent_key":"EVT_X","modality":"visual","tag":"violence",
+             "start_ms":0,"end_ms":1000},
+            {"id":"P1","referent_key":"EVT_X","modality":"screen_text","tag":"pii_candidate",
+             "start_ms":0,"end_ms":1000},
+        ]
+        findings=[
+            {"policy_id":"R_VIOLENCE","judgement":"SUPPORTED","disposition":"FLAG",
+             "reason_code":"VIOLENCE_DEPICTION","supporting_ids":["V1"],"counter_ids":[]},
+            {"policy_id":"R_PRIVACY_EXPOSURE","judgement":"SUPPORTED","disposition":"FLAG",
+             "reason_code":"POTENTIAL_PII","supporting_ids":["P1"],"counter_ids":[]},
+        ]
+        result=build_event_findings(observations, findings, 10000)
+        by_policy={item["policy_id"]:item for item in result}
+        self.assertEqual(by_policy["R_VIOLENCE"]["evidence_ids"],["V1"])
+        self.assertEqual(by_policy["R_VIOLENCE"]["context_evidence_ids"],["P1"])
+        self.assertEqual(by_policy["R_PRIVACY_EXPOSURE"]["evidence_ids"],["P1"])
+        self.assertEqual(by_policy["R_PRIVACY_EXPOSURE"]["context_evidence_ids"],["V1"])
+
 if __name__=="__main__":
     unittest.main()

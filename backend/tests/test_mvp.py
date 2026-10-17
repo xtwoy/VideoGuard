@@ -110,6 +110,56 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(output["risk_cues"][0]["event_id"], "EVT_PRIVACY")
         self.assertNotIn("model", output)
 
+    def _synthetic_detail(self, facts, *, time_localization="RELIABLE"):
+        return {
+            "coverage": {"time_localization": time_localization},
+            "timeline": {
+                "shots": [{"shot_id": "S001", "visual_facts": facts.get("visual_facts", []),
+                           "speech_transcript": facts.get("speech_transcript", [])}],
+                "events": [{"event_id": "EVT_MIX", "summary": "混合事件",
+                            "evidence_refs": facts.get("refs", []), "context": {}}],
+            },
+        }
+
+    def _cue_for(self, detail, tag, probability=0.95):
+        request = build_jev_request(detail)
+        answers = {name: {"type": "noul", "noul": 0.0} for name in request["questions"]}
+        answers[f"EVT_MIX__{tag}"]["noul"] = probability
+        output = adapt_jev_response(request, {"answers": answers})
+        return output["risk_cues"][0] if output["risk_cues"] else None
+
+    def test_cue_modality_comes_from_the_tag_not_from_fact_order(self):
+        """A violence tag must be visual even when a speech fact is listed first."""
+        detail = self._synthetic_detail({
+            "refs": ["S001:F001", "S001:F002"],
+            "speech_transcript": [{"fact_id": "F001", "start_ms": 0, "end_ms": 1000,
+                                   "summary_zh": "口播介绍", "verbatim_redacted": "口播介绍"}],
+            "visual_facts": [{"fact_id": "F002", "start_ms": 0, "end_ms": 1000,
+                              "summary_zh": "画面出现打斗", "verbatim_redacted": ""}],
+        })
+        cue = self._cue_for(detail, "violence", probability=0.97)
+        self.assertIsNotNone(cue)
+        self.assertEqual(cue["modality"], "visual")
+        self.assertFalse(cue["needs_human_review"])
+
+    def test_label_confidence_does_not_upgrade_time_confidence(self):
+        """A confident tag says nothing about whether the position is accurate."""
+        detail = self._synthetic_detail({
+            "refs": ["S001:F001"],
+            "visual_facts": [{"fact_id": "F001", "start_ms": 0, "end_ms": 1000,
+                              "summary_zh": "画面", "verbatim_redacted": ""}],
+        }, time_localization="APPROXIMATE")
+        cue = self._cue_for(detail, "violence", probability=0.99)
+        self.assertEqual(cue["time_confidence"], "MEDIUM")
+
+    def test_missing_time_positions_make_time_confidence_unavailable(self):
+        detail = self._synthetic_detail({
+            "refs": ["S001:F001"],
+            "visual_facts": [{"fact_id": "F001", "summary_zh": "画面", "verbatim_redacted": ""}],
+        })
+        cue = self._cue_for(detail, "violence", probability=0.99)
+        self.assertEqual(cue["time_confidence"], "UNAVAILABLE")
+
     def test_locator_projection_redacts_sensitive_values(self):
         parsed = clean_video_parse(PARSE, 25_000)
         output = clean_issue_locator(LOCATOR, parsed)

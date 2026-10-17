@@ -32,7 +32,10 @@ export type Finding = {
 export type EventFinding = {
   event_id: string;
   policy_id: string;
+  /** This policy's own evidence within the event. */
   evidence_ids: string[];
+  /** Other cues in the same event: background, not this finding's proof. */
+  context_evidence_ids?: string[];
   judgement: Judgement;
   disposition: Disposition;
   reason_code: string;

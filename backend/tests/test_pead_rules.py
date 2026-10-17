@@ -116,15 +116,63 @@ class RuleConfigurationTests(unittest.TestCase):
         with self.assertRaises(ValueError):condition.matches({"same_event":1,"time_uncertain":False})
         with self.assertRaises(ValueError):condition.matches({})
 
-    def test_config_changes_actual_argument_construction(self):
-        default,_=decide(observations(),2000,"FULL",15000,require_relation=False,ruleset=self.rules)
-        self.assertEqual(default["disposition"],"FLAG")
-        changed=copy.deepcopy(self.raw)
-        next(r for r in changed["argument_rules"] if r["kind"]=="LOCAL_PROMOTION")["when"]["all_of"].append("relation_review")
-        alternate,graph=decide(observations(),2000,"FULL",15000,require_relation=False,ruleset=RuleSet.model_validate(changed))
-        self.assertEqual(alternate["disposition"],"NONE")
-        self.assertFalse(any(a["kind"]=="LOCAL_PROMOTION" for a in graph["arguments"]))
-        self.assertNotEqual(graph["ruleset"]["sha256"],self.rules.fingerprint)
+    def test_tightening_a_support_generation_rule_is_rejected(self):
+        """A stricter support condition would erase the risk instead of flagging it.
+
+        This used to be accepted as a normal configuration change: the same input
+        went from FLAG to NONE, and the test recorded that as correct behaviour.
+        It is a bypass — the risk disappears because no argument was generated.
+        """
+        changed = copy.deepcopy(self.raw)
+        next(r for r in changed["argument_rules"]
+             if r["kind"] == "LOCAL_PROMOTION")["when"]["all_of"].append("relation_review")
+        with self.assertRaises(ValidationError):
+            RuleSet.model_validate(changed)
+
+    def test_deleting_the_support_decisions_is_rejected(self):
+        changed = copy.deepcopy(self.raw)
+        changed["decision_rules"] = [
+            rule for rule in changed["decision_rules"]
+            if rule["id"] not in ("D_MODEL_SUPPORTED", "D_LOCAL_SUPPORTED")
+        ]
+        with self.assertRaises(ValidationError):
+            RuleSet.model_validate(changed)
+
+    def test_extra_condition_on_a_support_decision_is_rejected(self):
+        changed = copy.deepcopy(self.raw)
+        next(rule for rule in changed["decision_rules"]
+             if rule["id"] == "D_LOCAL_SUPPORTED")["when"]["all_of"].append("accepted_model_support")
+        with self.assertRaises(ValidationError):
+            RuleSet.model_validate(changed)
+
+    def test_accepted_support_always_reaches_a_risk_decision(self):
+        """Semantic invariant: support may not end in the non-supporting default."""
+        facts = {name: False for name in FACTS}
+        facts.update(accepted_support=True, has_support=True, accepted_model_support=True)
+        selected, _ = self.rules.decision(facts)
+        self.assertEqual((selected.judgement, selected.disposition), ("SUPPORTED", "FLAG"))
+
+        # The invariant must hold for every rule set that loaded successfully, not
+        # just the shipped one. Re-validate the loaded model and re-run the check.
+        reloaded = RuleSet.model_validate(self.raw)
+        selected, _ = reloaded.decision(facts)
+        self.assertEqual((selected.judgement, selected.disposition), ("SUPPORTED", "FLAG"))
+
+    def test_a_stricter_new_rule_still_takes_effect(self):
+        """Configuration is not frozen: adding a *more cautious* rule works."""
+        changed = copy.deepcopy(self.raw)
+        changed["decision_rules"].append({
+            "id": "D_EXTRA_CAUTION", "description": "额外保守规则，仅用于验证配置可生效",
+            "priority": 50,
+            "when": {"all_of": ["unrelated_confirmed"], "any_of": [], "none_of": []},
+            "judgement": "INSUFFICIENT", "disposition": "REVIEW",
+            "reason_code": "MISSING_SEMANTIC_RELATION",
+        })
+        ruleset = RuleSet.model_validate(changed)
+        facts = {name: False for name in FACTS}
+        facts.update(unrelated_confirmed=True)
+        selected, _ = ruleset.decision(facts)
+        self.assertEqual(selected.id, "D_EXTRA_CAUTION")
 
     def test_all_matching_decisions_recorded_and_highest_priority_wins(self):
         facts={name:False for name in FACTS};facts.update(coverage_failure=True,accepted_support=True,accepted_model_support=True)

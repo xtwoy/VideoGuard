@@ -160,6 +160,11 @@ def build_case(name: str) -> dict:
         "audit_verdict": report["overall_verdict"] if report else None,
         "audit_score": report["overall_score"] if report else None,
         "audit_report_error": state["audit_report_error"],
+        # Provenance matters more than the file name. These stage-4 replies were
+        # produced by the local deterministic builder (see simulate.py), then kept
+        # byte-identical and digest-checked. Freezing proves the bytes did not
+        # change; it does not make them a captured provider response.
+        "audit_report_origin": "synthetic_builder",
         "files": digests,
     }
 
@@ -174,6 +179,10 @@ def build_manifest(entries: list[dict]) -> dict:
         },
         "duration_ms": case_defs.DURATION_MS,
         "case_order": list(case_defs.CASE_ORDER),
+        "audit_report_origin_note": (
+            "所有 audit_report_response.json 都由本地确定性兜底生成器产生"
+            "（见 fixtures/simulate.py），不是真实模型回包。"
+            "frozen_report_inputs.json 只保证这些字节未被自动改写。"),
         "cases": entries,
     }
 
