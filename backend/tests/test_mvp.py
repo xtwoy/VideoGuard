@@ -200,6 +200,32 @@ class ProtocolTests(unittest.TestCase):
                         "hook_clarity", "subject_presentation"):
             self.assertNotIn(f"{retired}:", frontend, f"前端文案表仍保留已退役维度 {retired}")
 
+    def test_validator_rejects_a_total_below_the_weakest_dimension(self):
+        """The total is *defined* as the weakest scored dimension, in both directions."""
+        result = run_demo()
+        candidate = deepcopy(result["audit_report"])
+        self.assertGreater(candidate["overall_score"], 0)
+        candidate["overall_score"] = candidate["overall_score"] - 1
+        self.assertIsNone(validate_audit_report(candidate, result, result["findings"], 25_000))
+
+    def test_validator_rejects_a_total_above_the_weakest_dimension(self):
+        result = run_demo()
+        candidate = deepcopy(result["audit_report"])
+        self.assertLess(candidate["overall_score"], 100)
+        candidate["overall_score"] = candidate["overall_score"] + 1
+        self.assertIsNone(validate_audit_report(candidate, result, result["findings"], 25_000))
+
+    def test_aggregate_score_ignores_not_applicable_dimensions(self):
+        from src.audit_report import aggregate_score
+
+        dimensions = {
+            "a": {"score": 90, "status": "PASS"},
+            "b": {"score": 30, "status": "NOT_APPLICABLE"},
+            "c": {"score": 70, "status": "WARNING"},
+        }
+        self.assertEqual(aggregate_score(dimensions), 70)
+        self.assertEqual(aggregate_score({"a": {"score": 30, "status": "NOT_APPLICABLE"}}), 30)
+
     def test_report_keeps_disconnected_evidence_ranges_separate(self):
         result = run_demo()
         claim = next(plan for plan in result["audit_report"]["revision_plan"] if plan["event_id"] == "EVT_CLAIM")

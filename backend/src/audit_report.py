@@ -31,6 +31,22 @@ ANALYSIS_SECTION_LABELS = {
 UNEVALUATED_SCORE = 40
 UNEVALUATED_STATUS = "MANUAL_REVIEW"
 
+
+def aggregate_score(dimensions: dict[str, dict]) -> int:
+    """The report total: the weakest dimension that was actually scored.
+
+    `NOT_APPLICABLE` dimensions are excluded because they carry no judgement. If
+    nothing is applicable, fall back to the weakest of all so the total still
+    reflects the worst recorded state rather than inventing a value.
+
+    The validator requires the reported total to equal this exactly: a total below
+    the weakest dimension would be a number no dimension supports.
+    """
+    applicable = [item["score"] for item in dimensions.values()
+                  if item.get("status") != "NOT_APPLICABLE"]
+    scores = applicable or [item["score"] for item in dimensions.values()]
+    return min(scores) if scores else UNEVALUATED_SCORE
+
 POLICY_NAMES = {
     "R_DANGER_PROMOTION": "危险行为诱导",
     "R_VIOLENCE": "暴力或危险行为画面",
@@ -336,9 +352,12 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
         if verdict not in VERDICTS or type(raw.get("overall_score")) is not int or not 0 <= raw["overall_score"] <= 100:
             raise ValueError("报告总评无效")
         dimensions=_clean_dimensions(raw.get("dimension_scores"),catalog,duration_ms)
-        applicable_scores=[item["score"] for item in dimensions.values() if item["status"] != "NOT_APPLICABLE"]
-        if applicable_scores and raw["overall_score"] > min(applicable_scores):
-            raise ValueError("报告总分不得高于任何适用维度评分")
+        expected_score=aggregate_score(dimensions)
+        if raw["overall_score"] != expected_score:
+            # Both directions matter: a higher total is unjustified optimism, a
+            # lower one is a number no dimension supports. The total is *defined*
+            # as the weakest scored dimension.
+            raise ValueError("报告总分必须等于最低适用维度评分")
         plans=raw.get("revision_plan")
         if not isinstance(plans,list) or len(plans)>80:
             raise ValueError("revision_plan 无效")
@@ -867,11 +886,10 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         verdict="MANUAL_REVIEW"
         direction=("存在未完成评估的维度，需先补充该维度的证据或由人工判断，"
                    "不能据此给出可发布结论。")
-    # `overall_score` is the *lowest* dimension, not an average: it is a conservative
-    # gate, so one weak dimension blocks a comfortable-looking total. It therefore
-    # reads as "the weakest link", not "how good the video is". Every presentation
-    # surface must label it that way.
-    candidate={"schema_version":"videoguard_audit_report_v1","overall_verdict":verdict,"overall_score":min(item["score"] for item in dimensions.values()),
+    # `overall_score` is the weakest scored dimension, not an average: one weak
+    # dimension blocks a comfortable-looking total. It reads as "the weakest link",
+    # not "how good the video is", so every presentation surface labels it that way.
+    candidate={"schema_version":"videoguard_audit_report_v1","overall_verdict":verdict,"overall_score":aggregate_score(dimensions),
             "executive_summary":("基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。"
                                  if not unevaluated else
                                  "基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告；"

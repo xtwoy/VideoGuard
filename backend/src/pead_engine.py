@@ -208,6 +208,11 @@ def build_event_findings(observations: list[dict], findings: list[dict],
                                                for label in ("accepted", "rejected", "undecided")}},
             })
     def event_key(obs):
+        # Same precedence as `_same_referent`: the event instance wins over the
+        # semantic referent. Preferring referent_key here would merge two distinct
+        # events that happen to point at the same entity.
+        if obs.get("event_id"):
+            return obs["event_id"]
         return obs.get("referent_key") or f"timeline:{obs.get('start_ms')}:{obs.get('end_ms')}"
 
     groups={}
