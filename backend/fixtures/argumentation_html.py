@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 from html import escape
+import math
 from pathlib import Path
 
 from fixtures.argumentation_report import build
@@ -38,8 +39,8 @@ def _graph_svg(scenario: dict) -> str:
     arguments = scenario["arguments"]
     if not arguments:
         return ""
-    width, height = 880, 260
-    left, right, top = 150, 150, 40
+    width, height = 880, 310
+    left, right, top = 150, 150, 80
     span = max(1, len(arguments) - 1)
     step = (width - left - right) / span if len(arguments) > 1 else 0
     position = {
@@ -57,11 +58,19 @@ def _graph_svg(scenario: dict) -> str:
         if source not in position or target not in position:
             continue
         (x1, y1), (x2, y2) = position[source], position[target]
-        # Arc upward so whichever edge runs the other way stays distinguishable.
-        mid_x, mid_y = (x1 + x2) / 2, (y1 + y2) / 2 - 46
+        # Reverse edges bend to opposite sides. Stop at the circle boundary:
+        # arrows aimed at the centre would be hidden by the subsequently drawn node.
+        dx, dy = x2 - x1, y2 - y1
+        distance = math.hypot(dx, dy)
+        mid_x = (x1 + x2) / 2 - dy / distance * 48
+        mid_y = (y1 + y2) / 2 + dx / distance * 48
+        start_length = math.hypot(mid_x - x1, mid_y - y1)
+        end_length = math.hypot(mid_x - x2, mid_y - y2)
+        start_x, start_y = x1 + (mid_x - x1) / start_length * 49, y1 + (mid_y - y1) / start_length * 49
+        end_x, end_y = x2 + (mid_x - x2) / end_length * 49, y2 + (mid_y - y2) / end_length * 49
         parts.append(
-            f'<path d="M {x1:.0f} {y1:.0f} Q {mid_x:.0f} {mid_y:.0f} {x2:.0f} {y2:.0f}" '
-            f'fill="none" stroke="#98a2b3" stroke-width="1.6" marker-end="url(#arrow)"/>')
+            f'<path d="M {start_x:.0f} {start_y:.0f} Q {mid_x:.0f} {mid_y:.0f} {end_x:.0f} {end_y:.0f}" '
+            f'fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>')
     for argument in arguments:
         x, y = position[argument["id"]]
         fill, ink, _ = LABEL_STYLE.get(argument["label"], ("#f2f4f7", "#344054", ""))
@@ -173,8 +182,9 @@ grounded 标签——<b>不度量真实视频上的准确率</b>。</div>
 {"".join(sections)}
 <h2>检查结果</h2>{problems}
 <footer>由 <code>python -m fixtures.argumentation_html</code> 生成，请勿手工编辑。
-<p>grounded skeptical 语义下奇环会产生 UNDECIDED；当前规则集的攻击以双向偶环为主，
-因此 UNDECIDED 不出现——这是保守设计，不是求解器未生效。</p></footer>
+<p>grounded 标签由完整攻击与防御关系决定，不能只看环的奇偶。
+孤立的相互攻击也可能保持 UNDECIDED；本页首个场景由外部的 RELATION_MISSING 论证打破循环，
+因此得到 IN / OUT。此处四个场景不覆盖所有可能的论证图。</p></footer>
 </main></body></html>"""
 
 

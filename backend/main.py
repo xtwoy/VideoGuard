@@ -13,6 +13,7 @@ from fastapi.responses import HTMLResponse
 
 from database import get_review, save_review
 from pipeline import run_live, run_demo
+from fixtures.demo import DEMO_CASES, run_fixture_demo
 from report import render_html
 from src.argumentation import backend_info
 from src.pead_rules import load_rules
@@ -135,11 +136,22 @@ def create_review(
         raise HTTPException(status_code=502,detail={"review_id":review_id,"message":error})
     return get_review(review_id)
 
+@app.get("/api/demo/cases")
+def demo_cases():
+    return {"cases": DEMO_CASES}
+
+
 @app.post("/api/demo")
-def create_demo():
-    record={"id":uuid.uuid4().hex,"video_name":"合成示例｜非真实视频",
-            "sha256":"demo","duration_ms":25000,"mode":"DEMO",
-            "status":"DONE","result":run_demo(),"error":""}
+def create_demo(case: str | None = None):
+    if case is None:
+        demo = {"title": "综合示例", "duration_ms": 25000, "result": run_demo()}
+    else:
+        if case not in {item["id"] for item in DEMO_CASES}:
+            raise HTTPException(status_code=404, detail="找不到这个演示场景")
+        demo = run_fixture_demo(case)
+    record={"id":uuid.uuid4().hex,"video_name":f"合成示例｜{demo['title']}",
+            "sha256":"demo","duration_ms":demo["duration_ms"],"mode":"DEMO",
+            "status":"DONE","result":demo["result"],"error":""}
     save_review(record)
     return get_review(record["id"])
 
