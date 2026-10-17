@@ -183,6 +183,7 @@ def decide(observations: list[dict], duration_ms: int, coverage: str, gap_ms: in
     all_relation_pairs = set()
     for event, actions in sorted(events.items()):
         arguments, attacks, graph_notes = [], _BoundedAttacks(rules.limits.max_attacks), []
+        deferred_edges = []
         event_relation_pairs = set()
         resource_exceeded = False
         argument_lookup = {}
@@ -256,30 +257,40 @@ def decide(observations: list[dict], duration_ms: int, coverage: str, gap_ms: in
                         elif node["kind"] not in {"REFERENT_CONFLICT", "TARGET_UNKNOWN", "COUNTER_REFERENT_CONFLICT"} or (
                                 node["kind"] == "TARGET_UNKNOWN" and is_promotion and not choices):
                             pending.append(aid)
-                        if node["kind"] in {"REFERENT_CONFLICT", "TARGET_UNKNOWN"} and "encourages_same" in choices:
-                            target = _argument_id("MODEL_PROMOTION", action["id"], stance["id"])
-                            if target in argument_lookup:
-                                attacks.add((aid, target))
-                        if node["kind"] == "COUNTER_REFERENT_CONFLICT":
-                            target = _argument_id("MODEL_COUNTER", action["id"], stance["id"])
-                            if target in argument_lookup:
-                                attacks.add((aid, target))
+                        if node["kind"] in {"REFERENT_CONFLICT", "TARGET_UNKNOWN", "COUNTER_REFERENT_CONFLICT"}:
+                            # Deferred: the target may not be generated yet, and rule
+                            # priority decides generation order. Resolving after all
+                            # nodes exist keeps the attack edge independent of that
+                            # order — otherwise raising a rule's priority silently
+                            # deletes the structural conflict.
+                            deferred_edges.append(
+                                ("MODEL_COUNTER" if node["kind"] == "COUNTER_REFERENT_CONFLICT"
+                                 else "MODEL_PROMOTION", aid, action["id"], stance["id"],
+                                 frozenset(choices)))
                         if node["kind"] == "REFERENT_CONFLICT":
                             graph_notes.append("REFERENT_CONFLICT")
                 # Attacks are action-scoped, preventing another scene's warning from
                 # cancelling an independently supported dangerous-promotion claim.
                 for positive in supports:
+                    pos = argument_lookup[positive]
+                    pos_stance = [eid for eid in pos["premise_ids"] if eid != action["id"]]
                     for negative in counters:
                         neg = argument_lookup[negative]
-                        pos = argument_lookup[positive]
                         if neg["source"] == "unrelated" and neg["premise_ids"] != pos["premise_ids"]:
                             continue
                         attacks.add((positive, negative))
                         attacks.add((negative, positive))
                     for unknown in pending:
                         node = argument_lookup[unknown]
-                        targets = [by_id[eid] for eid in node["premise_ids"] if eid != action["id"]]
+                        unknown_stance = [eid for eid in node["premise_ids"] if eid != action["id"]]
+                        targets = [by_id[eid] for eid in unknown_stance]
                         if targets and all(_event(t) != event and _known_event(t) for t in targets):
+                            continue
+                        if unknown_stance and pos_stance and unknown_stance != pos_stance:
+                            # An unanswered relation for one stance must not cancel a
+                            # support built on a *different* stance whose answer was
+                            # verified. The graph reports the incomplete check
+                            # separately; it is not a reason to drop that support.
                             continue
                         attacks.add((unknown, positive))
                 unlocated_stance = [atom for atom in atoms if atom["tag"] in PROMOTION_TAGS | COUNTER_TAGS
@@ -292,6 +303,16 @@ def decide(observations: list[dict], duration_ms: int, coverage: str, gap_ms: in
                             attacks.add((blocker, positive))
         except ArgumentationLimitError:
             resource_exceeded = True
+        # Second phase: all argument nodes for this event now exist, so the
+        # cross-argument attack edges can be resolved without depending on the
+        # order rules happened to fire in.
+        for target_kind, source, action_id, stance_id, choices in deferred_edges:
+            required = "warns_same" if target_kind == "MODEL_COUNTER" else "encourages_same"
+            if required not in choices:
+                continue
+            target = _argument_id(target_kind, action_id, stance_id)
+            if target in argument_lookup:
+                attacks.add((source, target))
         all_relation_pairs.update(event_relation_pairs)
         try:
             if resource_exceeded:
@@ -310,12 +331,30 @@ def decide(observations: list[dict], duration_ms: int, coverage: str, gap_ms: in
         negative = [a for a in arguments if a["polarity"] == "COUNTER" and a.get("relation_scope_valid", True)]
         uncertainty = [a for a in arguments if a["polarity"] == "UNCERTAINTY"]
         accepted_positive = [a for a in positive if labels["labels"][a["id"]] == "IN"]
+        # An argument that means "this could not be determined" and is still standing
+        # blocks a risk verdict. Refutations of a model claim (referent conflicts) are
+        # deliberately excluded: they settle a doubt instead of opening one. So is any
+        # doubt about a stance that belongs to another event — the same scoping the
+        # attack edges use, otherwise an unlabelled phrase in the next scene would
+        # downgrade this scene's conclusion.
+        OPEN_UNCERTAINTY_KINDS = {"RELATION_MISSING", "RELATION_UNCERTAIN", "TARGET_UNKNOWN",
+                                  "TIME_UNCERTAIN", "UNLOCATED", "UNLOCATED_COUNTER"}
+
+        def _concerns_this_event(node):
+            stance_ids = [eid for eid in node["premise_ids"] if eid != node["target_action"]]
+            targets = [by_id[eid] for eid in stance_ids if eid in by_id]
+            return not (targets and all(_event(t) != event and _known_event(t) for t in targets))
+
+        open_uncertainty = any(a["kind"] in OPEN_UNCERTAINTY_KINDS
+                               and labels["labels"][a["id"]] == "IN"
+                               and _concerns_this_event(a) for a in uncertainty)
         decision_facts = dict(base_facts, resource_exceeded=resource_exceeded,
                               accepted_support=bool(accepted_positive),
                               accepted_model_support=any(a["origin"] == "MODEL" for a in accepted_positive),
                               has_support=bool(positive), has_counter=bool(negative),
                               referent_conflict="REFERENT_CONFLICT" in graph_notes,
                               has_uncertainty=bool(uncertainty),
+                              open_uncertainty=open_uncertainty,
                               model_counter=any(a["kind"] == "MODEL_COUNTER" for a in negative),
                               unrelated_confirmed=any("unrelated" in values for (aid, _), values in normalized_decisions.items()
                                                       if aid in {a["id"] for a in actions}))

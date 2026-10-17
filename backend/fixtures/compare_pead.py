@@ -215,7 +215,10 @@ def markdown(report: dict) -> str:
 def artifacts(report: dict, inputs: dict) -> dict[str, str]:
     dump = lambda value: json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
     stream = io.StringIO(newline="")
-    writer = csv.writer(stream)
+    # The repository stores text with LF (.gitattributes: `* text=auto eol=lf`) and
+    # `--check` compares raw bytes, so the writer must not emit CRLF even on Windows;
+    # otherwise the file only matches before it reaches git.
+    writer = csv.writer(stream, lineterminator="\n")
     writer.writerow(["mode", "name", "scenario", "reference_action", "without_pead", "with_pead",
                      "without_pead_reason", "with_pead_reason", "input_sha256"])
     for row in report["curated_cases"]:

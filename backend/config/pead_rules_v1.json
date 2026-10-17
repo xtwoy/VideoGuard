@@ -340,6 +340,25 @@
       "judgement": "NOT_SUPPORTED",
       "disposition": "NONE",
       "reason_code": "NO_SUPPORTING_RELATION"
+    },
+    {
+      "id": "D_UNCERTAIN_SUPPORT",
+      "description": "已接受支持但仍有开放未决论证时转人工复核（保留风险与证据，不改为放行）",
+      "priority": 950,
+      "when": {
+        "all_of": [
+          "accepted_support",
+          "open_uncertainty"
+        ],
+        "any_of": [],
+        "none_of": [
+          "referent_conflict",
+          "has_counter"
+        ]
+      },
+      "judgement": "INSUFFICIENT",
+      "disposition": "REVIEW",
+      "reason_code": "MISSING_SEMANTIC_RELATION"
     }
   ]
 }

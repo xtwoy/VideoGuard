@@ -277,4 +277,74 @@ class RuntimeTraceTests(unittest.TestCase):
             self.assertEqual(record['result']['findings'],[])
 
 
+class ArgumentConstructionTests(unittest.TestCase):
+    """The graph must describe the evidence, not the order rules happened to fire."""
+
+    def setUp(self):
+        self.raw = load_rules().model_dump(mode="json")
+        self.atoms = [
+            {"id": "A1", "tag": "danger_action", "referent_key": "EVT_A", "modality": "visual",
+             "start_ms": 100, "end_ms": 900, "source_refs": ["src:1"], "time_confidence": "HIGH"},
+            {"id": "P1", "tag": "encouragement", "referent_key": "EVT_B", "modality": "speech",
+             "start_ms": 100, "end_ms": 900, "source_refs": ["src:2"], "time_confidence": "HIGH"},
+        ]
+        self.decisions = [{"action_id": "A1", "stance_id": "P1", "stance": "encourages_same",
+                           "valid": True}]
+
+    def _run(self, raw, atoms=None, decisions=None):
+        ruleset = RuleSet.model_validate(raw)
+        return decide(atoms or self.atoms, 30_000, "FULL", 15_000,
+                      self.decisions if decisions is None else decisions,
+                      require_relation=True, counterfactual_limit=0, ruleset=ruleset)
+
+    def test_conflict_edge_survives_any_argument_priority_order(self):
+        """Generating the conflict argument first must not delete its attack edge.
+
+        The edge used to be added only when its target already existed, so raising
+        A_REFERENT_CONFLICT above A_MODEL_PROMOTION silently produced FLAG instead of
+        CONFLICTED — the model's wrong answer would have won.
+        """
+        default_finding, default_graph = self._run(json.loads(json.dumps(self.raw)))
+
+        boosted = json.loads(json.dumps(self.raw))
+        conflict = next(r for r in boosted["argument_rules"] if r["id"] == "A_REFERENT_CONFLICT")
+        promotion = next(r for r in boosted["argument_rules"] if r["id"] == "A_MODEL_PROMOTION")
+        conflict["priority"] = promotion["priority"] + 1
+        boosted_finding, boosted_graph = self._run(boosted)
+
+        def edges(graph):
+            return {(edge["source"].split(":")[0], edge["target"].split(":")[0])
+                    for edge in graph["attacks"]}
+
+        self.assertEqual((default_finding["judgement"], default_finding["disposition"]),
+                         ("CONFLICTED", "REVIEW"))
+        self.assertIn(("REFERENT_CONFLICT", "MODEL_PROMOTION"), edges(default_graph))
+        self.assertEqual(edges(default_graph), edges(boosted_graph))
+        self.assertEqual(boosted_finding["reason_code"], default_finding["reason_code"])
+
+    def test_an_unanswered_stance_does_not_cancel_a_verified_one(self):
+        """Verified support survives; the open doubt is reported as REVIEW instead."""
+        action = {"id": "A1", "tag": "danger_action", "referent_key": "EVT_A",
+                  "modality": "visual", "start_ms": 100, "end_ms": 900,
+                  "source_refs": ["src:a"], "time_confidence": "HIGH"}
+        stances = [{"id": f"P{i}", "tag": "encouragement", "referent_key": "EVT_A",
+                    "modality": "speech", "start_ms": 100, "end_ms": 900,
+                    "source_refs": [f"src:p{i}"], "time_confidence": "HIGH"}
+                   for i in range(1, 5)]
+        answered = [{"action_id": "A1", "stance_id": f"P{i}", "stance": "encourages_same",
+                     "valid": True} for i in range(1, 4)]
+
+        finding, graph = self._run(json.loads(json.dumps(self.raw)),
+                                   atoms=[action] + stances, decisions=answered)
+
+        for i in range(1, 4):
+            self.assertTrue(
+                any(a["kind"] == "LOCAL_PROMOTION" and f"P{i}" in a["id"] and a["label"] == "IN"
+                    for a in graph["arguments"]),
+                f"P{i} 的已核验支持被未核验话语击倒")
+            self.assertIn(f"P{i}", finding["supporting_ids"])
+        self.assertEqual((finding["judgement"], finding["disposition"]),
+                         ("INSUFFICIENT", "REVIEW"))
+        self.assertEqual(finding["reason_code"], "MISSING_SEMANTIC_RELATION")
+
 if __name__ == '__main__':unittest.main()
