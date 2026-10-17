@@ -6,6 +6,7 @@ import {
   AUDIT_STATUS_LABELS,
   COVERAGE_LABELS,
   DIMENSION_LABELS,
+  dimensionLabel,
   DISPOSITION_LABELS,
   JUDGEMENT_LABELS,
   MODALITY_LABELS,
@@ -439,9 +440,11 @@ export function SummaryTab({
 }: { report: AuditReport | null } & Seek) {
   if (!report) return <EmptyNote>当前没有可展示的结构化审核报告。</EmptyNote>;
 
-  const dimensions = (Object.entries(report.dimension_scores) as Array<
-    [keyof AuditReport["dimension_scores"], AuditDimension]
-  >).sort((a, b) => a[1].score - b[1].score);
+  // Records written before the rubric change still carry retired dimensions;
+  // render only the current set rather than printing raw keys for them.
+  const dimensions = (Object.entries(report.dimension_scores) as Array<[string, AuditDimension]>)
+    .filter(([key]) => key in DIMENSION_LABELS)
+    .sort((a, b) => a[1].score - b[1].score);
 
   const plans = report.revision_plan;
 
@@ -488,7 +491,7 @@ export function SummaryTab({
         <SectionHeading title="维度评分" hint="按评分由低到高，展开可看子项" />
         <div className="overflow-hidden rounded-md border border-rule">
           {dimensions.map(([key, dimension]) => (
-            <DimensionRow key={key} label={DIMENSION_LABELS[key]} dimension={dimension} />
+            <DimensionRow key={key} label={dimensionLabel(key)} dimension={dimension} />
           ))}
         </div>
       </section>

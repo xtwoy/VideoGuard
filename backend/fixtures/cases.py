@@ -9,7 +9,10 @@ a human-owned expectation file:
     <case>/video_parse_response.json      -> pipeline.clean_video_parse
     <case>/issue_locator_response.json    -> pipeline.clean_issue_locator
     <case>/relation_response.json         -> src.relation_client.validate_response
-    <case>/audit_report_response.json     -> src.audit_report.validate_audit_report
+    <case>/audit_report_response.json     historical stage-4 reply; kept frozen and
+                                          digest-checked, not replayed. Replies from
+                                          before the five-dimension rubric change
+                                          still carry retired dimensions on purpose.
     <case>/expectations.json              -> assertions owned by humans
     <case>/case.json                      -> title, purpose, derived outcome
 
@@ -101,14 +104,14 @@ def _clean_structure() -> dict:
     }
 
 
-def _analysis(summary: str, materials: list[str],
-              catalog: dict[str, tuple[int, int]], structure: dict,
+def _analysis(catalog: dict[str, tuple[int, int]], structure: dict,
               refs: list[str], issues: list[dict] | None = None,
               section_refs: dict[str, list[str]] | None = None) -> dict:
-    """Build content_analysis.
+    """Build ``content_analysis``.
 
-    ``refs`` is the default evidence set; ``section_refs`` optionally narrows an
-    individual section by its protocol key.
+    The protocol only carries audio/visual readability now: this product reviews
+    content safety, not commercial content quality. ``refs`` is the default
+    evidence set; ``section_refs`` optionally narrows the section by protocol key.
     """
     issues = list(issues or [])
     overrides = section_refs or {}
@@ -116,44 +119,12 @@ def _analysis(summary: str, materials: list[str],
     def section_issues(section: str) -> list[dict]:
         return [item for item in issues if item["category"] == section]
 
-    def section_block(section: str) -> dict:
-        key = section.lower()
+    def section_block(section: str, key: str) -> dict:
         return _section(overrides.get(key, refs), catalog, section_issues(section))
 
     return {
-        "material_completeness": {
-            **section_block("MATERIAL_COMPLETENESS"),
-            "summary": summary,
-            "observed_materials": list(materials),
-            "issues": section_issues("MATERIAL_COMPLETENESS"),
-        },
-        "structure": {
-            **section_block("STRUCTURE"),
-            "summary": structure["summary"],
-            "opening": structure["opening"],
-            "body": structure["body"],
-            "ending": structure["ending"],
-            "sequence": structure["sequence"],
-            "issues": section_issues("STRUCTURE"),
-        },
-        "hook": {
-            **section_block("HOOK"),
-            "summary": structure["hook_summary"],
-            "opening": structure["hook_opening"],
-            "script": structure.get("hook_script"),
-            "visual": structure.get("hook_visual"),
-            "issues": section_issues("HOOK"),
-        },
-        "subject_presentation": {
-            **section_block("SUBJECT_PRESENTATION"),
-            "summary": structure["subject_summary"],
-            "visibility": structure["subject_visibility"],
-            "demonstration": structure["subject_demonstration"],
-            "context": structure["subject_context"],
-            "issues": section_issues("SUBJECT_PRESENTATION"),
-        },
         "audio_visual_quality": {
-            **section_block("AUDIOVISUAL"),
+            **section_block("AUDIOVISUAL", "audio_visual_quality"),
             "summary": structure["media_summary"],
             "issues": section_issues("AUDIOVISUAL"),
         },
@@ -203,8 +174,6 @@ def _case_danger_promotion() -> dict:
         summary=_summary("博主演示一项无防护的危险动作，并鼓励观众模仿。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为室内自拍，动作与鼓励表述齐全，但缺少安全提示画面。",
-            ["室内自拍画面", "口播讲解", "动作演示"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F002"]},
         ),
@@ -279,8 +248,6 @@ def _case_warning_context() -> dict:
         summary=_summary("安全教育短片展示危险动作，并明确警示不要模仿。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为文字板与素材画面组合，警示表述完整。",
-            ["文字板画面", "素材画面", "旁白警示"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F002"]},
         ),
@@ -360,8 +327,6 @@ def _unrelated_scenario(relation_choice: str | None) -> dict:
         summary=_summary("博主演示滑板动作，并在后段推荐附近的咖啡店。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为户外生活记录，动作演示与推荐属于两个不同话题。",
-            ["户外街景", "动作演示", "口播推荐"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F002"]},
         ),
@@ -459,8 +424,6 @@ def _case_news_violence() -> dict:
         summary=_summary("新闻报道包含冲突现场画面，主播说明了报道语境。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为新闻栏目画面，包含现场报道片段。",
-            ["新闻片头", "现场报道画面", "主播口播"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001", "S001:F002"]},
         ),
@@ -525,8 +488,6 @@ def _case_privacy_screen_text() -> dict:
         summary=_summary("教程视频中的截图展示了含个人联系方式的界面。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为屏幕录制与口播讲解，包含一张含联系方式的截图。",
-            ["屏幕录制画面", "口播讲解", "截图素材"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001"]},
         ),
@@ -592,8 +553,6 @@ def _case_credential_claim() -> dict:
         summary=_summary("博主在推荐产品时声称专业资质，并使用了绝对化表述。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为口播推荐，缺少可核验的资质材料画面。",
-            ["口播讲解", "产品展示"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001"]},
         ),
@@ -646,8 +605,6 @@ def _case_partial_coverage() -> dict:
                          fact_catalog(shots),
                          limitations=["音轨损坏，后段内容未能观察。"]),
         content_analysis=_analysis(
-            "仅前段素材可观察，后段因音轨损坏无法评估。",
-            ["室内自拍画面"],
             fact_catalog(shots),
             _clean_structure() | {
                 "summary": "仅前段可评估，后段信息缺失。",
@@ -709,8 +666,6 @@ def _case_clean_negative() -> dict:
         ],
         summary=_summary("视频记录了一只猫在家中的日常状态。", refs, fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为家庭宠物日常记录，未出现需要处置的内容线索。",
-            ["宠物画面", "口播旁白"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001", "S001:F002"]},
         ),
@@ -786,8 +741,6 @@ def _single_cue_case(*, title: str, what: str, opening: str, cue_span: tuple[int
                       target_relation="UNCERTAIN", referent_key="EVT_MAIN")],
         summary=_summary(fact_summary, refs, fact_catalog(shots)),
         content_analysis=_analysis(
-            f"素材为口播与{cue_text}，包含一处需要人工核对的线索。",
-            ["口播讲解", cue_text],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001"]},
         ),
@@ -1028,8 +981,6 @@ def _case_relation_override_conflict() -> dict:
         summary=_summary("博主演示一次室内明火动作，随后提到自己想尝试跳伞。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为室内生活记录，动作演示与随后的个人计划属于两个话题。",
-            ["室内画面", "动作演示", "口播"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F002"]},
         ),
@@ -1113,8 +1064,6 @@ def _case_relation_wrong_encouragement() -> dict:
         summary=_summary("教育短片展示危险动作，旁白明确警示不要模仿。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为教育短片，包含危险动作与明确警示。",
-            ["教育画面", "素材画面", "旁白警示"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F001"]},
         ),
@@ -1201,8 +1150,6 @@ def _case_counter_context_tagging() -> dict:
         summary=_summary("博主演示危险动作，同一片段中既鼓励模仿也提醒不要模仿。", refs,
                          fact_catalog(shots)),
         content_analysis=_analysis(
-            "素材为室内自拍，动作、鼓励与安全提醒出现在同一事件中。",
-            ["室内画面", "动作演示", "口播"],
             fact_catalog(shots), _clean_structure(), refs,
             section_refs={"hook": ["S001:F002"]},
         ),

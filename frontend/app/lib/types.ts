@@ -113,10 +113,6 @@ export type AuditReport = {
     evidence_traceability: AuditDimension;
     safety_risk_control: AuditDimension;
     context_completeness: AuditDimension;
-    material_completeness: AuditDimension;
-    narrative_structure: AuditDimension;
-    hook_clarity: AuditDimension;
-    subject_presentation: AuditDimension;
     audiovisual_readability: AuditDimension;
   };
   revision_plan: AuditRevisionPlan[];

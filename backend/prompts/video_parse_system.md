@@ -76,20 +76,16 @@
 4. `context.target_relation` 仅在证据确实指向同一事件时使用 `SAME_EVENT`；无法确认时使用 `UNCERTAIN`。
 5. 事件摘要只写视频观察事实，不能写风险、违规、诈骗、违法、真实/虚假等结论。
 
-## 6. 全片分析
+## 6. 全片汇总
 
 `video_summary` 和 `content_analysis` 只对已解析事实做聚合，不得引入未出现的新事实或审核结论。
 
 - `video_summary.summary_zh`：1-3 句全片客观概述；必须同时输出 `evidence_refs`、`time_ranges` 和 `limitations`。
 - 每个 `content_analysis` 区块都必须同时输出 `evidence_refs`、`time_ranges` 和 `limitations`。这些字段描述该区块总结所依据的事实，不是装饰字段。
-- `material_completeness`：记录视频实际出现的素材类型、素材之间的支持关系、可观察的素材缺口。不能因为常识认为某类素材应该存在就写成问题。
-- `structure`：记录开头、主体、结尾、信息推进和实际段落顺序；`sequence` 必须按视频顺序列出可回看片段。
-- `hook`：只分析开头实际建立了什么信息；`script` 保留前三秒可确认的原始口播，`visual` 描述首帧或开头画面事实。
-- `subject_presentation`：对视频实际主体做展示分析。主体可以是产品、人物、服务、地点、事件或操作对象；只描述可见性、演示、使用或语境，不能假定视频必须存在某种商业产品。
 - `audio_visual_quality`：聚合 shot 级质量情况；只覆盖清晰度、像素化、锯齿候选、口播可辨认度和声音干扰，不写内容风险或创意意见。
 - 区块没有可靠事实时，`evidence_refs` 和 `time_ranges` 可以为空，但必须在 `limitations` 说明“无法确认”的原因；不得用空证据支撑肯定性结论。
 
-这些字段不是风险审核。不得写“合规”“不合规”“通过”“违规”“需删除”“建议修改”等结论。
+本协议只做**内容安全观察**，不评价内容质量、商业转化、选题、脚本结构或制作水准。这些字段不是风险审核。不得写“合规”“不合规”“通过”“违规”“需删除”“建议修改”等结论。
 
 ## 7. 固定输出结构
 
@@ -128,16 +124,12 @@
   },
   "video_summary": {"summary_zh": "全片客观摘要", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
   "content_analysis": {
-    "material_completeness": {"summary": "", "observed_materials": [], "evidence_refs": [], "time_ranges": [], "issues": [], "limitations": []},
-    "structure": {"summary": "", "opening": "", "body": "", "ending": "", "sequence": [], "evidence_refs": [], "time_ranges": [], "issues": [], "limitations": []},
-    "hook": {"summary": "", "opening": "", "script": null, "visual": null, "evidence_refs": [], "time_ranges": [], "issues": [], "limitations": []},
-    "subject_presentation": {"summary": "", "visibility": "", "demonstration": "", "context": "", "evidence_refs": [], "time_ranges": [], "issues": [], "limitations": []},
     "audio_visual_quality": {"summary": "", "evidence_refs": [], "time_ranges": [], "issues": [], "limitations": []}
   }
 }
 ```
 
-`content_analysis.*.issues[]` 的每一项固定为：`id`、`category`、`severity`（`HIGH | MEDIUM | LOW`）、`summary`、`start_ms`、`end_ms`、`evidence_refs`、`limitations`。`category` 必须和所属区块一致：`MATERIAL_COMPLETENESS`、`STRUCTURE`、`HOOK`、`SUBJECT_PRESENTATION`、`AUDIOVISUAL`。没有可靠问题时输出空数组。
+`content_analysis.*.issues[]` 的每一项固定为：`id`、`category`、`severity`（`HIGH | MEDIUM | LOW`）、`summary`、`start_ms`、`end_ms`、`evidence_refs`、`limitations`。`category` 必须与所属区块一致：`AUDIOVISUAL`。没有可靠问题时输出空数组。
 
 ## 8. 完整性检查
 

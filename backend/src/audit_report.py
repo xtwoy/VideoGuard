@@ -8,8 +8,7 @@ from src.redaction import redact
 
 DIMENSIONS = (
     "audit_coverage", "evidence_traceability", "safety_risk_control",
-    "context_completeness", "material_completeness", "narrative_structure",
-    "hook_clarity", "subject_presentation", "audiovisual_readability",
+    "context_completeness", "audiovisual_readability",
 )
 STATUSES = {"PASS", "WARNING", "FAIL", "MANUAL_REVIEW", "NOT_APPLICABLE"}
 VERDICTS = {"PUBLISHABLE", "NEEDS_REVISION", "BLOCKED", "MANUAL_REVIEW"}
@@ -21,15 +20,8 @@ ACTIONS = {
 }
 SCOPES = {"EVENT", "GLOBAL"}
 FACT_FIELDS = ("visual_facts", "speech_transcript", "subtitle_text", "screen_text", "audio_observations")
-ANALYSIS_SECTIONS = (
-    "material_completeness", "structure", "hook", "subject_presentation",
-    "audio_visual_quality",
-)
+ANALYSIS_SECTIONS = ("audio_visual_quality",)
 ANALYSIS_SECTION_LABELS = {
-    "material_completeness": "素材完整性",
-    "structure": "内容结构",
-    "hook": "开头信息建立",
-    "subject_presentation": "主体展示",
     "audio_visual_quality": "音画可读性",
 }
 
@@ -576,22 +568,6 @@ def _action_for(finding: dict, ranges: list[dict]) -> tuple[str, str, list[dict]
     return "MANUAL_REVIEW", "人工回看对应片段并核对语境、对象和发布要求；确认后再决定是否编辑或调整发布。", [], "人工已完成原视频和对应证据的复核，并记录处理结论。"
 
 
-def _evaluated_sections(detail: dict) -> dict[str, bool]:
-    """Which content-quality sections the parse actually assessed.
-
-    A section counts as assessed only when it cites traceable evidence. A section
-    with neither located issues nor evidence was never examined, and must not be
-    scored as if it had passed.
-    """
-    content=detail.get("content_analysis") if isinstance(detail, dict) else {}
-    return {
-        section.upper(): bool(
-            isinstance(content.get(section), dict)
-            and (content[section].get("evidence_refs") or content[section].get("issues")))
-        for section in ANALYSIS_SECTIONS
-    }
-
-
 def _roll_up(items: list[dict], label: str) -> tuple[int, str, str]:
     """Aggregate a dimension from its items, taking the worst reported state.
 
@@ -678,7 +654,7 @@ def _analysis_plan(issue_entries: list[tuple[str, dict]], catalog: dict[str, dic
     fact_refs=list(dict.fromkeys(fact_refs))
     video_summary="；".join(_text(catalog[ref]["content"],300) for ref in fact_refs[:6]) or "已定位内容分析问题的原始视频证据。"
     plan={
-        "id":f"R{plan_number:02d}", "section":"内容呈现与可读性", "scope":"GLOBAL", "event_id":None,
+        "id":f"R{plan_number:02d}", "section":"音画可读性", "scope":"GLOBAL", "event_id":None,
         "video":{"summary":video_summary,"time_ranges":_range_for(fact_refs,catalog)},
         "issues":[], "actions":[],
     }
@@ -849,7 +825,6 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
     if not safety_items:
         safety_items.append(_dimension_item("active_findings","需处理风险项",100,"PASS","未发现需要处置的风险 finding。",refs,catalog))
     context_uncertain=any(f.get("judgement") in {"CONFLICTED","INSUFFICIENT","UNKNOWN"} for f in active)
-    assessed=_evaluated_sections(detail)
     context_items=[_dimension_item(
         "observable_context","可观察语境",55 if context_uncertain else 90,
         "MANUAL_REVIEW" if context_uncertain else "PASS",
@@ -863,10 +838,6 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         "evidence_traceability":_dimension(trace_score,trace_status,trace_summary,trace_items,catalog),
         "safety_risk_control":_dimension(safety_score,safety_status,safety_summary,safety_items,catalog),
         "context_completeness":_dimension(context_score,context_status,context_summary,context_items,catalog),
-        "material_completeness":_analysis_dimension(analysis_entries,"MATERIAL_COMPLETENESS",refs,"素材完整性",catalog,evaluated=assessed["MATERIAL_COMPLETENESS"]),
-        "narrative_structure":_analysis_dimension(analysis_entries,"STRUCTURE",refs,"内容结构",catalog,evaluated=assessed["STRUCTURE"]),
-        "hook_clarity":_analysis_dimension(analysis_entries,"HOOK",refs,"开头信息建立",catalog,evaluated=assessed["HOOK"]),
-        "subject_presentation":_analysis_dimension(analysis_entries,"SUBJECT_PRESENTATION",refs,"主体展示",catalog,evaluated=assessed["SUBJECT_PRESENTATION"]),
         "audiovisual_readability":_audiovisual_dimension(analysis_entries,refs,readability,catalog),
     }
     # A dimension that never received evidence of its own is counted as
@@ -880,7 +851,7 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
     elif active:
         verdict="MANUAL_REVIEW"; direction="先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。"
     elif analysis_entries and coverage == "FULL":
-        verdict="NEEDS_REVISION"; direction="先回看并处理 P1、P2 内容呈现问题，确认具体剪辑或补充素材方案后，再进行人工复核。"
+        verdict="NEEDS_REVISION"; direction="先回看并处理音画可读性问题，确认具体重录或剪辑方案后，再进行人工复核。"
     elif coverage == "FULL" and not unevaluated:
         verdict="PUBLISHABLE"; direction="当前没有 PEAD 标记的需处理事项；发布前仍应完成常规人工复核。"
     else:

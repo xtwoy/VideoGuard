@@ -196,11 +196,9 @@ def check_video_parse() -> list[dict]:
                         "passed": key in template})
 
     content = keys_at(template, ["content_analysis"]) or set()
-    for section in ("material_completeness", "structure", "hook",
-                    "subject_presentation", "audio_visual_quality"):
-        results.append({"stage": "video_parse", "check": f"content_analysis.{section} 存在",
-                        "prompt": "有" if section in content else "缺失", "code": "必需",
-                        "passed": section in content})
+    results.append({"stage": "video_parse", "check": "content_analysis 只含音画可读性",
+                    "prompt": sorted(content), "code": ["audio_visual_quality"],
+                    "passed": content == {"audio_visual_quality"}})
 
     # Cue tags are NOT declared in the parse prompt: the parse protocol has no tag
     # field, and the locator asks about one tag at a time via a {{TAG}} template.

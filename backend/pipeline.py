@@ -185,48 +185,20 @@ def _clean_analysis_trace(raw: object, fact_map: dict[str, dict],
 
 def _clean_content_analysis(raw: object, fact_map: dict[str, dict],
                             duration_ms: int | None) -> dict:
+    """Keep only the audio/visual readability analysis.
+
+    This protocol reviews content safety, not commercial content quality. The
+    earlier material/structure/hook/subject blocks came from an e-commerce video
+    rubric and are no longer requested; if a provider still sends them they are
+    dropped rather than rejected.
+    """
     if not isinstance(raw, dict):
         raise ValueError("解析结果缺少 content_analysis 对象")
-    material=raw.get("material_completeness")
-    structure=raw.get("structure")
-    hook=raw.get("hook")
-    subject=raw.get("subject_presentation")
     media=raw.get("audio_visual_quality")
-    if not all(isinstance(item,dict) for item in (material,structure,hook,subject,media)):
-        raise ValueError("content_analysis 子项必须是对象")
+    if not isinstance(media,dict):
+        raise ValueError("content_analysis.audio_visual_quality 必须是对象")
     seen_ids:set[str]=set()
     return {
-        "material_completeness":{
-            **_clean_analysis_trace(material,fact_map,duration_ms,"material_completeness"),
-            "summary":_text(material.get("summary"),800),
-            "observed_materials":_text_list(material.get("observed_materials"),240,30),
-            "issues":_clean_analysis_issues(material.get("issues"),fact_map,duration_ms,seen_ids,"MATERIAL_COMPLETENESS"),
-        },
-        "structure":{
-            **_clean_analysis_trace(structure,fact_map,duration_ms,"structure"),
-            "summary":_text(structure.get("summary"),800),
-            "opening":_text(structure.get("opening"),600),
-            "body":_text(structure.get("body"),900),
-            "ending":_text(structure.get("ending"),600),
-            "sequence":_text_list(structure.get("sequence"),300,30),
-            "issues":_clean_analysis_issues(structure.get("issues"),fact_map,duration_ms,seen_ids,"STRUCTURE"),
-        },
-        "hook":{
-            **_clean_analysis_trace(hook,fact_map,duration_ms,"hook"),
-            "summary":_text(hook.get("summary"),800),
-            "opening":_text(hook.get("opening"),800),
-            "script":None if hook.get("script") is None else _text(hook.get("script"),500),
-            "visual":None if hook.get("visual") is None else _text(hook.get("visual"),600),
-            "issues":_clean_analysis_issues(hook.get("issues"),fact_map,duration_ms,seen_ids,"HOOK"),
-        },
-        "subject_presentation":{
-            **_clean_analysis_trace(subject,fact_map,duration_ms,"subject_presentation"),
-            "summary":_text(subject.get("summary"),800),
-            "visibility":_text(subject.get("visibility"),600),
-            "demonstration":_text(subject.get("demonstration"),600),
-            "context":_text(subject.get("context"),600),
-            "issues":_clean_analysis_issues(subject.get("issues"),fact_map,duration_ms,seen_ids,"SUBJECT_PRESENTATION"),
-        },
         "audio_visual_quality":{
             **_clean_analysis_trace(media,fact_map,duration_ms,"audio_visual_quality"),
             "summary":_text(media.get("summary"),800),

@@ -27,11 +27,7 @@
 | video_parse | 必填顶层字段 timeline | 通过 |  |
 | video_parse | 必填顶层字段 video_summary | 通过 |  |
 | video_parse | 必填顶层字段 content_analysis | 通过 |  |
-| video_parse | content_analysis.material_completeness 存在 | 通过 |  |
-| video_parse | content_analysis.structure 存在 | 通过 |  |
-| video_parse | content_analysis.hook 存在 | 通过 |  |
-| video_parse | content_analysis.subject_presentation 存在 | 通过 |  |
-| video_parse | content_analysis.audio_visual_quality 存在 | 通过 |  |
+| video_parse | content_analysis 只含音画可读性 | 通过 |  |
 | issue_locator | 适配器标签词表与 PEAD 的 VALID_TAGS 兼容 | 通过 |  |
 | issue_locator | schema 要求的字段与协议一致 | 通过 |  |
 | relation_check | 四类语义选择都在 system prompt 中说明 | 通过 |  |

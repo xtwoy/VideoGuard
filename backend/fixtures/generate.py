@@ -8,7 +8,10 @@ Output per case (backend/fixtures/cases/<case>/):
     video_parse_response.json      raw stage-1 provider response
     issue_locator_response.json    raw stage-2 provider response
     relation_response.json         raw stage-3 provider response (if pairs exist)
-    audit_report_response.json     stage-4 response, protocol-valid by construction
+    audit_report_response.json     stage-4 response. Frozen replies recorded before
+                                   the five-dimension rubric change are kept
+                                   byte-identical and only digest-checked; they are
+                                   history, not replayable input.
     expectations.json              human-owned assertions
     case.json                      title / purpose / summary of the run
 

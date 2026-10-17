@@ -25,18 +25,16 @@
 5. 没有 finding 不等于所有维度满分；分数必须由本维度输入证据决定。
 6. 视频事实和 observation 是机器辅助观察，除非输入明确标记人工核实，否则在 `limitations` 保留人工复核限制。
 
-## 3. 九个维度评分
+## 3. 五个维度评分
 
-必须输出以下九个固定维度。每个维度必须包含 `score`、`status`、`summary`、`items`、`evidence_refs`、`time_ranges`、`limitations`。每个 `items[]` 必须包含 `key`、`label`、`score`、`status`、`summary`、`evidence_refs`、`time_ranges`、`limitations`；维度顶层证据必须被 items 的证据完整覆盖。
+必须输出以下五个固定维度。每个维度必须包含 `score`、`status`、`summary`、`items`、`evidence_refs`、`time_ranges`、`limitations`。每个 `items[]` 必须包含 `key`、`label`、`score`、`status`、`summary`、`evidence_refs`、`time_ranges`、`limitations`；维度顶层证据必须被 items 的证据完整覆盖。
+
+本报告只评价**内容安全与证据可靠性**，不评价内容质量、商业效果、流量或制作水准。
 
 - `audit_coverage`：至少拆分视觉、口播、屏幕文字、声音四项；依据 coverage、对应事实和限制判断，不能把未观察到写成不存在。
 - `evidence_traceability`：至少拆分事实定位、observation 映射、finding 映射、报告映射；说明问题能否回到具体毫秒范围。
 - `safety_risk_control`：至少拆分活动 finding、FLAG 项、待复核项；只复述 PEAD，不重新判定风险。
 - `context_completeness`：至少拆分 stance、target_relation、counter_context、uncertainty；没有语境证据就 `MANUAL_REVIEW` 或写清限制。
-- `material_completeness`：依据 `content_analysis.material_completeness`，只评价视频实际出现的素材及已定位问题，不根据未提供的 Brief 或脚本猜缺失。
-- `narrative_structure`：依据 opening、body、ending、sequence 和 issues，记录实际信息推进、跳跃、重复、断裂或停滞，不评价流量或转化。
-- `hook_clarity`：依据开头事实和 Hook 分析，说明实际建立了什么主题、问题或观看理由；无依据不得猜测效果。
-- `subject_presentation`：主体可以是产品、人物、服务、地点、事件或操作对象，只评价可见性、演示、使用和语境。
 - `audiovisual_readability`：只评价清晰度、像素化、锯齿候选、口播可辨认度和声音干扰，不把内容风险或创意意见写成音画质量。
 
 状态只能为 `PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE`，分数为 0-100 整数，代表审核可用性和风险控制状态，不是流量、商业效果或法律评分。
@@ -64,7 +62,7 @@
 
 ## 6. 输出自检
 
-1. 九个维度均有 items、证据和时间范围，顶层证据由 items 完整覆盖。
+1. 五个维度均有 items、证据和时间范围，顶层证据由 items 完整覆盖。
 2. 每条 supporting evidence 均有自身 time_ranges，时间覆盖自身 ref。
 3. 所有问题、动作、维度时间和引用都来自输入。
 4. 所有非 `NONE` finding 和所有 analysis issue 都进入整改计划。
@@ -88,10 +86,6 @@
     "evidence_traceability": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "fact_localization", "label": "事实定位", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
     "safety_risk_control": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "active_findings", "label": "需处置审核项", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
     "context_completeness": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "observable_context", "label": "可观察语境", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
-    "material_completeness": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "observed_materials", "label": "已观察素材", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
-    "narrative_structure": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "sequence", "label": "信息推进", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
-    "hook_clarity": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "opening", "label": "开头事实", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
-    "subject_presentation": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "visibility", "label": "主体可见性", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []},
     "audiovisual_readability": {"score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "items": [{"key": "shot_readability", "label": "镜头可读性", "score": 0, "status": "PASS | WARNING | FAIL | MANUAL_REVIEW | NOT_APPLICABLE", "summary": "", "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}], "evidence_refs": ["S001:F001"], "time_ranges": [{"start_ms": 0, "end_ms": 1000, "evidence_refs": ["S001:F001"]}], "limitations": []}
   },
   "revision_plan": [{

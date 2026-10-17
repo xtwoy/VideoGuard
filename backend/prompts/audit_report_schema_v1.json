@@ -43,8 +43,8 @@
       }
     },
     "dimensions": {
-      "type": "object", "additionalProperties": false, "required": ["audit_coverage", "evidence_traceability", "safety_risk_control", "context_completeness", "material_completeness", "narrative_structure", "hook_clarity", "subject_presentation", "audiovisual_readability"],
-      "properties": {"audit_coverage": {"$ref": "#/$defs/dimension"}, "evidence_traceability": {"$ref": "#/$defs/dimension"}, "safety_risk_control": {"$ref": "#/$defs/dimension"}, "context_completeness": {"$ref": "#/$defs/dimension"}, "material_completeness": {"$ref": "#/$defs/dimension"}, "narrative_structure": {"$ref": "#/$defs/dimension"}, "hook_clarity": {"$ref": "#/$defs/dimension"}, "subject_presentation": {"$ref": "#/$defs/dimension"}, "audiovisual_readability": {"$ref": "#/$defs/dimension"}}
+      "type": "object", "additionalProperties": false, "required": ["audit_coverage", "evidence_traceability", "safety_risk_control", "context_completeness", "audiovisual_readability"],
+      "properties": {"audit_coverage": {"$ref": "#/$defs/dimension"}, "evidence_traceability": {"$ref": "#/$defs/dimension"}, "safety_risk_control": {"$ref": "#/$defs/dimension"}, "context_completeness": {"$ref": "#/$defs/dimension"}, "audiovisual_readability": {"$ref": "#/$defs/dimension"}}
     },
     "supportingEvidence": {
       "type": "object", "additionalProperties": false, "required": ["ref", "type", "content", "time_ranges", "limitations"],

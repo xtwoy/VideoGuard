@@ -51,17 +51,21 @@ export const AUDIT_STATUS_LABELS: Record<AuditStatus | AuditVerdict, string> = {
   BLOCKED: "存在阻断项",
 };
 
-export const DIMENSION_LABELS: Record<keyof AuditReport["dimension_scores"], string> = {
+/**
+ * Five safety/evidence dimensions. A plain lookup rather than a closed union so a
+ * record written before the rubric change still shows a label instead of a raw key.
+ */
+export const DIMENSION_LABELS: Record<string, string> = {
   audit_coverage: "审核覆盖",
   evidence_traceability: "证据可追溯性",
   safety_risk_control: "风险控制",
   context_completeness: "语境完整性",
-  material_completeness: "素材完整性",
-  narrative_structure: "内容结构",
-  hook_clarity: "开头信息建立",
-  subject_presentation: "主体展示",
   audiovisual_readability: "音视频可读性",
 };
+
+export function dimensionLabel(key: string): string {
+  return DIMENSION_LABELS[key] ?? key;
+}
 
 export const ACTION_LABELS: Record<AuditAction, string> = {
   MASK: "遮挡",

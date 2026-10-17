@@ -1,4 +1,4 @@
-# 样例数据集（fixtures）
+﻿# 样例数据集（fixtures）
 
 面向 `backend/` 四个模型阶段协议的可复用 mock 数据。**不调用任何网络**，也不复制流水线的校验逻辑——
 每个样例都送进项目自己的校验器（`clean_video_parse`、`clean_issue_locator`、
@@ -33,7 +33,7 @@ state = validate.simulate(                                  # 离线跑完整条
 )
 state["findings"]        # PEAD 的十类结论
 state["event_findings"]  # 事件级审计记录
-state["audit_report"]    # 九维度审核报告（可能为 None，见下）
+state["audit_report"]    # 五维度审核报告（可能为 None，见下）
 ```
 
 `tests/test_fixture_pack.py` 把上述内容接进了单元测试，`python -m unittest discover -s tests -v`
@@ -44,7 +44,7 @@ state["audit_report"]    # 九维度审核报告（可能为 None，见下）
 ```
 fixtures/
 ├── README.md              本文件
-├── cases.py               9 个用例的定义（人类维护的源头）
+├── cases.py               18 个用例的定义（人类维护的源头）
 ├── _build.py              构造原语（fact / shot / event / cue / trace …）
 ├── simulate.py            离线复刻 pipeline._run_models 的编排
 ├── generate.py            生成静态 JSON（写盘 / --check）
@@ -60,7 +60,7 @@ fixtures/
     ├── video_parse_response.json      阶段1 原始回包
     ├── issue_locator_response.json    阶段2 原始回包
     ├── relation_response.json         阶段3 原始回包（有候选对时才生成）
-    ├── audit_report_response.json     阶段4 回包（协议合法；部分用例为 null）
+    ├── audit_report_response.json     阶段4 回包（历史冻结；可能含已退役维度）
     ├── expectations.json              人工维护的断言
     └── case.json                      标题、目的、本次运行的实际结论
 ```
@@ -68,7 +68,7 @@ fixtures/
 > `demo_video_parse_response.json` / `demo_issue_locator_response.json` 是 `/api/demo`
 > 正在使用的旧样例，未纳入本数据集的用例管理。
 
-## 十七个用例
+## 十八个用例
 
 | 用例 | 覆盖场景 | 期望结论 |
 | --- | --- | --- |
@@ -372,6 +372,22 @@ python -m fixtures.prompt_contract --write   # 写入 reports/prompt-contract.md
 
 ## 自查后的输入冻结与生成器约定
 
-模型回包是测试输入，不能随着被测审核引擎改变而自动改成新引擎的输出。既有 `audit_report_response.json` 保持原始字节，SHA-256 记录在 `frozen_report_inputs.json`；变更时必须明确审查输入及其摘要。视频解析、问题定位和关系回包继续由固定场景定义校验。
+模型回包是测试输入，不能随着被测审核引擎改变而自动改成新引擎的输出。既有 `audit_report_response.json` 保持原始字节，SHA-256 记录在 `frozen_report_inputs.json`；变更时必须明确审查输入及其摘要。**注意**：这些回包记录于五维度评分改造之前，其中仍可能包含已退役的电商质量维度（素材完整性、内容结构、开头信息建立、主体展示）。它们不参与报告校验，仅用于漂移检查；当前协议只接受五个安全与证据维度。视频解析、问题定位和关系回包继续由固定场景定义校验。
 
 `generate.build_case()` 和 `--check` 默认只读；只有显式执行生成命令才写可生成文件，且不会重写冻结的报告输入。冻结报告文件丢失或摘要不符时应从版本控制恢复或明确审查更新，不会偷偷生成替代输入。模型回包中的错误检查状态和复核编辑建议由正式报告校验器按 PEAD 结果重建／规范化；原始回包保留以验证这条边界。
+
+
+## 前端场景演示与截图（2026-10-17）
+
+`fixtures.demo` 从现有冻结样例中选择 8 个场景，经过正式 `pipeline._run_models` 编排，
+通过 `GET /api/demo/cases` 与 `POST /api/demo?case={id}` 接入前端。所有记录均为 DEMO，
+模拟回包的阶段不会标成 LIVE；各输入文件 SHA-256 随结果保存。
+
+在生产前端与 HTTP 服务启动后，从仓库根目录运行：
+
+```powershell
+python -X utf8 backend/fixtures/capture_demo.py
+```
+
+生成 `docs/assets/demo/` 的 8 张真实页面截图及 `backend/reports/demo-showcase/` 离线报告集。
+运行步骤、场景和演示顺序见 `docs/13_演示场景与截图说明.md`。全程无需 WebSocket 或模型调用。

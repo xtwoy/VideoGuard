@@ -6,7 +6,7 @@
 
 1. 先读取 `video_parse` 和 `analysis_issues`，建立事实、事件、镜头质量和内容分析的证据目录；
 2. 再读取 `observations`、`event_findings` 和 `findings`，仅整理已有的审核结果，不重新判定政策；
-3. 先完成九个维度的逐项评分，每个维度必须输出 `items`、`evidence_refs`、`time_ranges`、`limitations`；
+3. 先完成五个安全与证据维度的逐项评分，每个维度必须输出 `items`、`evidence_refs`、`time_ranges`、`limitations`；
 4. 再建立 `revision_plan`：每个问题写清证据、问题位置、具体动作和验收条件；
 5. 最后根据已经完成的 `revision_plan` 生成 `overall_direction`。
 

@@ -37,11 +37,28 @@ class ProtocolTests(unittest.TestCase):
 
     def test_content_analysis_requires_a_limitation_when_it_has_no_evidence(self):
         broken = deepcopy(PARSE)
-        broken["content_analysis"]["hook"]["evidence_refs"] = []
-        broken["content_analysis"]["hook"]["time_ranges"] = []
-        broken["content_analysis"]["hook"]["limitations"] = []
+        section = broken["content_analysis"]["audio_visual_quality"]
+        section["evidence_refs"] = []
+        section["time_ranges"] = []
+        section["limitations"] = []
         with self.assertRaises(ValueError):
             clean_video_parse(broken, 25_000)
+
+    def test_content_analysis_only_carries_audio_visual_readability(self):
+        """Commercial content-quality blocks are not part of this protocol."""
+        parsed = clean_video_parse(PARSE, 25_000)
+        self.assertEqual(set(parsed["observation_detail"]["content_analysis"]),
+                         {"audio_visual_quality"})
+
+    def test_legacy_content_quality_blocks_are_dropped_not_rejected(self):
+        """A provider still sending the old blocks must not break the pipeline."""
+        legacy = deepcopy(PARSE)
+        legacy["content_analysis"]["material_completeness"] = {
+            "summary": "旧协议残留", "observed_materials": [], "evidence_refs": [],
+            "time_ranges": [], "issues": [], "limitations": ["历史字段"],
+        }
+        parsed = clean_video_parse(legacy, 25_000)
+        self.assertNotIn("material_completeness", parsed["observation_detail"]["content_analysis"])
 
     def test_shot_quality_cannot_cite_another_shot(self):
         broken = deepcopy(PARSE)
@@ -119,9 +136,10 @@ class ProtocolTests(unittest.TestCase):
 
     def test_analysis_issues_must_enter_the_revision_plan(self):
         raw = deepcopy(PARSE)
-        raw["content_analysis"]["hook"]["issues"] = [{
-            "id": "A_HOOK_01", "category": "HOOK", "severity": "LOW",
-            "summary": "开头信息建立较慢。", "start_ms": 1200, "end_ms": 2300,
+        raw["content_analysis"]["audio_visual_quality"]["issues"] = [{
+            "id": "A_AV_01", "category": "AUDIOVISUAL", "severity": "LOW",
+            "summary": "后段口播与背景音乐重叠，部分字句难以辨认。",
+            "start_ms": 1200, "end_ms": 2300,
             "evidence_refs": ["S001:F001", "S001:F002"], "limitations": [],
         }]
         parsed = clean_video_parse(raw, 25_000)
@@ -132,7 +150,7 @@ class ProtocolTests(unittest.TestCase):
             issue for plan in report["revision_plan"] for issue in plan["issues"]
             if issue["source"] == "ANALYSIS"
         ]
-        self.assertEqual(analysis_issues[0]["analysis_issue_ids"], ["A_HOOK_01"])
+        self.assertEqual(analysis_issues[0]["analysis_issue_ids"], ["A_AV_01"])
         report["revision_plan"] = [
             plan for plan in report["revision_plan"]
             if not any(issue["source"] == "ANALYSIS" for issue in plan["issues"])
