@@ -8,10 +8,6 @@ DIMENSION_LABELS = {
     "evidence_traceability": "证据可追溯性",
     "safety_risk_control": "风险控制状态",
     "context_completeness": "语境完整性",
-    "material_completeness": "素材完整性",
-    "narrative_structure": "内容结构",
-    "hook_clarity": "开头信息建立",
-    "subject_presentation": "主体展示",
     "audiovisual_readability": "音视频可读性",
 }
 VERDICT_LABELS = {
@@ -158,7 +154,10 @@ def audit_content(audit: object) -> str:
         return "<h2>审核报告</h2><section class=\"notice\">当前没有可用的结构化审核报告。</section>"
     verdict = audit.get("overall_verdict")
     dimensions = audit.get("dimension_scores") if isinstance(audit.get("dimension_scores"), dict) else {}
-    scores = "".join(score_card(name, dimensions.get(name)) for name in DIMENSION_LABELS)
+    # Render only dimensions that exist. A record written before a rubric change may
+    # carry retired keys; they are skipped rather than drawn as empty cards.
+    scores = "".join(score_card(name, dimensions[name])
+                     for name in DIMENSION_LABELS if isinstance(dimensions.get(name), dict))
     plans = audit.get("revision_plan") if isinstance(audit.get("revision_plan"), list) else []
     plans_html = "".join(plan_card(item) for item in plans if isinstance(item, dict)) or "<section class=\"plan\">当前没有结构化整改分组。</section>"
     limitations = audit.get("limitations") if isinstance(audit.get("limitations"), list) else []

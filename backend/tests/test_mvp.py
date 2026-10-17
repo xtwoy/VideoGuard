@@ -168,7 +168,17 @@ class ProtocolTests(unittest.TestCase):
         with patch("main.get_review", return_value=record):
             response = report_endpoint("demo-report")
         self.assertTrue(response.headers["content-disposition"].startswith("inline;"))
-        self.assertIn("主体展示", response.body.decode("utf-8"))
+        body = response.body.decode("utf-8")
+        for label in ("审核覆盖", "证据可追溯性", "风险控制状态", "语境完整性", "音视频可读性"):
+            self.assertIn(label, body)
+
+    def test_exported_html_report_does_not_show_retired_content_quality_dimensions(self):
+        """The printable report must not resurrect commercial quality dimensions."""
+        record = {"id": "demo-report", "video_name": "demo", "mode": "DEMO", "status": "DONE", "result": run_demo()}
+        with patch("main.get_review", return_value=record):
+            body = report_endpoint("demo-report").body.decode("utf-8")
+        for retired in ("素材完整性", "内容结构", "开头信息建立", "主体展示"):
+            self.assertNotIn(retired, body, f"导出的报告仍渲染已退役维度：{retired}")
 
     def test_model_chain_accepts_separate_parse_and_locator(self):
         def fake_parse(url, duration, title):
