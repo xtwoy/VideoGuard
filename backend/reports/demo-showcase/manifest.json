@@ -6,57 +6,57 @@
       "id": "danger_promotion",
       "title": "危险动作与鼓励模仿",
       "description": "展示同一事件内的支持证据、风险标注与整改建议。",
-      "review_id": "6e628108d2f6478894fe311b8ebd5428",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=6e628108d2f6478894fe311b8ebd5428&tab=brief"
+      "review_id": "a217b267b91a4cc8b76b0de139336360",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=a217b267b91a4cc8b76b0de139336360&tab=brief"
     },
     {
       "id": "warning_context",
       "title": "安全警示语境",
       "description": "展示危险画面与鼓励模仿的区别，警示不等同于诱导。",
-      "review_id": "10da17fcb34747ecb6f1fd62531adf83",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=10da17fcb34747ecb6f1fd62531adf83&tab=brief"
+      "review_id": "ef4e0fe6269743e5af42e2f11ab2d8db",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=ef4e0fe6269743e5af42e2f11ab2d8db&tab=brief"
     },
     {
       "id": "relation_wrong_encouragement",
       "title": "警示与模型判断冲突",
       "description": "模拟关系模型回答鼓励，但同一事件存在警示，查看 PEAD 如何保留冲突。",
-      "review_id": "5f451624d7b747c4b03935a1972ad6d6",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=5f451624d7b747c4b03935a1972ad6d6&tab=brief"
+      "review_id": "0319250739424ccc93581066a994030e",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=0319250739424ccc93581066a994030e&tab=brief"
     },
     {
       "id": "relation_override_conflict",
       "title": "跨事件误关联",
       "description": "模拟模型把不同事件的动作与话语关联，查看事件约束如何生效。",
-      "review_id": "1d75b46b90fb41bdaeec4becc67bc4f6",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=1d75b46b90fb41bdaeec4becc67bc4f6&tab=brief"
+      "review_id": "e442d41d9a4b4f5eacbd784f9a1fb321",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=e442d41d9a4b4f5eacbd784f9a1fb321&tab=brief"
     },
     {
       "id": "privacy_screen_text",
       "title": "屏幕文字隐私暴露",
       "description": "展示单模态证据、时间定位与隐私整改建议。",
-      "review_id": "214184e12bb94e2e856ad97aad44847d",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=214184e12bb94e2e856ad97aad44847d&tab=brief"
+      "review_id": "e984c40050d44213939f612cf6d76009",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=e984c40050d44213939f612cf6d76009&tab=brief"
     },
     {
       "id": "credential_claim",
       "title": "营销及资质声称",
       "description": "展示可观察线索与需外部核验的资质问题。",
-      "review_id": "fb549f48cd29453ca4cfc940c1acfa1b",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=fb549f48cd29453ca4cfc940c1acfa1b&tab=brief"
+      "review_id": "51eae63e88ef42659dec7439a5468fe2",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=51eae63e88ef42659dec7439a5468fe2&tab=brief"
     },
     {
       "id": "partial_coverage",
       "title": "观察不完整",
       "description": "展示音轨或观察缺失时的补充观察处置。",
-      "review_id": "9f62b254944b4d0c981e68a0cd1fd2b3",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=9f62b254944b4d0c981e68a0cd1fd2b3&tab=brief"
+      "review_id": "1bac02a9dd49463fae011fb9daa5c052",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=1bac02a9dd49463fae011fb9daa5c052&tab=brief"
     },
     {
       "id": "clean_negative",
       "title": "普通宠物日常",
       "description": "展示没有风险线索时的报告，不将其解释为合规保证。",
-      "review_id": "194f913d523c4efa9a117bbb32e46467",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=194f913d523c4efa9a117bbb32e46467&tab=brief"
+      "review_id": "c75313b7b7a141f1bc7cdfb238fd7895",
+      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=c75313b7b7a141f1bc7cdfb238fd7895&tab=brief"
     }
   ],
   "screenshots": [
@@ -71,7 +71,7 @@
     },
     {
       "file": "docs/assets/demo/02-overview.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=6e628108d2f6478894fe311b8ebd5428&tab=brief",
+      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=a217b267b91a4cc8b76b0de139336360&tab=brief",
       "sha256": "e7f93b8b28045a1df52266b9c7a132a96a3bfb1d511de66191d4859bc9a0f2fe",
       "viewport": [
         1600,
@@ -80,7 +80,7 @@
     },
     {
       "file": "docs/assets/demo/03-conflict-evidence.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=5f451624d7b747c4b03935a1972ad6d6&tab=audit",
+      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=0319250739424ccc93581066a994030e&tab=audit",
       "sha256": "f3e6808627c83b1b13439efb7e537458772cda4f259cd438841a2ada35b79d34",
       "viewport": [
         1600,
@@ -89,7 +89,7 @@
     },
     {
       "file": "docs/assets/demo/04-revision-plan.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=214184e12bb94e2e856ad97aad44847d&tab=summary",
+      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=e984c40050d44213939f612cf6d76009&tab=summary",
       "sha256": "0695bdb77da1577d16fad4f75a6f2b593747fe46526ea0668ac896e6123260eb",
       "viewport": [
         1600,
@@ -98,7 +98,7 @@
     },
     {
       "file": "docs/assets/demo/05-shot-timeline.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=6e628108d2f6478894fe311b8ebd5428&tab=shots",
+      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=a217b267b91a4cc8b76b0de139336360&tab=shots",
       "sha256": "fe97a2dd7cf89923ab95a20c8cf6d1deac4f4eb5990e5e486f70b7a6413b5666",
       "viewport": [
         1600,
@@ -107,7 +107,7 @@
     },
     {
       "file": "docs/assets/demo/06-partial-coverage.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=9f62b254944b4d0c981e68a0cd1fd2b3&tab=brief",
+      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=1bac02a9dd49463fae011fb9daa5c052&tab=brief",
       "sha256": "12734f16ee3fd06423bcfa46cb597902542c53614446db1638ef9daa9e25d964",
       "viewport": [
         1600,
@@ -117,7 +117,7 @@
     {
       "file": "docs/assets/demo/07-argumentation.png",
       "url": "http://127.0.0.1:8765/pead-argumentation.html",
-      "sha256": "1bed031fbd47c24497848f339ad168c9caa3f2c33f0984ddbf4ff45b7341d954",
+      "sha256": "619dd9af7d4e87a7e5dc028272a290ad04546d98d653d0b592133349d99eff35",
       "viewport": [
         1600,
         1220
@@ -125,8 +125,8 @@
     },
     {
       "file": "docs/assets/demo/08-html-report.png",
-      "url": "http://127.0.0.1:8000/api/reviews/214184e12bb94e2e856ad97aad44847d/report",
-      "sha256": "e8b3aac44662411426456c3d541c3d39d8681f49b22d9c8d5ab57a1ff3a2d56d",
+      "url": "http://127.0.0.1:8000/api/reviews/e984c40050d44213939f612cf6d76009/report",
+      "sha256": "3f79daf2a947309c4a909612d36f16165fc03717794a6eb79a37fdc0c4866f21",
       "viewport": [
         1600,
         1500
