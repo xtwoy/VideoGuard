@@ -157,6 +157,49 @@ class ProtocolTests(unittest.TestCase):
         ]
         self.assertIsNone(validate_audit_report(report, observations, findings, 25_000))
 
+    def _readability_only_report(self):
+        """A full-coverage video whose only problem is that it is hard to read."""
+        raw = deepcopy(PARSE)
+        raw["content_analysis"]["audio_visual_quality"]["issues"] = [{
+            "id": "A_AV_02", "category": "AUDIOVISUAL", "severity": "MEDIUM",
+            "summary": "背景音乐盖住口播，关键表述无法辨认。",
+            "start_ms": 1200, "end_ms": 2300,
+            "evidence_refs": ["S001:F001", "S001:F002"], "limitations": [],
+        }]
+        parsed = clean_video_parse(raw, 25_000)
+        observations = clean_issue_locator(LOCATOR, parsed)
+        benign = [{**finding, "judgement": "NOT_SUPPORTED", "disposition": "NONE"}
+                  for finding in run_demo()["findings"]]
+        report = build_fallback_audit_report(observations, benign, 25_000)
+        return report, observations, benign
+
+    def test_readability_problem_alone_does_not_ask_for_content_revision(self):
+        """Unreadable audio is "we could not judge", not "rewrite the video"."""
+        report, _, _ = self._readability_only_report()
+        self.assertEqual(report["overall_verdict"], "MANUAL_REVIEW")
+        self.assertNotEqual(report["overall_verdict"], "NEEDS_REVISION")
+        self.assertIn("音画可读性", report["overall_direction"])
+
+    def test_validator_rejects_needs_revision_driven_by_readability_alone(self):
+        report, observations, findings = self._readability_only_report()
+        candidate = deepcopy(report)
+        candidate["overall_verdict"] = "NEEDS_REVISION"
+        self.assertIsNone(validate_audit_report(candidate, observations, findings, 25_000))
+
+    def test_dimension_lists_stay_in_sync_across_the_three_definitions(self):
+        """The rubric lives in three files; a change to one must not drift."""
+        from src.audit_report import DIMENSIONS
+        from report import DIMENSION_LABELS
+
+        self.assertEqual(list(DIMENSIONS), list(DIMENSION_LABELS))
+
+        frontend = (ROOT.parent / "frontend" / "app" / "lib" / "labels.ts").read_text(encoding="utf-8")
+        for name in DIMENSIONS:
+            self.assertIn(f"{name}:", frontend, f"前端文案表缺少维度 {name}")
+        for retired in ("material_completeness", "narrative_structure",
+                        "hook_clarity", "subject_presentation"):
+            self.assertNotIn(f"{retired}:", frontend, f"前端文案表仍保留已退役维度 {retired}")
+
     def test_report_keeps_disconnected_evidence_ranges_separate(self):
         result = run_demo()
         claim = next(plan for plan in result["audit_report"]["revision_plan"] if plan["event_id"] == "EVT_CLAIM")

@@ -27,14 +27,6 @@ VALID_QUALITY_STATUS={"PASS","WARNING","FAIL","MANUAL_REVIEW"}
 VALID_QUALITY_OR_NA=VALID_QUALITY_STATUS|{"NOT_APPLICABLE"}
 VALID_ALIASING_STATUS={"PASS","WARNING","MANUAL_REVIEW"}
 VALID_SEVERITY={"HIGH","MEDIUM","LOW"}
-ANALYSIS_SECTIONS=("material_completeness","structure","hook","subject_presentation","audio_visual_quality")
-ANALYSIS_CATEGORIES={
-    "material_completeness":"MATERIAL_COMPLETENESS",
-    "structure":"STRUCTURE",
-    "hook":"HOOK",
-    "subject_presentation":"SUBJECT_PRESENTATION",
-    "audio_visual_quality":"AUDIOVISUAL",
-}
 VALID_TAGS={"danger_action","danger_description","encouragement","challenge","warning",
             "violence","news_context","fiction_context","pii_candidate",
             "credential_claim","marketing_claim","absolute_claim","self_harm_action",

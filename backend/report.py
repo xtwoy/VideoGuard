@@ -158,13 +158,18 @@ def audit_content(audit: object) -> str:
     # carry retired keys; they are skipped rather than drawn as empty cards.
     scores = "".join(score_card(name, dimensions[name])
                      for name in DIMENSION_LABELS if isinstance(dimensions.get(name), dict))
+    retired = [name for name in dimensions if name not in DIMENSION_LABELS]
+    retired_html = (
+        '<p class="muted">本记录含历史评分维度（' + h("、".join(retired))
+        + '），按当前五维协议展示；历史总分不能据此逐项解释。</p>'
+        if retired else "")
     plans = audit.get("revision_plan") if isinstance(audit.get("revision_plan"), list) else []
     plans_html = "".join(plan_card(item) for item in plans if isinstance(item, dict)) or "<section class=\"plan\">当前没有结构化整改分组。</section>"
     limitations = audit.get("limitations") if isinstance(audit.get("limitations"), list) else []
     limit_html = "".join(f"<li>{h(item)}</li>" for item in limitations if isinstance(item, str)) or "<li>未提供限制说明。</li>"
     return f"""<h2>审核结论</h2><section class="plan"><span class="pill {_style(verdict)}">{h(VERDICT_LABELS.get(verdict, verdict))}</span>
-<h3 class="score-title">综合评分：{h(audit.get('overall_score'))}</h3><p>{h(audit.get('executive_summary'))}</p><p><b>处理方向：</b>{h(audit.get('overall_direction'))}</p></section>
-<h2>维度评分</h2><div class="scores">{scores}</div><h2>问题定位与整改计划</h2>{plans_html}
+<h3 class="score-title">综合评分：{h(audit.get('overall_score'))}<small class="muted"> · 取最低维度，为保守下限，不是质量评分</small></h3><p>{h(audit.get('executive_summary'))}</p><p><b>处理方向：</b>{h(audit.get('overall_direction'))}</p></section>
+<h2>维度评分</h2>{retired_html}<div class="scores">{scores}</div><h2>问题定位与整改计划</h2>{plans_html}
 <details><summary>报告限制与人工复核提示</summary><ul>{limit_html}</ul></details>"""
 
 

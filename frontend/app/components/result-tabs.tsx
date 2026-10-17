@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ChevronRight, PlayCircle } from "lucide-react";
 import {
@@ -77,7 +77,7 @@ export function BriefTab({ result }: { result: ReviewResult }) {
             {report ? AUDIT_STATUS_LABELS[report.overall_verdict] : "已生成结构化审核结果"}
           </h3>
           {report ? (
-            <span className="tnum text-[13px] font-semibold text-ink-2">总评 {report.overall_score} 分</span>
+            <span className="tnum text-[13px] font-semibold text-ink-2">综合评分 {report.overall_score}（取最低维度）</span>
           ) : null}
         </div>        <p className="measure mt-3 text-[14px] leading-7 text-ink-2">
           {report?.executive_summary ?? "当前未生成审核总结。请查看具体证据与检查状态后再作判断。"}
@@ -455,7 +455,7 @@ export function SummaryTab({
           <h3 className="font-serif text-[22px] font-bold leading-tight text-ink">
             {AUDIT_STATUS_LABELS[report.overall_verdict]}
           </h3>
-          <span className="tnum text-[13px] font-semibold text-ink-2">总评 {report.overall_score} 分</span>
+          <span className="tnum text-[13px] font-semibold text-ink-2">综合评分 {report.overall_score}（取最低维度）</span>
         </div>
         <p className="measure mt-3 text-[14px] leading-7 text-ink-2">{report.executive_summary}</p>
         <p className="measure mt-3 border-l-2 border-rule-strong pl-3 text-[13px] leading-6 text-ink-2">

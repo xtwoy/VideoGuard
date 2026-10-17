@@ -468,8 +468,10 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
             raise ValueError("存在 FLAG 时报告总评不一致")
         if not has_flag and active and verdict != "MANUAL_REVIEW":
             raise ValueError("只有复核类 finding 时必须人工复核")
-        if not active and analysis and verdict != ("NEEDS_REVISION" if observation_result.get("coverage") == "FULL" else "MANUAL_REVIEW"):
-            raise ValueError("存在内容分析问题时报告总评不一致")
+        if not active and analysis and verdict != "MANUAL_REVIEW":
+            # Readability issues block a reliable judgement; they are not a
+            # finding that the content itself must be revised.
+            raise ValueError("只有音画可读性问题时必须人工复核，不得给出内容修改结论")
         if not active and not analysis:
             # A dimension that received no evidence of its own is reported as
             # UNEVALUATED_STATUS / UNEVALUATED_SCORE, and the report then cannot
@@ -850,8 +852,12 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         verdict="BLOCKED"; direction="先处理 P0 风险项并回看对应原片段；完成遮挡、移除或替换后，再进行人工复核。"
     elif active:
         verdict="MANUAL_REVIEW"; direction="先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。"
-    elif analysis_entries and coverage == "FULL":
-        verdict="NEEDS_REVISION"; direction="先回看并处理音画可读性问题，确认具体重录或剪辑方案后，再进行人工复核。"
+    elif analysis_entries:
+        # Readability problems mean the evidence itself was hard to read. That is
+        # "we could not judge reliably", not "the content needs rewriting", so it
+        # must not produce the content-revision verdict.
+        verdict="MANUAL_REVIEW"
+        direction="本次音画可读性不足，部分画面或口播无法可靠辨认；请回看原片或重新提供可辨识的素材后再复核。"
     elif coverage == "FULL" and not unevaluated:
         verdict="PUBLISHABLE"; direction="当前没有 PEAD 标记的需处理事项；发布前仍应完成常规人工复核。"
     else:
@@ -861,6 +867,10 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
         verdict="MANUAL_REVIEW"
         direction=("存在未完成评估的维度，需先补充该维度的证据或由人工判断，"
                    "不能据此给出可发布结论。")
+    # `overall_score` is the *lowest* dimension, not an average: it is a conservative
+    # gate, so one weak dimension blocks a comfortable-looking total. It therefore
+    # reads as "the weakest link", not "how good the video is". Every presentation
+    # surface must label it that way.
     candidate={"schema_version":"videoguard_audit_report_v1","overall_verdict":verdict,"overall_score":min(item["score"] for item in dimensions.values()),
             "executive_summary":("基于已验证的视频事实、问题定位和 PEAD 结果生成的审核报告。"
                                  if not unevaluated else
