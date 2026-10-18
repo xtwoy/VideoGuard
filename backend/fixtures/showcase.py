@@ -120,6 +120,7 @@ def _case_rooftop_parkour():
     ]}
     return {
         "title": "天台跨楼动作 + 明确鼓励模仿",
+        "expected": {"verdict":"BLOCKED","score":20,"active_findings":{"R_DANGER_PROMOTION":["SUPPORTED","FLAG"]}},
         "what_it_tests": "同一事件内的画面动作与口播鼓励，构成危险行为诱导。",
         "story": "俯拍十二层天台；男子翻越护栏跳过楼间两米空隙；随后对着镜头说"
                  "\u201c你们也试试，胆大一点就行\u201d。画面事实只描述动作与环境，"
@@ -172,6 +173,7 @@ def _case_rooftop_warning():
     ]}
     return {
         "title": "同一跨楼动作 + 明确劝阻模仿",
+        "expected": {"verdict":"PUBLISHABLE","score":90,"active_findings":{}},
         "what_it_tests": "动作事实相同、立场相反时，PEAD 不应判为诱导。",
         "story": "与上一案例使用同一组画面事实，只把 15 秒后的口播换成劝阻。"
                  "用于说明结论差异来自立场论证，而不是画面差异。",
@@ -227,6 +229,7 @@ def _case_cross_event():
     ]}
     return {
         "title": "跨事件误关联（厨房动作 × 骑行提醒）",
+        "expected": {"verdict":"MANUAL_REVIEW","score":55,"active_findings":{"R_DANGER_PROMOTION":["CONFLICTED","REVIEW"]}},
         "what_it_tests": "模型把两个不同场景的事件关联成同一件事时，结构证据能否否决。",
         "story": "厨房里男子跳过燃烧的灶眼；镜头随后切到户外骑行，骑手说\u201c这个动作我练了三个月，"
                  "别模仿\u201d。关系模型错误地把这句话当成对厨房动作的评价。",
@@ -278,6 +281,7 @@ def _case_id_card():
     ]}
     return {
         "title": "手机屏幕展示身份证照片",
+        "expected": {"verdict":"BLOCKED","score":20,"active_findings":{"R_PRIVACY_EXPOSURE":["SUPPORTED","FLAG"]}},
         "what_it_tests": "屏幕文字模态下的个人信息线索，与时间定位、整改建议的对应。",
         "story": "开箱视频里，博主把手机屏幕对着镜头，相册中是一张身份证正面照片；"
                  "直到 14 秒后才说\u201c这里我后面会打个码\u201d。",
@@ -320,6 +324,7 @@ def _case_puppy():
     locator = {"schema_version": "videoguard_issue_locator_v1", "limitations": [], "risk_cues": []}
     return {
         "title": "宠物日常（干净负例）",
+        "expected": {"verdict":"PUBLISHABLE","score":90,"active_findings":{}},
         "what_it_tests": "没有任何风险线索时，报告不应把\u201c未发现\u201d说成\u201c合规保证\u201d。",
         "story": "柯基在客厅追球，随后在沙发上睡着；口播只说\u201c今天给大家看看我家狗子\u201d。",
         "duration_ms": duration,

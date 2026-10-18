@@ -97,18 +97,24 @@ def build(name: str) -> dict:
     if second["meta"]["audit_report"] not in {"LIVE", "DEMO_SYNTHETIC"}:
         raise RuntimeError(f"{name}: 报告被拒绝为 {second['meta']['audit_report']}")
 
+    # Human-authored expectations must NOT be derived from the outcome under test.
+    actual = {
+        "verdict": report["overall_verdict"],
+        "score": report["overall_score"],
+        "active_findings": {f["policy_id"]: [f["judgement"], f["disposition"]]
+                            for f in second["findings"] if f["disposition"] != "NONE"},
+    }
+    expected = case["expected"]
+    if actual != expected:
+        raise ValueError(f"{name}: 展示场景与人工声明的期望不一致；expected={expected}, actual={actual}")
+
     files = {
         "case.json": {"name": name, "title": case["title"], "duration_ms": duration,
                       "what_it_tests": case["what_it_tests"], "story": case["story"],
                       "report_origin": "authored_synthetic",
                       # Declared expectations, checked by the demo test so a behaviour
                       # change cannot silently rewrite what the demo claims to show.
-                      "expectations": {
-                          "verdict": report["overall_verdict"],
-                          "score": report["overall_score"],
-                          "active_findings": {f["policy_id"]: [f["judgement"], f["disposition"]]
-                                               for f in second["findings"] if f["disposition"] != "NONE"},
-                      },
+                      "expectations": copy.deepcopy(expected),
                       "note": "展示用合成数据；报告为按本案例撰写并通过协议校验的合成回包。"},
         "video_parse_response.json": case["video_parse"],
         "issue_locator_response.json": case["issue_locator"],

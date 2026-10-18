@@ -59,6 +59,22 @@ class ShowcaseCatalogTests(unittest.TestCase):
                 info = json.loads((CASE_ROOT / entry["id"] / "case.json").read_text(encoding="utf-8"))
                 self.assertEqual(info["report_origin"], "authored_synthetic")
                 self.assertTrue(info["story"])
+                self.assertEqual(info["expectations"], showcase.CASES[entry["id"]]()["expected"],
+                                 "展示期望必须由人工在 showcase.py 声明，不能根据实际输出反推")
+
+    def test_screenshot_catalog_and_offline_pack_are_complete(self):
+        from fixtures.capture_demo import CAPTIONS, ROOT, EXPORTS
+        self.assertEqual(len(CAPTIONS), 10)
+        self.assertIn("06-warning-contrast.png", CAPTIONS)
+        self.assertNotIn("06-partial-coverage.png", CAPTIONS)
+        for name in CAPTIONS:
+            with self.subTest(screenshot=name):
+                self.assertTrue((ROOT / "docs" / "assets" / "demo" / name).is_file())
+                self.assertTrue((EXPORTS / "screenshots" / name).is_file())
+        index = (EXPORTS / "index.html").read_text(encoding="utf-8")
+        self.assertIn("5 个场景", index)
+        self.assertNotIn("八个场景", index)
+        self.assertIn("screenshots/06-warning-contrast.png", index)
 
 
 if __name__ == "__main__":
