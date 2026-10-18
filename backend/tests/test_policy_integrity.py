@@ -148,5 +148,93 @@ class RelationContractTests(unittest.TestCase):
         self.assertIn("decisions", entries[0]["note"])
 
 
+class UniformConfidenceTests(unittest.TestCase):
+    """Every policy derives evidence certainty from the cues it rests on."""
+
+    def _finding(self, observations, policy_id):
+        data = {"coverage": "FULL", "observations": observations,
+                "modalities": dict(ALL_FULL)}
+        return next(item for item in assess(data, 30_000)["findings"]
+                    if item["policy_id"] == policy_id)
+
+    def test_all_four_special_branches_inherit_low_confidence(self):
+        cases = [("violence", "visual", "R_VIOLENCE"),
+                 ("pii_candidate", "screen_text", "R_PRIVACY_EXPOSURE"),
+                 ("credential_claim", "speech", "R_MARKETING_CLAIM")]
+        for tag, modality, policy_id in cases:
+            with self.subTest(policy=policy_id):
+                cue = observation("E01", tag, modality)
+                cue["needs_human_review"] = True
+                finding = self._finding([cue], policy_id)
+                self.assertEqual(finding["evidence_confidence"], "LOW")
+                self.assertTrue(finding["needs_human_review"])
+
+    def test_pead_policy_inherits_it_too(self):
+        action = observation("E01", "danger_action", "visual")
+        stance = observation("E02", "encouragement", "speech")
+        for cue in (action, stance):
+            cue["needs_human_review"] = True
+        finding = self._finding([action, stance], "R_DANGER_PROMOTION")
+        self.assertEqual(finding["evidence_confidence"], "LOW")
+        self.assertTrue(finding["needs_human_review"])
+
+    def test_confident_cues_stay_high(self):
+        finding = self._finding([observation("E01", "self_harm_instruction")],
+                                "R_SELF_HARM")
+        self.assertEqual(finding["evidence_confidence"], "HIGH")
+        self.assertFalse(finding["needs_human_review"])
+
+
+class ReportCarriesUncertaintyTests(unittest.TestCase):
+    """The exported report must state that the cue itself is unconfirmed."""
+
+    def _case(self):
+        from fixtures.compare_pead import load_input
+        from pipeline import clean_issue_locator, clean_video_parse
+        from src.audit_report import build_fallback_audit_report
+
+        raw = load_input("self_harm_cue")
+        parsed = clean_video_parse(raw["video_parse"], raw["duration_ms"])
+        located = clean_issue_locator(raw["issue_locator"], parsed)
+        findings = assess(located, raw["duration_ms"])["findings"]
+        report = build_fallback_audit_report(located, findings, raw["duration_ms"])
+        return located, findings, report
+
+    def test_fallback_binds_the_note_to_the_evidence(self):
+        from src.audit_report import validate_audit_report
+
+        located, findings, report = self._case()
+        notes = [note for plan in report["revision_plan"] for issue in plan["issues"]
+                 for note in issue["uncertainties"]]
+        self.assertTrue(any("置信度不足" in note for note in notes), notes)
+        self.assertTrue(any("E01" in note for note in notes), notes)
+        self.assertIsNotNone(validate_audit_report(report, located, findings, 25_000))
+
+    def test_report_without_the_note_is_rejected(self):
+        import copy as copy_module
+
+        from src.audit_report import validate_audit_report
+
+        located, findings, report = self._case()
+        tampered = copy_module.deepcopy(report)
+        for plan in tampered["revision_plan"]:
+            for issue in plan["issues"]:
+                issue["uncertainties"] = []
+        self.assertIsNone(validate_audit_report(tampered, located, findings, 25_000))
+
+    def test_exported_html_shows_the_note(self):
+        from report import render_html
+
+        located, findings, report = self._case()
+        html = render_html({"id": "T1", "status": "DONE", "mode": "DEMO",
+                            "video_name": "x", "created_at": "t",
+                            "result": {"coverage": located["coverage"],
+                                        "findings": findings,
+                                        "audit_report": report}})
+        self.assertIn("线索置信度不足", html)
+        self.assertIn("E01", html)
+
+
+
 if __name__ == "__main__":
     unittest.main()

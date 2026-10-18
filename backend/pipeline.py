@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 from pathlib import Path
 from typing import Callable
 
@@ -15,6 +16,7 @@ from src.pead_engine import build_event_findings
 from src.audit_report import build_audit_context, build_fallback_audit_report, validate_audit_report
 from src.redaction import redact
 
+_ID_PATTERN=re.compile(r"[A-Za-z][A-Za-z0-9_-]*")
 VALID_COVERAGE={"FULL","PARTIAL","UNKNOWN","REFUSED","ERROR"}
 VALID_MODALITIES={"visual","speech","screen_text","sound","metadata"}
 VALID_TIME_LOCALIZATION={"RELIABLE","APPROXIMATE","UNAVAILABLE"}
@@ -50,6 +52,21 @@ MAX_EVENTS=100
 MAX_CUES=80
 MAX_FACTS_PER_SHOT=40
 MAX_ANALYSIS_ISSUES=40
+
+
+def _identifier(value, field: str, limit: int = 32) -> str:
+    """Validate an ID against the documented character set.
+
+    IDs travel to external services in request bodies and question text, and they are
+    not passed through 
+edact() because they are assumed to be technical tokens. A
+    provider that puts an e-mail address in event_id would otherwise be forwarded
+    verbatim, so the schema pattern is enforced here rather than trusted.
+    """
+    text = value if isinstance(value, str) else ""
+    if not text or len(text) > limit or not _ID_PATTERN.fullmatch(text):
+        raise ValueError(f"{field} 必须匹配 {_ID_PATTERN.pattern[:40]}（长度 {limit} 以内）")
+    return text
 
 
 def _text(value: object, limit: int) -> str:
@@ -271,7 +288,7 @@ def clean_video_parse(raw: dict, duration_ms: int | None = None) -> dict:
             for fact in values:
                 if not isinstance(fact,dict):
                     raise ValueError("时间线事实必须是对象")
-                fact_id=str(fact.get("fact_id", ""))[:32]
+                fact_id=_identifier(fact.get("fact_id"), "fact_id")
                 ref=f"{shot_id}:{fact_id}"
                 if not fact_id or ref in fact_map:
                     raise ValueError("fact_id 为空或重复")
@@ -298,7 +315,7 @@ def clean_video_parse(raw: dict, duration_ms: int | None = None) -> dict:
     for event in raw_events:
         if not isinstance(event,dict):
             raise ValueError("event 必须是对象")
-        event_id=str(event.get("event_id", ""))[:32]
+        event_id=_identifier(event.get("event_id"), "event_id")
         if not event_id or event_id in event_ids:
             raise ValueError("event_id 为空或重复")
         start,end=_time_range(event.get("start_ms"),event.get("end_ms"),duration_ms)

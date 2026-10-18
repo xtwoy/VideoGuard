@@ -504,6 +504,23 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 expected.add("MANUAL_REVIEW")
             if verdict not in expected:
                 raise ValueError("无风险 finding 时报告总评不一致")
+        # Low-confidence evidence must be stated in the report itself: the exported
+        # HTML can be saved and forwarded without the UI next to it. The note has to be
+        # bound to the finding's own evidence, not just contain the words "人工复核".
+        for finding_id, finding in active.items():
+            if not finding.get("needs_human_review"):
+                continue
+            own_ids=set(finding.get("supporting_ids") or [])
+            bound=False
+            for plan in clean_plans:
+                for issue in plan["issues"]:
+                    if finding_id not in issue.get("finding_ids", []):
+                        continue
+                    for note in issue.get("uncertainties", []):
+                        if any(evidence_id in note for evidence_id in own_ids):
+                            bound=True
+            if not bound:
+                raise ValueError(f"低置信度 finding {finding_id} 必须在报告中留下与该证据绑定的人工核实说明")
         return {"schema_version":"videoguard_audit_report_v1", "overall_verdict":verdict, "overall_score":raw["overall_score"],
                 "executive_summary":_text(raw.get("executive_summary"),1000), "dimension_scores":dimensions,
                 "revision_plan":clean_plans, "overall_direction":_text(raw.get("overall_direction"),1600),
@@ -772,10 +789,18 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             priority="P0" if finding.get("disposition") == "FLAG" else "P1"
             issue_id=f"I{issue_number:02d}"
             description=REASONS.get(finding.get("reason_code"),"该审核项需要结合原视频和可回溯证据人工核对。")
+            # Evidence certainty must survive into the report, not stop at the finding.
+            # The disposition stays as strong as the policy says; what changes is that
+            # the reader is told the cue behind it still needs confirming.
+            uncertainties=([] if evidence else ["该审核项没有可用的定位证据，需人工补充核查。"])
+            if finding.get("needs_human_review"):
+                ids="、".join(finding.get("supporting_ids", [])[:4]) or "未标注"
+                uncertainties.append(
+                    f"该审核项依据的线索置信度不足（证据 {ids}），需人工确认后再据此处置。")
             issue={"id":issue_id,"source":"FINDING","finding_ids":[fid],"analysis_issue_ids":[],"priority":priority,
                    "category":POLICY_NAMES.get(finding.get("policy_id"),finding.get("policy_id","内容安全")),"title":POLICY_NAMES.get(finding.get("policy_id"),"内容安全问题"),
                    "description":description,"time_ranges":ranges,"supporting_evidence":evidence,
-                   "uncertainties":[] if evidence else ["该审核项没有可用的定位证据，需人工补充核查。"]}
+                   "uncertainties":uncertainties}
             action,detail_text,target,acceptance=_action_for(finding,ranges)
             plan["issues"].append(issue)
             plan["actions"].append({"id":f"A{action_number:02d}","related_issue_ids":[issue_id],"action":action,"detail":detail_text,

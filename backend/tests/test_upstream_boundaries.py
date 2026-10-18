@@ -180,5 +180,54 @@ class RedactionTests(unittest.TestCase):
         self.assertIn("XX路88号", redact("地址 XX路88号"))
 
 
+class CapturePayloadShapeTests(unittest.TestCase):
+    """The capture tool must hand the locator the detail, not the wrapper."""
+
+    def _parsed(self):
+        raw = load_input(ROOT_CASE)
+        return clean_video_parse(copy.deepcopy(raw["video_parse"]), raw["duration_ms"])
+
+    def test_wrapper_and_detail_are_not_interchangeable(self):
+        from fixtures.upstream_capture import locator_payload
+
+        parsed = self._parsed()
+        wrong = build_jev_request(parsed)
+        right = build_jev_request(locator_payload(parsed))
+        self.assertEqual(wrong["state"]["events"], [])
+        self.assertEqual(wrong["questions"], {})
+        self.assertTrue(right["state"]["events"])
+        self.assertTrue(right["questions"])
+
+    def test_missing_detail_is_rejected_instead_of_silently_emptied(self):
+        from fixtures.upstream_capture import locator_payload
+
+        with self.assertRaises(ValueError):
+            locator_payload({"coverage": "FULL"})
+
+
+class StructuredIdentifierTests(unittest.TestCase):
+    """IDs are forwarded to external services, so the schema charset is enforced."""
+
+    def _raw(self):
+        return copy.deepcopy(load_input(ROOT_CASE)["video_parse"])
+
+    def test_email_in_event_id_is_rejected(self):
+        raw = self._raw()
+        raw["timeline"]["events"][0]["event_id"] = "alice@example.com"
+        with self.assertRaises(ValueError):
+            clean_video_parse(raw, 25_000)
+
+    def test_sensitive_text_in_fact_id_is_rejected(self):
+        raw = self._raw()
+        raw["timeline"]["shots"][0]["speech_transcript"][0]["fact_id"] = "张三 138-1234-5678"
+        with self.assertRaises(ValueError):
+            clean_video_parse(raw, 25_000)
+
+    def test_normal_identifiers_still_pass(self):
+        parsed = clean_video_parse(self._raw(), 25_000)
+        self.assertTrue(parsed["observation_detail"]["timeline"]["events"])
+
+
+
 if __name__ == "__main__":
     unittest.main()

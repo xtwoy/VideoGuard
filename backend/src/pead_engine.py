@@ -41,8 +41,8 @@ def relation_gap_ms()->int:
 def _f(policy_id: str, judgement: str, disposition: str,
        reason_code: str, supporting=(), counter=(), *,
        counter_checked: bool = False, counter_source: str = "NOT_APPLICABLE",
-       relation_checked: bool = False, evidence_confidence: str = "HIGH",
-       needs_human_review: bool = False) -> dict:
+       relation_checked: bool = False, evidence_confidence: str | None = None,
+       needs_human_review: bool | None = None) -> dict:
     """Build one finding, including the provenance of its counter evidence.
 
     ``counter_ids`` being empty is ambiguous on its own: it can mean "the counter
@@ -197,19 +197,27 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
             cues=tags(*configured_tags)
             unlocated_cues=all_with_tag(*configured_tags)
             if cues:
-                uncertain=any(x.get("needs_human_review") for x in cues)
                 findings.append(_f(
                     p,"SUPPORTED",policies[p].get("disposition","REVIEW"),
                     policies[p].get("reason_code","CONTENT_SAFETY_CUE"),
-                    [x["id"] for x in cues],
-                    evidence_confidence="LOW" if uncertain else "HIGH",
-                    needs_human_review=uncertain))
+                    [x["id"] for x in cues]))
             elif unlocated_cues or (invalid_tags & set(configured_tags)):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED"))
             elif coverage!="FULL" or modality_gap(p):
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_RELEVANT_CUE"))
+    # Evidence certainty is a property of the cues a finding rests on, so it is
+    # derived once for every policy instead of being passed by some branches only.
+    # A grounded "IN" says the argument survived, not that the upstream cue was sure.
+    by_id={e["id"]:e for e in good}
+    for finding in findings:
+        ids=[i for i in finding.get("supporting_ids",[]) if i in by_id]
+        uncertain=any(bool(by_id[i].get("needs_human_review")) for i in ids)
+        if finding.get("evidence_confidence") is None:
+            finding["evidence_confidence"]="LOW" if uncertain else "HIGH"
+        if finding.get("needs_human_review") is None:
+            finding["needs_human_review"]=uncertain
     return {"coverage":coverage,"invalid_evidence_ids":invalid,"findings":findings,"event_findings":build_event_findings(good, findings, duration_ms), "pead_audit":pead_audit}
 
 def build_event_findings(observations: list[dict], findings: list[dict],

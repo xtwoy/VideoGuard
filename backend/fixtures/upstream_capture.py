@@ -49,6 +49,20 @@ def _require_env(names: list[str]) -> None:
             "\n本脚本不会用任何 mock 数据代替真实调用。")
 
 
+def locator_payload(parsed: dict) -> dict:
+    """The part of `clean_video_parse` output the locator actually accepts.
+
+    `clean_video_parse` returns a wrapper whose `observation_detail` holds the
+    timeline; handing the wrapper to `locate_issues` yields no events, so the
+    locator returns empty cues *without calling the model*. Keeping the extraction
+    in one named place makes that easy to test.
+    """
+    detail = parsed.get("observation_detail")
+    if not isinstance(detail, dict):
+        raise ValueError("清洗结果缺少 observation_detail，不能送去问题定位")
+    return detail
+
+
 def capture(video: Path, title: str) -> dict:
     # Imported late so --help works without the project's dependencies loaded.
     from dotenv import load_dotenv
@@ -77,7 +91,7 @@ def capture(video: Path, title: str) -> dict:
     # sent to the locator service as-is, while the live path drops it.
     parsed = clean_video_parse(parse_raw, duration_ms)
     print("调用问题定位 …")
-    locator_raw = locate_issues(parsed)
+    locator_raw = locate_issues(locator_payload(parsed))
 
     return {
         "video_name": name,
