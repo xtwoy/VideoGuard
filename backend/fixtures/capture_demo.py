@@ -23,9 +23,9 @@ EXPORTS = ROOT / "backend" / "reports" / "demo-showcase"
 WORK = ROOT / "backend" / "data" / "demo-capture"
 CAPTIONS = {
     "01-upload.png": "上传与演示入口", "02-overview.png": "危险诱导：结论概览",
-    "03-conflict-evidence.png": "警示冲突：问题与证据", "04-revision-plan.png": "隐私暴露：整改建议",
-    "05-shot-timeline.png": "分镜时间线", "06-partial-coverage.png": "观察不完整：补充观察",
-    "07-argumentation.png": "PEAD 论证攻防", "08-html-report.png": "可独立打开的 HTML 报告",
+    "03-conflict-evidence.png": "跨事件误关联：问题与证据", "04-revision-plan.png": "隐私暴露：整改建议",
+    "05-shot-timeline.png": "分镜时间线", "06-warning-contrast.png": "同一动作不同立场：警示对照",
+    "07-argumentation.png": "独立工程样例：PEAD 论证攻防", "08-html-report.png": "可独立打开的 HTML 报告",
     "09-mobile-overview.png": "移动端 390px：结论概览",
     "10-mobile-audit.png": "移动端 390px：问题与证据",
 }
@@ -176,14 +176,14 @@ main{max-width:1000px;margin:50px auto;padding:24px}h1{font-size:32px}small,a{co
 article{background:white;border:1px solid #e4e7ec;border-radius:12px;padding:24px}h2{font-size:18px}
 img{display:block;width:100%;height:230px;object-fit:cover;object-position:top;border:1px solid #e4e7ec}
 p{color:#667085}a{font-weight:700;text-decoration:none}</style><main>
-<small>VIDEOGUARD-E / PEAD DEMONSTRATION</small><h1>八个场景，看清审核依据</h1>
+<small>VIDEOGUARD-E / PEAD DEMONSTRATION</small><h1>''' + str(len(catalog)) + ''' 个场景，看清审核依据</h1>
 <p>上游为冻结合成输入，PEAD 及报告校验真实执行。以下报告可离线打开；未调用外部模型，也未分析原视频。</p>
 <div class="grid">''' + cards + '</div><h1>实际页面截图</h1><p>点击缩略图查看原尺寸。'
         '<a href="pead-argumentation.html">打开完整攻防演示 →</a></p><div class="grid">'
         + gallery + '</div></main></html>\n', encoding="utf-8")
     (EXPORTS / "README.txt").write_text(
         "视鉴 VideoGuard-E 场景演示包\n\n"
-        "解压后打开 index.html。包含 8 份合成场景审核报告、10 张实际页面截图（含 2 张移动端）、完整攻防页面与 JSON 记录。\n"
+        f"解压后打开 index.html。包含 {len(catalog)} 份合成场景审核报告、{len(CAPTIONS)} 张实际页面截图（含 2 张移动端）、完整攻防页面与 JSON 记录。\n"
         "离线浏览无需安装依赖；请保留 screenshots 子目录。\n"
         "输入为冻结 Mock 数据，PEAD 与报告校验真实执行，未调用外部模型或分析原视频。\n"
         "manifest.json 中的 HTTP 审核链接需要原本地服务和数据库，离线报告不需要。\n",

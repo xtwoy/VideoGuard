@@ -36,8 +36,9 @@ class DemoScenarioTests(unittest.TestCase):
                     self.assertEqual(result["meta"]["audit_report"], "DEMO_SYNTHETIC")
                     expected = case_info["expectations"]
                     findings = {row["policy_id"]: row for row in result["findings"]}
-                    for policy, verdict in expected["active_findings"].items():
-                        self.assertEqual([findings[policy]["judgement"], findings[policy]["disposition"]], verdict)
+                    actual_active = {policy: [finding["judgement"], finding["disposition"]]
+                                     for policy, finding in findings.items() if finding["disposition"] != "NONE"}
+                    self.assertEqual(actual_active, expected["active_findings"])
                     self.assertEqual(result["audit_report"]["overall_verdict"], expected["verdict"])
                     self.assertEqual(result["audit_report"]["overall_score"], expected["score"])
                     self.assertTrue(result["meta"]["fixture_sha256"])
