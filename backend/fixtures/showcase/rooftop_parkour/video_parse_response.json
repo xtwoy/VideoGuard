@@ -1,0 +1,289 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 26000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 6000,
+        "continuity": "CUT",
+        "scene_summary": "俯拍居民楼天台，可见楼间空隙与护栏",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 500,
+            "end_ms": 5500,
+            "summary_zh": "俯拍一栋居民楼天台，金属护栏高约一米，外侧没有任何防护网，楼间空隙宽约两米。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 800,
+            "end_ms": 5000,
+            "summary_zh": "博主开场，语气兴奋。",
+            "verbatim_redacted": "今天带你们看点刺激的",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 6000,
+        "end_ms": 15000,
+        "continuity": "CUT",
+        "scene_summary": "男子翻越护栏跨过楼间空隙",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 6200,
+            "end_ms": 14500,
+            "summary_zh": "一名年轻男子翻过天台护栏，跨过两栋楼之间约两米宽的间隙落到相邻楼顶，脚下是十二层楼的高度。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 15000,
+        "end_ms": 22000,
+        "continuity": "CUT",
+        "scene_summary": "男子面对镜头说话",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 15200,
+            "end_ms": 18500,
+            "summary_zh": "男子面向镜头，鼓动观众尝试同一动作。",
+            "verbatim_redacted": "你们也试试，胆大一点就行，别怕",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S004",
+        "start_ms": 22000,
+        "end_ms": 26000,
+        "continuity": "CUT",
+        "scene_summary": "男子从楼梯口离开天台",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 22200,
+            "end_ms": 25800,
+            "summary_zh": "男子走向天台楼梯口，画面结束。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_ROOFTOP",
+        "start_ms": 6000,
+        "end_ms": 22000,
+        "event_type": "danger_demonstration",
+        "referent_key": "EVT_ROOFTOP",
+        "summary": "男子翻越天台护栏跨楼，随后面向镜头鼓励观众模仿。",
+        "evidence_refs": [
+          "S002:F001",
+          "S003:F001"
+        ],
+        "context": {
+          "stance": "ENCOURAGEMENT",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "summary_zh": "男子在十二层天台翻越护栏跨楼，并明确鼓励观众模仿同一动作。",
+    "evidence_refs": [
+      "S002:F001",
+      "S003:F001"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 6200,
+        "end_ms": 14500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      },
+      {
+        "start_ms": 15200,
+        "end_ms": 18500,
+        "evidence_refs": [
+          "S003:F001"
+        ]
+      }
+    ],
+    "limitations": []
+  },
+  "content_analysis": {
+    "audio_visual_quality": {
+      "summary": "画面与口播均清晰，可作为审核依据。",
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        }
+      ],
+      "issues": [],
+      "limitations": []
+    }
+  }
+}

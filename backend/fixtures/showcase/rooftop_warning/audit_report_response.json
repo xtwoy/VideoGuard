@@ -1,0 +1,324 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "PUBLISHABLE",
+  "overall_score": 90,
+  "executive_summary": "画面与上一案例相同：男子在十二层天台翻越护栏跨楼。区别在于他随后明确劝阻观众模仿并说明风险，因此不构成危险行为诱导。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S002:F001",
+            "S004:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 22200,
+              "end_ms": 25800,
+              "evidence_refs": [
+                "S004:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F002",
+            "S003:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 800,
+              "end_ms": 5000,
+              "evidence_refs": [
+                "S001:F002"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 19500,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001",
+        "S004:F001",
+        "S001:F002",
+        "S003:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001",
+            "S001:F002"
+          ]
+        },
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 19500,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 22200,
+          "end_ms": 25800,
+          "evidence_refs": [
+            "S004:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_S001:F001",
+          "label": "问题证据定位",
+          "score": 90,
+          "status": "PASS",
+          "summary": "S001:F001 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "安全风险控制的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "active_findings",
+          "label": "需处理风险项",
+          "score": 100,
+          "status": "PASS",
+          "summary": "未发现需要处置的风险 finding。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_ROOFTOP"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6000,
+              "end_ms": 22000,
+              "evidence_refs": [
+                "EVT_ROOFTOP"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_ROOFTOP"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6000,
+          "end_ms": 22000,
+          "evidence_refs": [
+            "EVT_ROOFTOP"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [],
+  "overall_direction": "本条按“危险行为诱导”策略不构成风险；动作本身的危险性属平台其他规范范畴，建议按现行安全条款人工判断是否保留。",
+  "limitations": [
+    "画面为合成演示素材。",
+    "本条仅覆盖“危险行为诱导”策略，不评价其他安全条款。"
+  ]
+}

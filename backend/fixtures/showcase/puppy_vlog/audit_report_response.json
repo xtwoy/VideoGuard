@@ -1,0 +1,292 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "PUBLISHABLE",
+  "overall_score": 90,
+  "executive_summary": "视频记录宠物狗的日常活动，没有出现危险行为、敏感信息或营销表述。本次审核未发现需要处理的风险线索。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S002:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 8300,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F002"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 6500,
+              "evidence_refs": [
+                "S001:F002"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001",
+        "S001:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 7500,
+          "evidence_refs": [
+            "S001:F001",
+            "S001:F002"
+          ]
+        },
+        {
+          "start_ms": 8300,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_S001:F001",
+          "label": "问题证据定位",
+          "score": 90,
+          "status": "PASS",
+          "summary": "S001:F001 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 7500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "安全风险控制的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "active_findings",
+          "label": "需处理风险项",
+          "score": 100,
+          "status": "PASS",
+          "summary": "未发现需要处置的风险 finding。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 7500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_PET"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 0,
+              "end_ms": 15000,
+              "evidence_refs": [
+                "EVT_PET"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_PET"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 0,
+          "end_ms": 15000,
+          "evidence_refs": [
+            "EVT_PET"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 300,
+              "end_ms": 7500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 300,
+          "end_ms": 7500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [],
+  "overall_direction": "无需整改。该结论只表示本次观察范围内未发现风险，不构成合规保证。",
+  "limitations": [
+    "画面为合成演示素材。",
+    "结论仅覆盖本次观察到的画面与口播，不代表对其他版本素材的保证。"
+  ]
+}

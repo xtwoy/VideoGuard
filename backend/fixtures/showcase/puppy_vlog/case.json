@@ -1,0 +1,14 @@
+{
+  "name": "puppy_vlog",
+  "title": "宠物日常（干净负例）",
+  "duration_ms": 15000,
+  "what_it_tests": "没有任何风险线索时，报告不应把“未发现”说成“合规保证”。",
+  "story": "柯基在客厅追球，随后在沙发上睡着；口播只说“今天给大家看看我家狗子”。",
+  "report_origin": "authored_synthetic",
+  "expectations": {
+    "verdict": "PUBLISHABLE",
+    "score": 90,
+    "active_findings": {}
+  },
+  "note": "展示用合成数据；报告为按本案例撰写并通过协议校验的合成回包。"
+}

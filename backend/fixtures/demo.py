@@ -1,4 +1,11 @@
-"""Curated, offline demonstrations using frozen inputs and production orchestration."""
+"""Curated, offline demonstrations using the authored showcase cases.
+
+The showcase cases are deliberately separate from ``fixtures/cases.py``: those are
+engineering fixtures (templated, adversarial, sometimes deliberately unrealistic),
+while these five carry a concrete story, fact-level evidence and a stage-4 report that
+passes the real validator. A demo therefore exercises the validated report path rather
+than the deterministic fallback.
+"""
 from __future__ import annotations
 
 import hashlib
@@ -7,17 +14,21 @@ from pathlib import Path
 
 from pipeline import _run_models, clean_issue_locator, clean_video_parse
 
-CASE_ROOT = Path(__file__).parent / "cases"
-DEMO_CASES = (
-    {"id": "danger_promotion", "title": "危险动作与鼓励模仿", "description": "展示同一事件内的支持证据、风险标注与整改建议。"},
-    {"id": "warning_context", "title": "安全警示语境", "description": "展示危险画面与鼓励模仿的区别，警示不等同于诱导。"},
-    {"id": "relation_wrong_encouragement", "title": "警示与模型判断冲突", "description": "模拟关系模型回答鼓励，但同一事件存在警示，查看 PEAD 如何保留冲突。"},
-    {"id": "relation_override_conflict", "title": "跨事件误关联", "description": "模拟模型把不同事件的动作与话语关联，查看事件约束如何生效。"},
-    {"id": "privacy_screen_text", "title": "屏幕文字隐私暴露", "description": "展示单模态证据、时间定位与隐私整改建议。"},
-    {"id": "credential_claim", "title": "营销及资质声称", "description": "展示可观察线索与需外部核验的资质问题。"},
-    {"id": "partial_coverage", "title": "观察不完整", "description": "展示音轨或观察缺失时的补充观察处置。"},
-    {"id": "clean_negative", "title": "普通宠物日常", "description": "展示没有风险线索时的报告，不将其解释为合规保证。"},
-)
+from . import showcase
+
+CASE_ROOT = Path(__file__).parent / "showcase"
+
+
+def _entries() -> tuple[dict, ...]:
+    entries = []
+    for name in showcase.CASE_ORDER:
+        case = showcase.CASES[name]()
+        entries.append({"id": name, "title": case["title"],
+                        "description": case["what_it_tests"]})
+    return tuple(entries)
+
+
+DEMO_CASES = _entries()
 
 
 def run_fixture_demo(case_id: str) -> dict:
@@ -46,7 +57,8 @@ def run_fixture_demo(case_id: str) -> dict:
     result["meta"].update({
         "video_parse": "DEMO_SYNTHETIC", "issue_locator": "DEMO_SYNTHETIC",
         "demo_case": case_id, "demo_title": entry["title"], "fixture_sha256": hashes,
-        "note": "上游输入为冻结合成数据；PEAD、规则求解及报告校验真实执行，未调用外部模型。",
+        "report_origin": info.get("report_origin", "authored_synthetic"),
+        "note": "上游输入为按案例撰写的合成数据；PEAD、规则求解及报告校验真实执行，未调用外部模型。",
     })
     for stage in ("relation_check", "audit_report"):
         if result["meta"][stage] == "LIVE":

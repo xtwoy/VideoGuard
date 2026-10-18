@@ -26,14 +26,20 @@ class DemoScenarioTests(unittest.TestCase):
                     self.assertEqual(response.status_code, 200, response.text)
                     record = response.json()
                     self.assertEqual(record["mode"], "DEMO")
-                    self.assertEqual(record["duration_ms"], 24000)
+                    case_info = json.loads((CASE_ROOT / entry["id"] / "case.json").read_text(encoding="utf-8"))
+                    self.assertEqual(record["duration_ms"], case_info["duration_ms"])
                     result = record["result"]
                     for stage in ("video_parse", "issue_locator", "relation_check", "audit_report"):
                         self.assertNotEqual(result["meta"][stage], "LIVE")
-                    expected = json.loads((CASE_ROOT / entry["id"] / "expectations.json").read_text(encoding="utf-8"))
+                    # The showcase cases carry an authored stage-4 report, so the demo
+                    # must run the validated report path, not the fallback template.
+                    self.assertEqual(result["meta"]["audit_report"], "DEMO_SYNTHETIC")
+                    expected = case_info["expectations"]
                     findings = {row["policy_id"]: row for row in result["findings"]}
-                    for policy, verdict in expected["findings"].items():
+                    for policy, verdict in expected["active_findings"].items():
                         self.assertEqual([findings[policy]["judgement"], findings[policy]["disposition"]], verdict)
+                    self.assertEqual(result["audit_report"]["overall_verdict"], expected["verdict"])
+                    self.assertEqual(result["audit_report"]["overall_score"], expected["score"])
                     self.assertTrue(result["meta"]["fixture_sha256"])
                     self.assertIsNotNone(result["audit_report"])
                     self.assertEqual(client.get(f"/api/reviews/{record['id']}").json(), record)

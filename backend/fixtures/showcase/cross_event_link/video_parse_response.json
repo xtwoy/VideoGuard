@@ -1,0 +1,306 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 24000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 6000,
+        "continuity": "CUT",
+        "scene_summary": "室内厨房，先热油",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 500,
+            "end_ms": 5500,
+            "summary_zh": "博主在厨房介绍做菜步骤。",
+            "verbatim_redacted": "先把油烧热再下锅",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 6000,
+        "end_ms": 12000,
+        "continuity": "CUT",
+        "scene_summary": "男子撑灶台跳过火焰",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 6300,
+            "end_ms": 11500,
+            "summary_zh": "一名男子单手撑住灶台边缘，从正在燃烧的灶眼上方跳过去，火焰高度约二十厘米。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 12000,
+        "end_ms": 18000,
+        "continuity": "CUT",
+        "scene_summary": "切换到户外骑行画面",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 12300,
+            "end_ms": 17500,
+            "summary_zh": "画面切到户外，一名骑手在公路上骑行。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [
+          {
+            "fact_id": "F002",
+            "start_ms": 12800,
+            "end_ms": 16800,
+            "summary_zh": "骑行男子对着镜头说话。",
+            "verbatim_redacted": "这个动作我练了三个月，别模仿",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S004",
+        "start_ms": 18000,
+        "end_ms": 24000,
+        "continuity": "CUT",
+        "scene_summary": "回到厨房收尾",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S004:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 18200,
+            "end_ms": 23500,
+            "summary_zh": "博主总结这次拍摄。",
+            "verbatim_redacted": "以上就是今天的分享",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_STOVE",
+        "start_ms": 6000,
+        "end_ms": 12000,
+        "event_type": "danger_demonstration",
+        "referent_key": "EVT_STOVE",
+        "summary": "厨房内男子撑灶台跳过燃烧的灶眼。",
+        "evidence_refs": [
+          "S002:F001"
+        ],
+        "context": {
+          "stance": "UNKNOWN",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      },
+      {
+        "event_id": "EVT_BIKE",
+        "start_ms": 12000,
+        "end_ms": 18000,
+        "event_type": "other",
+        "referent_key": "EVT_BIKE",
+        "summary": "户外骑行，骑手提醒观众不要模仿。",
+        "evidence_refs": [
+          "S003:F001",
+          "S003:F002"
+        ],
+        "context": {
+          "stance": "WARNING",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "summary_zh": "厨房里男子跳过燃烧灶眼；随后切到户外骑行画面，骑手提醒不要模仿。",
+    "evidence_refs": [
+      "S002:F001",
+      "S003:F002"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 6300,
+        "end_ms": 11500,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      },
+      {
+        "start_ms": 12800,
+        "end_ms": 16800,
+        "evidence_refs": [
+          "S003:F002"
+        ]
+      }
+    ],
+    "limitations": []
+  },
+  "content_analysis": {
+    "audio_visual_quality": {
+      "summary": "画面与口播均清晰，可作为审核依据。",
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F002"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6300,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12800,
+          "end_ms": 16800,
+          "evidence_refs": [
+            "S003:F002"
+          ]
+        }
+      ],
+      "issues": [],
+      "limitations": []
+    }
+  }
+}

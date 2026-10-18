@@ -1,0 +1,19 @@
+{
+  "name": "rooftop_parkour",
+  "title": "天台跨楼动作 + 明确鼓励模仿",
+  "duration_ms": 26000,
+  "what_it_tests": "同一事件内的画面动作与口播鼓励，构成危险行为诱导。",
+  "story": "俯拍十二层天台；男子翻越护栏跳过楼间两米空隙；随后对着镜头说“你们也试试，胆大一点就行”。画面事实只描述动作与环境，风险解释留给问题定位与 PEAD。",
+  "report_origin": "authored_synthetic",
+  "expectations": {
+    "verdict": "BLOCKED",
+    "score": 20,
+    "active_findings": {
+      "R_DANGER_PROMOTION": [
+        "SUPPORTED",
+        "FLAG"
+      ]
+    }
+  },
+  "note": "展示用合成数据；报告为按本案例撰写并通过协议校验的合成回包。"
+}

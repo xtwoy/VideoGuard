@@ -129,21 +129,22 @@ def main() -> int:
     shots = [screenshot(args.browser, f"{args.ui}/?{urlencode({'api': args.api})}", "01-upload.png",
                         height=1000, required="提交视频审核")]
     for case, tab, name, height in (
-        ("danger_promotion", "brief", "02-overview.png", 1250),
-        ("relation_wrong_encouragement", "audit", "03-conflict-evidence.png", 1250),
-        ("privacy_screen_text", "summary", "04-revision-plan.png", 1660),
-        ("danger_promotion", "shots", "05-shot-timeline.png", 1000),
-        ("partial_coverage", "brief", "06-partial-coverage.png", 1200),
+        ("rooftop_parkour", "brief", "02-overview.png", 1250),
+        ("cross_event_link", "audit", "03-conflict-evidence.png", 1250),
+        ("id_card_screen", "summary", "04-revision-plan.png", 1660),
+        ("rooftop_parkour", "shots", "05-shot-timeline.png", 1000),
+        # 同一动作、不同立场的对照，比"观察不完整"更能说明结论来自论证
+        ("rooftop_warning", "brief", "06-warning-contrast.png", 1200),
     ):
         shots.append(screenshot(args.browser, page(case, tab), name, height=height,
                                 required="PEAD 证据约束与论证裁决"))
     shots.append(screenshot(args.browser, f"{args.reports}/pead-argumentation.html", "07-argumentation.png",
                             height=1220, required="RELATION_MISSING"))
-    shots.append(screenshot(args.browser, f"{args.api}/api/reviews/{records['privacy_screen_text']['id']}/report",
+    shots.append(screenshot(args.browser, f"{args.api}/api/reviews/{records['rooftop_parkour']['id']}/report",
                             "08-html-report.png", height=1500, required="合成演示，非真实视频审核"))
-    shots.append(screenshot_narrow(args.browser, args.reports, page("danger_promotion", "brief"),
+    shots.append(screenshot_narrow(args.browser, args.reports, page("rooftop_parkour", "brief"),
                                    "09-mobile-overview.png", width=390, height=1500, required="结论概览"))
-    shots.append(screenshot_narrow(args.browser, args.reports, page("relation_wrong_encouragement", "audit"),
+    shots.append(screenshot_narrow(args.browser, args.reports, page("cross_event_link", "audit"),
                                    "10-mobile-audit.png", width=390, height=1600, required="问题与证据"))
     manifest = {"scope": "合成输入；真实 PEAD 执行；实际生产前端截图；没有外部模型调用。",
                 "transport": "HTTP/HTTPS; Chrome headless CLI (no WebSocket)",

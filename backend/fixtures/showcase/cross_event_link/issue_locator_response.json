@@ -1,0 +1,32 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "limitations": [],
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "danger_action",
+      "event_id": "EVT_STOVE",
+      "modality": "visual",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "男子在厨房撑住灶台跳过燃烧的灶眼。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    },
+    {
+      "cue_id": "E02",
+      "tag": "warning",
+      "event_id": "EVT_BIKE",
+      "modality": "speech",
+      "evidence_refs": [
+        "S003:F002"
+      ],
+      "observation": "另一场景中的骑手提醒观众不要模仿。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ]
+}

@@ -1,0 +1,472 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "MANUAL_REVIEW",
+  "overall_score": 55,
+  "executive_summary": "厨房镜头中男子跳过燃烧灶眼（EVT_STOVE）；随后画面切到户外骑行（EVT_BIKE），骑手的提醒属于另一场景。关系模型把两句关联为同一事件，被事件与指代约束否决。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6300,
+              "end_ms": 11500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 12300,
+              "end_ms": 17500,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S003:F002",
+            "S004:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 12800,
+              "end_ms": 16800,
+              "evidence_refs": [
+                "S003:F002"
+              ]
+            },
+            {
+              "start_ms": 18200,
+              "end_ms": 23500,
+              "evidence_refs": [
+                "S004:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S002:F001",
+        "S003:F001",
+        "S001:F001",
+        "S003:F002",
+        "S004:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 6300,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 12300,
+          "end_ms": 17500,
+          "evidence_refs": [
+            "S003:F001",
+            "S003:F002"
+          ]
+        },
+        {
+          "start_ms": 18200,
+          "end_ms": 23500,
+          "evidence_refs": [
+            "S004:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_E01",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E01 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6300,
+              "end_ms": 11500,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "trace_E02",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E02 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 12800,
+              "end_ms": 16800,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6300,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 12800,
+          "end_ms": 16800,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 55,
+      "status": "MANUAL_REVIEW",
+      "summary": "安全风险控制中部分子项需要人工复核。",
+      "items": [
+        {
+          "key": "finding_R_DANGER_PROMOTION",
+          "label": "危险行为诱导",
+          "score": 55,
+          "status": "MANUAL_REVIEW",
+          "summary": "不同观察对所指事件存在分歧。",
+          "evidence_refs": [
+            "E01",
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6300,
+              "end_ms": 11500,
+              "evidence_refs": [
+                "E01"
+              ]
+            },
+            {
+              "start_ms": 12800,
+              "end_ms": 16800,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6300,
+          "end_ms": 11500,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 12800,
+          "end_ms": 16800,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 55,
+      "status": "MANUAL_REVIEW",
+      "summary": "语境完整性中部分子项需要人工复核。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 55,
+          "status": "MANUAL_REVIEW",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_BIKE"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 12000,
+              "end_ms": 18000,
+              "evidence_refs": [
+                "EVT_BIKE"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_BIKE"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 12000,
+          "end_ms": 18000,
+          "evidence_refs": [
+            "EVT_BIKE"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [
+    {
+      "id": "R01",
+      "section": "厨房内男子撑灶台跳过燃烧的灶眼。",
+      "scope": "EVENT",
+      "event_id": "EVT_STOVE",
+      "video": {
+        "summary": "厨房内男子撑灶台跳过燃烧的灶眼。",
+        "time_ranges": [
+          {
+            "start_ms": 6000,
+            "end_ms": 12000,
+            "evidence_refs": [
+              "EVT_STOVE"
+            ]
+          }
+        ]
+      },
+      "counter_evidence": {
+        "checked": true,
+        "source": "COUNTER_CONTEXT_TAGS",
+        "sources": [
+          "COUNTER_CONTEXT_TAGS"
+        ],
+        "found": false,
+        "relation_checked": true,
+        "relation_status": "COMPLETE",
+        "relation_candidate_pairs": 1,
+        "relation_checked_pairs": 1
+      },
+      "issues": [
+        {
+          "id": "I01",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_DANGER_PROMOTION"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P1",
+          "category": "危险行为诱导",
+          "title": "危险行为诱导",
+          "description": "厨房动作与骑行提醒分属两个事件，模型的关系回答与结构化证据冲突，因此不采信“同一事件”的关联。",
+          "time_ranges": [
+            {
+              "start_ms": 6300,
+              "end_ms": 11500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E01",
+              "type": "OBSERVATION",
+              "content": "男子在厨房撑住灶台跳过燃烧的灶眼。",
+              "time_ranges": [
+                {
+                  "start_ms": 6300,
+                  "end_ms": 11500,
+                  "evidence_refs": [
+                    "E01"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F001",
+              "type": "FACT",
+              "content": "一名男子单手撑住灶台边缘，从正在燃烧的灶眼上方跳过去，火焰高度约二十厘米。",
+              "time_ranges": [
+                {
+                  "start_ms": 6300,
+                  "end_ms": 11500,
+                  "evidence_refs": [
+                    "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": [],
+          "low_confidence_evidence": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "MANUAL_REVIEW",
+          "detail": "回看 00:06-00:12 与 00:12-00:18 两段，确认两者是否为同一次拍摄与同一主体。",
+          "target_time_ranges": [],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "确认后重新提交；若确属两次拍摄，应拆分为两个独立素材审核。"
+        }
+      ]
+    }
+  ],
+  "overall_direction": "本事件按“关系冲突”转人工复核：需确认厨房动作是否有其他鼓励表述，并核对骑行画面是否与厨房内容属于同一次拍摄。",
+  "limitations": [
+    "画面为合成演示素材。",
+    "关系模型回答为构造的错误关联，用于验证结构约束。"
+  ]
+}

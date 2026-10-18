@@ -1,0 +1,527 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "BLOCKED",
+  "overall_score": 20,
+  "executive_summary": "视频在十二层天台拍摄，男子翻越护栏跳过楼间空隙，随后明确鼓励观众模仿。画面中的高度、缺失防护与口播中的鼓动共同指向危险行为诱导。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001",
+            "S002:F001",
+            "S004:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            },
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 22200,
+              "end_ms": 25800,
+              "evidence_refs": [
+                "S004:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F002",
+            "S003:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 800,
+              "end_ms": 5000,
+              "evidence_refs": [
+                "S001:F002"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 18500,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S002:F001",
+        "S004:F001",
+        "S001:F002",
+        "S003:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001",
+            "S001:F002"
+          ]
+        },
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        },
+        {
+          "start_ms": 22200,
+          "end_ms": 25800,
+          "evidence_refs": [
+            "S004:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_E01",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E01 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "trace_E02",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E02 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 15200,
+              "end_ms": 18500,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 20,
+      "status": "FAIL",
+      "summary": "安全风险控制中存在未通过的子项。",
+      "items": [
+        {
+          "key": "finding_R_DANGER_PROMOTION",
+          "label": "危险行为诱导",
+          "score": 20,
+          "status": "FAIL",
+          "summary": "该风险项需要人工结合原片核对。",
+          "evidence_refs": [
+            "E01",
+            "E02"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 18500,
+              "evidence_refs": [
+                "E02"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01",
+        "E02"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6200,
+          "end_ms": 14500,
+          "evidence_refs": [
+            "E01"
+          ]
+        },
+        {
+          "start_ms": 15200,
+          "end_ms": 18500,
+          "evidence_refs": [
+            "E02"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_ROOFTOP"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 6000,
+              "end_ms": 22000,
+              "evidence_refs": [
+                "EVT_ROOFTOP"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_ROOFTOP"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 6000,
+          "end_ms": 22000,
+          "evidence_refs": [
+            "EVT_ROOFTOP"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 5500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 5500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [
+    {
+      "id": "R01",
+      "section": "男子翻越天台护栏跨楼，随后面向镜头鼓励观众模仿。",
+      "scope": "EVENT",
+      "event_id": "EVT_ROOFTOP",
+      "video": {
+        "summary": "男子翻越天台护栏跨楼，随后面向镜头鼓励观众模仿。",
+        "time_ranges": [
+          {
+            "start_ms": 6000,
+            "end_ms": 22000,
+            "evidence_refs": [
+              "EVT_ROOFTOP"
+            ]
+          }
+        ]
+      },
+      "counter_evidence": {
+        "checked": true,
+        "source": "COUNTER_CONTEXT_TAGS",
+        "sources": [
+          "COUNTER_CONTEXT_TAGS"
+        ],
+        "found": false,
+        "relation_checked": true,
+        "relation_status": "COMPLETE",
+        "relation_candidate_pairs": 1,
+        "relation_checked_pairs": 1
+      },
+      "issues": [
+        {
+          "id": "I01",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_DANGER_PROMOTION"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P0",
+          "category": "危险行为诱导",
+          "title": "危险行为诱导",
+          "description": "6 秒处男子翻越天台护栏跨过楼间空隙，下方为十二层高度；15 秒处同一男子面向镜头鼓励观众尝试，构成本事件内的诱导表述。",
+          "time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 18500,
+              "evidence_refs": [
+                "E02",
+                "S003:F001"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E01",
+              "type": "OBSERVATION",
+              "content": "画面中男子翻越天台护栏跳过楼间空隙，下方为十二层高度。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 14500,
+                  "evidence_refs": [
+                    "E01"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "E02",
+              "type": "OBSERVATION",
+              "content": "同一男子随后面对镜头，鼓动观众尝试同样的动作。",
+              "time_ranges": [
+                {
+                  "start_ms": 15200,
+                  "end_ms": 18500,
+                  "evidence_refs": [
+                    "E02"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F001",
+              "type": "FACT",
+              "content": "一名年轻男子翻过天台护栏，跨过两栋楼之间约两米宽的间隙落到相邻楼顶，脚下是十二层楼的高度。",
+              "time_ranges": [
+                {
+                  "start_ms": 6200,
+                  "end_ms": 14500,
+                  "evidence_refs": [
+                    "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S003:F001",
+              "type": "FACT",
+              "content": "男子面向镜头，鼓动观众尝试同一动作。",
+              "time_ranges": [
+                {
+                  "start_ms": 15200,
+                  "end_ms": 18500,
+                  "evidence_refs": [
+                    "S003:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": [],
+          "low_confidence_evidence": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "REMOVE",
+          "detail": "移除或遮挡 00:15-00:18 的鼓动口播，并对 00:06-00:15 的跨楼动作做下架处理。",
+          "target_time_ranges": [
+            {
+              "start_ms": 6200,
+              "end_ms": 14500,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            },
+            {
+              "start_ms": 15200,
+              "end_ms": 18500,
+              "evidence_refs": [
+                "E02",
+                "S003:F001"
+              ]
+            }
+          ],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "回看画面确认护栏、楼间空隙与楼层高度，确认整改后不再出现可模仿的完整动作链。"
+        }
+      ]
+    }
+  ],
+  "overall_direction": "先对鼓励模仿的口播与整段跨楼动作做下架或移除处理，再评估是否保留动作回放；不建议以“挑战”或“教程”形式重新发布同一素材。",
+  "limitations": [
+    "画面为合成演示素材，未对真实平台内容做识别验证。",
+    "楼层高度由画面推断，未做实地测量。"
+  ]
+}

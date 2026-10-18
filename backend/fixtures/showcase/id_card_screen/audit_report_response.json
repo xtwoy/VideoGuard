@@ -1,0 +1,398 @@
+{
+  "schema_version": "videoguard_audit_report_v1",
+  "overall_verdict": "BLOCKED",
+  "overall_score": 20,
+  "executive_summary": "00:07-00:14 手机屏幕显示身份证正面照片，姓名与公民身份号码区域可见。博主直到 14 秒后才提到会打码，此前画面已完整展示。",
+  "dimension_scores": {
+    "audit_coverage": {
+      "score": 100,
+      "status": "PASS",
+      "summary": "审核覆盖的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "visual",
+          "label": "视觉覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 6500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "speech",
+          "label": "口播覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S003:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 14500,
+              "end_ms": 19000,
+              "evidence_refs": [
+                "S003:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "screen_text",
+          "label": "屏幕文字覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已纳入完整视频解析。",
+          "evidence_refs": [
+            "S002:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 7500,
+              "end_ms": 13000,
+              "evidence_refs": [
+                "S002:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        },
+        {
+          "key": "sound",
+          "label": "声音覆盖",
+          "score": 100,
+          "status": "PASS",
+          "summary": "该模态已完整解析，未记录可辨认内容；不能据此推断不存在内容。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 6500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001",
+        "S003:F001",
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 6500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        },
+        {
+          "start_ms": 7500,
+          "end_ms": 13000,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        },
+        {
+          "start_ms": 14500,
+          "end_ms": 19000,
+          "evidence_refs": [
+            "S003:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "evidence_traceability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "证据可追溯的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "trace_E01",
+          "label": "问题证据定位",
+          "score": 95,
+          "status": "PASS",
+          "summary": "E01 可回溯至已定位视频证据。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 7500,
+              "end_ms": 13000,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 7500,
+          "end_ms": 13000,
+          "evidence_refs": [
+            "E01"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "safety_risk_control": {
+      "score": 20,
+      "status": "FAIL",
+      "summary": "安全风险控制中存在未通过的子项。",
+      "items": [
+        {
+          "key": "finding_R_PRIVACY_EXPOSURE",
+          "label": "个人隐私暴露",
+          "score": 20,
+          "status": "FAIL",
+          "summary": "观察到可能包含个人隐私的信息。",
+          "evidence_refs": [
+            "E01"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 7500,
+              "end_ms": 13000,
+              "evidence_refs": [
+                "E01"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "E01"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 7500,
+          "end_ms": 13000,
+          "evidence_refs": [
+            "E01"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "context_completeness": {
+      "score": 90,
+      "status": "PASS",
+      "summary": "语境完整性的子项均已评估，未发现问题。",
+      "items": [
+        {
+          "key": "observable_context",
+          "label": "可观察语境",
+          "score": 90,
+          "status": "PASS",
+          "summary": "相关语境只能以输入中的提示、画面或口播为准。",
+          "evidence_refs": [
+            "EVT_ID"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 7000,
+              "end_ms": 14000,
+              "evidence_refs": [
+                "EVT_ID"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "EVT_ID"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 7000,
+          "end_ms": 14000,
+          "evidence_refs": [
+            "EVT_ID"
+          ]
+        }
+      ],
+      "limitations": []
+    },
+    "audiovisual_readability": {
+      "score": 95,
+      "status": "PASS",
+      "summary": "已解析镜头的音画信息总体可辨认。",
+      "items": [
+        {
+          "key": "shot_readability",
+          "label": "镜头可读性",
+          "score": 95,
+          "status": "PASS",
+          "summary": "已解析镜头的音画信息总体可辨认。",
+          "evidence_refs": [
+            "S001:F001"
+          ],
+          "time_ranges": [
+            {
+              "start_ms": 500,
+              "end_ms": 6500,
+              "evidence_refs": [
+                "S001:F001"
+              ]
+            }
+          ],
+          "limitations": []
+        }
+      ],
+      "evidence_refs": [
+        "S001:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 500,
+          "end_ms": 6500,
+          "evidence_refs": [
+            "S001:F001"
+          ]
+        }
+      ],
+      "limitations": []
+    }
+  },
+  "revision_plan": [
+    {
+      "id": "R01",
+      "section": "手机屏幕上出现身份证照片。",
+      "scope": "EVENT",
+      "event_id": "EVT_ID",
+      "video": {
+        "summary": "手机屏幕上出现身份证照片。",
+        "time_ranges": [
+          {
+            "start_ms": 7000,
+            "end_ms": 14000,
+            "evidence_refs": [
+              "EVT_ID"
+            ]
+          }
+        ]
+      },
+      "counter_evidence": {
+        "checked": false,
+        "source": "NOT_APPLICABLE",
+        "found": false,
+        "relation_checked": false,
+        "relation_status": "NOT_REQUIRED"
+      },
+      "issues": [
+        {
+          "id": "I01",
+          "source": "FINDING",
+          "finding_ids": [
+            "R_PRIVACY_EXPOSURE"
+          ],
+          "analysis_issue_ids": [],
+          "priority": "P0",
+          "category": "个人隐私暴露",
+          "title": "个人隐私暴露",
+          "description": "7 秒至 14 秒的手机屏幕画面出现身份证正面照片，姓名与号码区域可辨认。",
+          "time_ranges": [
+            {
+              "start_ms": 7500,
+              "end_ms": 13000,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "ref": "E01",
+              "type": "OBSERVATION",
+              "content": "手机屏幕显示身份证正面照片，姓名与号码区域可见。",
+              "time_ranges": [
+                {
+                  "start_ms": 7500,
+                  "end_ms": 13000,
+                  "evidence_refs": [
+                    "E01"
+                  ]
+                }
+              ],
+              "limitations": []
+            },
+            {
+              "ref": "S002:F001",
+              "type": "FACT",
+              "content": "手机屏幕显示一张二代居民身份证正面照片，可见姓名与公民身份号码。",
+              "time_ranges": [
+                {
+                  "start_ms": 7500,
+                  "end_ms": 13000,
+                  "evidence_refs": [
+                    "S002:F001"
+                  ]
+                }
+              ],
+              "limitations": []
+            }
+          ],
+          "uncertainties": [],
+          "low_confidence_evidence": []
+        }
+      ],
+      "actions": [
+        {
+          "id": "A01",
+          "related_issue_ids": [
+            "I01"
+          ],
+          "action": "MASK",
+          "detail": "遮挡或替换 00:07-00:14 的手机屏幕区域，覆盖姓名与完整证件号码。",
+          "target_time_ranges": [
+            {
+              "start_ms": 7500,
+              "end_ms": 13000,
+              "evidence_refs": [
+                "E01",
+                "S002:F001"
+              ]
+            }
+          ],
+          "reuse_time_ranges": [],
+          "insertion_position": null,
+          "requires_reshoot": false,
+          "acceptance_criteria": "逐帧检查该时段，确认没有其他帧短暂显示证件信息。"
+        }
+      ]
+    }
+  ],
+  "overall_direction": "对该时段做遮挡或替换处理；确认整段视频没有其他帧暴露证件信息后，再进行人工复核。",
+  "limitations": [
+    "画面为合成演示素材，证件信息已脱敏。",
+    "无法仅凭屏幕画面判断该证件是否为本人所有。"
+  ]
+}

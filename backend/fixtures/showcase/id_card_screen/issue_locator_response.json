@@ -1,0 +1,19 @@
+{
+  "schema_version": "videoguard_issue_locator_v1",
+  "limitations": [],
+  "risk_cues": [
+    {
+      "cue_id": "E01",
+      "tag": "pii_candidate",
+      "event_id": "EVT_ID",
+      "modality": "screen_text",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "observation": "手机屏幕显示身份证正面照片，姓名与号码区域可见。",
+      "verbatim_redacted": "",
+      "time_confidence": "HIGH",
+      "needs_human_review": false
+    }
+  ]
+}

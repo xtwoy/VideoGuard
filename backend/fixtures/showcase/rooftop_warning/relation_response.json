@@ -1,0 +1,20 @@
+{
+  "model": "mock-relation-showcase",
+  "answers": {
+    "pair_0_relation": {
+      "type": "choice",
+      "choice": "warns_same",
+      "confidence": 0.94,
+      "probabilities": {
+        "insufficient": 0.02,
+        "warns_same": 0.94,
+        "unrelated": 0.02,
+        "encourages_same": 0.02
+      }
+    },
+    "pair_0_review": {
+      "type": "noul",
+      "noul": 0.05
+    }
+  }
+}

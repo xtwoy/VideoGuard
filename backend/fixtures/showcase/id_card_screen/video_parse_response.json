@@ -1,0 +1,215 @@
+{
+  "schema_version": "videoguard_video_parse_v2",
+  "coverage": {
+    "status": "FULL",
+    "video_start_ms": 0,
+    "video_end_ms": 20000,
+    "modalities": {
+      "visual": "FULL",
+      "speech": "FULL",
+      "screen_text": "FULL",
+      "sound": "FULL"
+    },
+    "limitations": [],
+    "time_localization": "RELIABLE"
+  },
+  "timeline": {
+    "shots": [
+      {
+        "shot_id": "S001",
+        "start_ms": 0,
+        "end_ms": 7000,
+        "continuity": "CUT",
+        "scene_summary": "桌面开箱，手机屏幕朝向镜头",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S001:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [
+          {
+            "fact_id": "F001",
+            "start_ms": 500,
+            "end_ms": 6500,
+            "summary_zh": "桌面上放着快递盒与一部手机，手机屏幕朝向镜头。",
+            "verbatim_redacted": "",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S002",
+        "start_ms": 7000,
+        "end_ms": 14000,
+        "continuity": "CUT",
+        "scene_summary": "手机相册展示身份证照片",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S002:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [],
+        "subtitle_text": [],
+        "screen_text": [
+          {
+            "fact_id": "F001",
+            "start_ms": 7500,
+            "end_ms": 13000,
+            "summary_zh": "手机屏幕显示一张二代居民身份证正面照片，可见姓名与公民身份号码。",
+            "verbatim_redacted": "姓名：李** 公民身份号码：1101**********1234",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "audio_observations": []
+      },
+      {
+        "shot_id": "S003",
+        "start_ms": 14000,
+        "end_ms": 20000,
+        "continuity": "CUT",
+        "scene_summary": "博主收起手机",
+        "quality": {
+          "visual_clarity": "CLEAR",
+          "speech_clarity": "CLEAR",
+          "audio": {
+            "status": "PASS",
+            "voice_clarity": "PASS",
+            "bgm_interference": "PASS",
+            "evidence": "现场口播可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "visual": {
+            "clarity": "PASS",
+            "pixelation": "PASS",
+            "aliasing_candidate": "PASS",
+            "evidence": "画面清晰，主体可辨认。",
+            "evidence_refs": [
+              "S003:F001"
+            ],
+            "limitations": []
+          },
+          "limitations": []
+        },
+        "visual_facts": [],
+        "speech_transcript": [
+          {
+            "fact_id": "F001",
+            "start_ms": 14500,
+            "end_ms": 19000,
+            "summary_zh": "博主说明后续会打码。",
+            "verbatim_redacted": "这里我后面会打个码",
+            "confidence": "HIGH",
+            "limitations": []
+          }
+        ],
+        "subtitle_text": [],
+        "screen_text": [],
+        "audio_observations": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "EVT_ID",
+        "start_ms": 7000,
+        "end_ms": 14000,
+        "event_type": "other",
+        "referent_key": "EVT_ID",
+        "summary": "手机屏幕上出现身份证照片。",
+        "evidence_refs": [
+          "S002:F001"
+        ],
+        "context": {
+          "stance": "UNKNOWN",
+          "target_relation": "SAME_EVENT",
+          "counter_context_refs": []
+        },
+        "uncertainties": []
+      }
+    ]
+  },
+  "video_summary": {
+    "summary_zh": "博主在开箱视频中展示手机相册里的身份证照片，画面可见部分证件信息。",
+    "evidence_refs": [
+      "S002:F001"
+    ],
+    "time_ranges": [
+      {
+        "start_ms": 7500,
+        "end_ms": 13000,
+        "evidence_refs": [
+          "S002:F001"
+        ]
+      }
+    ],
+    "limitations": []
+  },
+  "content_analysis": {
+    "audio_visual_quality": {
+      "summary": "画面与口播均清晰，可作为审核依据。",
+      "evidence_refs": [
+        "S002:F001"
+      ],
+      "time_ranges": [
+        {
+          "start_ms": 7500,
+          "end_ms": 13000,
+          "evidence_refs": [
+            "S002:F001"
+          ]
+        }
+      ],
+      "issues": [],
+      "limitations": []
+    }
+  }
+}
