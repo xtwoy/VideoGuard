@@ -259,6 +259,11 @@ export function AuditTab({
                       </div>
                     </div>
                     <p className="measure mt-2 text-[13px] leading-6 text-ink-2">{reasonText(first.reason_code)}</p>
+                    {group.some((item) => item.needs_human_review) ? (
+                      <p className="measure mt-1 text-[12px] leading-5 text-ink-3">
+                        线索置信度低，处置方向仅供参考，需人工确认后再执行。
+                      </p>
+                    ) : null}
                     {group.length > 1 ? (
                       <ul className="mt-2 flex flex-wrap gap-1.5">
                         {group.map((finding) => (

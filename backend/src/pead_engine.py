@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from src import config as params
+from src import policy_config as policy_spec
 from src.evidence_graph import decide as graph_decide
 from src.pead_rules import RuleSet, load_rules
 
@@ -18,8 +19,16 @@ TAGS = {"danger_action","danger_description","encouragement","challenge","warnin
 REQUIRED_COVERAGES = {"FULL","PARTIAL","UNKNOWN","REFUSED","ERROR"}
 
 def load_policies()->dict:
+    """Load and validate the ten-policy configuration.
+
+    Validation is not cosmetic: without it, emptying one policy's ``action_tags``
+    silently turns a found risk into "nothing to do", which is the same bypass the
+    PEAD rule set already refuses.
+    """
     f=Path(__file__).resolve().parents[1]/"config/policies_v03.json"
-    return json.loads(f.read_text(encoding="utf-8"))
+    document=json.loads(f.read_text(encoding="utf-8"))
+    policies=policy_spec.validate_policies(document)
+    return {**document, "policies": policies}
 
 def relation_gap_ms()->int:
     """Relation time window, taken from the single shared parameter module.
@@ -32,7 +41,8 @@ def relation_gap_ms()->int:
 def _f(policy_id: str, judgement: str, disposition: str,
        reason_code: str, supporting=(), counter=(), *,
        counter_checked: bool = False, counter_source: str = "NOT_APPLICABLE",
-       relation_checked: bool = False) -> dict:
+       relation_checked: bool = False, evidence_confidence: str = "HIGH",
+       needs_human_review: bool = False) -> dict:
     """Build one finding, including the provenance of its counter evidence.
 
     ``counter_ids`` being empty is ambiguous on its own: it can mean "the counter
@@ -43,6 +53,10 @@ def _f(policy_id: str, judgement: str, disposition: str,
     return dict(policy_id=policy_id, judgement=judgement, disposition=disposition,
                 reason_code=reason_code, supporting_ids=list(supporting),
                 counter_ids=list(counter),
+                # Risk severity and evidence certainty are different axes: a policy may
+                # still say FLAG while recording that the cue itself needs checking.
+                evidence_confidence=evidence_confidence,
+                needs_human_review=needs_human_review,
                 counter_evidence=dict(checked=counter_checked,
                                       source=counter_source,
                                       found=bool(counter),
@@ -108,6 +122,18 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
                 "findings":[_f(p,"UNKNOWN","RETRY","MODEL_UNAVAILABLE") for p in policy_ids]}
     tags=lambda *wanted:[e for e in good if e["tag"] in wanted and _located(e)]
     all_with_tag=lambda *wanted:[e for e in good if e["tag"] in wanted]
+    # Video-level coverage says the timeline was complete, not that every modality was
+    # readable. When a policy's needed modality was not actually observed, "no cue"
+    # means "could not check", not "nothing found".
+    modalities_raw=data.get("modalities")
+    modalities=({key:(value if value in policy_spec.MODALITY_STATES else "UNKNOWN")
+                 for key, value in modalities_raw.items()}
+                if isinstance(modalities_raw,dict) else None)
+    def modality_gap(policy_id: str) -> bool:
+        if modalities is None:
+            return False
+        return any(modalities.get(name)!="FULL"
+                   for name in policy_spec.required_modalities(policy_id))
     for p in policy_ids:
         if p=="R_DANGER_PROMOTION":
             finding, pead_audit = graph_decide(observations, duration_ms, coverage, gap_ms,
@@ -130,7 +156,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED",
                                    counter_checked=True, counter_source="CONTEXT_TAGS"))
-            elif coverage!="FULL":
+            elif coverage!="FULL" or modality_gap(p):
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION",
                                    counter_checked=True, counter_source="CONTEXT_TAGS"))
             else:
@@ -143,7 +169,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
             elif all_with_tag("pii_candidate") or (
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_PII"))
-            elif coverage!="FULL":
+            elif coverage!="FULL" or modality_gap(p):
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_OBSERVED_PII"))
@@ -160,7 +186,7 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
             elif all_with_tag("credential_claim","marketing_claim","absolute_claim") or (
                 invalid_tags & set(policies[p]["action_tags"])):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNLOCATED_MARKETING_CLAIM"))
-            elif coverage!="FULL":
+            elif coverage!="FULL" or modality_gap(p):
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_OBSERVED_CLAIM"))
@@ -171,13 +197,16 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
             cues=tags(*configured_tags)
             unlocated_cues=all_with_tag(*configured_tags)
             if cues:
+                uncertain=any(x.get("needs_human_review") for x in cues)
                 findings.append(_f(
                     p,"SUPPORTED",policies[p].get("disposition","REVIEW"),
                     policies[p].get("reason_code","CONTENT_SAFETY_CUE"),
-                    [x["id"] for x in cues]))
+                    [x["id"] for x in cues],
+                    evidence_confidence="LOW" if uncertain else "HIGH",
+                    needs_human_review=uncertain))
             elif unlocated_cues or (invalid_tags & set(configured_tags)):
                 findings.append(_f(p,"INSUFFICIENT","REVIEW","UNVERIFIED_OR_UNLOCATED"))
-            elif coverage!="FULL":
+            elif coverage!="FULL" or modality_gap(p):
                 findings.append(_f(p,"UNKNOWN","RECHECK","INCOMPLETE_OBSERVATION"))
             else:
                 findings.append(_f(p,"NOT_SUPPORTED","NONE","NO_RELEVANT_CUE"))

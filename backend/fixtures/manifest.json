@@ -231,6 +231,13 @@
       "candidate_pair_count": 0,
       "cue_count": 2,
       "active_findings": {
+        "R_PRIVACY_EXPOSURE": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
         "R_MARKETING_CLAIM": {
           "judgement": "SUPPORTED",
           "disposition": "VERIFY_EXTERNAL",
@@ -239,6 +246,20 @@
             "E01",
             "E02"
           ],
+          "counter_ids": []
+        },
+        "R_FRAUD_SCAM": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
+          "counter_ids": []
+        },
+        "R_CONTROLLED_GOODS": {
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
+          "supporting_ids": [],
           "counter_ids": []
         }
       },
@@ -251,7 +272,7 @@
         "video_parse_response.json": "f4cd492ae8aef27c",
         "issue_locator_response.json": "a97738b1280c91ac",
         "audit_report_response.json": "db175bd9e1840ac7",
-        "expectations.json": "504ed973467e1ebb",
+        "expectations.json": "8f903615007fe757",
         "case.json": "3d6a8bfcc933f65b"
       }
     },

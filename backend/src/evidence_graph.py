@@ -355,6 +355,10 @@ def decide(observations: list[dict], duration_ms: int, coverage: str, gap_ms: in
                               referent_conflict="REFERENT_CONFLICT" in graph_notes,
                               has_uncertainty=bool(uncertainty),
                               open_uncertainty=open_uncertainty,
+                              # has_counter only says a counter node exists; a defeated
+                              # counter is no reason to drop the review gate.
+                              accepted_counter=any(labels["labels"][a["id"]] == "IN"
+                                                   for a in negative),
                               model_counter=any(a["kind"] == "MODEL_COUNTER" for a in negative),
                               unrelated_confirmed=any("unrelated" in values for (aid, _), values in normalized_decisions.items()
                                                       if aid in {a["id"] for a in actions}))

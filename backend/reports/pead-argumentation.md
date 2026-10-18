@@ -5,7 +5,7 @@
 上游观察为 fixture 数据；证据图构造、规则集与 PyArg 求解为真实代码。本报告展示决策机制，不度量真实视频上的准确率。
 
 求解器：PyArg 2.0.2（python-argumentation）+ NetworkX 3.6.1，语义 `GROUNDED_SKEPTICAL`，回退策略 `fallback=False`。
-规则集：`PEAD_DANGER_PROMOTION` v1.1.0，指纹 `f4f62ccdb53db233…`。
+规则集：`PEAD_DANGER_PROMOTION` v1.1.0，指纹 `eab4e2832518c814…`。
 
 ## 1. 同事件：「鼓励」支持论证被「反向语境」击倒
 

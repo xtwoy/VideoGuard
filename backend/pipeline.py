@@ -428,10 +428,16 @@ def clean_issue_locator(raw: dict, parsed: dict) -> dict:
                              "description_redacted":observation,"text_redacted":verbatim,
                              "verification":"MODEL_REPORTED_V2",
                              "source_refs":refs[:30], "event_id":event_id,
-                             "time_confidence":cues[-1]["time_confidence"]})
+                             "time_confidence":cues[-1]["time_confidence"],
+                             # Upstream uncertainty must survive the projection; the
+                             # policy layer needs it to separate "risky" from "sure".
+                             "needs_human_review":cues[-1]["needs_human_review"]})
     detail["risk_cues"]=cues
     detail["issue_locator_limitations"]=[_text(x,180) for x in raw.get("limitations",[]) if isinstance(x,str)][:10]
     return {"coverage":parsed["coverage"],"coverage_notes":parsed["coverage_notes"],
+            # Per-modality state travels with the observations so a policy can tell
+            # "nothing found" from "that channel was never read".
+            "modalities":detail["coverage"]["modalities"],
             "observations":observations,"observation_detail":detail}
 
 

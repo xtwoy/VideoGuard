@@ -20,14 +20,14 @@
   "source_sha256": {
     "fixtures/compare_pead.py": "59cb89201cba87343401a57067766018965a750253a677d6e7ffd10ad52ebe14",
     "fixtures/truth_table.py": "e33da73b9e2eb7b3686c2ae659186a978a7a2b951e509002e9e97eac78fbf82f",
-    "fixtures/cases.py": "cae7932c70a48b285b9189e713d427f9b282f762feb4479123871c773e4cc383",
-    "pipeline.py": "74341e2df922c43f84a354df4f5724a6ff321ffbc3b5ad585a1547329f67a281",
-    "src/pead_engine.py": "e989347988a193f4895e3259cfb7d1296a740cd1e8376647b62b0d28029401f7",
+    "fixtures/cases.py": "7ed6d34fa98cc23e95b4b9ec18c7913f192290d1588856faf4521cac7631dfa5",
+    "pipeline.py": "3208b7d92c8c6c367194dc99da5645b31eb9bb44712aa66a72fa2df1dd459aba",
+    "src/pead_engine.py": "d06ddc9213864bffa47af237e66a6003403e3205fa64e379a88182f2edc5ddb2",
     "src/relation_fusion.py": "7a92e312c712edc85fa93a98c5ad38c9c47e7b8317d6b9ebea93fbb560cfb23c",
     "src/argumentation.py": "a82939398cb5f4d4ab8792bf60f5c6790a9208297932848fbf9e888e45e08024",
-    "src/evidence_graph.py": "e720016f315f36bc3fec7d947e9000a2d5c16049f1697c23bb2e9effca4fe96c",
-    "src/pead_rules.py": "bad9c9824ac2f302fcc0b99a4909dc6a984b9aff12975d1de79b18a6beb32c7c",
-    "config/pead_rules_v1.json": "80e78ad1740dff0badc8e5d79f225119f5b955a360b07b8a8ac64d6483507b0b",
+    "src/evidence_graph.py": "f8ef073c658ac19d26d93adbb87ba5076f4edf0779b86f2e7b004cf27939a0a4",
+    "src/pead_rules.py": "e851edc13bc733f017b88b71d9416701ba56e9180e916eca92516edc4d60265d",
+    "config/pead_rules_v1.json": "4e0b4214d2c809e043887bc7fe242de232454743292120af17adeb596c1d4033",
     "requirements.txt": "a07c2fe4efea88dc0e79092d9d1c18bd4fb7d11833527219e782b4b7966c90fc",
     "pyproject.toml": "58e73018814e88ebe7ee726ca532cb0f9fa33d21b16620f45e627dd168cccac7",
     "uv.lock": "7241a303c487c346498396b56f5478952ef8f4f1bee3eb1a2680fb0b274626b1",
@@ -64,8 +64,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "971546f8d91dbe7767b07dd37ec9950894a3d967e21e698a5aa007e635ef789c",
-      "without_pead_input_sha256": "530dff8f43a4f19d6ad9b4325a737da498a4acef348cbeeba805f8bb9d67de66",
-      "with_pead_input_sha256": "530dff8f43a4f19d6ad9b4325a737da498a4acef348cbeeba805f8bb9d67de66",
+      "without_pead_input_sha256": "c92db44e7e21d49b1a42770d1e8d22fda68d285891f7dd0c2ec4bde796a46471",
+      "with_pead_input_sha256": "c92db44e7e21d49b1a42770d1e8d22fda68d285891f7dd0c2ec4bde796a46471",
       "reference_action": "FLAG",
       "without_pead": {
         "disposition": "FLAG",
@@ -103,7 +103,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -456,6 +456,7 @@
             "decision_trace": {
               "selected_rule_id": "D_MODEL_SUPPORTED",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -618,7 +619,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -631,7 +632,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -644,7 +645,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -663,8 +664,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "b755cf8133f618c9f07c733fc23401c7b9d7d128e3960e8a55058692ee4734ec",
-      "without_pead_input_sha256": "d005620e839852480e285f4e121935f6305d5a7d568853679867674ebd4a4ccb",
-      "with_pead_input_sha256": "d005620e839852480e285f4e121935f6305d5a7d568853679867674ebd4a4ccb",
+      "without_pead_input_sha256": "27a701b3ec2c80fc9585f2f4b18254abf68b176701368d9344de6e0de6e7a855",
+      "with_pead_input_sha256": "27a701b3ec2c80fc9585f2f4b18254abf68b176701368d9344de6e0de6e7a855",
       "reference_action": "NONE",
       "without_pead": {
         "disposition": "NONE",
@@ -701,7 +702,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -1002,6 +1003,7 @@
             "decision_trace": {
               "selected_rule_id": "D_DEFAULT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -1154,7 +1156,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -1167,7 +1169,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -1186,8 +1188,8 @@
       "name": "unrelated_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "3754c4310c75aa3246ac954889c181df50af59ab663fbe743b3c08aae4d22e09",
-      "without_pead_input_sha256": "ed6f963b74a36077e40ac903a4f2c598ce303427f48b1bfc01846c9dde9485a9",
-      "with_pead_input_sha256": "ed6f963b74a36077e40ac903a4f2c598ce303427f48b1bfc01846c9dde9485a9",
+      "without_pead_input_sha256": "1abf2b66cd870106a39e6e4beb9698c380770d6adb715484a27051432779e5bc",
+      "with_pead_input_sha256": "1abf2b66cd870106a39e6e4beb9698c380770d6adb715484a27051432779e5bc",
       "reference_action": "NONE",
       "without_pead": {
         "disposition": "NONE",
@@ -1223,7 +1225,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -1364,6 +1366,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -1529,7 +1532,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -1548,8 +1551,8 @@
       "name": "unrelated_without_relation_service",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "71f40f653a2913b549a7d4e99635c05426eb02ed224416f611cd5cbb25fddeb1",
-      "without_pead_input_sha256": "a89ea990626651229bbdf37688828c8ed7373b0532b726370e9e581964dada10",
-      "with_pead_input_sha256": "a89ea990626651229bbdf37688828c8ed7373b0532b726370e9e581964dada10",
+      "without_pead_input_sha256": "665ccc5b076145cb98ccf12f3b14203cbe4b2e3deb1cd287e1af313e1db94ad1",
+      "with_pead_input_sha256": "665ccc5b076145cb98ccf12f3b14203cbe4b2e3deb1cd287e1af313e1db94ad1",
       "reference_action": "REVIEW",
       "without_pead": {
         "disposition": "REVIEW",
@@ -1586,7 +1589,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -1774,6 +1777,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -1935,7 +1939,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -1962,7 +1966,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -1981,8 +1985,8 @@
       "name": "news_violence",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "2cab75f3e6cffdcfeccda8a97da3a27c95af52e4b95e28ab3712eee46704821e",
-      "without_pead_input_sha256": "f5fff14ce96996d9e4dfbe8cea534af4721149810c2cec7b65e3a9d6e55f683b",
-      "with_pead_input_sha256": "f5fff14ce96996d9e4dfbe8cea534af4721149810c2cec7b65e3a9d6e55f683b",
+      "without_pead_input_sha256": "e4162b7d24f6e6292c9c9c9ecc34519887b85270cf3fbaa35b029d122c4d13ec",
+      "with_pead_input_sha256": "e4162b7d24f6e6292c9c9c9ecc34519887b85270cf3fbaa35b029d122c4d13ec",
       "reference_action": "NONE",
       "without_pead": {
         "disposition": "NONE",
@@ -2016,7 +2020,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -2091,8 +2095,8 @@
       "name": "relation_override_conflict",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "590835096537b6f305249bf12bfc892f3aa746b643a821847c1cd3ed8ecea528",
-      "without_pead_input_sha256": "5798f134c6fe1564777dbec368734c0ad59fc73f658bcb55f4c2738e6af7f0d4",
-      "with_pead_input_sha256": "5798f134c6fe1564777dbec368734c0ad59fc73f658bcb55f4c2738e6af7f0d4",
+      "without_pead_input_sha256": "fe1c833079f65a3b3a806c7893bc63c6770be268826a97eb14c1a3a04049f896",
+      "with_pead_input_sha256": "fe1c833079f65a3b3a806c7893bc63c6770be268826a97eb14c1a3a04049f896",
       "reference_action": "REVIEW",
       "without_pead": {
         "disposition": "FLAG",
@@ -2129,7 +2133,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -2342,6 +2346,7 @@
             "decision_trace": {
               "selected_rule_id": "D_REFERENT_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -2503,7 +2508,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -2530,7 +2535,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -2549,8 +2554,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "56cce39989c3ad72f326e595b22e9f97bc0e436c87a7d350b2993d5c2f977ec2",
-      "without_pead_input_sha256": "b5ba357c9b386b166007d08b54cfc09313aa3d0097722bc59f63c978b1963d6a",
-      "with_pead_input_sha256": "b5ba357c9b386b166007d08b54cfc09313aa3d0097722bc59f63c978b1963d6a",
+      "without_pead_input_sha256": "36789fd7fa17716490963fe06c6be99a253ccf6682e6c68cda0876c6faeb8178",
+      "with_pead_input_sha256": "36789fd7fa17716490963fe06c6be99a253ccf6682e6c68cda0876c6faeb8178",
       "reference_action": "REVIEW",
       "without_pead": {
         "disposition": "FLAG",
@@ -2589,7 +2594,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -3058,6 +3063,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -3220,7 +3226,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -3233,7 +3239,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -3246,7 +3252,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -3265,8 +3271,8 @@
       "name": "counter_context_tagging",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "71e6961181bd5751c5f4da3482d93e1eee70335b360553e812188d0b6475f08c",
-      "without_pead_input_sha256": "32c5d5c10d37d1be224f5f34ee0b7e780251352a74d0d23ab268adf2136c3c3d",
-      "with_pead_input_sha256": "32c5d5c10d37d1be224f5f34ee0b7e780251352a74d0d23ab268adf2136c3c3d",
+      "without_pead_input_sha256": "43e4a5460d4c7eec6b6263e8e037dcc956d534eb917d463d1ded413042fb3642",
+      "with_pead_input_sha256": "43e4a5460d4c7eec6b6263e8e037dcc956d534eb917d463d1ded413042fb3642",
       "reference_action": "REVIEW",
       "without_pead": {
         "disposition": "REVIEW",
@@ -3305,7 +3311,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -3631,6 +3637,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -3793,7 +3800,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -3820,7 +3827,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -3847,7 +3854,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -3866,8 +3873,8 @@
       "name": "partial_coverage",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "0ecf9081f7c7c4850481dcc37a240b71a3952bfb1afe99b4161a16d4794fbcb2",
-      "without_pead_input_sha256": "86a10ff93a0138f096cb6e14b10052f7c94c91dd3ff5690e9b3d8369878e3cde",
-      "with_pead_input_sha256": "86a10ff93a0138f096cb6e14b10052f7c94c91dd3ff5690e9b3d8369878e3cde",
+      "without_pead_input_sha256": "a2c857cd2bd796c0d4df2ab05c81875fa5a1ca9bdb71166ea728914829b85897",
+      "with_pead_input_sha256": "a2c857cd2bd796c0d4df2ab05c81875fa5a1ca9bdb71166ea728914829b85897",
       "reference_action": "REVIEW",
       "without_pead": {
         "disposition": "REVIEW",
@@ -3901,7 +3908,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -3956,8 +3963,8 @@
       "name": "clean_negative",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "41b8d4d016c6abcc81fe22574c8553e4c4a8b93942a9db9a89fb8af0af4bea2a",
-      "without_pead_input_sha256": "83e08020e8ffc8ccad333da56604deabba854f33be2c56d45f4477c3adc6672d",
-      "with_pead_input_sha256": "83e08020e8ffc8ccad333da56604deabba854f33be2c56d45f4477c3adc6672d",
+      "without_pead_input_sha256": "db167f74f6589593264727dec5fb494603df9da9c92bbce1cc9b4950cab46575",
+      "with_pead_input_sha256": "db167f74f6589593264727dec5fb494603df9da9c92bbce1cc9b4950cab46575",
       "reference_action": "NONE",
       "without_pead": {
         "disposition": "NONE",
@@ -3991,7 +3998,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -4062,8 +4069,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "b0d1e2f8978a8f1c0f56a86f4196264b969b9eabbefb016669f8dec4246bafcd",
-      "without_pead_input_sha256": "4469da02095d4ef8defb50e29ad5de66101b3f0bbccecd7c9bc0ceb15528f334",
-      "with_pead_input_sha256": "4469da02095d4ef8defb50e29ad5de66101b3f0bbccecd7c9bc0ceb15528f334",
+      "without_pead_input_sha256": "e0c0871255ded559d69ad9ba6cbc566975336ff111e2d95f7b02d7eabf4507c1",
+      "with_pead_input_sha256": "e0c0871255ded559d69ad9ba6cbc566975336ff111e2d95f7b02d7eabf4507c1",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -4101,7 +4108,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -4454,6 +4461,7 @@
             "decision_trace": {
               "selected_rule_id": "D_MODEL_SUPPORTED",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -4616,7 +4624,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -4629,7 +4637,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -4642,7 +4650,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -4662,8 +4670,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "8e1c6ee71ee9257df6b3f3158b65ac13dd6df468bf1159faaee24f6742e9d50a",
-      "without_pead_input_sha256": "8cf604b40c0dde41e39bd20398fb76d8191a40f06d2b4b17f30c0e3b811ac548",
-      "with_pead_input_sha256": "8cf604b40c0dde41e39bd20398fb76d8191a40f06d2b4b17f30c0e3b811ac548",
+      "without_pead_input_sha256": "22b985749e8791638ce19b2e20650aa19e9a666c09b116b315102f2c88ce8e93",
+      "with_pead_input_sha256": "22b985749e8791638ce19b2e20650aa19e9a666c09b116b315102f2c88ce8e93",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -4701,7 +4709,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -5026,6 +5034,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN_SUPPORT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -5188,7 +5197,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5201,7 +5210,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5228,7 +5237,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -5248,8 +5257,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "d7ca3cefd06e3b033e6a65572a6a470825e15d73db878653056a58b5ac6ac072",
-      "without_pead_input_sha256": "1fd09ad0fd5d6bd43ad3cb938e8108530489aaa1765cc51f0f89b549fd0fd18e",
-      "with_pead_input_sha256": "1fd09ad0fd5d6bd43ad3cb938e8108530489aaa1765cc51f0f89b549fd0fd18e",
+      "without_pead_input_sha256": "00b42b687d361effd53d8d2178fa91c50d13667c20907d53e3c557ed81e6fea4",
+      "with_pead_input_sha256": "00b42b687d361effd53d8d2178fa91c50d13667c20907d53e3c557ed81e6fea4",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -5288,7 +5297,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -5670,6 +5679,7 @@
             "decision_trace": {
               "selected_rule_id": "D_MODEL_SUPPORTED",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -5832,7 +5842,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5859,7 +5869,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5872,7 +5882,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -5892,8 +5902,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "ce85fe727a3255b39e92df48ec9f396e15401440a791b166d82ae0dcfae8b6b0",
-      "without_pead_input_sha256": "1b21c48b5a843f36cfd3a1dcbfa5886bab5dc96424d620c14a01b78c0eabf36e",
-      "with_pead_input_sha256": "1b21c48b5a843f36cfd3a1dcbfa5886bab5dc96424d620c14a01b78c0eabf36e",
+      "without_pead_input_sha256": "97f6156091ed49a2c10bd6df489ba0da99cf43f66c50cc15298a220ac019b1f8",
+      "with_pead_input_sha256": "97f6156091ed49a2c10bd6df489ba0da99cf43f66c50cc15298a220ac019b1f8",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -5932,7 +5942,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -6368,6 +6378,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -6530,7 +6541,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -6543,7 +6554,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -6570,7 +6581,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -6590,8 +6601,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "0140fc4ac6a8cb07c4f18c2dbaac29361cae6016e0f75c1f1bd713ed6e54996b",
-      "without_pead_input_sha256": "133e86fc56373a26037e176176131f8c0782de3283e09ea7f8639b033f96c018",
-      "with_pead_input_sha256": "133e86fc56373a26037e176176131f8c0782de3283e09ea7f8639b033f96c018",
+      "without_pead_input_sha256": "2e34d5447c4511a543ba0a7178d49beb35c5e4d650e2339dfdaca84003232a21",
+      "with_pead_input_sha256": "2e34d5447c4511a543ba0a7178d49beb35c5e4d650e2339dfdaca84003232a21",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -6629,7 +6640,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -6954,6 +6965,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN_SUPPORT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -7116,7 +7128,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -7143,7 +7155,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -7156,7 +7168,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -7176,8 +7188,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "96410a3338c4abc1db53aec89ab6a2ba54865646b6dba5d5fc0853e4fa82c4c4",
-      "without_pead_input_sha256": "0a697b48e23e02e05c060758ef05cfdbe4adc2f678f489cb860d1d3eb738bbf1",
-      "with_pead_input_sha256": "0a697b48e23e02e05c060758ef05cfdbe4adc2f678f489cb860d1d3eb738bbf1",
+      "without_pead_input_sha256": "473fe3a7640bfef53c1b2f714d976a6496a254f2f519650a8f7750b04636b5cd",
+      "with_pead_input_sha256": "473fe3a7640bfef53c1b2f714d976a6496a254f2f519650a8f7750b04636b5cd",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -7215,7 +7227,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -7563,6 +7575,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -7725,7 +7738,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -7738,7 +7751,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -7751,7 +7764,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -7771,8 +7784,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "ac170ae7197750311d1364da6e5d30d08976a4a82ac0e0237af73510fc40670c",
-      "without_pead_input_sha256": "f924a523c4e31576f8721c5106a23890beed6d78bd665140924192393cdb7623",
-      "with_pead_input_sha256": "f924a523c4e31576f8721c5106a23890beed6d78bd665140924192393cdb7623",
+      "without_pead_input_sha256": "03a52153ad24fcc281b5b8d11f31bfe03c0a921bae6bbb4d83f2f1b1c93ef400",
+      "with_pead_input_sha256": "03a52153ad24fcc281b5b8d11f31bfe03c0a921bae6bbb4d83f2f1b1c93ef400",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -7811,7 +7824,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -8190,6 +8203,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -8352,7 +8366,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -8365,7 +8379,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -8392,7 +8406,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -8412,8 +8426,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "454c1bffb1a252c6115916b11c5c1e20b5e8bcef2985443ca9d00900d530fbb3",
-      "without_pead_input_sha256": "0c5cf8d45d6d818a05423fa1c06025360ecca69aae61562d4585382efff5a827",
-      "with_pead_input_sha256": "0c5cf8d45d6d818a05423fa1c06025360ecca69aae61562d4585382efff5a827",
+      "without_pead_input_sha256": "675f2fc6bdf0af175b6add1e3810ccb2b0a447edc14b49f8ac6c39e5620f857a",
+      "with_pead_input_sha256": "675f2fc6bdf0af175b6add1e3810ccb2b0a447edc14b49f8ac6c39e5620f857a",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -8452,7 +8466,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -8870,6 +8884,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -9032,7 +9047,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -9045,7 +9060,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -9072,7 +9087,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -9092,8 +9107,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "5d55336a48c6c3f94d574f82db41cf0626a699876a2b434a25fc7e9c3fef768b",
-      "without_pead_input_sha256": "f9521465cc4b03748861a22246c79fc669a044b1c284840ab65f48d580636578",
-      "with_pead_input_sha256": "f9521465cc4b03748861a22246c79fc669a044b1c284840ab65f48d580636578",
+      "without_pead_input_sha256": "737e28f3638afd640311b6401f2c4d9ae4c4f6ae2330da8893ba0c4638a4458f",
+      "with_pead_input_sha256": "737e28f3638afd640311b6401f2c4d9ae4c4f6ae2330da8893ba0c4638a4458f",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -9132,7 +9147,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -9514,6 +9529,7 @@
             "decision_trace": {
               "selected_rule_id": "D_MODEL_SUPPORTED",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -9676,7 +9692,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -9689,7 +9705,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -9716,7 +9732,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -9736,8 +9752,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "c04f0989e6eac6961a407323571d253aa498f439a0b0bac090c7f20da1f6d012",
-      "without_pead_input_sha256": "f818931465d9ec6f77fa3693fc9e1970d2d90df8f6a83fa03cdd3cfd6c841855",
-      "with_pead_input_sha256": "f818931465d9ec6f77fa3693fc9e1970d2d90df8f6a83fa03cdd3cfd6c841855",
+      "without_pead_input_sha256": "aa390b9988f181fd82a96febc468a6b6935dc38d7c99d55a0a18bb4a674b7b7e",
+      "with_pead_input_sha256": "aa390b9988f181fd82a96febc468a6b6935dc38d7c99d55a0a18bb4a674b7b7e",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -9776,7 +9792,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -10155,6 +10171,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -10317,7 +10334,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -10344,7 +10361,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -10357,7 +10374,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -10377,8 +10394,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "079b3dd2e85bd881b9ea1fd091418a070cfa7da61af313f10f966dad59482638",
-      "without_pead_input_sha256": "f79cb5bfe3294bb5808fcd4470aced7760abeb7ae39e3984464a81b4c75316e2",
-      "with_pead_input_sha256": "f79cb5bfe3294bb5808fcd4470aced7760abeb7ae39e3984464a81b4c75316e2",
+      "without_pead_input_sha256": "053321c49158c7dd368cf99e49239a66407e84819aa71678971be84191013aff",
+      "with_pead_input_sha256": "053321c49158c7dd368cf99e49239a66407e84819aa71678971be84191013aff",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -10417,7 +10434,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -10822,6 +10839,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -10984,7 +11002,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -10997,7 +11015,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -11010,7 +11028,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -11030,8 +11048,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "76f601b94d1bcc914535a85d113f3029dac967484e2d1427c6e8ebe92bd81449",
-      "without_pead_input_sha256": "6ef31a7a7173a83d4a017702b9f00a97df44b933f892ae0a4a89f8346416c621",
-      "with_pead_input_sha256": "6ef31a7a7173a83d4a017702b9f00a97df44b933f892ae0a4a89f8346416c621",
+      "without_pead_input_sha256": "fee945ec1e67de904cf1e0f770769d7274879a8b9cff98f47c06102beae40667",
+      "with_pead_input_sha256": "fee945ec1e67de904cf1e0f770769d7274879a8b9cff98f47c06102beae40667",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -11070,7 +11088,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -11507,6 +11525,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -11669,7 +11688,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -11682,7 +11701,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -11695,7 +11714,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -11715,8 +11734,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "b8a2ac4ef860bd347251c72be8a3a563f5cdeb006f3006c306711a3f37576199",
-      "without_pead_input_sha256": "fbbaf6825fe7e214b93bc84c1f5d35d9f70a255d6d50f5f3501ae582522a0a4e",
-      "with_pead_input_sha256": "fbbaf6825fe7e214b93bc84c1f5d35d9f70a255d6d50f5f3501ae582522a0a4e",
+      "without_pead_input_sha256": "22c2e3bbcabe2bd19387f29424c987ba9e275fc9eb013e3634022f6cf2acc054",
+      "with_pead_input_sha256": "22c2e3bbcabe2bd19387f29424c987ba9e275fc9eb013e3634022f6cf2acc054",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -11755,7 +11774,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -12191,6 +12210,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -12353,7 +12373,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -12380,7 +12400,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -12393,7 +12413,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -12413,8 +12433,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "c0051acf18d9bfa5d1e0fbae88a0ea0b1fba4f48b2e8d1c4cc70777feb632eeb",
-      "without_pead_input_sha256": "adb32552ba78eebbc8617a319fb06265a04d3eef66c402fcc53815e9c3d9a353",
-      "with_pead_input_sha256": "adb32552ba78eebbc8617a319fb06265a04d3eef66c402fcc53815e9c3d9a353",
+      "without_pead_input_sha256": "c6caaade72bce19940d82099e110aff4ea108925a26f76a21424a78eda654092",
+      "with_pead_input_sha256": "c6caaade72bce19940d82099e110aff4ea108925a26f76a21424a78eda654092",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -12453,7 +12473,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -12871,6 +12891,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -13033,7 +13054,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -13060,7 +13081,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -13073,7 +13094,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -13093,8 +13114,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "27289463d64f804cab922bab2071a16b86d16a8de0b0563d6df5339275d5d641",
-      "without_pead_input_sha256": "60c0fae348607698476a2240400c8ec9b141d915a0682ceeaf646bf8249026f7",
-      "with_pead_input_sha256": "60c0fae348607698476a2240400c8ec9b141d915a0682ceeaf646bf8249026f7",
+      "without_pead_input_sha256": "bcbd8c528559d1744a77879d2d3530f8e3126632b211c4ed22e0054f1a343336",
+      "with_pead_input_sha256": "bcbd8c528559d1744a77879d2d3530f8e3126632b211c4ed22e0054f1a343336",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -13133,7 +13154,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -13570,6 +13591,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -13732,7 +13754,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -13745,7 +13767,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -13758,7 +13780,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -13778,8 +13800,8 @@
       "name": "danger_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "3c9f4cf236f3c2911fec1bb5caf0d86ff303e62acdc715913b19bb5ab7ca087a",
-      "without_pead_input_sha256": "6395c9ac46874116e9f010833b775bfffe9d09b727aeb8de2d58c20a933edfb2",
-      "with_pead_input_sha256": "6395c9ac46874116e9f010833b775bfffe9d09b727aeb8de2d58c20a933edfb2",
+      "without_pead_input_sha256": "c001b194917372989e7746704da1c2d9d1c76c7357040dc1153877ea5e878e44",
+      "with_pead_input_sha256": "c001b194917372989e7746704da1c2d9d1c76c7357040dc1153877ea5e878e44",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -13818,7 +13840,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -14289,6 +14311,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -14451,7 +14474,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -14464,7 +14487,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -14477,7 +14500,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -14497,8 +14520,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "93db99ea192ce3179971dee24625bdf1c152d5206f77975c927791bb44b73a4d",
-      "without_pead_input_sha256": "bfbaf3a3e830a59708e8b6e0fac2d2e03e4b8e6b05955a58ee03e4dbc62b9d8b",
-      "with_pead_input_sha256": "bfbaf3a3e830a59708e8b6e0fac2d2e03e4b8e6b05955a58ee03e4dbc62b9d8b",
+      "without_pead_input_sha256": "d67d44ae059ca496f5a71d1de42aa899c7754df9aca161c4bf290cc45a19c750",
+      "with_pead_input_sha256": "d67d44ae059ca496f5a71d1de42aa899c7754df9aca161c4bf290cc45a19c750",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -14537,7 +14560,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -15006,6 +15029,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -15168,7 +15192,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -15181,7 +15205,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -15194,7 +15218,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -15214,8 +15238,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "00f54270997aa91a73b6622e4b15bc2a1a165110f5b251a300e090084a1b1e24",
-      "without_pead_input_sha256": "af99de09cc2f5a9c5b0fa85336048104f83f0b72f4651bead7d630080a40986b",
-      "with_pead_input_sha256": "af99de09cc2f5a9c5b0fa85336048104f83f0b72f4651bead7d630080a40986b",
+      "without_pead_input_sha256": "90532b02d8eb9d2e75657796688b6058b2d479d67b08f153223f1623ffc6048f",
+      "with_pead_input_sha256": "90532b02d8eb9d2e75657796688b6058b2d479d67b08f153223f1623ffc6048f",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -15254,7 +15278,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -15649,6 +15673,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -15811,7 +15836,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -15838,7 +15863,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -15851,7 +15876,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -15871,8 +15896,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "f9c737a7358defb6222208564206c69e39e6228b0e0e0819a0056afee7d967f6",
-      "without_pead_input_sha256": "ab60dff0e887063bcbfd24008d52d292d3abd9ad34749ca05342952b21092a6f",
-      "with_pead_input_sha256": "ab60dff0e887063bcbfd24008d52d292d3abd9ad34749ca05342952b21092a6f",
+      "without_pead_input_sha256": "1215c3f0de1afc99dc5459935a564e777c935eddd8bf70663818af1919c41e61",
+      "with_pead_input_sha256": "1215c3f0de1afc99dc5459935a564e777c935eddd8bf70663818af1919c41e61",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -15911,7 +15936,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -16307,6 +16332,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -16469,7 +16495,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -16496,7 +16522,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -16509,7 +16535,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -16529,8 +16555,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "3185ba871d05e3eee79214f58e409d9772416cd9dfcddf1b96cac6ecc2b9639a",
-      "without_pead_input_sha256": "afc1e5493ba8f4a98c68cf2fbf5ea360d87b3e68589abcf7d6f6e40818764fcb",
-      "with_pead_input_sha256": "afc1e5493ba8f4a98c68cf2fbf5ea360d87b3e68589abcf7d6f6e40818764fcb",
+      "without_pead_input_sha256": "165d8dfc5806de867a94d629a545a3b5a8edab72337469ee7d33bb2cb6a53fad",
+      "with_pead_input_sha256": "165d8dfc5806de867a94d629a545a3b5a8edab72337469ee7d33bb2cb6a53fad",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -16569,7 +16595,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -17005,6 +17031,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -17167,7 +17194,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -17194,7 +17221,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -17207,7 +17234,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -17227,8 +17254,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "71098c0a18f966880accb3724dbb806f3d681b66209f5d4cd923b12b2a38c36d",
-      "without_pead_input_sha256": "189ec0f16ba6117279fbcedb4d60fc2ba56fa3bd23d857ccee50529eef610690",
-      "with_pead_input_sha256": "189ec0f16ba6117279fbcedb4d60fc2ba56fa3bd23d857ccee50529eef610690",
+      "without_pead_input_sha256": "59f358c748ca2c77418aa4bd345662bbf921fcf287991d32c92ce572239adad5",
+      "with_pead_input_sha256": "59f358c748ca2c77418aa4bd345662bbf921fcf287991d32c92ce572239adad5",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -17267,7 +17294,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -17662,6 +17689,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -17824,7 +17852,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -17837,7 +17865,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -17864,7 +17892,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -17884,8 +17912,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "045ee42226203e98ca913017fe91eff7d27458a5f121e507fe379e5ad9b0d8d2",
-      "without_pead_input_sha256": "a8f5da9c4d4074daf7bfee32c4cb83328787db311a4df98d4419a09c529ae59f",
-      "with_pead_input_sha256": "a8f5da9c4d4074daf7bfee32c4cb83328787db311a4df98d4419a09c529ae59f",
+      "without_pead_input_sha256": "ada9e932a4b0a4e050f95bdf5f78b882c23bfefa2c7a8ec66e353a1cef220a4f",
+      "with_pead_input_sha256": "ada9e932a4b0a4e050f95bdf5f78b882c23bfefa2c7a8ec66e353a1cef220a4f",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -17924,7 +17952,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -18225,6 +18253,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -18387,7 +18416,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -18400,7 +18429,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -18413,7 +18442,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -18433,8 +18462,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "11589371a7684f57d58ffe8fb727143e1594152c8c1576c2d6a7aedf3d13e73e",
-      "without_pead_input_sha256": "6f846c97e19d235f93d41c626c75a0f3240bf2a8607e0ad87154a30017b9944a",
-      "with_pead_input_sha256": "6f846c97e19d235f93d41c626c75a0f3240bf2a8607e0ad87154a30017b9944a",
+      "without_pead_input_sha256": "41cf3beefdea2db8ed5d9344e808bb140f20b2d04302390512bcb3ea3ea49c58",
+      "with_pead_input_sha256": "41cf3beefdea2db8ed5d9344e808bb140f20b2d04302390512bcb3ea3ea49c58",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -18473,7 +18502,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -18775,6 +18804,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -18937,7 +18967,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -18964,7 +18994,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -18977,7 +19007,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -18997,8 +19027,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "41847edf6b51c64db088ac849ec3e1c44ac0c0afd0744b91235f717a7766c60d",
-      "without_pead_input_sha256": "15fad0576ca798baa8b2ddd19492536a8daa39c864ccd972b51ff49c57ba1171",
-      "with_pead_input_sha256": "15fad0576ca798baa8b2ddd19492536a8daa39c864ccd972b51ff49c57ba1171",
+      "without_pead_input_sha256": "0cc7d93b02ac3714d18332379f0dfd36ccd7e514f774489a466f6afb6c307317",
+      "with_pead_input_sha256": "0cc7d93b02ac3714d18332379f0dfd36ccd7e514f774489a466f6afb6c307317",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -19037,7 +19067,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -19339,6 +19369,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -19501,7 +19532,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -19528,7 +19559,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -19541,7 +19572,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -19561,8 +19592,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "40c67d1074b8b09e5c1de5873730c6ba93410e90119edf51d5d13f07a5afc8b4",
-      "without_pead_input_sha256": "4fbdf0492fe0448bff42cba60dac2381da5d104cb235e7b414e33dc3090a6ab7",
-      "with_pead_input_sha256": "4fbdf0492fe0448bff42cba60dac2381da5d104cb235e7b414e33dc3090a6ab7",
+      "without_pead_input_sha256": "846f8c8c7d29c740fa7951d516e391be6c394c57a657237862eb83fb812c7816",
+      "with_pead_input_sha256": "846f8c8c7d29c740fa7951d516e391be6c394c57a657237862eb83fb812c7816",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -19601,7 +19632,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -19997,6 +20028,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -20159,7 +20191,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -20172,7 +20204,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -20199,7 +20231,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -20219,8 +20251,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "a504b6365f8f58964cea7fd992b4a5bfa39105ae19920ddf863e46fee1bd7996",
-      "without_pead_input_sha256": "61ffda5fa24bd220901cca4aa85fa0f4ee3eabdc3486fe6b43e83907fd58843d",
-      "with_pead_input_sha256": "61ffda5fa24bd220901cca4aa85fa0f4ee3eabdc3486fe6b43e83907fd58843d",
+      "without_pead_input_sha256": "54be55deb9b84cc19535821f3b9ace19a75ba30868349256c0dd519b7446f402",
+      "with_pead_input_sha256": "54be55deb9b84cc19535821f3b9ace19a75ba30868349256c0dd519b7446f402",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -20259,7 +20291,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -20561,6 +20593,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -20723,7 +20756,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -20736,7 +20769,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -20763,7 +20796,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -20783,8 +20816,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "6c50f4c9d080f2ddd7f7d3f41683e59235e6c41291a3b97358b75c1a47c79447",
-      "without_pead_input_sha256": "b69858f364f7a54488395d81d89bfd25bcd8320a06058914bbaff7f36146c0b9",
-      "with_pead_input_sha256": "b69858f364f7a54488395d81d89bfd25bcd8320a06058914bbaff7f36146c0b9",
+      "without_pead_input_sha256": "f1d40a987798d2d706b1bd36413e6e38b68a628b94f5917a3fd163339a9468e8",
+      "with_pead_input_sha256": "f1d40a987798d2d706b1bd36413e6e38b68a628b94f5917a3fd163339a9468e8",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -20821,7 +20854,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -21122,6 +21155,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -21274,7 +21308,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -21287,7 +21321,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -21307,8 +21341,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "e57cce1cd9653ff0522d54a0ff4b9fedea8d08dac87ef6378883df773c00f659",
-      "without_pead_input_sha256": "85e3b7284ce3d1815dd70e3a45cf330a23cc89ec2e344148eff3a6088f9a12ed",
-      "with_pead_input_sha256": "85e3b7284ce3d1815dd70e3a45cf330a23cc89ec2e344148eff3a6088f9a12ed",
+      "without_pead_input_sha256": "e514f2a94cfd2fa5471390657634ece63b3237178a87e0ef8969162ac3e51782",
+      "with_pead_input_sha256": "e514f2a94cfd2fa5471390657634ece63b3237178a87e0ef8969162ac3e51782",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -21345,7 +21379,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -21646,6 +21680,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -21812,7 +21847,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -21825,7 +21860,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -21845,8 +21880,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "c5d10cb86286f7222e535f6ababc41223a4bed1a3f4420435743ecd64bca6a5d",
-      "without_pead_input_sha256": "11c0df35519528ae15c71ace800f2fbaa3ccc0cf6e2b5e243facc7d15579b650",
-      "with_pead_input_sha256": "11c0df35519528ae15c71ace800f2fbaa3ccc0cf6e2b5e243facc7d15579b650",
+      "without_pead_input_sha256": "cd8e901efc7647f96afac471a818c547d1f3c876a5b474ef5d94c3a535466cc4",
+      "with_pead_input_sha256": "cd8e901efc7647f96afac471a818c547d1f3c876a5b474ef5d94c3a535466cc4",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -21885,7 +21920,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -22321,6 +22356,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -22483,7 +22519,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -22496,7 +22532,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -22523,7 +22559,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -22543,8 +22579,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "3e342ce56c28f7dc184e351db14c4ecbd65d9ffaf3822366b1684723ad2ce666",
-      "without_pead_input_sha256": "6894e9dac1db96fbe856e8268d5ffd334417a42b6f52bda097f8b89b901b5e8c",
-      "with_pead_input_sha256": "6894e9dac1db96fbe856e8268d5ffd334417a42b6f52bda097f8b89b901b5e8c",
+      "without_pead_input_sha256": "5cc2beafabdcf5fa21caf3f4cd0f4f17f5df4eb2595f713b18f2a98a0653abad",
+      "with_pead_input_sha256": "5cc2beafabdcf5fa21caf3f4cd0f4f17f5df4eb2595f713b18f2a98a0653abad",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -22583,7 +22619,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -22885,6 +22921,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -23047,7 +23084,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -23060,7 +23097,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -23087,7 +23124,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -23107,8 +23144,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "080ec93d16ddf63792440c9ef97df44657aa3dbea0b0e62f472eb0402e726601",
-      "without_pead_input_sha256": "ffe530bd92326c1f6adcf7df87959555df4e755f00ccf9cc6029caefa55cf51a",
-      "with_pead_input_sha256": "ffe530bd92326c1f6adcf7df87959555df4e755f00ccf9cc6029caefa55cf51a",
+      "without_pead_input_sha256": "4ca9f091c636d7e656ce3d1c4e07892fc9d0fa371a9eb80a562077b638b26d96",
+      "with_pead_input_sha256": "4ca9f091c636d7e656ce3d1c4e07892fc9d0fa371a9eb80a562077b638b26d96",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -23145,7 +23182,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -23446,6 +23483,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -23598,7 +23636,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -23625,7 +23663,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -23645,8 +23683,8 @@
       "name": "warning_context",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "42a6f39716508a57d55e4634735f971a060f768dd105e0fe658c6f2ee40c6ea3",
-      "without_pead_input_sha256": "af63d2b0321facd1ef126b6f4ea3eab5201907948e792c967ba0a719389939c5",
-      "with_pead_input_sha256": "af63d2b0321facd1ef126b6f4ea3eab5201907948e792c967ba0a719389939c5",
+      "without_pead_input_sha256": "0e026ba0ea52571699274a9c02a840b68f9085bf97151396e3e19ddb95ccd414",
+      "with_pead_input_sha256": "0e026ba0ea52571699274a9c02a840b68f9085bf97151396e3e19ddb95ccd414",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -23683,7 +23721,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -23984,6 +24022,7 @@
             "decision_trace": {
               "selected_rule_id": "D_DEFAULT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -24136,7 +24175,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -24149,7 +24188,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -24169,8 +24208,8 @@
       "name": "unrelated_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "2d0a3903fbd610918b847f996f3f891376015bdaa9907b8e85f2f08f1cf8c6f7",
-      "without_pead_input_sha256": "934caf6855b705012328518b193c09ab7615ddaaa2ef82d0ba25b3c4f67e7a66",
-      "with_pead_input_sha256": "934caf6855b705012328518b193c09ab7615ddaaa2ef82d0ba25b3c4f67e7a66",
+      "without_pead_input_sha256": "2d6607cfa6c60db9621dc0c4e8e45fc842e28252c8367bd27fe8c1ff7b44c49f",
+      "with_pead_input_sha256": "2d6607cfa6c60db9621dc0c4e8e45fc842e28252c8367bd27fe8c1ff7b44c49f",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -24207,7 +24246,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -24420,6 +24459,7 @@
             "decision_trace": {
               "selected_rule_id": "D_REFERENT_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -24581,7 +24621,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -24608,7 +24648,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -24627,8 +24667,8 @@
       "name": "unrelated_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "dd2f10302a5e5bcdcef7eac19e7bd0b089e0de3bc4008adaedf6d849129142d9",
-      "without_pead_input_sha256": "e3a7cd7fdbe712a2d0724463c44949029b3021faa4e1871893b8c01698a0da89",
-      "with_pead_input_sha256": "e3a7cd7fdbe712a2d0724463c44949029b3021faa4e1871893b8c01698a0da89",
+      "without_pead_input_sha256": "ff62336d4f066f113b7b3360e3802551ea1d5726de00a4a0b9d1077c5d4a11f0",
+      "with_pead_input_sha256": "ff62336d4f066f113b7b3360e3802551ea1d5726de00a4a0b9d1077c5d4a11f0",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -24665,7 +24705,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -24806,6 +24846,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -24967,7 +25008,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -24994,7 +25035,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -25013,8 +25054,8 @@
       "name": "unrelated_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "f30e97c057c2c118764b5940024301d81ba33cf2346393129f754513453d1cae",
-      "without_pead_input_sha256": "1fef33c442ea57dcffc91e89f47316fba11355861142782124fa7dd35a491631",
-      "with_pead_input_sha256": "1fef33c442ea57dcffc91e89f47316fba11355861142782124fa7dd35a491631",
+      "without_pead_input_sha256": "8ff8d5f8b30119408402e6f205b7e25a8233fe48475ecd944a3b695e0a72f0ae",
+      "with_pead_input_sha256": "8ff8d5f8b30119408402e6f205b7e25a8233fe48475ecd944a3b695e0a72f0ae",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -25050,7 +25091,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -25191,6 +25232,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -25356,7 +25398,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -25375,8 +25417,8 @@
       "name": "unrelated_promotion",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "56f800ea028dbca617c9075dfe1e8432b4476f9fbc80b988b6fbd7eb687caa9a",
-      "without_pead_input_sha256": "bfab04dba7c9fdbe691af38dbb7189011c5b1c265dc317b8927fcc19cc755bfd",
-      "with_pead_input_sha256": "bfab04dba7c9fdbe691af38dbb7189011c5b1c265dc317b8927fcc19cc755bfd",
+      "without_pead_input_sha256": "0cf54454272de8b7b1282df17e51365f14b975038b0e20315ad406a6c065c57b",
+      "with_pead_input_sha256": "0cf54454272de8b7b1282df17e51365f14b975038b0e20315ad406a6c065c57b",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -25413,7 +25455,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -25627,6 +25669,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -25788,7 +25831,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -25815,7 +25858,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -25834,8 +25877,8 @@
       "name": "unrelated_without_relation_service",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "2d0a3903fbd610918b847f996f3f891376015bdaa9907b8e85f2f08f1cf8c6f7",
-      "without_pead_input_sha256": "934caf6855b705012328518b193c09ab7615ddaaa2ef82d0ba25b3c4f67e7a66",
-      "with_pead_input_sha256": "934caf6855b705012328518b193c09ab7615ddaaa2ef82d0ba25b3c4f67e7a66",
+      "without_pead_input_sha256": "2d6607cfa6c60db9621dc0c4e8e45fc842e28252c8367bd27fe8c1ff7b44c49f",
+      "with_pead_input_sha256": "2d6607cfa6c60db9621dc0c4e8e45fc842e28252c8367bd27fe8c1ff7b44c49f",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -25872,7 +25915,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -26085,6 +26128,7 @@
             "decision_trace": {
               "selected_rule_id": "D_REFERENT_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -26246,7 +26290,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -26273,7 +26317,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -26292,8 +26336,8 @@
       "name": "unrelated_without_relation_service",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "dd2f10302a5e5bcdcef7eac19e7bd0b089e0de3bc4008adaedf6d849129142d9",
-      "without_pead_input_sha256": "e3a7cd7fdbe712a2d0724463c44949029b3021faa4e1871893b8c01698a0da89",
-      "with_pead_input_sha256": "e3a7cd7fdbe712a2d0724463c44949029b3021faa4e1871893b8c01698a0da89",
+      "without_pead_input_sha256": "ff62336d4f066f113b7b3360e3802551ea1d5726de00a4a0b9d1077c5d4a11f0",
+      "with_pead_input_sha256": "ff62336d4f066f113b7b3360e3802551ea1d5726de00a4a0b9d1077c5d4a11f0",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -26330,7 +26374,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -26471,6 +26515,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -26632,7 +26677,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -26659,7 +26704,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -26678,8 +26723,8 @@
       "name": "unrelated_without_relation_service",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "f30e97c057c2c118764b5940024301d81ba33cf2346393129f754513453d1cae",
-      "without_pead_input_sha256": "1fef33c442ea57dcffc91e89f47316fba11355861142782124fa7dd35a491631",
-      "with_pead_input_sha256": "1fef33c442ea57dcffc91e89f47316fba11355861142782124fa7dd35a491631",
+      "without_pead_input_sha256": "8ff8d5f8b30119408402e6f205b7e25a8233fe48475ecd944a3b695e0a72f0ae",
+      "with_pead_input_sha256": "8ff8d5f8b30119408402e6f205b7e25a8233fe48475ecd944a3b695e0a72f0ae",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -26715,7 +26760,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -26856,6 +26901,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -27021,7 +27067,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -27040,8 +27086,8 @@
       "name": "unrelated_without_relation_service",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "56f800ea028dbca617c9075dfe1e8432b4476f9fbc80b988b6fbd7eb687caa9a",
-      "without_pead_input_sha256": "bfab04dba7c9fdbe691af38dbb7189011c5b1c265dc317b8927fcc19cc755bfd",
-      "with_pead_input_sha256": "bfab04dba7c9fdbe691af38dbb7189011c5b1c265dc317b8927fcc19cc755bfd",
+      "without_pead_input_sha256": "0cf54454272de8b7b1282df17e51365f14b975038b0e20315ad406a6c065c57b",
+      "with_pead_input_sha256": "0cf54454272de8b7b1282df17e51365f14b975038b0e20315ad406a6c065c57b",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -27078,7 +27124,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -27292,6 +27338,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -27453,7 +27500,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -27480,7 +27527,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -27499,8 +27546,8 @@
       "name": "relation_override_conflict",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "c3e44681a5ba53f488bc0416a063152ff5bb20606892ca02767fa5034d9d8bcf",
-      "without_pead_input_sha256": "c4b3269fd42c9246a953efdd1d409e7cd8030974ddb8a488c000b025f7f7e501",
-      "with_pead_input_sha256": "c4b3269fd42c9246a953efdd1d409e7cd8030974ddb8a488c000b025f7f7e501",
+      "without_pead_input_sha256": "e2a3d1ad680df45b925bacd8f9e227d1d2e3f7cb4b52e7c55e864e2711e74c83",
+      "with_pead_input_sha256": "e2a3d1ad680df45b925bacd8f9e227d1d2e3f7cb4b52e7c55e864e2711e74c83",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -27537,7 +27584,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -27750,6 +27797,7 @@
             "decision_trace": {
               "selected_rule_id": "D_REFERENT_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -27911,7 +27959,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -27938,7 +27986,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -27957,8 +28005,8 @@
       "name": "relation_override_conflict",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "049b25a6509362ccef60d6c24c65760ee0576f0e0af16629e47f16b161b2e920",
-      "without_pead_input_sha256": "54d37454246f753b39b76de9e0f7bd6c706189a9cca940970efa8a189f60ccba",
-      "with_pead_input_sha256": "54d37454246f753b39b76de9e0f7bd6c706189a9cca940970efa8a189f60ccba",
+      "without_pead_input_sha256": "936dbc553c90128652ac9733b555998e00b7d1a92c9dfa0af3f22eb445b9b738",
+      "with_pead_input_sha256": "936dbc553c90128652ac9733b555998e00b7d1a92c9dfa0af3f22eb445b9b738",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -27995,7 +28043,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -28136,6 +28184,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -28297,7 +28346,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -28324,7 +28373,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -28343,8 +28392,8 @@
       "name": "relation_override_conflict",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "7642f5d9318c98d0aae7458dc2c13fca162a9cc6fe404e28d8bb4c5117e446fc",
-      "without_pead_input_sha256": "1337fc88ea3f20c51661cfd37dbaeb88b36c888a09003d78790f205fc89bf8c3",
-      "with_pead_input_sha256": "1337fc88ea3f20c51661cfd37dbaeb88b36c888a09003d78790f205fc89bf8c3",
+      "without_pead_input_sha256": "88f620e1039dba748220c365904ba19f5db2c3fcdd5f1fa1a1c9b2aaa03a642c",
+      "with_pead_input_sha256": "88f620e1039dba748220c365904ba19f5db2c3fcdd5f1fa1a1c9b2aaa03a642c",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -28380,7 +28429,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -28521,6 +28570,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -28686,7 +28736,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -28705,8 +28755,8 @@
       "name": "relation_override_conflict",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "cff258d3a43a28191e066e08408c9300ba2949aa72623e4598f87c193cad6578",
-      "without_pead_input_sha256": "502f97bcd03489145473a94f2e8d7d99fc1725180097360973c44e8a15e34a3b",
-      "with_pead_input_sha256": "502f97bcd03489145473a94f2e8d7d99fc1725180097360973c44e8a15e34a3b",
+      "without_pead_input_sha256": "206d7172868960cca17abd376a2d2ba5d2cf1575d90674917ee3f4bdeafad6fa",
+      "with_pead_input_sha256": "206d7172868960cca17abd376a2d2ba5d2cf1575d90674917ee3f4bdeafad6fa",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -28743,7 +28793,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -28957,6 +29007,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -29118,7 +29169,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -29145,7 +29196,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -29164,8 +29215,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "a48a050dab02edb0b6ce38a8a90f440156912ddbe29e8f7e440d63aaf63a7c74",
-      "without_pead_input_sha256": "86361e70ba27ddcd7b51aeb545a9cdc4db0a6c71a7f1065bc6ae1ada5f65da79",
-      "with_pead_input_sha256": "86361e70ba27ddcd7b51aeb545a9cdc4db0a6c71a7f1065bc6ae1ada5f65da79",
+      "without_pead_input_sha256": "f925d73b4de8bdb6c91721b520a06767e329a6a57061cdc6ca3152b887610266",
+      "with_pead_input_sha256": "f925d73b4de8bdb6c91721b520a06767e329a6a57061cdc6ca3152b887610266",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -29204,7 +29255,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -29673,6 +29724,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -29835,7 +29887,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -29848,7 +29900,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -29861,7 +29913,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -29881,8 +29933,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "2ab59df6ea5bf45ed4c733451ba84e94214279e4a6c013333580bcbf3cc56939",
-      "without_pead_input_sha256": "ba8623c60636c06d5c477d73479b6aab4eb1989e0199714680f4efe7f1fbbe57",
-      "with_pead_input_sha256": "ba8623c60636c06d5c477d73479b6aab4eb1989e0199714680f4efe7f1fbbe57",
+      "without_pead_input_sha256": "eb3496e905c8acd2fb201b0cb8141c3cf27ee12749033ced65354eb987f5fb90",
+      "with_pead_input_sha256": "eb3496e905c8acd2fb201b0cb8141c3cf27ee12749033ced65354eb987f5fb90",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -29921,7 +29973,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -30316,6 +30368,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -30478,7 +30531,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -30505,7 +30558,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -30518,7 +30571,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -30538,8 +30591,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "1c2de1dca37f381ccdc294a772c8e49eda78a8d81287804d6d398df076d85d19",
-      "without_pead_input_sha256": "7befeec9e695115b642a032c871c5de9833ebdc34c0464bd9196c53739edc9d3",
-      "with_pead_input_sha256": "7befeec9e695115b642a032c871c5de9833ebdc34c0464bd9196c53739edc9d3",
+      "without_pead_input_sha256": "0e3679b76dbef329f66b5c3dbb685024031c0b4e55034fd78bbbd5194a8862ae",
+      "with_pead_input_sha256": "0e3679b76dbef329f66b5c3dbb685024031c0b4e55034fd78bbbd5194a8862ae",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -30578,7 +30631,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -30974,6 +31027,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -31136,7 +31190,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -31163,7 +31217,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -31176,7 +31230,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -31196,8 +31250,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "d1c10c11b84f9a0569f2b3a9d52d8b9c6a9d90d5f422035a91566b24bcd82318",
-      "without_pead_input_sha256": "a5f24d3128d14ea4843b468fa326b8a9432f5803a8bb12c4bdbe766fe1c3bc33",
-      "with_pead_input_sha256": "a5f24d3128d14ea4843b468fa326b8a9432f5803a8bb12c4bdbe766fe1c3bc33",
+      "without_pead_input_sha256": "259eabf07f10b8232e1a46d1a85aa51625b7f4dc0cedc5a8593c4df8c961e77f",
+      "with_pead_input_sha256": "259eabf07f10b8232e1a46d1a85aa51625b7f4dc0cedc5a8593c4df8c961e77f",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -31236,7 +31290,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -31672,6 +31726,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -31834,7 +31889,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -31861,7 +31916,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -31874,7 +31929,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -31894,8 +31949,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "6143dbc5f09f5cd8af4a66ee06e9c5805c3a65d011623000555e69cc3ba86dfb",
-      "without_pead_input_sha256": "d55c2104b62cc0906751def11474e6852781a14d8a781ac4f4fe261906fcff1b",
-      "with_pead_input_sha256": "d55c2104b62cc0906751def11474e6852781a14d8a781ac4f4fe261906fcff1b",
+      "without_pead_input_sha256": "ea6db1d84631888f3cea526ab4f33ceeefbfd2356599cd472e1f233cfed14e42",
+      "with_pead_input_sha256": "ea6db1d84631888f3cea526ab4f33ceeefbfd2356599cd472e1f233cfed14e42",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -31934,7 +31989,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -32329,6 +32384,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -32491,7 +32547,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -32504,7 +32560,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -32531,7 +32587,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -32551,8 +32607,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "3c4cd0405517656acf2e11bd2edbfaf9dffd62b8ab774752d3541335ffbc12c1",
-      "without_pead_input_sha256": "22e76e34fd6fd76c193b26d7bb490ffc3188378fa96e7066383a3173b1337404",
-      "with_pead_input_sha256": "22e76e34fd6fd76c193b26d7bb490ffc3188378fa96e7066383a3173b1337404",
+      "without_pead_input_sha256": "7868920530f73323c17c11ea82bfe445af9b7d1adb71ea12a104630dc645bd74",
+      "with_pead_input_sha256": "7868920530f73323c17c11ea82bfe445af9b7d1adb71ea12a104630dc645bd74",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -32591,7 +32647,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -32892,6 +32948,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -33054,7 +33111,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -33067,7 +33124,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -33080,7 +33137,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -33100,8 +33157,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "7443565846824157eab61d883e9b440a9d5794e2f5d1503a46c44fad0ba3530c",
-      "without_pead_input_sha256": "f5f7b299e7d87fada5d1cf88e8687240a2fc993cdb7d1ba607665f87d347ffbb",
-      "with_pead_input_sha256": "f5f7b299e7d87fada5d1cf88e8687240a2fc993cdb7d1ba607665f87d347ffbb",
+      "without_pead_input_sha256": "38a31d56bdbfa09c4cbde8d0394a547c5e9c08a1415b935d349e3ae700404ded",
+      "with_pead_input_sha256": "38a31d56bdbfa09c4cbde8d0394a547c5e9c08a1415b935d349e3ae700404ded",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -33140,7 +33197,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -33442,6 +33499,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -33604,7 +33662,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -33631,7 +33689,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -33644,7 +33702,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -33664,8 +33722,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "9bae4c54536d39141593b18713e75d969ecb4688a72a65781809981a3c00a439",
-      "without_pead_input_sha256": "5e446a3fc8ed9c6e58f1e803d1928f56123e4fbed5d3afd0d441919a420e0291",
-      "with_pead_input_sha256": "5e446a3fc8ed9c6e58f1e803d1928f56123e4fbed5d3afd0d441919a420e0291",
+      "without_pead_input_sha256": "0e44f6ecd0ccdb0357c6a2050196dc4f89c7385d52bbb0bbf3596a884bfc8636",
+      "with_pead_input_sha256": "0e44f6ecd0ccdb0357c6a2050196dc4f89c7385d52bbb0bbf3596a884bfc8636",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -33704,7 +33762,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -34006,6 +34064,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -34168,7 +34227,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -34195,7 +34254,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -34208,7 +34267,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -34228,8 +34287,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "1f7ba868ab9a602e63d57a020c1b16ab0c38da895ad852873d092c0b15d1b3e7",
-      "without_pead_input_sha256": "0cacf6a9342afd93083143c6f63ebc4add2e17e3a1bb7af294bfda655f9db23e",
-      "with_pead_input_sha256": "0cacf6a9342afd93083143c6f63ebc4add2e17e3a1bb7af294bfda655f9db23e",
+      "without_pead_input_sha256": "e6f2abd12949fedf64272d85367ee52211b28bfc5e636eaad66f87c06e7cbc1d",
+      "with_pead_input_sha256": "e6f2abd12949fedf64272d85367ee52211b28bfc5e636eaad66f87c06e7cbc1d",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -34268,7 +34327,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -34664,6 +34723,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -34826,7 +34886,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -34839,7 +34899,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -34866,7 +34926,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -34886,8 +34946,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "f22e009bd3dc9c9a89215ec87a188e3d752d9ffe73eec271bb564100ddd14fcf",
-      "without_pead_input_sha256": "9ca4794ddccbd855acf5a5d77a37ba8415d93722d1754c038aedbd00652a9429",
-      "with_pead_input_sha256": "9ca4794ddccbd855acf5a5d77a37ba8415d93722d1754c038aedbd00652a9429",
+      "without_pead_input_sha256": "1383f55b838fc87ce2ddb239aaeb2b9d55934ef0ee105e2fb5b7f35649cd5af9",
+      "with_pead_input_sha256": "1383f55b838fc87ce2ddb239aaeb2b9d55934ef0ee105e2fb5b7f35649cd5af9",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -34926,7 +34986,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -35228,6 +35288,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -35390,7 +35451,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -35403,7 +35464,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -35430,7 +35491,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -35450,8 +35511,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "6b6ebfa75f5ae36ca98dd2ea1f7f9e50abfd4dc3dfbcbcae37c5b56ea2a46260",
-      "without_pead_input_sha256": "31d14c40aae3777a4221dd7c975aaef34a1db1e35be9cfef0fa5b5e6952f3c5a",
-      "with_pead_input_sha256": "31d14c40aae3777a4221dd7c975aaef34a1db1e35be9cfef0fa5b5e6952f3c5a",
+      "without_pead_input_sha256": "bab4bc39e3760ae7e7519541dc7cce516ac03ec44b7f18e985795c294c2b400c",
+      "with_pead_input_sha256": "bab4bc39e3760ae7e7519541dc7cce516ac03ec44b7f18e985795c294c2b400c",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -35488,7 +35549,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -35789,6 +35850,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -35941,7 +36003,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -35954,7 +36016,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -35974,8 +36036,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "127b8cf94da8b8e25ad2ebbf1c3fd7f16bc81f5f07b69b560cdfde88317df75d",
-      "without_pead_input_sha256": "4a9eb702b2ae8b9819cca581b7c96f5af3999b9a924e1b7e0eff896bbc68f1dc",
-      "with_pead_input_sha256": "4a9eb702b2ae8b9819cca581b7c96f5af3999b9a924e1b7e0eff896bbc68f1dc",
+      "without_pead_input_sha256": "1c29ab0302b98f2bbb1860d7ebf66df38bbe913d211fae0cca54291c8fd429b5",
+      "with_pead_input_sha256": "1c29ab0302b98f2bbb1860d7ebf66df38bbe913d211fae0cca54291c8fd429b5",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -36012,7 +36074,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -36313,6 +36375,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -36479,7 +36542,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -36492,7 +36555,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -36512,8 +36575,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "9a833339df8f9f8515d4c177e3ea8640ca6bd74af874011f7a9fdebc83c945ff",
-      "without_pead_input_sha256": "6ab4d487216c79b36c794321fd7b3a61a876272e160e3b2821dd6e47d5f9b8fb",
-      "with_pead_input_sha256": "6ab4d487216c79b36c794321fd7b3a61a876272e160e3b2821dd6e47d5f9b8fb",
+      "without_pead_input_sha256": "2c07eebfc2d437ad462cead9ee4f9d691c698c0ccc4386b4f9fc0020e8842e25",
+      "with_pead_input_sha256": "2c07eebfc2d437ad462cead9ee4f9d691c698c0ccc4386b4f9fc0020e8842e25",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -36552,7 +36615,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -36988,6 +37051,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -37150,7 +37214,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -37163,7 +37227,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -37190,7 +37254,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -37210,8 +37274,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "e351825abe8bc9428ff9d2e30436c26278d7062cf7d0911be830c71548635752",
-      "without_pead_input_sha256": "36dc1c2978748d5070ae0a25a718b374aa5a0bae53ff5e8ae39cb486d513d412",
-      "with_pead_input_sha256": "36dc1c2978748d5070ae0a25a718b374aa5a0bae53ff5e8ae39cb486d513d412",
+      "without_pead_input_sha256": "2f7c43c4d153c89f606466becb29207879d5175ca24e69c5c58694646f17252b",
+      "with_pead_input_sha256": "2f7c43c4d153c89f606466becb29207879d5175ca24e69c5c58694646f17252b",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -37250,7 +37314,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -37552,6 +37616,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNCERTAIN",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -37714,7 +37779,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -37727,7 +37792,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -37754,7 +37819,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -37774,8 +37839,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "1c713eb49b37381869e07c5dca3c056bcdc9cebb0dcfe5c1c7e083a336d1eb44",
-      "without_pead_input_sha256": "06ff48503c8118c1c7820d95b0db21684f0c569ebfa626a0824444c92e717da6",
-      "with_pead_input_sha256": "06ff48503c8118c1c7820d95b0db21684f0c569ebfa626a0824444c92e717da6",
+      "without_pead_input_sha256": "9c92956c1934fb2593c1bbbf2a9aec8c40e08a83ef1958162403c4e48b5f5385",
+      "with_pead_input_sha256": "9c92956c1934fb2593c1bbbf2a9aec8c40e08a83ef1958162403c4e48b5f5385",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -37812,7 +37877,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -38113,6 +38178,7 @@
             "decision_trace": {
               "selected_rule_id": "D_UNRELATED",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -38265,7 +38331,7 @@
             "disposition": "NONE",
             "reason_code": "RELATION_UNRELATED_CONFIRMED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -38292,7 +38358,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -38312,8 +38378,8 @@
       "name": "relation_wrong_encouragement",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "c57d0dae2fc94800c3739e717e30bc5685bc82b505fed2fe8e97c6e22f6dfbe9",
-      "without_pead_input_sha256": "e7f209319b7fc6624b739ccd890a66c1eb829f202c4398a5f4d231bc9a3390eb",
-      "with_pead_input_sha256": "e7f209319b7fc6624b739ccd890a66c1eb829f202c4398a5f4d231bc9a3390eb",
+      "without_pead_input_sha256": "6570ee9fa63ecec552da74ebfc2a0dca78d148e874a0240c1f769501a984ae1b",
+      "with_pead_input_sha256": "6570ee9fa63ecec552da74ebfc2a0dca78d148e874a0240c1f769501a984ae1b",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -38350,7 +38416,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -38651,6 +38717,7 @@
             "decision_trace": {
               "selected_rule_id": "D_DEFAULT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -38803,7 +38870,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -38816,7 +38883,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -38836,8 +38903,8 @@
       "name": "counter_context_tagging",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "d410ffc6bfb87e9280cbfc04b707421857dba51a49f5cb1709a2b6c1adb8cbbf",
-      "without_pead_input_sha256": "0298cc9d77ba6a1c199a6010b2a4a88c2c3d8eefc85d4322da4851ff6f0a90a0",
-      "with_pead_input_sha256": "0298cc9d77ba6a1c199a6010b2a4a88c2c3d8eefc85d4322da4851ff6f0a90a0",
+      "without_pead_input_sha256": "75367e388e9ab491939f719431f3050d9c9d3c3cc2b2994be0d3f64ff8eefe17",
+      "with_pead_input_sha256": "75367e388e9ab491939f719431f3050d9c9d3c3cc2b2994be0d3f64ff8eefe17",
       "reference_action": null,
       "without_pead": {
         "disposition": "FLAG",
@@ -38876,7 +38943,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -39223,6 +39290,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -39385,7 +39453,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -39412,7 +39480,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -39439,7 +39507,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -39458,8 +39526,8 @@
       "name": "counter_context_tagging",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "2e085ed23df6c3cf256dc20bf5f00c09296e76edfd47063f230e30938da17a4c",
-      "without_pead_input_sha256": "878116d942b7e652be907dbcf0e75fd089c9fdbdf77c5a406b407912bcae5443",
-      "with_pead_input_sha256": "878116d942b7e652be907dbcf0e75fd089c9fdbdf77c5a406b407912bcae5443",
+      "without_pead_input_sha256": "3ca1844dffdfed0fdfc0882d46c824b78c1e649bea67058c0f44b7458b0e3c3f",
+      "with_pead_input_sha256": "3ca1844dffdfed0fdfc0882d46c824b78c1e649bea67058c0f44b7458b0e3c3f",
       "reference_action": null,
       "without_pead": {
         "disposition": "REVIEW",
@@ -39498,7 +39566,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -39824,6 +39892,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -39986,7 +40055,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -40013,7 +40082,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -40040,7 +40109,7 @@
             "disposition": "REVIEW",
             "reason_code": "MISSING_SEMANTIC_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -40059,8 +40128,8 @@
       "name": "counter_context_tagging",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "a6fcb1f5989c66950dd478713a3768592795e7453ecf032b2e0b81567673feca",
-      "without_pead_input_sha256": "925c650535b99010e43fe9f93182886c4dc71e59e4e1a3468d5f84b3d0664ab7",
-      "with_pead_input_sha256": "925c650535b99010e43fe9f93182886c4dc71e59e4e1a3468d5f84b3d0664ab7",
+      "without_pead_input_sha256": "b823e727807bff3d2d501d42db36113dab140fb6ed4f1b75d7175bb10fb0a208",
+      "with_pead_input_sha256": "b823e727807bff3d2d501d42db36113dab140fb6ed4f1b75d7175bb10fb0a208",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -40099,7 +40168,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -40447,6 +40516,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -40609,7 +40679,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -40636,7 +40706,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -40649,7 +40719,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -40668,8 +40738,8 @@
       "name": "counter_context_tagging",
       "mode": "MOCK_SYNTHETIC",
       "input_sha256": "38a37b854ab0417edc79ea080d1238376013844ba65ebc294d0222ed535939cb",
-      "without_pead_input_sha256": "eaf75fa17eb5c13ab78dc8be9d43c3105215fdde7cce0c77aaf05ef4d25905a2",
-      "with_pead_input_sha256": "eaf75fa17eb5c13ab78dc8be9d43c3105215fdde7cce0c77aaf05ef4d25905a2",
+      "without_pead_input_sha256": "3340d94a409e26f6897ae3a865ffa059cb251a809ecb1ca4180ae1442e33eaee",
+      "with_pead_input_sha256": "3340d94a409e26f6897ae3a865ffa059cb251a809ecb1ca4180ae1442e33eaee",
       "reference_action": null,
       "without_pead": {
         "disposition": "NONE",
@@ -40708,7 +40778,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -41056,6 +41126,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -41218,7 +41289,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -41245,7 +41316,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -41258,7 +41329,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],

@@ -1,7 +1,7 @@
 {
   "danger_promotion": {
-    "id": "baf2d73d2d15471ba98c5438ec001cc2",
-    "created_at": "2026-10-18 05:34:53",
+    "id": "ffe1b40c223247d9a87fb46021370919",
+    "created_at": "2026-10-18 06:07:27",
     "video_name": "合成示例｜危险动作与鼓励模仿",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -23,7 +23,8 @@
             "S002:F001"
           ],
           "event_id": "EVT_DANGER",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         },
         {
           "id": "E02",
@@ -39,7 +40,8 @@
             "S003:F001"
           ],
           "event_id": "EVT_DANGER",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         },
         {
           "id": "E03",
@@ -55,7 +57,8 @@
             "S003:F002"
           ],
           "event_id": "EVT_DANGER",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         }
       ],
       "coverage": "FULL",
@@ -524,6 +527,7 @@
               "decision_trace": {
                 "selected_rule_id": "D_MODEL_SUPPORTED",
                 "facts": {
+                  "accepted_counter": false,
                   "accepted_model_support": true,
                   "accepted_support": true,
                   "action_unlocated": false,
@@ -652,6 +656,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -668,6 +674,8 @@
           "reason_code": "NO_OBSERVED_PII",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -684,6 +692,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -700,6 +710,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -716,6 +728,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -732,6 +746,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -748,6 +764,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -764,6 +782,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -780,6 +800,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -834,7 +856,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -1187,6 +1209,7 @@
             "decision_trace": {
               "selected_rule_id": "D_MODEL_SUPPORTED",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": true,
                 "accepted_support": true,
                 "action_unlocated": false,
@@ -1349,7 +1372,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -1362,7 +1385,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -1375,7 +1398,7 @@
             "disposition": "FLAG",
             "reason_code": "RELATION_LINK_ASSISTED",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -2067,8 +2090,8 @@
     "error": ""
   },
   "warning_context": {
-    "id": "f641255eff1f4f8abee83a35d644f0ae",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "25cd92e8a83a4a84b3c17fd6675505f3",
+    "created_at": "2026-10-18 06:07:27",
     "video_name": "合成示例｜安全警示语境",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -2090,7 +2113,8 @@
             "S002:F001"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": true
         },
         {
           "id": "E02",
@@ -2106,7 +2130,8 @@
             "S003:F001"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         },
         {
           "id": "E03",
@@ -2122,7 +2147,8 @@
             "S003:F002"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         }
       ],
       "coverage": "FULL",
@@ -2582,6 +2608,7 @@
               "decision_trace": {
                 "selected_rule_id": "D_DEFAULT",
                 "facts": {
+                  "accepted_counter": true,
                   "accepted_model_support": false,
                   "accepted_support": false,
                   "action_unlocated": false,
@@ -2710,6 +2737,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -2726,6 +2755,8 @@
           "reason_code": "NO_OBSERVED_PII",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2742,6 +2773,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2758,6 +2791,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2774,6 +2809,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2790,6 +2827,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2806,6 +2845,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2822,6 +2863,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2838,6 +2881,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -2892,7 +2937,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -3193,6 +3238,7 @@
             "decision_trace": {
               "selected_rule_id": "D_DEFAULT",
               "facts": {
+                "accepted_counter": true,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -3345,7 +3391,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -3358,7 +3404,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -3756,8 +3802,8 @@
     "error": ""
   },
   "relation_wrong_encouragement": {
-    "id": "773ea143d4434142a5910f0a753be52f",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "74e278a10a304c239b5b252f98094733",
+    "created_at": "2026-10-18 06:07:28",
     "video_name": "合成示例｜警示与模型判断冲突",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -3779,7 +3825,8 @@
             "S002:F001"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": true
         },
         {
           "id": "E02",
@@ -3795,7 +3842,8 @@
             "S003:F001"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         },
         {
           "id": "E03",
@@ -3811,7 +3859,8 @@
             "S003:F002"
           ],
           "event_id": "EVT_EDU",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         }
       ],
       "coverage": "FULL",
@@ -4333,6 +4382,7 @@
               "decision_trace": {
                 "selected_rule_id": "D_STANCE_CONFLICT",
                 "facts": {
+                  "accepted_counter": false,
                   "accepted_model_support": false,
                   "accepted_support": false,
                   "action_unlocated": false,
@@ -4461,6 +4511,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -4477,6 +4529,8 @@
           "reason_code": "NO_OBSERVED_PII",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4493,6 +4547,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4509,6 +4565,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4525,6 +4583,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4541,6 +4601,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4557,6 +4619,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4573,6 +4637,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4589,6 +4655,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -4643,7 +4711,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -5112,6 +5180,7 @@
             "decision_trace": {
               "selected_rule_id": "D_STANCE_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -5274,7 +5343,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5287,7 +5356,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -5300,7 +5369,7 @@
             "disposition": "REVIEW",
             "reason_code": "CONFLICTING_STANCE",
             "changed": false,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -5955,8 +6024,8 @@
     "error": ""
   },
   "relation_override_conflict": {
-    "id": "d6b4edaad1574dca8140a8a1deb77475",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "993f90771aea432091b2c8f19a09dab0",
+    "created_at": "2026-10-18 06:07:29",
     "video_name": "合成示例｜跨事件误关联",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -5978,7 +6047,8 @@
             "S002:F002"
           ],
           "event_id": "EVT_FIRE",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": true
         },
         {
           "id": "E02",
@@ -5994,7 +6064,8 @@
             "S003:F001"
           ],
           "event_id": "EVT_SKYDIVE",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         }
       ],
       "coverage": "FULL",
@@ -6431,6 +6502,7 @@
               "decision_trace": {
                 "selected_rule_id": "D_REFERENT_CONFLICT",
                 "facts": {
+                  "accepted_counter": false,
                   "accepted_model_support": false,
                   "accepted_support": false,
                   "action_unlocated": false,
@@ -6558,6 +6630,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -6574,6 +6648,8 @@
           "reason_code": "NO_OBSERVED_PII",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6590,6 +6666,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6606,6 +6684,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6622,6 +6702,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6638,6 +6720,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6654,6 +6738,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6670,6 +6756,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6686,6 +6774,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -6739,7 +6829,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [
           {
@@ -6952,6 +7042,7 @@
             "decision_trace": {
               "selected_rule_id": "D_REFERENT_CONFLICT",
               "facts": {
+                "accepted_counter": false,
                 "accepted_model_support": false,
                 "accepted_support": false,
                 "action_unlocated": false,
@@ -7113,7 +7204,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           },
           {
@@ -7140,7 +7231,7 @@
             "disposition": "NONE",
             "reason_code": "NO_SUPPORTING_RELATION",
             "changed": true,
-            "ruleset_sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b",
+            "ruleset_sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
             "note": "仅移除这些观察，复用冻结关系回答与同一规则快照，不重新调用模型或重新编号。"
           }
         ],
@@ -7680,8 +7771,8 @@
     "error": ""
   },
   "privacy_screen_text": {
-    "id": "a11dd9a883c7431797fbaac9d9d104d7",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "739016051cd34fc5962953e79617e6a1",
+    "created_at": "2026-10-18 06:07:29",
     "video_name": "合成示例｜屏幕文字隐私暴露",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -7703,7 +7794,8 @@
             "S002:F001"
           ],
           "event_id": "EVT_PRIVACY",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": true
         }
       ],
       "coverage": "FULL",
@@ -7967,6 +8059,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -7985,6 +8079,8 @@
             "E01"
           ],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8001,6 +8097,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8017,6 +8115,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8033,6 +8133,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8049,6 +8151,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8065,6 +8169,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8081,6 +8187,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8097,6 +8205,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -8145,7 +8255,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -8624,8 +8734,8 @@
     "error": ""
   },
   "credential_claim": {
-    "id": "e93079c32b414379bd721a38992d0992",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "38132d6e79084f4daf78620a31fccabd",
+    "created_at": "2026-10-18 06:07:29",
     "video_name": "合成示例｜营销及资质声称",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -8647,7 +8757,8 @@
             "S002:F001"
           ],
           "event_id": "EVT_CLAIM",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": true
         },
         {
           "id": "E02",
@@ -8663,7 +8774,8 @@
             "S002:F002"
           ],
           "event_id": "EVT_CLAIM",
-          "time_confidence": "HIGH"
+          "time_confidence": "HIGH",
+          "needs_human_review": false
         }
       ],
       "coverage": "FULL",
@@ -8966,6 +9078,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -8977,11 +9091,13 @@
         },
         {
           "policy_id": "R_PRIVACY_EXPOSURE",
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_OBSERVED_PII",
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9001,6 +9117,8 @@
             "E02"
           ],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9017,6 +9135,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9033,6 +9153,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9049,6 +9171,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9060,11 +9184,13 @@
         },
         {
           "policy_id": "R_FRAUD_SCAM",
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_RELEVANT_CUE",
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9076,11 +9202,13 @@
         },
         {
           "policy_id": "R_CONTROLLED_GOODS",
-          "judgement": "NOT_SUPPORTED",
-          "disposition": "NONE",
-          "reason_code": "NO_RELEVANT_CUE",
+          "judgement": "UNKNOWN",
+          "disposition": "RECHECK",
+          "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9097,6 +9225,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9146,7 +9276,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -9421,6 +9551,26 @@
             "summary": "安全风险控制中部分子项需要人工复核。",
             "items": [
               {
+                "key": "finding_R_PRIVACY_EXPOSURE",
+                "label": "个人隐私暴露",
+                "score": 55,
+                "status": "MANUAL_REVIEW",
+                "summary": "视频观察不完整，需要补充核查。",
+                "evidence_refs": [
+                  "S001:F001"
+                ],
+                "time_ranges": [
+                  {
+                    "start_ms": 300,
+                    "end_ms": 5800,
+                    "evidence_refs": [
+                      "S001:F001"
+                    ]
+                  }
+                ],
+                "limitations": []
+              },
+              {
                 "key": "finding_R_MARKETING_CLAIM",
                 "label": "营销及资质声称",
                 "score": 55,
@@ -9447,13 +9597,61 @@
                   }
                 ],
                 "limitations": []
+              },
+              {
+                "key": "finding_R_FRAUD_SCAM",
+                "label": "诈骗与高风险诱导",
+                "score": 55,
+                "status": "MANUAL_REVIEW",
+                "summary": "视频观察不完整，需要补充核查。",
+                "evidence_refs": [
+                  "S001:F001"
+                ],
+                "time_ranges": [
+                  {
+                    "start_ms": 300,
+                    "end_ms": 5800,
+                    "evidence_refs": [
+                      "S001:F001"
+                    ]
+                  }
+                ],
+                "limitations": []
+              },
+              {
+                "key": "finding_R_CONTROLLED_GOODS",
+                "label": "受控商品风险",
+                "score": 55,
+                "status": "MANUAL_REVIEW",
+                "summary": "视频观察不完整，需要补充核查。",
+                "evidence_refs": [
+                  "S001:F001"
+                ],
+                "time_ranges": [
+                  {
+                    "start_ms": 300,
+                    "end_ms": 5800,
+                    "evidence_refs": [
+                      "S001:F001"
+                    ]
+                  }
+                ],
+                "limitations": []
               }
             ],
             "evidence_refs": [
+              "S001:F001",
               "E01",
               "E02"
             ],
             "time_ranges": [
+              {
+                "start_ms": 300,
+                "end_ms": 5800,
+                "evidence_refs": [
+                  "S001:F001"
+                ]
+              },
               {
                 "start_ms": 6200,
                 "end_ms": 11000,
@@ -9472,15 +9670,15 @@
             "limitations": []
           },
           "context_completeness": {
-            "score": 90,
-            "status": "PASS",
-            "summary": "语境完整性的子项均已评估，未发现问题。",
+            "score": 55,
+            "status": "MANUAL_REVIEW",
+            "summary": "语境完整性中部分子项需要人工复核。",
             "items": [
               {
                 "key": "observable_context",
                 "label": "可观察语境",
-                "score": 90,
-                "status": "PASS",
+                "score": 55,
+                "status": "MANUAL_REVIEW",
                 "summary": "相关语境只能以输入中的提示、画面或口播为准。",
                 "evidence_refs": [
                   "EVT_CLAIM"
@@ -9687,6 +9885,345 @@
                 "acceptance_criteria": "已取得可核验依据，或相关未经证实的资质与营销声称已从视频中移除。"
               }
             ]
+          },
+          {
+            "id": "R02",
+            "section": "全局审核项",
+            "scope": "GLOBAL",
+            "event_id": null,
+            "video": {
+              "summary": "该问题缺少可归属的独立视频事件。",
+              "time_ranges": []
+            },
+            "counter_evidence": {
+              "checked": false,
+              "source": "NOT_APPLICABLE",
+              "found": false,
+              "relation_checked": false,
+              "relation_status": "NOT_REQUIRED"
+            },
+            "issues": [
+              {
+                "id": "I02",
+                "source": "FINDING",
+                "finding_ids": [
+                  "R_PRIVACY_EXPOSURE"
+                ],
+                "analysis_issue_ids": [],
+                "priority": "P1",
+                "category": "个人隐私暴露",
+                "title": "个人隐私暴露",
+                "description": "视频观察不完整，需要补充核查。",
+                "time_ranges": [
+                  {
+                    "start_ms": 6200,
+                    "end_ms": 11000,
+                    "evidence_refs": [
+                      "E01",
+                      "S002:F001"
+                    ]
+                  },
+                  {
+                    "start_ms": 11500,
+                    "end_ms": 16500,
+                    "evidence_refs": [
+                      "E02",
+                      "S002:F002"
+                    ]
+                  }
+                ],
+                "supporting_evidence": [
+                  {
+                    "ref": "E01",
+                    "type": "OBSERVATION",
+                    "content": "博主声称自己具备专业认证资质，真实性需要外部核验。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "E01"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "E02",
+                    "type": "OBSERVATION",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "E02"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F001",
+                    "type": "FACT",
+                    "content": "博主声称自己具备专业认证资质。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "S002:F001"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F002",
+                    "type": "FACT",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "S002:F002"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  }
+                ],
+                "uncertainties": []
+              },
+              {
+                "id": "I03",
+                "source": "FINDING",
+                "finding_ids": [
+                  "R_FRAUD_SCAM"
+                ],
+                "analysis_issue_ids": [],
+                "priority": "P1",
+                "category": "诈骗与高风险诱导",
+                "title": "诈骗与高风险诱导",
+                "description": "视频观察不完整，需要补充核查。",
+                "time_ranges": [
+                  {
+                    "start_ms": 6200,
+                    "end_ms": 11000,
+                    "evidence_refs": [
+                      "E01",
+                      "S002:F001"
+                    ]
+                  },
+                  {
+                    "start_ms": 11500,
+                    "end_ms": 16500,
+                    "evidence_refs": [
+                      "E02",
+                      "S002:F002"
+                    ]
+                  }
+                ],
+                "supporting_evidence": [
+                  {
+                    "ref": "E01",
+                    "type": "OBSERVATION",
+                    "content": "博主声称自己具备专业认证资质，真实性需要外部核验。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "E01"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "E02",
+                    "type": "OBSERVATION",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "E02"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F001",
+                    "type": "FACT",
+                    "content": "博主声称自己具备专业认证资质。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "S002:F001"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F002",
+                    "type": "FACT",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "S002:F002"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  }
+                ],
+                "uncertainties": []
+              },
+              {
+                "id": "I04",
+                "source": "FINDING",
+                "finding_ids": [
+                  "R_CONTROLLED_GOODS"
+                ],
+                "analysis_issue_ids": [],
+                "priority": "P1",
+                "category": "受控商品风险",
+                "title": "受控商品风险",
+                "description": "视频观察不完整，需要补充核查。",
+                "time_ranges": [
+                  {
+                    "start_ms": 6200,
+                    "end_ms": 11000,
+                    "evidence_refs": [
+                      "E01",
+                      "S002:F001"
+                    ]
+                  },
+                  {
+                    "start_ms": 11500,
+                    "end_ms": 16500,
+                    "evidence_refs": [
+                      "E02",
+                      "S002:F002"
+                    ]
+                  }
+                ],
+                "supporting_evidence": [
+                  {
+                    "ref": "E01",
+                    "type": "OBSERVATION",
+                    "content": "博主声称自己具备专业认证资质，真实性需要外部核验。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "E01"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "E02",
+                    "type": "OBSERVATION",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "E02"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F001",
+                    "type": "FACT",
+                    "content": "博主声称自己具备专业认证资质。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 6200,
+                        "end_ms": 11000,
+                        "evidence_refs": [
+                          "S002:F001"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  },
+                  {
+                    "ref": "S002:F002",
+                    "type": "FACT",
+                    "content": "博主对产品效果作出绝对化表述。",
+                    "time_ranges": [
+                      {
+                        "start_ms": 11500,
+                        "end_ms": 16500,
+                        "evidence_refs": [
+                          "S002:F002"
+                        ]
+                      }
+                    ],
+                    "limitations": []
+                  }
+                ],
+                "uncertainties": []
+              }
+            ],
+            "actions": [
+              {
+                "id": "A02",
+                "related_issue_ids": [
+                  "I02"
+                ],
+                "action": "MANUAL_REVIEW",
+                "detail": "人工回看原视频，核对语境、事件指向和证据缺口；复核后再决定是否编辑。",
+                "target_time_ranges": [],
+                "reuse_time_ranges": [],
+                "insertion_position": null,
+                "requires_reshoot": false,
+                "acceptance_criteria": "已记录人工复核结论，未把未决线索直接当作确定风险。"
+              },
+              {
+                "id": "A03",
+                "related_issue_ids": [
+                  "I03"
+                ],
+                "action": "MANUAL_REVIEW",
+                "detail": "人工回看原视频，核对语境、事件指向和证据缺口；复核后再决定是否编辑。",
+                "target_time_ranges": [],
+                "reuse_time_ranges": [],
+                "insertion_position": null,
+                "requires_reshoot": false,
+                "acceptance_criteria": "已记录人工复核结论，未把未决线索直接当作确定风险。"
+              },
+              {
+                "id": "A04",
+                "related_issue_ids": [
+                  "I04"
+                ],
+                "action": "MANUAL_REVIEW",
+                "detail": "人工回看原视频，核对语境、事件指向和证据缺口；复核后再决定是否编辑。",
+                "target_time_ranges": [],
+                "reuse_time_ranges": [],
+                "insertion_position": null,
+                "requires_reshoot": false,
+                "acceptance_criteria": "已记录人工复核结论，未把未决线索直接当作确定风险。"
+              }
+            ]
           }
         ],
         "overall_direction": "先按 P1 项回看证据并完成语境或外部依据核验，再决定是否编辑或调整发布。",
@@ -9722,8 +10259,8 @@
     "error": ""
   },
   "partial_coverage": {
-    "id": "22d8cfd3d5354e74a6ba732a7a3d26f2",
-    "created_at": "2026-10-18 05:34:54",
+    "id": "bbcab45b66a446ceb6b8961fd563788f",
+    "created_at": "2026-10-18 06:07:29",
     "video_name": "合成示例｜观察不完整",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -9874,6 +10411,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -9890,6 +10429,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9906,6 +10447,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9922,6 +10465,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9938,6 +10483,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9954,6 +10501,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9970,6 +10519,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -9986,6 +10537,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -10002,6 +10555,8 @@
           "reason_code": "INCOMPLETE_OBSERVATION",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -10033,7 +10588,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {
@@ -11129,8 +11684,8 @@
     "error": ""
   },
   "clean_negative": {
-    "id": "5c4da6bb17de45088ad5e667cae0e645",
-    "created_at": "2026-10-18 05:34:55",
+    "id": "e1901b8b831341b3a459c4b18c94c24e",
+    "created_at": "2026-10-18 06:07:30",
     "video_name": "合成示例｜普通宠物日常",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -11365,6 +11920,8 @@
           "reason_code": "NO_OBSERVED_VIOLENCE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": true,
             "source": "CONTEXT_TAGS",
@@ -11381,6 +11938,8 @@
           "reason_code": "NO_OBSERVED_PII",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11397,6 +11956,8 @@
           "reason_code": "NO_OBSERVED_CLAIM",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11413,6 +11974,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11429,6 +11992,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11445,6 +12010,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11461,6 +12028,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11477,6 +12046,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11493,6 +12064,8 @@
           "reason_code": "NO_RELEVANT_CUE",
           "supporting_ids": [],
           "counter_ids": [],
+          "evidence_confidence": "HIGH",
+          "needs_human_review": false,
           "counter_evidence": {
             "checked": false,
             "source": "NOT_APPLICABLE",
@@ -11524,7 +12097,7 @@
         "ruleset": {
           "id": "PEAD_DANGER_PROMOTION",
           "version": "1.1.0",
-          "sha256": "f4f62ccdb53db23332afd0818c1cfa5d7b5aa0d1e017d45dcd3a564e8d14977b"
+          "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264"
         },
         "rule_firings": [],
         "limits": {

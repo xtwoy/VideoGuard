@@ -575,8 +575,16 @@ def _case_credential_claim() -> dict:
         "relation_choice": None,
         "expectations": {
             "coverage": "FULL",
-            "findings": {"R_MARKETING_CLAIM": ["SUPPORTED", "VERIFY_EXTERNAL"]},
-            "active_finding_policies": ["R_MARKETING_CLAIM"],
+            "findings": {
+                "R_MARKETING_CLAIM": ["SUPPORTED", "VERIFY_EXTERNAL"],
+                # 本用例字幕观察为 PARTIAL：这三个策略依赖字幕，因此只能说"无法判断",
+                # 不能说"未发现"。这是模态级覆盖接入后的预期变化，不是回归。
+                "R_PRIVACY_EXPOSURE": ["UNKNOWN", "RECHECK"],
+                "R_FRAUD_SCAM": ["UNKNOWN", "RECHECK"],
+                "R_CONTROLLED_GOODS": ["UNKNOWN", "RECHECK"],
+            },
+            "active_finding_policies": ["R_MARKETING_CLAIM", "R_PRIVACY_EXPOSURE",
+                                         "R_FRAUD_SCAM", "R_CONTROLLED_GOODS"],
             "event_findings_at_least": 1,
             "cues": ["E01", "E02"],
         },

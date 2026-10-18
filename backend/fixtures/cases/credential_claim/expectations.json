@@ -4,10 +4,25 @@
     "R_MARKETING_CLAIM": [
       "SUPPORTED",
       "VERIFY_EXTERNAL"
+    ],
+    "R_PRIVACY_EXPOSURE": [
+      "UNKNOWN",
+      "RECHECK"
+    ],
+    "R_FRAUD_SCAM": [
+      "UNKNOWN",
+      "RECHECK"
+    ],
+    "R_CONTROLLED_GOODS": [
+      "UNKNOWN",
+      "RECHECK"
     ]
   },
   "active_finding_policies": [
-    "R_MARKETING_CLAIM"
+    "R_MARKETING_CLAIM",
+    "R_PRIVACY_EXPOSURE",
+    "R_FRAUD_SCAM",
+    "R_CONTROLLED_GOODS"
   ],
   "event_findings_at_least": 1,
   "cues": [

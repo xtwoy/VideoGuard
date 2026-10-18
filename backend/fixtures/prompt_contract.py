@@ -255,10 +255,52 @@ def check_relation() -> list[dict]:
         "code": sorted(CHOICES), "passed": not missing,
         "note": f"prompt 未说明：{missing}" if missing else "",
     })
+    # The schema must describe what the adapter actually reads, not a different shape.
+    # This used to be a hard-coded pass, which is how two contracts drifted apart while
+    # the check kept reporting success.
+    answers = schema.get("properties", {}).get("answers")
+    legacy = "decisions" in schema.get("properties", {})
+    adapter_reads = {"type", "choice", "probabilities", "confidence", "noul"}
+    schema_fields: set[str] = set()
+
+    def _collect(node):
+        if isinstance(node, dict):
+            properties = node.get("properties")
+            if isinstance(properties, dict):
+                schema_fields.update(properties)
+            for value in node.values():
+                _collect(value)
+        elif isinstance(node, list):
+            for value in node:
+                _collect(value)
+
+    _collect(answers or {})
+    missing_fields = sorted(adapter_reads - schema_fields)
     results.append({
-        "stage": "relation_check", "check": "schema 协议版本",
-        "prompt": schema.get("properties", {}).get("schema_version", {}).get("const"),
-        "code": "适配器解析类型化 Choice/Noul", "passed": True,
+        "stage": "relation_check", "check": "schema 描述运行时实际读取的 answers 结构",
+        "prompt": sorted(schema_fields), "code": sorted(adapter_reads),
+        "passed": isinstance(answers, dict) and not legacy and not missing_fields,
+        "note": ("schema 仍是旧的 decisions 数组格式" if legacy
+                 else (("schema 缺少字段：" + ", ".join(missing_fields))
+                       if missing_fields else "")),
+    })
+    # A real request must use the documented question suffixes.
+    from src.relation_client import build_request
+
+    request = build_request([{
+        "pair_id": "pair_0",
+        "action": {"id": "A1", "modality": "visual", "tag": "danger_action",
+                   "description": "示例动作", "speech_or_screen_text": ""},
+        "stance": {"id": "P1", "modality": "speech", "tag": "encouragement",
+                   "description": "示例立场", "speech_or_screen_text": ""},
+    }])
+    keys = sorted(request["questions"])
+    results.append({
+        "stage": "relation_check", "check": "真实请求使用 _relation/_review 问题键",
+        "prompt": ["<pair_id>_relation", "<pair_id>_review"], "code": keys,
+        "passed": keys == ["pair_0_relation", "pair_0_review"],
+        "note": "" if keys == ["pair_0_relation", "pair_0_review"]
+                else "build_request 的问题键与文档不一致",
     })
     return results
 

@@ -27,6 +27,9 @@ export type Finding = {
   reason_code: string;
   supporting_ids: string[];
   counter_ids: string[];
+  /** How sure the upstream cue is — separate from how severe the risk would be. */
+  evidence_confidence?: "HIGH" | "LOW";
+  needs_human_review?: boolean;
 };
 
 export type EventFinding = {

@@ -347,4 +347,41 @@ class ArgumentConstructionTests(unittest.TestCase):
                          ("INSUFFICIENT", "REVIEW"))
         self.assertEqual(finding["reason_code"], "MISSING_SEMANTIC_RELATION")
 
+    def test_an_unrelated_counter_answer_cannot_lift_the_review_gate(self):
+        """Adding a third, unrelated answer must not upgrade REVIEW to FLAG.
+
+        D_UNCERTAIN_SUPPORT used to be disabled by has_counter, which only means a
+        counter node exists — not that the solver accepted it. An extra irrelevant
+        answer therefore removed the manual-review gate.
+        """
+        from tests.test_pead_self_review import base, evidence, relation
+
+        unanswered = [evidence("P2", "encouragement")]
+        three = base() + unanswered + [evidence("P3", "encouragement")]
+        two = base() + unanswered
+        decisions = [relation("A", "P"),
+                     {"action_id": "A", "stance_id": "P3", "stance": "unrelated", "valid": True}]
+
+        with_three, _ = decide(three, 25_000, "FULL", 15_000, decisions, require_relation=True)
+        with_two, _ = decide(two, 25_000, "FULL", 15_000, [relation("A", "P")],
+                             require_relation=True)
+
+        self.assertEqual((with_two["judgement"], with_two["disposition"]),
+                         ("INSUFFICIENT", "REVIEW"))
+        self.assertEqual((with_three["judgement"], with_three["disposition"]),
+                         ("INSUFFICIENT", "REVIEW"),
+                         "加入一条无关的反向回答后结论被升级为强提示")
+        self.assertEqual(with_three["reason_code"], "MISSING_SEMANTIC_RELATION")
+
+    def test_an_accepted_counter_still_yields_a_conflict(self):
+        """The gate above must not swallow genuine counter evidence."""
+        from tests.test_pead_self_review import base, evidence, relation
+
+        atoms = base() + [evidence("P2", "encouragement"), evidence("W", "warning")]
+        decisions = [relation("A", "P"), relation("A", "W", "warns_same")]
+        finding, _ = decide(atoms, 25_000, "FULL", 15_000, decisions, require_relation=True)
+        self.assertIn(finding["disposition"], {"REVIEW", "FLAG"})
+        self.assertNotEqual(finding["reason_code"], "MISSING_SEMANTIC_RELATION")
+
+
 if __name__ == '__main__':unittest.main()

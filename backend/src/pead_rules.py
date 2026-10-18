@@ -15,7 +15,7 @@ FACTS = frozenset({
     "coverage_failure", "invalid_evidence", "resource_exceeded", "accepted_support",
     "accepted_model_support", "has_support", "has_counter", "referent_conflict",
     "has_uncertainty", "partial_coverage", "model_counter", "unrelated_confirmed",
-    "negative_relation_conflict", "open_uncertainty"})
+    "negative_relation_conflict", "open_uncertainty", "accepted_counter"})
 KINDS = {
     "UNLOCATED": ("RULE", "UNCERTAINTY"), "COUNTER_CONTEXT": ("RULE", "COUNTER"),
     "LOCAL_PROMOTION": ("RULE", "SUPPORT"), "MODEL_PROMOTION": ("MODEL", "SUPPORT"),
@@ -179,7 +179,7 @@ class RuleSet(FrozenModel):
             # they resolve doubt rather than create it, and structural conflict or
             # counter evidence keeps its own CONFLICTED ruling.
             "D_UNCERTAIN_SUPPORT": (Condition(all_of=("accepted_support", "open_uncertainty"),
-                                              none_of=("referent_conflict", "has_counter")),
+                                              none_of=("accepted_counter",)),
                                     "INSUFFICIENT", "REVIEW"),
         }
         for rid, (condition, judgement, disposition) in protected.items():
