@@ -185,7 +185,7 @@ p{color:#667085}a{font-weight:700;text-decoration:none}</style><main>
         "视鉴 VideoGuard-E 场景演示包\n\n"
         f"解压后打开 index.html。包含 {len(catalog)} 份合成场景审核报告、{len(CAPTIONS)} 张实际页面截图（含 2 张移动端）、完整攻防页面与 JSON 记录。\n"
         "离线浏览无需安装依赖；请保留 screenshots 子目录。\n"
-        "输入为冻结 Mock 数据，PEAD 与报告校验真实执行，未调用外部模型或分析原视频。\n"
+        "输入为人工编写的合成数据，PEAD 与报告校验真实执行，未调用外部模型或分析原视频。攻防演示页使用独立工程 fixture，与五个展示视频场景不是同一次输入。\n"
         "manifest.json 中的 HTTP 审核链接需要原本地服务和数据库，离线报告不需要。\n",
         encoding="utf-8")
     with zipfile.ZipFile(EXPORTS.parent / "VideoGuard-E-demo-pack.zip", "w", zipfile.ZIP_DEFLATED) as archive:

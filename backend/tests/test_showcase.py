@@ -72,7 +72,7 @@ class ShowcaseCatalogTests(unittest.TestCase):
                 self.assertTrue((ROOT / "docs" / "assets" / "demo" / name).is_file())
                 self.assertTrue((EXPORTS / "screenshots" / name).is_file())
         index = (EXPORTS / "index.html").read_text(encoding="utf-8")
-        self.assertIn("五个场景", index)
+        self.assertIn("5 个场景", index)
         self.assertNotIn("八个场景", index)
         self.assertIn("screenshots/06-warning-contrast.png", index)
 

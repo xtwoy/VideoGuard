@@ -68,7 +68,7 @@ VideoGuard-E-v0.6/
 先安装Python 3.11+、FFmpeg（需要`ffprobe`命令）和Python依赖。
 
 > **已验证的环境**：以下步骤在一个全新克隆、仅有系统 Python 的目录里完整跑通过
-> （`uv sync` → 当前基线 248 项后端测试 → 18 个工程回归用例与 5 套展示案例 → 真值表 → HTTP 冒烟 →
+> （`uv sync` → 当前基线 249 项后端测试 → 18 个工程回归用例与 5 套展示案例 → 真值表 → HTTP 冒烟 →
 > `npm ci` → `tsc --noEmit` → `next build`），运行在 **Python 3.11.15** 与 Node 24 上。
 
 ### 方式一：uv（推荐，已在本机验证）
