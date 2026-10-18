@@ -1,4 +1,4 @@
-﻿"""Fixture-pack regression tests.
+"""Fixture-pack regression tests.
 
 These keep the curated mock cases (``backend/fixtures/cases``) honest:
 

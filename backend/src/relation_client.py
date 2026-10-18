@@ -42,12 +42,17 @@ def _text_obs(o: dict) -> dict:
     }
 
 
-def select_pairs(observations: list[dict], duration_ms: int,
-                 limit: int = 3, time_window_ms: int | None = None) -> list[dict]:
-    """Select small candidate pairs by known timestamps and cited issue cues.
+def select_pairs_with_coverage(observations: list[dict], duration_ms: int,
+                               limit: int = 3,
+                               time_window_ms: int | None = None) -> tuple[list[dict], dict]:
+    """Select small candidate pairs and report how many were left out.
 
     ``time_window_ms`` defaults to the shared relation window at call time, so an
     environment override takes effect without reimporting the module.
+
+    Ordering puts pairs whose referents already agree first, then the closest ones.
+    Sorting by distance alone let three unrelated phrases that happened to be nearer
+    take every slot, so the relation that actually mattered was never asked about.
     """
     if time_window_ms is None:
         time_window_ms = params.relation_gap_ms()
@@ -79,8 +84,12 @@ def select_pairs(observations: list[dict], duration_ms: int,
                 continue
             distance = _gap_ms(a, s)
             if distance <= time_window_ms:
-                pairs.append((distance, a["start_ms"], a["id"], s["id"], a, s))
-    pairs.sort(key=lambda row: row[:4])
+                same = _same_referent(a, s)
+                pairs.append((0 if same else 1, distance, a["start_ms"], a["id"], s["id"], a, s))
+    pairs.sort(key=lambda row: row[:5])
+    selected = pairs[:limit]
+    coverage = {"eligible": len(pairs), "selected": len(selected),
+                "omitted": max(0, len(pairs) - len(selected))}
     return [
         {
             "pair_id": f"pair_{i}",
@@ -93,8 +102,14 @@ def select_pairs(observations: list[dict], duration_ms: int,
                                       and not _same_referent(a, s)),
             "action": _text_obs(a), "stance": _text_obs(s)
         }
-        for i, (_, __, ___, ____, a, s) in enumerate(pairs[:limit])
-    ]
+        for i, (_, __, ___, ____, _____, a, s) in enumerate(selected)
+    ], coverage
+
+
+def select_pairs(observations: list[dict], duration_ms: int,
+                 limit: int = 3, time_window_ms: int | None = None) -> list[dict]:
+    """The pairs only; see :func:`select_pairs_with_coverage` for the counts."""
+    return select_pairs_with_coverage(observations, duration_ms, limit, time_window_ms)[0]
 
 
 def build_request(pairs: list[dict], model: str | None = None) -> dict:
@@ -165,6 +180,13 @@ def validate_response(payload: dict, response: dict) -> list[dict]:
                 raise ValueError("invalid relation probability")
             if abs(sum(prob.values())-1.0) > 0.03:
                 raise ValueError("relation probabilities must sum to one")
+            # A chosen label that the distribution does not support cannot be
+            # propagated as a reliable semantic answer. `confidence` and the
+            # probabilities may be defined differently by different providers, so this
+            # only rejects the contradiction (chosen label is not the most probable),
+            # not a mere numeric difference.
+            if float(prob[choice]) + 1e-9 < max(float(v) for v in prob.values()):
+                raise ValueError("relation choice contradicts its probabilities")
             conf = rel["confidence"]
             if type(conf) not in (float, int) or not 0 <= conf <= 1 or not math.isfinite(conf):
                 raise ValueError("invalid relation confidence")
@@ -180,13 +202,15 @@ def validate_response(payload: dict, response: dict) -> list[dict]:
                 "confidence": float(conf),
                 "needs_review_probability": float(need_review),
                 "status": "VALID",
+                "reason": None,
                 "model": response.get("model", payload["model"]),
             })
-        except (TypeError, KeyError, ValueError):
+        except (TypeError, KeyError, ValueError) as error:
             results.append({
                 "pair_id": pair_id, "choice": "insufficient",
                 "confidence": None, "needs_review_probability": None,
                 "status": "INVALID_RESPONSE",
+                "reason": "PROBABILITY_CONFLICT" if "contradicts" in str(error) else "MALFORMED_RESPONSE",
                 "model": response.get("model", payload["model"]) if isinstance(response,dict)
                          else payload["model"]
             })

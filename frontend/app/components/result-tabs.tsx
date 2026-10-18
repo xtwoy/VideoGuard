@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { ChevronRight, PlayCircle } from "lucide-react";
 import {

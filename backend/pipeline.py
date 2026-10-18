@@ -305,14 +305,22 @@ def clean_video_parse(raw: dict, duration_ms: int | None = None) -> dict:
         refs=event.get("evidence_refs")
         if not isinstance(refs,list) or not refs or not set(refs).issubset(fact_map):
             raise ValueError("event 引用了不存在的事实")
-        if not any(fact_map[ref]["start_ms"] < end and start < fact_map[ref]["end_ms"] for ref in refs):
-            raise ValueError("event 时间未覆盖其证据")
+        # Every cited fact must overlap this event's own time range. Requiring only a
+        # single overlap let one stray reference drag another scene's warning into the
+        # event; the mislabelled evidence then propagated into PEAD, which cannot
+        # restore the true attribution afterwards.
+        if any(not (fact_map[ref]["start_ms"] < end and start < fact_map[ref]["end_ms"])
+               for ref in refs):
+            raise ValueError("event 引用的事实必须全部与该事件时间重叠")
         context=event.get("context")
         if not isinstance(context,dict):
             raise ValueError("event.context 必须是对象")
         counter_refs=context.get("counter_context_refs")
         if not isinstance(counter_refs,list) or not set(counter_refs).issubset(fact_map):
             raise ValueError("event counter_context_refs 无效")
+        if any(not (fact_map[ref]["start_ms"] < end and start < fact_map[ref]["end_ms"])
+               for ref in counter_refs):
+            raise ValueError("event counter_context_refs 必须全部与该事件时间重叠")
         event_ids.add(event_id)
         events.append({
             "event_id":event_id, "start_ms":start, "end_ms":end,
@@ -394,6 +402,15 @@ def clean_issue_locator(raw: dict, parsed: dict) -> dict:
             raise ValueError("risk cue ID、标签或事件无效")
         if not isinstance(refs,list) or not refs or not set(refs).issubset(facts):
             raise ValueError("risk cue 必须引用已有事实")
+        # A cue belongs to the event it names, so its evidence must fall inside that
+        # event's time range. Checking only the global catalogue let a cue borrow
+        # another scene's facts and still be treated by PEAD as same-event evidence.
+        # The event's own evidence_refs are a summary, not an exhaustive list, so the
+        # test is temporal rather than set inclusion.
+        owner=by_event[event_id]
+        if any(not (facts[ref]["start_ms"] < owner["end_ms"] and owner["start_ms"] < facts[ref]["end_ms"])
+               for ref in refs):
+            raise ValueError("risk cue 的引用必须落在它声明的事件时间范围内")
         cue_ids.add(cue_id); event=by_event[event_id]
         modality=cue.get("modality") if cue.get("modality") in VALID_MODALITIES else "metadata"
         observation=_text(cue.get("observation"),600)
@@ -484,6 +501,7 @@ def _run_models(observations: dict, duration_ms: int,
             "video_parse":"LIVE",
             "relation_check":relation_status,
             "semantic_check":semantic_check,
+            "pair_coverage":merged.get("pair_coverage"),
             "relation_decisions":merged["relation_decisions"],
             "audit_report":report_status,
             "policy_version":"v0.3",

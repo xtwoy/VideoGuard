@@ -1,4 +1,4 @@
-﻿# 样例数据集（fixtures）
+# 样例数据集（fixtures）
 
 面向 `backend/` 四个模型阶段协议的可复用 mock 数据。**不调用任何网络**，也不复制流水线的校验逻辑——
 每个样例都送进项目自己的校验器（`clean_video_parse`、`clean_issue_locator`、

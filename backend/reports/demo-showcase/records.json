@@ -1,7 +1,7 @@
 {
   "danger_promotion": {
-    "id": "a217b267b91a4cc8b76b0de139336360",
-    "created_at": "2026-10-17 14:39:30",
+    "id": "baf2d73d2d15471ba98c5438ec001cc2",
+    "created_at": "2026-10-18 05:34:53",
     "video_name": "合成示例｜危险动作与鼓励模仿",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -2023,6 +2023,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "DEMO_SYNTHETIC",
         "semantic_check": "COMPLETE",
+        "pair_coverage": {
+          "eligible": 2,
+          "selected": 2,
+          "omitted": 0
+        },
         "relation_decisions": [
           {
             "pair_id": "pair_0",
@@ -2030,6 +2035,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           },
           {
@@ -2038,6 +2044,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           }
         ],
@@ -2060,8 +2067,8 @@
     "error": ""
   },
   "warning_context": {
-    "id": "ef4e0fe6269743e5af42e2f11ab2d8db",
-    "created_at": "2026-10-17 14:39:30",
+    "id": "f641255eff1f4f8abee83a35d644f0ae",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜安全警示语境",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -3705,6 +3712,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "DEMO_SYNTHETIC",
         "semantic_check": "COMPLETE",
+        "pair_coverage": {
+          "eligible": 2,
+          "selected": 2,
+          "omitted": 0
+        },
         "relation_decisions": [
           {
             "pair_id": "pair_0",
@@ -3712,6 +3724,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           },
           {
@@ -3720,6 +3733,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           }
         ],
@@ -3742,8 +3756,8 @@
     "error": ""
   },
   "relation_wrong_encouragement": {
-    "id": "0319250739424ccc93581066a994030e",
-    "created_at": "2026-10-17 14:39:30",
+    "id": "773ea143d4434142a5910f0a753be52f",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜警示与模型判断冲突",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -5897,6 +5911,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "DEMO_SYNTHETIC",
         "semantic_check": "COMPLETE",
+        "pair_coverage": {
+          "eligible": 2,
+          "selected": 2,
+          "omitted": 0
+        },
         "relation_decisions": [
           {
             "pair_id": "pair_0",
@@ -5904,6 +5923,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           },
           {
@@ -5912,6 +5932,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           }
         ],
@@ -5934,8 +5955,8 @@
     "error": ""
   },
   "relation_override_conflict": {
-    "id": "e442d41d9a4b4f5eacbd784f9a1fb321",
-    "created_at": "2026-10-17 14:39:30",
+    "id": "d6b4edaad1574dca8140a8a1deb77475",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜跨事件误关联",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -7624,6 +7645,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "DEMO_SYNTHETIC",
         "semantic_check": "COMPLETE",
+        "pair_coverage": {
+          "eligible": 1,
+          "selected": 1,
+          "omitted": 0
+        },
         "relation_decisions": [
           {
             "pair_id": "pair_0",
@@ -7631,6 +7657,7 @@
             "confidence": 0.94,
             "needs_review_probability": 0.1,
             "status": "VALID",
+            "reason": null,
             "model": "mock-relation-1"
           }
         ],
@@ -7653,8 +7680,8 @@
     "error": ""
   },
   "privacy_screen_text": {
-    "id": "e984c40050d44213939f612cf6d76009",
-    "created_at": "2026-10-17 14:39:31",
+    "id": "a11dd9a883c7431797fbaac9d9d104d7",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜屏幕文字隐私暴露",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -8573,6 +8600,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "NOT_NEEDED",
         "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+        "pair_coverage": {
+          "eligible": 0,
+          "selected": 0,
+          "omitted": 0
+        },
         "relation_decisions": [],
         "audit_report": "FALLBACK_INVALID_OUTPUT",
         "policy_version": "v0.3",
@@ -8592,8 +8624,8 @@
     "error": ""
   },
   "credential_claim": {
-    "id": "51eae63e88ef42659dec7439a5468fe2",
-    "created_at": "2026-10-17 14:39:31",
+    "id": "e93079c32b414379bd721a38992d0992",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜营销及资质声称",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -9666,6 +9698,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "NOT_NEEDED",
         "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+        "pair_coverage": {
+          "eligible": 0,
+          "selected": 0,
+          "omitted": 0
+        },
         "relation_decisions": [],
         "audit_report": "FALLBACK_INVALID_OUTPUT",
         "policy_version": "v0.3",
@@ -9685,8 +9722,8 @@
     "error": ""
   },
   "partial_coverage": {
-    "id": "1bac02a9dd49463fae011fb9daa5c052",
-    "created_at": "2026-10-17 14:39:31",
+    "id": "22d8cfd3d5354e74a6ba732a7a3d26f2",
+    "created_at": "2026-10-18 05:34:54",
     "video_name": "合成示例｜观察不完整",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -11068,6 +11105,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "NOT_NEEDED",
         "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+        "pair_coverage": {
+          "eligible": 0,
+          "selected": 0,
+          "omitted": 0
+        },
         "relation_decisions": [],
         "audit_report": "FALLBACK_INVALID_OUTPUT",
         "policy_version": "v0.3",
@@ -11087,8 +11129,8 @@
     "error": ""
   },
   "clean_negative": {
-    "id": "c75313b7b7a141f1bc7cdfb238fd7895",
-    "created_at": "2026-10-17 14:39:31",
+    "id": "5c4da6bb17de45088ad5e667cae0e645",
+    "created_at": "2026-10-18 05:34:55",
     "video_name": "合成示例｜普通宠物日常",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -11824,6 +11866,11 @@
         "video_parse": "DEMO_SYNTHETIC",
         "relation_check": "NOT_NEEDED",
         "semantic_check": "NOT_NEEDED_OR_UNLOCATED",
+        "pair_coverage": {
+          "eligible": 0,
+          "selected": 0,
+          "omitted": 0
+        },
         "relation_decisions": [],
         "audit_report": "FALLBACK_INVALID_OUTPUT",
         "policy_version": "v0.3",

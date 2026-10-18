@@ -55,6 +55,7 @@ def capture(video: Path, title: str) -> dict:
     load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
     from main import probe_duration_ms, validate_video
+    from pipeline import clean_video_parse
     from src.issue_locator_client import locate_issues
     from src.model_gateway import parse_video
 
@@ -70,8 +71,13 @@ def capture(video: Path, title: str) -> dict:
 
     print(f"调用事实解析：{video.name}（{len(contents)} 字节，{duration_ms} ms）")
     parse_raw = parse_video("data:;base64," + encoded, duration_ms, title)
+    # Run the production cleaner before the second provider call. Keeping the raw
+    # reply for forensics is fine, but forwarding it would skip the boundary that
+    # trims unknown fields: a stray sensitive value in `context` would otherwise be
+    # sent to the locator service as-is, while the live path drops it.
+    parsed = clean_video_parse(parse_raw, duration_ms)
     print("调用问题定位 …")
-    locator_raw = locate_issues(parse_raw)
+    locator_raw = locate_issues(parsed)
 
     return {
         "video_name": name,
@@ -81,8 +87,12 @@ def capture(video: Path, title: str) -> dict:
         "captured_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "parse_model": os.getenv("VIDEO_PARSE_MODEL"),
         "locator_model": os.getenv("ISSUE_LOCATOR_MODEL") or "(未配置)",
-        "note": "真实模型回包快照。校验脚本只读取本文件，不会再次调用模型。",
+        "note": "真实模型回包快照；调用问题定位前已用 clean_video_parse 清洗。"
+                "校验脚本只读取本文件，不会再次调用模型。",
         "video_parse": parse_raw,
+        "parsed_sha256": hashlib.sha256(
+            json.dumps(parsed["observation_detail"], sort_keys=True, ensure_ascii=False)
+            .encode("utf-8")).hexdigest(),
         "issue_locator": locator_raw,
     }
 
