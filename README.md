@@ -53,7 +53,7 @@ VideoGuard-E-v0.6/
 │   ├── src/                     # PEAD、结果融合、各阶段适配器、报告校验、脱敏
 │   ├── config/policies_v03.json
 │   ├── prompts/                 # 各阶段系统提示词与输出协议 schema
-│   ├── fixtures/                # 18 个可复用样例用例 + 生成/校验工具
+│   ├── fixtures/                # 18 个工程回归样例 + 5 个参赛展示样例及工具
 │   ├── tests/                   # 单元测试 + smoke_live.py 真实 HTTP 冒烟检查
 │   ├── requirements.txt
 │   ├── pyproject.toml            # uv 项目定义（不打包，仅用于锁定依赖）
@@ -68,7 +68,7 @@ VideoGuard-E-v0.6/
 先安装Python 3.11+、FFmpeg（需要`ffprobe`命令）和Python依赖。
 
 > **已验证的环境**：以下步骤在一个全新克隆、仅有系统 Python 的目录里完整跑通过
-> （`uv sync` → 75 项后端测试 → 18 个样例用例 → 真值表 → 端到端冒烟 29 项 →
+> （`uv sync` → 当前基线 248 项后端测试 → 18 个工程回归用例与 5 套展示案例 → 真值表 → HTTP 冒烟 →
 > `npm ci` → `tsc --noEmit` → `next build`），运行在 **Python 3.11.15** 与 Node 24 上。
 
 ### 方式一：uv（推荐，已在本机验证）
@@ -116,7 +116,7 @@ npm run dev -- --hostname 127.0.0.1 --port 5173
 
 > **ffprobe 是硬依赖。** 不在 PATH 时，所有真实上传都会以 422 失败（`无法使用ffprobe检查视频`），而单元测试仍可能全绿，容易误判环境正常。Windows 可用 `winget install Gyan.FFmpeg` 安装，或确认 `ffprobe -version` 有输出。
 
-**没有API Key怎么办？** 点击页面上的「查看合成示例」即可验证完整的UI、SQLite记录、风险展示、HTML报告，但该模式**没有分析真实视频，不能用作算法效果证据**。
+**没有 API Key 怎么办？** 在“合成场景演示”中选择五个参赛展示案例之一，运行正式 PEAD 与报告校验链路。可检验 UI、SQLite 记录、风险展示和 HTML 报告；但模式中**没有分析真实视频，不能用作真实视频识别效果或准确率的证据**。
 
 ## 真实视频路径
 
@@ -200,7 +200,7 @@ npm run build
 .venv/Scripts/python.exe tests/smoke_live.py --base http://127.0.0.1:8000
 ```
 
-**样例数据集（无 API Key 也能演示与调试）**，18 个用例覆盖十条风险策略、核心研究场景与关键边界行为：
+**工程回归样例**共有 18 套，覆盖十条风险策略、核心研究场景与关键边界；**参赛展示数据**另有五套位于 `backend/fixtures/showcase.py`，与工程用例严格分离：
 
 ```bash
 .venv/Scripts/python.exe -m fixtures.validate          # 走真实流水线并核对期望值
@@ -208,7 +208,7 @@ npm run build
 .venv/Scripts/python.exe -m fixtures.generate --check  # 防止样例与用例定义漂移
 ```
 
-每条样例都送进项目自己的协议校验器，校验不过无法生成，因此样例与协议不会脱节。
+工程样例经过真实协议校验；五套参赛展示输入由 `python -m fixtures.showcase_build` 生成并通过正式报告协议校验，预期结果单独声明而不从程序输出反推。
 详情与已修复缺陷的记录见 [`backend/fixtures/README.md`](backend/fixtures/README.md)。
 
 它用真实 HTTP（非 TestClient）驱动接口，自建一段临时视频，检查：服务可用、合成示例与 HTML 报告内容及信息泄露、上传校验（授权/扩展名/空文件）、真实视频的时长探测、无密钥时是否正确 fail-closed 并落库 ERROR。有可用密钥时，同一脚本会走通真实模型路径。
