@@ -26,6 +26,7 @@
 6. 视频事实和 observation 是机器辅助观察，除非输入明确标记人工核实，否则在 `limitations` 保留人工复核限制。
 7. `NEEDS_REVISION` 表示**内容本身需要修改后复核**，只能由风险 finding 支撑。音画可读性问题只说明本次观察不足以支撑判断，没有活跃 finding 时必须输出 `MANUAL_REVIEW`，不得用可读性问题推导内容修改结论。
 8. `overall_score` 取所有维度中的**最低分**，用于保守门控，不代表视频质量评分。
+9. 若输入 finding 的 `needs_human_review` 为 true，对应整改问题必须在 `low_confidence_evidence` 中写上该 finding 的低置信度线索，并在 `uncertainties` 中说明证据尚待人工确认；只写“需人工复核”而不指出具体证据不算满足。
 
 ## 3. 五个维度评分
 

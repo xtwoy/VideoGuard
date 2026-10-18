@@ -7,6 +7,7 @@ capture path.
 import copy
 import json
 import unittest
+from pathlib import Path
 
 from fixtures.compare_pead import load_input
 from pipeline import clean_issue_locator, clean_video_parse
@@ -197,6 +198,50 @@ class CapturePayloadShapeTests(unittest.TestCase):
         self.assertEqual(wrong["questions"], {})
         self.assertTrue(right["state"]["events"])
         self.assertTrue(right["questions"])
+
+    def test_capture_hands_the_locator_the_detail_not_the_wrapper(self):
+        """Call-level guard: fixing the helper is useless if capture bypasses it."""
+        import contextlib
+        import io
+        import os
+        import tempfile
+        from unittest.mock import patch
+
+        from fixtures import upstream_capture
+
+        raw = load_input(ROOT_CASE)["video_parse"]
+        seen = {}
+
+        def fake_locate(payload):
+            seen["payload"] = payload
+            return {"schema_version": "videoguard_issue_locator_v1",
+                    "risk_cues": [], "limitations": []}
+
+        def fake_parse(_data_url, _duration, _title):
+            return copy.deepcopy(raw)
+
+        with tempfile.TemporaryDirectory() as directory:
+            video = Path(directory) / "sample.mp4"
+            video.write_bytes(b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 64)
+            env = {"VIDEO_MODEL_API_KEY": "k", "VIDEO_MODEL_BASE_URL": "http://x",
+                   "VIDEO_PARSE_MODEL": "m", "ISSUE_LOCATOR_API_KEY": "k",
+                   "ISSUE_LOCATOR_ENDPOINT": "http://y"}
+            with patch.dict(os.environ, env), \
+                    patch("dotenv.load_dotenv"), \
+                    patch("main.validate_video", return_value="sample.mp4"), \
+                    patch("main.probe_duration_ms", return_value=25_000), \
+                    patch("src.model_gateway.parse_video", side_effect=fake_parse), \
+                    patch("src.issue_locator_client.locate_issues", side_effect=fake_locate):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    snapshot = upstream_capture.capture(video, "样例")
+
+        payload = seen.get("payload")
+        self.assertIsInstance(payload, dict, "locate_issues 没有被调用")
+        self.assertIn("timeline", payload)
+        self.assertTrue(payload["timeline"]["events"], "事件为空：说明传的是外层包装")
+        self.assertNotIn("observation_detail", payload)
+        # The raw provider reply is still preserved for forensics.
+        self.assertEqual(snapshot["video_parse"]["coverage"]["status"], raw["coverage"]["status"])
 
     def test_missing_detail_is_rejected_instead_of_silently_emptied(self):
         from fixtures.upstream_capture import locator_payload

@@ -419,11 +419,16 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 if not _text(issue.get("category"),100) or not _text(issue.get("title"),160) or not _text(issue.get("description"),1000):
                     raise ValueError("整改问题必须具有分类、标题和描述")
                 seen_issue_ids.add(issue_id); local_issue_ids.add(issue_id)
+                low_confidence=issue.get("low_confidence_evidence") or []
+                if not isinstance(low_confidence,list) or not all(isinstance(x,str) for x in low_confidence):
+                    raise ValueError("low_confidence_evidence 必须是证据 ID 数组")
                 clean_issues.append({
                     "id":issue_id, "source":issue["source"], "finding_ids":finding_ids[:12], "analysis_issue_ids":analysis_ids[:12],
                     "priority":issue["priority"], "category":_text(issue.get("category"),100), "title":_text(issue.get("title"),160),
                     "description":_text(issue.get("description"),1000), "time_ranges":ranges,
                     "supporting_evidence":evidence, "uncertainties":_text_list(issue.get("uncertainties"),240,12),
+                    # Structured, so the caveat cannot be satisfied by prose alone.
+                    "low_confidence_evidence":low_confidence[:12],
                 })
             clean_actions=[]; linked=set()
             for action in actions:
@@ -504,9 +509,9 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
                 expected.add("MANUAL_REVIEW")
             if verdict not in expected:
                 raise ValueError("无风险 finding 时报告总评不一致")
-        # Low-confidence evidence must be stated in the report itself: the exported
-        # HTML can be saved and forwarded without the UI next to it. The note has to be
-        # bound to the finding's own evidence, not just contain the words "人工复核".
+        # Low-confidence evidence must be stated in the report itself, and the check is
+        # on a structured field rather than on prose: a note containing only "E01"
+        # would otherwise satisfy a substring test without saying anything.
         for finding_id, finding in active.items():
             if not finding.get("needs_human_review"):
                 continue
@@ -514,13 +519,11 @@ def validate_audit_report(raw: dict, observation_result: dict, findings: list[di
             bound=False
             for plan in clean_plans:
                 for issue in plan["issues"]:
-                    if finding_id not in issue.get("finding_ids", []):
-                        continue
-                    for note in issue.get("uncertainties", []):
-                        if any(evidence_id in note for evidence_id in own_ids):
-                            bound=True
+                    if finding_id in issue.get("finding_ids", []) and (
+                            set(issue.get("low_confidence_evidence") or []) & own_ids):
+                        bound=True
             if not bound:
-                raise ValueError(f"低置信度 finding {finding_id} 必须在报告中留下与该证据绑定的人工核实说明")
+                raise ValueError(f"低置信度 finding {finding_id} 必须在报告中标记其低可信证据")
         return {"schema_version":"videoguard_audit_report_v1", "overall_verdict":verdict, "overall_score":raw["overall_score"],
                 "executive_summary":_text(raw.get("executive_summary"),1000), "dimension_scores":dimensions,
                 "revision_plan":clean_plans, "overall_direction":_text(raw.get("overall_direction"),1600),
@@ -793,14 +796,16 @@ def build_fallback_audit_report(observation_result: dict, findings: list[dict], 
             # The disposition stays as strong as the policy says; what changes is that
             # the reader is told the cue behind it still needs confirming.
             uncertainties=([] if evidence else ["该审核项没有可用的定位证据，需人工补充核查。"])
+            low_confidence=[]
             if finding.get("needs_human_review"):
-                ids="、".join(finding.get("supporting_ids", [])[:4]) or "未标注"
+                low_confidence=list(finding.get("supporting_ids", []))[:12]
+                ids="、".join(low_confidence[:4]) or "未标注"
                 uncertainties.append(
                     f"该审核项依据的线索置信度不足（证据 {ids}），需人工确认后再据此处置。")
             issue={"id":issue_id,"source":"FINDING","finding_ids":[fid],"analysis_issue_ids":[],"priority":priority,
                    "category":POLICY_NAMES.get(finding.get("policy_id"),finding.get("policy_id","内容安全")),"title":POLICY_NAMES.get(finding.get("policy_id"),"内容安全问题"),
                    "description":description,"time_ranges":ranges,"supporting_evidence":evidence,
-                   "uncertainties":uncertainties}
+                   "uncertainties":uncertainties,"low_confidence_evidence":low_confidence}
             action,detail_text,target,acceptance=_action_for(finding,ranges)
             plan["issues"].append(issue)
             plan["actions"].append({"id":f"A{action_number:02d}","related_issue_ids":[issue_id],"action":action,"detail":detail_text,

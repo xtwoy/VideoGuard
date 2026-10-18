@@ -95,6 +95,8 @@ export type AuditRevisionPlan = {
       limitations: string[];
     }>;
     uncertainties: string[];
+    /** Evidence ids whose cues are not reliable enough to act on unconfirmed. */
+    low_confidence_evidence?: string[];
   }>;
   actions: Array<{
     id: string;

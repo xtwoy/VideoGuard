@@ -4,83 +4,532 @@
   "description": "审核报告合同。引用存在性、时间覆盖、finding 完整映射和动作关联关系由 src.audit_report.validate_audit_report 严格校验。",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "overall_verdict", "overall_score", "executive_summary", "dimension_scores", "revision_plan", "overall_direction", "limitations"],
+  "required": [
+    "schema_version",
+    "overall_verdict",
+    "overall_score",
+    "executive_summary",
+    "dimension_scores",
+    "revision_plan",
+    "overall_direction",
+    "limitations"
+  ],
   "properties": {
-    "schema_version": {"const": "videoguard_audit_report_v1"},
-    "overall_verdict": {"enum": ["PUBLISHABLE", "NEEDS_REVISION", "BLOCKED", "MANUAL_REVIEW"]},
-    "overall_score": {"type": "integer", "minimum": 0, "maximum": 100},
-    "executive_summary": {"type": "string", "maxLength": 1000},
-    "dimension_scores": {"$ref": "#/$defs/dimensions"},
-    "revision_plan": {"type": "array", "maxItems": 80, "items": {"$ref": "#/$defs/revisionPlan"}},
-    "overall_direction": {"type": "string", "maxLength": 1600},
-    "limitations": {"type": "array", "maxItems": 20, "items": {"type": "string", "maxLength": 240}}
+    "schema_version": {
+      "const": "videoguard_audit_report_v1"
+    },
+    "overall_verdict": {
+      "enum": [
+        "PUBLISHABLE",
+        "NEEDS_REVISION",
+        "BLOCKED",
+        "MANUAL_REVIEW"
+      ]
+    },
+    "overall_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "executive_summary": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "dimension_scores": {
+      "$ref": "#/$defs/dimensions"
+    },
+    "revision_plan": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "$ref": "#/$defs/revisionPlan"
+      }
+    },
+    "overall_direction": {
+      "type": "string",
+      "maxLength": 1600
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "maxLength": 240
+      }
+    }
   },
   "$defs": {
-    "evidenceRef": {"type": "string", "minLength": 1},
-    "evidenceRefs": {"type": "array", "minItems": 1, "maxItems": 30, "items": {"$ref": "#/$defs/evidenceRef"}},
+    "evidenceRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "$ref": "#/$defs/evidenceRef"
+      }
+    },
     "timeRange": {
-      "type": "object", "additionalProperties": false, "required": ["start_ms", "end_ms", "evidence_refs"],
-      "properties": {"start_ms": {"type": "integer", "minimum": 0}, "end_ms": {"type": "integer", "minimum": 0}, "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}}
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_ms",
+        "end_ms",
+        "evidence_refs"
+      ],
+      "properties": {
+        "start_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/evidenceRefs"
+        }
+      }
     },
     "dimensionItem": {
-      "type": "object", "additionalProperties": false,
-      "required": ["key", "label", "score", "status", "summary", "evidence_refs", "time_ranges", "limitations"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "label",
+        "score",
+        "status",
+        "summary",
+        "evidence_refs",
+        "time_ranges",
+        "limitations"
+      ],
       "properties": {
-        "key": {"type": "string", "minLength": 1, "maxLength": 64}, "label": {"type": "string", "minLength": 1, "maxLength": 100},
-        "score": {"type": "integer", "minimum": 0, "maximum": 100}, "status": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW", "NOT_APPLICABLE"]},
-        "summary": {"type": "string", "maxLength": 240}, "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
-        "time_ranges": {"type": "array", "minItems": 1, "maxItems": 30, "items": {"$ref": "#/$defs/timeRange"}},
-        "limitations": {"type": "array", "maxItems": 12, "items": {"type": "string", "maxLength": 240}}
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "status": {
+          "enum": [
+            "PASS",
+            "WARNING",
+            "FAIL",
+            "MANUAL_REVIEW",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/evidenceRefs"
+        },
+        "time_ranges": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
       }
     },
     "dimension": {
-      "type": "object", "additionalProperties": false, "required": ["score", "status", "summary", "items", "evidence_refs", "time_ranges", "limitations"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "score",
+        "status",
+        "summary",
+        "items",
+        "evidence_refs",
+        "time_ranges",
+        "limitations"
+      ],
       "properties": {
-        "score": {"type": "integer", "minimum": 0, "maximum": 100}, "status": {"enum": ["PASS", "WARNING", "FAIL", "MANUAL_REVIEW", "NOT_APPLICABLE"]}, "summary": {"type": "string", "maxLength": 180},
-        "items": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"$ref": "#/$defs/dimensionItem"}},
-        "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}, "time_ranges": {"type": "array", "minItems": 1, "maxItems": 30, "items": {"$ref": "#/$defs/timeRange"}},
-        "limitations": {"type": "array", "maxItems": 12, "items": {"type": "string", "maxLength": 240}}
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "status": {
+          "enum": [
+            "PASS",
+            "WARNING",
+            "FAIL",
+            "MANUAL_REVIEW",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 180
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/dimensionItem"
+          }
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/evidenceRefs"
+        },
+        "time_ranges": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
       }
     },
     "dimensions": {
-      "type": "object", "additionalProperties": false, "required": ["audit_coverage", "evidence_traceability", "safety_risk_control", "context_completeness", "audiovisual_readability"],
-      "properties": {"audit_coverage": {"$ref": "#/$defs/dimension"}, "evidence_traceability": {"$ref": "#/$defs/dimension"}, "safety_risk_control": {"$ref": "#/$defs/dimension"}, "context_completeness": {"$ref": "#/$defs/dimension"}, "audiovisual_readability": {"$ref": "#/$defs/dimension"}}
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_coverage",
+        "evidence_traceability",
+        "safety_risk_control",
+        "context_completeness",
+        "audiovisual_readability"
+      ],
+      "properties": {
+        "audit_coverage": {
+          "$ref": "#/$defs/dimension"
+        },
+        "evidence_traceability": {
+          "$ref": "#/$defs/dimension"
+        },
+        "safety_risk_control": {
+          "$ref": "#/$defs/dimension"
+        },
+        "context_completeness": {
+          "$ref": "#/$defs/dimension"
+        },
+        "audiovisual_readability": {
+          "$ref": "#/$defs/dimension"
+        }
+      }
     },
     "supportingEvidence": {
-      "type": "object", "additionalProperties": false, "required": ["ref", "type", "content", "time_ranges", "limitations"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "type",
+        "content",
+        "time_ranges",
+        "limitations"
+      ],
       "properties": {
-        "ref": {"$ref": "#/$defs/evidenceRef"}, "type": {"enum": ["OBSERVATION", "FACT", "EVENT", "ANALYSIS"]}, "content": {"type": "string", "maxLength": 700},
-        "time_ranges": {"type": "array", "minItems": 1, "maxItems": 30, "items": {"$ref": "#/$defs/timeRange"}},
-        "limitations": {"type": "array", "maxItems": 12, "items": {"type": "string", "maxLength": 240}}
+        "ref": {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        "type": {
+          "enum": [
+            "OBSERVATION",
+            "FACT",
+            "EVENT",
+            "ANALYSIS"
+          ]
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 700
+        },
+        "time_ranges": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
       }
     },
     "issue": {
-      "type": "object", "additionalProperties": false,
-      "required": ["id", "source", "finding_ids", "analysis_issue_ids", "priority", "category", "title", "description", "time_ranges", "supporting_evidence", "uncertainties"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "finding_ids",
+        "analysis_issue_ids",
+        "priority",
+        "category",
+        "title",
+        "description",
+        "time_ranges",
+        "supporting_evidence",
+        "uncertainties"
+      ],
       "properties": {
-        "id": {"type": "string", "minLength": 1, "maxLength": 32}, "source": {"enum": ["FINDING", "ANALYSIS"]},
-        "finding_ids": {"type": "array", "maxItems": 12, "items": {"type": "string"}}, "analysis_issue_ids": {"type": "array", "maxItems": 12, "items": {"type": "string"}},
-        "priority": {"enum": ["P0", "P1", "P2"]}, "category": {"type": "string", "maxLength": 100}, "title": {"type": "string", "maxLength": 160}, "description": {"type": "string", "maxLength": 1000},
-        "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/timeRange"}}, "supporting_evidence": {"type": "array", "minItems": 1, "maxItems": 40, "items": {"$ref": "#/$defs/supportingEvidence"}},
-        "uncertainties": {"type": "array", "maxItems": 12, "items": {"type": "string", "maxLength": 240}}
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "source": {
+          "enum": [
+            "FINDING",
+            "ANALYSIS"
+          ]
+        },
+        "finding_ids": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string"
+          }
+        },
+        "analysis_issue_ids": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string"
+          }
+        },
+        "priority": {
+          "enum": [
+            "P0",
+            "P1",
+            "P2"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "time_ranges": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "supporting_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/supportingEvidence"
+          }
+        },
+        "uncertainties": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        },
+        "low_confidence_evidence": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "description": "该问题所依据的低置信度证据 ID；配合 uncertainties 说明证据尚待人工确认。"
+        }
       }
     },
     "action": {
-      "type": "object", "additionalProperties": false,
-      "required": ["id", "related_issue_ids", "action", "detail", "target_time_ranges", "reuse_time_ranges", "insertion_position", "requires_reshoot", "acceptance_criteria"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "related_issue_ids",
+        "action",
+        "detail",
+        "target_time_ranges",
+        "reuse_time_ranges",
+        "insertion_position",
+        "requires_reshoot",
+        "acceptance_criteria"
+      ],
       "properties": {
-        "id": {"type": "string", "minLength": 1, "maxLength": 32}, "related_issue_ids": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "string"}},
-        "action": {"enum": ["MASK", "REMOVE", "TRIM", "REORDER", "REPLACE", "ADD_CONTEXT", "EDIT_TEXT", "EDIT_AUDIO", "RECORD", "ADD_MEDIA", "VERIFY", "MANUAL_REVIEW"]}, "detail": {"type": "string", "maxLength": 1000},
-        "target_time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/timeRange"}}, "reuse_time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/timeRange"}},
-        "insertion_position": {"type": ["string", "null"], "maxLength": 300}, "requires_reshoot": {"type": "boolean"}, "acceptance_criteria": {"type": "string", "maxLength": 800}
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "related_issue_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "string"
+          }
+        },
+        "action": {
+          "enum": [
+            "MASK",
+            "REMOVE",
+            "TRIM",
+            "REORDER",
+            "REPLACE",
+            "ADD_CONTEXT",
+            "EDIT_TEXT",
+            "EDIT_AUDIO",
+            "RECORD",
+            "ADD_MEDIA",
+            "VERIFY",
+            "MANUAL_REVIEW"
+          ]
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "target_time_ranges": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "reuse_time_ranges": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/timeRange"
+          }
+        },
+        "insertion_position": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 300
+        },
+        "requires_reshoot": {
+          "type": "boolean"
+        },
+        "acceptance_criteria": {
+          "type": "string",
+          "maxLength": 800
+        }
       }
     },
     "revisionPlan": {
-      "type": "object", "additionalProperties": false, "required": ["id", "section", "scope", "event_id", "video", "issues", "actions"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "section",
+        "scope",
+        "event_id",
+        "video",
+        "issues",
+        "actions"
+      ],
       "properties": {
-        "id": {"type": "string", "minLength": 1, "maxLength": 32}, "section": {"type": "string", "maxLength": 160}, "scope": {"enum": ["EVENT", "GLOBAL"]}, "event_id": {"type": ["string", "null"]},
-        "video": {"type": "object", "additionalProperties": false, "required": ["summary", "time_ranges"], "properties": {"summary": {"type": "string", "maxLength": 1000}, "time_ranges": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/timeRange"}}}},
-        "issues": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/issue"}}, "actions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/action"}}
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "section": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "scope": {
+          "enum": [
+            "EVENT",
+            "GLOBAL"
+          ]
+        },
+        "event_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "video": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "summary",
+            "time_ranges"
+          ],
+          "properties": {
+            "summary": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "time_ranges": {
+              "type": "array",
+              "maxItems": 40,
+              "items": {
+                "$ref": "#/$defs/timeRange"
+              }
+            }
+          }
+        },
+        "issues": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/issue"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/action"
+          }
+        }
       }
     }
   }

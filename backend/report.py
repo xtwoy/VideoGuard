@@ -93,6 +93,12 @@ def issue_card(raw: dict) -> str:
         f'<p class="muted">限制：{h(item)}</p>'
         for item in raw.get("uncertainties", []) if isinstance(item, str)
     )
+    # Structured, so a model-written report still shows the caveat when its prose
+    # happens to omit it.
+    flagged = [item for item in raw.get("low_confidence_evidence", []) if isinstance(item, str)]
+    if flagged:
+        uncertainty += (f'<p class="muted"><b>证据可信度：</b>本条依据的线索'
+                        f'（{h("、".join(flagged[:4]))}）置信度不足，需人工确认后再据此处置。</p>')
     return f"""<article class="issue"><span class="priority">{h(raw.get('priority'))}</span> <b>{h(raw.get('title'))}</b>
 <p>{h(raw.get('description'))}</p><p>{ranges(raw.get('time_ranges'))}</p>
 <ul>{evidence_html}</ul>{uncertainty}</article>"""

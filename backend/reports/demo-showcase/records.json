@@ -1,7 +1,7 @@
 {
   "danger_promotion": {
-    "id": "77ae525842494363bcd08477f0426746",
-    "created_at": "2026-10-18 06:31:13",
+    "id": "8e66b07caabc4fb2a9325fb30b542603",
+    "created_at": "2026-10-18 06:52:14",
     "video_name": "合成示例｜危险动作与鼓励模仿",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -1992,7 +1992,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               }
             ],
             "actions": [
@@ -2090,8 +2091,8 @@
     "error": ""
   },
   "warning_context": {
-    "id": "6ca6da9081ff46f79f8ca967fc7527b1",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "be4f69bc0e3e463dac7bb2eb36fe7132",
+    "created_at": "2026-10-18 06:52:14",
     "video_name": "合成示例｜安全警示语境",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -3802,8 +3803,8 @@
     "error": ""
   },
   "relation_wrong_encouragement": {
-    "id": "f6f665addab246e7be24607447e78e84",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "6f642d1e86dd464780e98651434f9a39",
+    "created_at": "2026-10-18 06:52:14",
     "video_name": "合成示例｜警示与模型判断冲突",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -5951,7 +5952,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               }
             ],
             "actions": [
@@ -6024,8 +6026,8 @@
     "error": ""
   },
   "relation_override_conflict": {
-    "id": "7442edf47c52483f837d04a926e9d064",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "840cab9f770f4f04b28192e1225043d6",
+    "created_at": "2026-10-18 06:52:14",
     "video_name": "合成示例｜跨事件误关联",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -7707,7 +7709,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               }
             ],
             "actions": [
@@ -7771,8 +7774,8 @@
     "error": ""
   },
   "privacy_screen_text": {
-    "id": "48ccf9da1fde4c69bfd1f13bed82ae09",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "826f00ffd2644c5ea5de0dde98414923",
+    "created_at": "2026-10-18 06:52:15",
     "video_name": "合成示例｜屏幕文字隐私暴露",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -8674,6 +8677,9 @@
                 ],
                 "uncertainties": [
                   "该审核项依据的线索置信度不足（证据 E01），需人工确认后再据此处置。"
+                ],
+                "low_confidence_evidence": [
+                  "E01"
                 ]
               }
             ],
@@ -8736,8 +8742,8 @@
     "error": ""
   },
   "credential_claim": {
-    "id": "1ef95cd799d542dc835beffcc4f755c1",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "77737b5ad87b41219a37ea8f1191d5ae",
+    "created_at": "2026-10-18 06:52:15",
     "video_name": "合成示例｜营销及资质声称",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -9871,6 +9877,10 @@
                 ],
                 "uncertainties": [
                   "该审核项依据的线索置信度不足（证据 E01、E02），需人工确认后再据此处置。"
+                ],
+                "low_confidence_evidence": [
+                  "E01",
+                  "E02"
                 ]
               }
             ],
@@ -9998,7 +10008,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I03",
@@ -10091,7 +10102,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I04",
@@ -10184,7 +10196,8 @@
                     "limitations": []
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               }
             ],
             "actions": [
@@ -10263,8 +10276,8 @@
     "error": ""
   },
   "partial_coverage": {
-    "id": "d78c0e5b49f04bdab192781a43b601a6",
-    "created_at": "2026-10-18 06:31:14",
+    "id": "70beb966162f476181fcc4a4f25f5333",
+    "created_at": "2026-10-18 06:52:15",
     "video_name": "合成示例｜观察不完整",
     "sha256": "demo",
     "duration_ms": 24000,
@@ -11149,7 +11162,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I02",
@@ -11190,7 +11204,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I03",
@@ -11231,7 +11246,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I04",
@@ -11272,7 +11288,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I05",
@@ -11313,7 +11330,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I06",
@@ -11354,7 +11372,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I07",
@@ -11395,7 +11414,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I08",
@@ -11436,7 +11456,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I09",
@@ -11477,7 +11498,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               },
               {
                 "id": "I10",
@@ -11518,7 +11540,8 @@
                     ]
                   }
                 ],
-                "uncertainties": []
+                "uncertainties": [],
+                "low_confidence_evidence": []
               }
             ],
             "actions": [
@@ -11688,8 +11711,8 @@
     "error": ""
   },
   "clean_negative": {
-    "id": "2fdac8daf9674f1bb4b31b7fd6822fa1",
-    "created_at": "2026-10-18 06:31:15",
+    "id": "44bc52cd27064f939615ae752d594130",
+    "created_at": "2026-10-18 06:52:15",
     "video_name": "合成示例｜普通宠物日常",
     "sha256": "demo",
     "duration_ms": 24000,

@@ -210,9 +210,13 @@ def assess(data: dict, duration_ms: int, policy_config: dict | None=None, *, rul
     # Evidence certainty is a property of the cues a finding rests on, so it is
     # derived once for every policy instead of being passed by some branches only.
     # A grounded "IN" says the argument survived, not that the upstream cue was sure.
+    #
+    # Both directions count: a low-confidence counter (for example an unclear news
+    # context) can be exactly what turned FLAG into REVIEW, so reporting HIGH would
+    # describe the finding as better-supported than it is.
     by_id={e["id"]:e for e in good}
     for finding in findings:
-        ids=[i for i in finding.get("supporting_ids",[]) if i in by_id]
+        ids={i for i in finding.get("supporting_ids",[]) + finding.get("counter_ids",[]) if i in by_id}
         uncertain=any(bool(by_id[i].get("needs_human_review")) for i in ids)
         if finding.get("evidence_confidence") is None:
             finding["evidence_confidence"]="LOW" if uncertain else "HIGH"

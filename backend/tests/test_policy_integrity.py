@@ -178,6 +178,21 @@ class UniformConfidenceTests(unittest.TestCase):
         self.assertEqual(finding["evidence_confidence"], "LOW")
         self.assertTrue(finding["needs_human_review"])
 
+    def test_low_confidence_counter_lowers_the_finding_confidence(self):
+        """A counter that changed the outcome is part of the evidence reliability.
+
+        Here the violence cue is confident but the news context that turned FLAG into
+        REVIEW is not, so reporting HIGH would overstate the support.
+        """
+        act = observation("E01", "violence", "visual")
+        context = observation("E02", "news_context", "speech")
+        context["needs_human_review"] = True
+        finding = self._finding([act, context], "R_VIOLENCE")
+        self.assertEqual(finding["disposition"], "REVIEW")
+        self.assertEqual(finding["counter_ids"], ["E02"])
+        self.assertEqual(finding["evidence_confidence"], "LOW")
+        self.assertTrue(finding["needs_human_review"])
+
     def test_confident_cues_stay_high(self):
         finding = self._finding([observation("E01", "self_harm_instruction")],
                                 "R_SELF_HARM")
@@ -210,7 +225,7 @@ class ReportCarriesUncertaintyTests(unittest.TestCase):
         self.assertTrue(any("E01" in note for note in notes), notes)
         self.assertIsNotNone(validate_audit_report(report, located, findings, 25_000))
 
-    def test_report_without_the_note_is_rejected(self):
+    def test_report_without_the_structured_flag_is_rejected(self):
         import copy as copy_module
 
         from src.audit_report import validate_audit_report
@@ -219,7 +234,21 @@ class ReportCarriesUncertaintyTests(unittest.TestCase):
         tampered = copy_module.deepcopy(report)
         for plan in tampered["revision_plan"]:
             for issue in plan["issues"]:
-                issue["uncertainties"] = []
+                issue["low_confidence_evidence"] = []
+        self.assertIsNone(validate_audit_report(tampered, located, findings, 25_000))
+
+    def test_prose_containing_only_an_evidence_id_is_rejected(self):
+        """uncertainties: ["E01"] must not satisfy a caveat requirement."""
+        import copy as copy_module
+
+        from src.audit_report import validate_audit_report
+
+        located, findings, report = self._case()
+        tampered = copy_module.deepcopy(report)
+        for plan in tampered["revision_plan"]:
+            for issue in plan["issues"]:
+                issue["uncertainties"] = ["E01"]
+                issue["low_confidence_evidence"] = []
         self.assertIsNone(validate_audit_report(tampered, located, findings, 25_000))
 
     def test_exported_html_shows_the_note(self):

@@ -700,6 +700,11 @@ function IssueBlock({
           不确定：{uncertainty}
         </p>
       ))}
+      {issue.low_confidence_evidence?.length && !issue.uncertainties.some((note) => issue.low_confidence_evidence?.some((id) => note.includes(id))) ? (
+        <p className="mt-1 text-[12px] leading-5 text-review">
+          证据可信度：本条依据的线索（{issue.low_confidence_evidence.slice(0, 4).join("、")}）置信度不足，需人工确认后再据此处置。
+        </p>
+      ) : null}
     </li>
   );
 }
