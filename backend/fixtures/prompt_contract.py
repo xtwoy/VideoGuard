@@ -314,7 +314,7 @@ def check_audit_report() -> list[dict]:
 
     prompt_dims = set(template.get("dimension_scores", {}))
     results.append({
-        "stage": "audit_report", "check": "九维度与校验器一致",
+        "stage": "audit_report", "check": "五维度与校验器一致",
         "prompt": sorted(prompt_dims), "code": sorted(DIMENSIONS),
         "passed": prompt_dims == set(DIMENSIONS),
     })
