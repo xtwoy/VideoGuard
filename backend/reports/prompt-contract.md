@@ -32,7 +32,7 @@
 | issue_locator | schema 要求的字段与协议一致 | 通过 |  |
 | relation_check | 四类语义选择都在 system prompt 中说明 | 通过 |  |
 | relation_check | schema 协议版本 | 通过 |  |
-| audit_report | 九维度与校验器一致 | 通过 |  |
+| audit_report | 五维度与校验器一致 | 通过 |  |
 | audit_report | 枚举 overall_verdict | 通过 |  |
 | audit_report | 整改动作词表与校验器一致 | 通过 |  |
 | audit_report | 维度状态词表与校验器一致 | 通过 |  |
