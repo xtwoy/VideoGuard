@@ -10,7 +10,7 @@
 
 **团队：小白**（团队形象：<img src="docs/assets/team-mascot.png" alt="小白团队形象" width="220" align="middle">）
 
-> **文档导航：** 本版包含团队讨论和开发文档，**未创建比赛作品报告**。先读[`docs/00_文档导航与使用说明.md`](docs/00_文档导航与使用说明.md)，其中包含：选题论证、PRD、系统设计、创新验证、开发交接。v0.6 使用 Next.js 前端 + FastAPI + SQLite 架构。  
+> **文档导航：** 参赛作品报告见 [`docs/10_参赛作品报告.md`](docs/10_参赛作品报告.md)（已按官方模板重排为摘要 + 五章 + 参考文献，并满足匿名要求）；配套材料见 [`docs/submission/00_材料目录.md`](docs/submission/00_材料目录.md)；开发与交接文档先读[`docs/00_文档导航与使用说明.md`](docs/00_文档导航与使用说明.md)，其中包含：选题论证、PRD、系统设计、创新验证、开发交接。v0.6 使用 Next.js 前端 + FastAPI + SQLite 架构。  
 > **团队转发稿：** [`docs/团队立项讨论简报.docx`](docs/团队立项讨论简报.docx)。
 
 

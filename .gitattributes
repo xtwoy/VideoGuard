@@ -2,6 +2,7 @@
 * text=auto eol=lf
 
 # 二进制资源
+*.doc binary
 *.docx binary
 *.png binary
 *.jpg binary
