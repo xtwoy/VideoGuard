@@ -1,0 +1,52 @@
+{
+  "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+  "assets": {
+    "phone-id": {
+      "id": "phone-id",
+      "src": "/case-images/phone-id-v4.png",
+      "targetFile": "phone-id-v4.png",
+      "alt": "手持手机展示身份证照片，证件为正常横向卡片比例",
+      "caption": "手机屏幕中的证件信息区域，对应隐私暴露问题。",
+      "source": "AI-generated with built-in imagegen, 2026-10-21; selected 01-phone-id-v4.png; prompt record: docs/assets/case-image-candidates/phone-id-v4-generation.md"
+    },
+    "parkour": {
+      "id": "parkour",
+      "src": "/case-images/parkour.png",
+      "targetFile": "parkour.png",
+      "alt": "男子在高处跨越两栋居民楼之间的空隙，楼顶边缘与护栏可见",
+      "caption": "高处跨越动作场景，结合口播判断是否存在模仿诱导。",
+      "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md"
+    },
+    "kitchen": {
+      "id": "kitchen",
+      "src": "/case-images/kitchen.png",
+      "targetFile": "kitchen.png",
+      "alt": "男子单手撑灶台，双腿越过燃烧的燃气灶眼",
+      "caption": "场景 A · 厨房明火，与另一事件的骑行提醒分别展示。",
+      "source": "AI-generated with built-in imagegen, 2026-10-21; selected 03-kitchen.png; prompt record: docs/assets/case-image-candidates/README.md"
+    },
+    "cycling": {
+      "id": "cycling",
+      "src": "/case-images/cycling.png",
+      "targetFile": "cycling.png",
+      "alt": "户外骑行人物与道路环境",
+      "caption": "场景 B · 户外骑行；骑行提醒不能直接解释厨房中的动作。",
+      "source": "AI-generated with built-in imagegen, 2026-10-21; selected 04-cycling.png; prompt record: docs/assets/case-image-candidates/README.md"
+    },
+    "puppy": {
+      "id": "puppy",
+      "src": null,
+      "targetFile": "puppy.jpg",
+      "alt": "宠物日常活动的自然拍摄画面",
+      "caption": "日常内容对照场景。",
+      "source": null
+    }
+  },
+  "cases": {
+    "id_card_screen": { "overview": ["phone-id"], "revisionPlans": { "R01": ["phone-id"] } },
+    "rooftop_parkour": { "overview": ["parkour"], "revisionPlans": { "R01": ["parkour"] } },
+    "rooftop_warning": { "overview": ["parkour"], "revisionPlans": {} },
+    "cross_event_link": { "overview": ["kitchen", "cycling"], "revisionPlans": { "R01": ["kitchen"] } },
+    "puppy_vlog": { "overview": ["puppy"], "revisionPlans": {} }
+  }
+}

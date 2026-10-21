@@ -30,3 +30,6 @@ backend/fixtures/upstream_snapshot.json
 docs/*.zip
 backend/reports/*.zip
 dsh-session-*.zip
+
+# Generated submission artifacts; regenerate with tools/package_submission.py.
+deliverables/

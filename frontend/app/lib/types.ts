@@ -6,8 +6,19 @@
  */
 
 export type Coverage = "FULL" | "PARTIAL" | "UNKNOWN" | "REFUSED" | "ERROR";
-export type Judgement = "SUPPORTED" | "NOT_SUPPORTED" | "INSUFFICIENT" | "CONFLICTED" | "UNKNOWN";
-export type Disposition = "FLAG" | "NONE" | "REVIEW" | "VERIFY_EXTERNAL" | "RECHECK" | "RETRY";
+export type Judgement =
+  | "SUPPORTED"
+  | "NOT_SUPPORTED"
+  | "INSUFFICIENT"
+  | "CONFLICTED"
+  | "UNKNOWN";
+export type Disposition =
+  | "FLAG"
+  | "NONE"
+  | "REVIEW"
+  | "VERIFY_EXTERNAL"
+  | "RECHECK"
+  | "RETRY";
 
 export type Observation = {
   id: string;
@@ -16,6 +27,8 @@ export type Observation = {
   end_ms: number | null;
   description_redacted: string;
   text_redacted: string;
+  event_id?: string;
+  source_refs?: string[];
 };
 
 export type Finding = {
@@ -30,6 +43,11 @@ export type Finding = {
   /** How sure the upstream cue is — separate from how severe the risk would be. */
   evidence_confidence?: "HIGH" | "LOW";
   needs_human_review?: boolean;
+  counter_evidence?: {
+    checked: boolean;
+    found?: boolean;
+    relation_checked?: boolean;
+  };
 };
 
 export type EventFinding = {
@@ -44,8 +62,17 @@ export type EventFinding = {
   reason_code: string;
 };
 
-export type AuditStatus = "PASS" | "WARNING" | "FAIL" | "MANUAL_REVIEW" | "NOT_APPLICABLE";
-export type AuditVerdict = "PUBLISHABLE" | "NEEDS_REVISION" | "BLOCKED" | "MANUAL_REVIEW";
+export type AuditStatus =
+  | "PASS"
+  | "WARNING"
+  | "FAIL"
+  | "MANUAL_REVIEW"
+  | "NOT_APPLICABLE";
+export type AuditVerdict =
+  | "PUBLISHABLE"
+  | "NEEDS_REVISION"
+  | "BLOCKED"
+  | "MANUAL_REVIEW";
 
 export type AuditTimeRange = {
   start_ms: number;
@@ -72,7 +99,19 @@ export type AuditDimension = {
   limitations: string[];
 };
 
-export type AuditAction = "MASK" | "REMOVE" | "TRIM" | "REORDER" | "REPLACE" | "ADD_CONTEXT" | "EDIT_TEXT" | "EDIT_AUDIO" | "RECORD" | "ADD_MEDIA" | "VERIFY" | "MANUAL_REVIEW";
+export type AuditAction =
+  | "MASK"
+  | "REMOVE"
+  | "TRIM"
+  | "REORDER"
+  | "REPLACE"
+  | "ADD_CONTEXT"
+  | "EDIT_TEXT"
+  | "EDIT_AUDIO"
+  | "RECORD"
+  | "ADD_MEDIA"
+  | "VERIFY"
+  | "MANUAL_REVIEW";
 
 export type AuditRevisionPlan = {
   id: string;
@@ -160,7 +199,7 @@ export type ReviewResult = {
     video_summary?: { summary_zh?: string };
     timeline?: { shots?: TimelineShot[] };
   };
-  meta?: { policy_count?: number; demo_case?: string; demo_title?: string };
+  meta?: { policy_count?: number };
 };
 
 export type ReviewRecord = {
@@ -173,8 +212,6 @@ export type ReviewRecord = {
 
 export type TabId = "brief" | "shots" | "audit" | "summary";
 export type ViewMode = "structured" | "html";
-
-export type DemoCase = { id: string; title: string; description: string };
 
 export type RequestStatus =
   | { kind: "idle" }

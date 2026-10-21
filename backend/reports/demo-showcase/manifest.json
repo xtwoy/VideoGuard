@@ -1,135 +1,334 @@
 {
-  "scope": "合成输入；真实 PEAD 执行；实际生产前端截图；没有外部模型调用。",
-  "transport": "HTTP/HTTPS; Chrome headless CLI (no WebSocket)",
+  "scope": "正式上传页未选择视频；开发预览使用冻结展示记录。已接入 4 张场景配图，另有 1 张可选素材待补。来源与摘要见 manifest.json。右侧场景图与左侧整改卡按案例匹配，未重新求解这五套案例；07 独立工程样例重新执行 PEAD/PyArg 并由 Chrome 截图。未调用外部审核模型。",
+  "transport": "HTTP page navigation; Chrome headless CLI; no browser remote-debugging protocol",
   "cases": [
     {
       "id": "rooftop_parkour",
       "title": "天台跨楼动作 + 明确鼓励模仿",
       "description": "同一事件内的画面动作与口播鼓励，构成危险行为诱导。",
       "review_id": "5f900126cc144954855a2d93ccfc9f64",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=5f900126cc144954855a2d93ccfc9f64&tab=brief"
+      "demo_url": "http://127.0.0.1:3000/design-preview?case=rooftop_parkour"
     },
     {
       "id": "rooftop_warning",
       "title": "同一跨楼动作 + 明确劝阻模仿",
       "description": "动作事实相同、立场相反时，PEAD 不应判为诱导。",
       "review_id": "3acd6f208f1e4fdeaa288156d9871f65",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=3acd6f208f1e4fdeaa288156d9871f65&tab=brief"
+      "demo_url": "http://127.0.0.1:3000/design-preview?case=rooftop_warning"
     },
     {
       "id": "cross_event_link",
       "title": "跨事件误关联（厨房动作 × 骑行提醒）",
       "description": "模型把两个不同场景的事件关联成同一件事时，结构证据能否否决。",
       "review_id": "0afac2cfd312486daede8cbf46d865f4",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=0afac2cfd312486daede8cbf46d865f4&tab=brief"
+      "demo_url": "http://127.0.0.1:3000/design-preview?case=cross_event_link"
     },
     {
       "id": "id_card_screen",
       "title": "手机屏幕展示身份证照片",
       "description": "屏幕文字模态下的个人信息线索，与时间定位、整改建议的对应。",
       "review_id": "b41627b7c3b745cab46132951b8f13d4",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=b41627b7c3b745cab46132951b8f13d4&tab=brief"
+      "demo_url": "http://127.0.0.1:3000/design-preview?case=id_card_screen"
     },
     {
       "id": "puppy_vlog",
       "title": "宠物日常（干净负例）",
       "description": "没有任何风险线索时，报告不应把“未发现”说成“合规保证”。",
       "review_id": "7677396c6bbb45fcac9ff636cf5ee80e",
-      "demo_url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=7677396c6bbb45fcac9ff636cf5ee80e&tab=brief"
+      "demo_url": "http://127.0.0.1:3000/design-preview?case=puppy_vlog"
     }
   ],
   "screenshots": [
     {
       "file": "docs/assets/demo/01-upload.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000",
-      "sha256": "1e7bd4c7755aa88787eac058e395247b4063d9384e63630add27607cc3017635",
+      "url": "http://127.0.0.1:3000/",
+      "sha256": "cf7909a6b2b2a8ca3a6e201e132e3decce17e0b99200491dc703f4cfaa3c3dfe",
       "viewport": [
         1600,
-        1000
-      ]
+        1100
+      ],
+      "image_canvas": [
+        1600,
+        1100
+      ],
+      "source": "formal_upload",
+      "capture_state": "Empty formal upload form; no video selected or review submitted"
     },
     {
       "file": "docs/assets/demo/02-overview.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=5f900126cc144954855a2d93ccfc9f64&tab=brief",
-      "sha256": "8142b695a06279ac255895fa854ee29f6d5c26d11018b728f4f96bf75443bbf0",
+      "url": "http://127.0.0.1:3000/design-preview?case=rooftop_parkour&tab=brief",
+      "sha256": "e17f116315a0caa324317f7df1fa63a49014f62e57f0d6f9e751ee6509add424",
       "viewport": [
         1600,
-        1250
-      ]
+        1350
+      ],
+      "image_canvas": [
+        1600,
+        1350
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "parkour",
+            "status": "provided",
+            "src": "/case-images/parkour.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "46408bc7b423ca263e87b953877c994d5970fb6ec7ce9519c416a65ace283b67"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/03-conflict-evidence.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=0afac2cfd312486daede8cbf46d865f4&tab=audit",
-      "sha256": "790326411416e3feeaf344856d9469bcc9a307eb7cff006edecd38497837a81c",
+      "url": "http://127.0.0.1:3000/design-preview?case=cross_event_link&tab=audit",
+      "sha256": "21099ea52e1ac812dc8a3290bf5f2c36d7f3694935adcd662d4feacf19b9175f",
       "viewport": [
         1600,
-        1250
-      ]
+        1450
+      ],
+      "image_canvas": [
+        1600,
+        1450
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "kitchen",
+            "status": "provided",
+            "src": "/case-images/kitchen.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 03-kitchen.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "85d5a4d6d724590014d1ce33ee2bec8223b5afd3c383f86abf8d3e2f0a819b82"
+          },
+          {
+            "id": "cycling",
+            "status": "provided",
+            "src": "/case-images/cycling.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 04-cycling.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "0ebc6c2261f7218bb28cefa88c8596de15843cf0a69c9308b7bdc984a83f7e2d"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/04-revision-plan.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=b41627b7c3b745cab46132951b8f13d4&tab=summary",
-      "sha256": "44353ab39860e3b87a40c8848de2241111f4e3bd4abdf809a9c0ccfd135ee334",
+      "url": "http://127.0.0.1:3000/design-preview?case=id_card_screen&tab=summary",
+      "sha256": "4bdad247333ac04610d8d166cb71c65e74b13e2ca2ac5f413a8751f80ba34b1d",
       "viewport": [
         1600,
-        1660
-      ]
+        1800
+      ],
+      "image_canvas": [
+        1600,
+        1800
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "phone-id",
+            "status": "provided",
+            "src": "/case-images/phone-id-v4.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 01-phone-id-v4.png; prompt record: docs/assets/case-image-candidates/phone-id-v4-generation.md",
+            "sha256": "641063ccff3e2ae4fbc2c6793a38d38ee6e2a56d072af9c57f745a252d0456b0"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/05-shot-timeline.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=5f900126cc144954855a2d93ccfc9f64&tab=shots",
-      "sha256": "4907b7fd9ce306153bed7325e42fc068d815b4ce84c7588c7c8dd87917a9f765",
+      "url": "http://127.0.0.1:3000/design-preview?case=rooftop_parkour&tab=shots",
+      "sha256": "45b5767a6f3876f49c9f1f39d7ec994160465512101be80267cde4a7c36a59a8",
       "viewport": [
         1600,
-        1000
-      ]
+        1250
+      ],
+      "image_canvas": [
+        1600,
+        1250
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "parkour",
+            "status": "provided",
+            "src": "/case-images/parkour.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "46408bc7b423ca263e87b953877c994d5970fb6ec7ce9519c416a65ace283b67"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/06-warning-contrast.png",
-      "url": "http://127.0.0.1:5173/?api=http%3A%2F%2F127.0.0.1%3A8000&review=3acd6f208f1e4fdeaa288156d9871f65&tab=brief",
-      "sha256": "41a7c070edcb4d7b0c2f3a56d545a54781429bea583c29bb664fad6c32357f3c",
+      "url": "http://127.0.0.1:3000/design-preview?case=rooftop_warning&tab=brief",
+      "sha256": "395651ae86d006d059f57856a19da8f254388292eb4a7bbf21d448b397fe3387",
       "viewport": [
         1600,
-        1200
-      ]
+        1350
+      ],
+      "image_canvas": [
+        1600,
+        1350
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "parkour",
+            "status": "provided",
+            "src": "/case-images/parkour.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "46408bc7b423ca263e87b953877c994d5970fb6ec7ce9519c416a65ace283b67"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/07-argumentation.png",
-      "url": "http://127.0.0.1:8765/pead-argumentation.html",
-      "sha256": "f266f061195a2b9f10ebbdcd0bc7d14282f044b5e3ce64e570b132a0e665d979",
+      "url": "http://127.0.0.1:57529/pead-argumentation.html#figure",
+      "sha256": "eb4b9c1513d3a2d145ce011e0c5076f766a26866149b35f40c1adf2ea4c19dc0",
       "viewport": [
         1600,
         1220
-      ]
+      ],
+      "image_canvas": [
+        1600,
+        1220
+      ],
+      "source": "independent_engineering_fixture",
+      "retained_historical_capture": false,
+      "captured_at": "2026-10-21T17:00:32+08:00",
+      "artifact": "backend/reports/pead-argumentation.html",
+      "artifact_sha256": "9704feaab5ce03dac366089430e4ad40bb496362bbd8fb9519b5b4e61a17be7d",
+      "data_artifact": "backend/reports/pead-argumentation.json",
+      "data_sha256": "07953d000b112982e8c4fa4d5c400e910b8eda9c9d3363e70c89e6403f7658b0",
+      "featured_scenario": 2,
+      "input_type": "authored_synthetic",
+      "solver_executed": true,
+      "external_model_called": false,
+      "note": "Chrome captured the #figure view; loopback HTTP server existed only during capture."
     },
     {
       "file": "docs/assets/demo/08-html-report.png",
-      "url": "http://127.0.0.1:8000/api/reviews/5f900126cc144954855a2d93ccfc9f64/report",
-      "sha256": "cfbf57d8800c50e451bbda140f16b1f455bb570e6a9c1f360eec82d0410edbb2",
+      "url": "http://127.0.0.1:3000/design-preview/report?case=rooftop_parkour",
+      "sha256": "a963e5627e7901c513ce5e026a5803eb7923bc17d89ad948afa67f9e92e79652",
       "viewport": [
         1600,
         1500
-      ]
+      ],
+      "image_canvas": [
+        1600,
+        1500
+      ],
+      "source": "development_preview_synthetic"
     },
     {
       "file": "docs/assets/demo/09-mobile-overview.png",
-      "url": "http://127.0.0.1:8765/_frame-09-mobile-overview.png.html",
-      "sha256": "f80c26c2bdfdbc90d1515d9b883067d3ac11aa450b5d2400829b697d9ede6335",
+      "url": "http://127.0.0.1:3000/design-preview?case=rooftop_parkour&tab=brief",
+      "sha256": "86cfbd6c058a079af5ee1c410293d67b33af6c5ac9e44314df3d018c4345e455",
       "viewport": [
         390,
-        1500
+        1800
       ],
-      "note": "iframe viewport (390px class); marker '结论概览' not DOM-checked"
+      "image_canvas": [
+        520,
+        1800
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "parkour",
+            "status": "provided",
+            "src": "/case-images/parkour.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "46408bc7b423ca263e87b953877c994d5970fb6ec7ce9519c416a65ace283b67"
+          }
+        ]
+      }
     },
     {
       "file": "docs/assets/demo/10-mobile-audit.png",
-      "url": "http://127.0.0.1:8765/_frame-10-mobile-audit.png.html",
-      "sha256": "c48b2c4fd4408f76f2b18b77445fe9e42cae172cd88850ffca192cbe627448ce",
+      "url": "http://127.0.0.1:3000/design-preview?case=cross_event_link&tab=audit",
+      "sha256": "86baecbd291ed3de2df6f44986ae2356d24cff2afc1f5955008a443a9bede85c",
       "viewport": [
         390,
-        1600
+        2000
       ],
-      "note": "iframe viewport (390px class); marker '问题与证据' not DOM-checked"
+      "image_canvas": [
+        520,
+        2000
+      ],
+      "source": "development_preview_synthetic",
+      "scene_illustrations": {
+        "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+        "assets": [
+          {
+            "id": "kitchen",
+            "status": "provided",
+            "src": "/case-images/kitchen.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 03-kitchen.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "85d5a4d6d724590014d1ce33ee2bec8223b5afd3c383f86abf8d3e2f0a819b82"
+          },
+          {
+            "id": "cycling",
+            "status": "provided",
+            "src": "/case-images/cycling.png",
+            "source": "AI-generated with built-in imagegen, 2026-10-21; selected 04-cycling.png; prompt record: docs/assets/case-image-candidates/README.md",
+            "sha256": "0ebc6c2261f7218bb28cefa88c8596de15843cf0a69c9308b7bdc984a83f7e2d"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "captured_at": "2026-10-21T17:00:32+08:00",
+  "scene_illustrations": {
+    "role": "Static scene illustrations for development screenshots; not model observations or original video frames",
+    "assets": [
+      {
+        "id": "phone-id",
+        "status": "provided",
+        "src": "/case-images/phone-id-v4.png",
+        "source": "AI-generated with built-in imagegen, 2026-10-21; selected 01-phone-id-v4.png; prompt record: docs/assets/case-image-candidates/phone-id-v4-generation.md",
+        "sha256": "641063ccff3e2ae4fbc2c6793a38d38ee6e2a56d072af9c57f745a252d0456b0"
+      },
+      {
+        "id": "parkour",
+        "status": "provided",
+        "src": "/case-images/parkour.png",
+        "source": "AI-generated with built-in imagegen, 2026-10-21; selected 02-rooftop.png; prompt record: docs/assets/case-image-candidates/README.md",
+        "sha256": "46408bc7b423ca263e87b953877c994d5970fb6ec7ce9519c416a65ace283b67"
+      },
+      {
+        "id": "kitchen",
+        "status": "provided",
+        "src": "/case-images/kitchen.png",
+        "source": "AI-generated with built-in imagegen, 2026-10-21; selected 03-kitchen.png; prompt record: docs/assets/case-image-candidates/README.md",
+        "sha256": "85d5a4d6d724590014d1ce33ee2bec8223b5afd3c383f86abf8d3e2f0a819b82"
+      },
+      {
+        "id": "cycling",
+        "status": "provided",
+        "src": "/case-images/cycling.png",
+        "source": "AI-generated with built-in imagegen, 2026-10-21; selected 04-cycling.png; prompt record: docs/assets/case-image-candidates/README.md",
+        "sha256": "0ebc6c2261f7218bb28cefa88c8596de15843cf0a69c9308b7bdc984a83f7e2d"
+      },
+      {
+        "id": "puppy",
+        "status": "pending",
+        "src": null,
+        "source": null,
+        "sha256": null
+      }
+    ]
+  }
 }

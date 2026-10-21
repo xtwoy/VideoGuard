@@ -1,0 +1,1398 @@
+{
+  "generated_by": "python -m fixtures.argumentation_report",
+  "problems": [],
+  "scenarios": [
+    {
+      "arguments": [
+        {
+          "event": "EVT_MIXED",
+          "explanation": {
+            "attacker_ids": [
+              "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+              "RELATION_MISSING:[\"E01\",\"E02\"]"
+            ],
+            "defeated_by": [
+              "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+              "RELATION_MISSING:[\"E01\",\"E02\"]"
+            ],
+            "defenses": [
+              {
+                "accepted_defender_ids": [],
+                "attacker_id": "COUNTER_CONTEXT:[\"E01\",\"E03\"]"
+              },
+              {
+                "accepted_defender_ids": [],
+                "attacker_id": "RELATION_MISSING:[\"E01\",\"E02\"]"
+              }
+            ],
+            "label": "OUT",
+            "unresolved_attacker_ids": []
+          },
+          "id": "LOCAL_PROMOTION:[\"E01\",\"E02\"]",
+          "kind": "LOCAL_PROMOTION",
+          "label": "OUT",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_LOCAL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_MIXED",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "RELATION_MISSING:[\"E01\",\"E02\"]",
+          "kind": "RELATION_MISSING",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "UNCERTAINTY",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_RELATION_MISSING"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_MIXED",
+          "explanation": {
+            "attacker_ids": [
+              "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+            ],
+            "defeated_by": [],
+            "defenses": [
+              {
+                "accepted_defender_ids": [
+                  "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                  "RELATION_MISSING:[\"E01\",\"E02\"]"
+                ],
+                "attacker_id": "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+              }
+            ],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+          "kind": "COUNTER_CONTEXT",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "COUNTER",
+          "premise_ids": [
+            "E01",
+            "E03"
+          ],
+          "rule_ids": [
+            "A_LOCAL_COUNTER"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F002"
+          ],
+          "target_action": "E01"
+        }
+      ],
+      "attacks": [
+        {
+          "relation": "ATTACK",
+          "source": "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+          "target": "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+        },
+        {
+          "relation": "ATTACK",
+          "source": "LOCAL_PROMOTION:[\"E01\",\"E02\"]",
+          "target": "COUNTER_CONTEXT:[\"E01\",\"E03\"]"
+        },
+        {
+          "relation": "ATTACK",
+          "source": "RELATION_MISSING:[\"E01\",\"E02\"]",
+          "target": "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+        }
+      ],
+      "cue_ids": [
+        "E01",
+        "E02",
+        "E03"
+      ],
+      "cycles": [
+        [
+          "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+          "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+        ]
+      ],
+      "finding": {
+        "counter_evidence": {
+          "checked": true,
+          "found": true,
+          "relation_candidate_pairs": 1,
+          "relation_checked": false,
+          "relation_checked_pairs": 0,
+          "relation_status": "NOT_CHECKED",
+          "source": "COUNTER_CONTEXT_TAGS"
+        },
+        "counter_ids": [
+          "E03"
+        ],
+        "disposition": "REVIEW",
+        "event_decisions": [
+          {
+            "argument_labels": {
+              "accepted": [
+                "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                "RELATION_MISSING:[\"E01\",\"E02\"]"
+              ],
+              "backend": {
+                "distribution": "python-argumentation",
+                "fallback": false,
+                "graph_library": "NetworkX",
+                "graph_version": "3.6.1",
+                "name": "PyArg",
+                "semantics": "grounded",
+                "version": "2.0.2"
+              },
+              "cycles": [
+                [
+                  "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                  "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+                ]
+              ],
+              "executed": true,
+              "explanations": {
+                "COUNTER_CONTEXT:[\"E01\",\"E03\"]": {
+                  "attacker_ids": [
+                    "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+                  ],
+                  "defeated_by": [],
+                  "defenses": [
+                    {
+                      "accepted_defender_ids": [
+                        "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                        "RELATION_MISSING:[\"E01\",\"E02\"]"
+                      ],
+                      "attacker_id": "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+                    }
+                  ],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                },
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [
+                    "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                    "RELATION_MISSING:[\"E01\",\"E02\"]"
+                  ],
+                  "defeated_by": [
+                    "COUNTER_CONTEXT:[\"E01\",\"E03\"]",
+                    "RELATION_MISSING:[\"E01\",\"E02\"]"
+                  ],
+                  "defenses": [
+                    {
+                      "accepted_defender_ids": [],
+                      "attacker_id": "COUNTER_CONTEXT:[\"E01\",\"E03\"]"
+                    },
+                    {
+                      "accepted_defender_ids": [],
+                      "attacker_id": "RELATION_MISSING:[\"E01\",\"E02\"]"
+                    }
+                  ],
+                  "label": "OUT",
+                  "unresolved_attacker_ids": []
+                },
+                "RELATION_MISSING:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                }
+              },
+              "labels": {
+                "COUNTER_CONTEXT:[\"E01\",\"E03\"]": "IN",
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]": "OUT",
+                "RELATION_MISSING:[\"E01\",\"E02\"]": "IN"
+              },
+              "rejected": [
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]"
+              ],
+              "statistics": {
+                "arguments": 3,
+                "attacks": 3,
+                "weak_components": 1
+              },
+              "undecided": []
+            },
+            "counter_ids": [
+              "E03"
+            ],
+            "decision_trace": {
+              "evaluated_rules": [
+                {
+                  "description": "模型失败或拒绝时重试",
+                  "matched": false,
+                  "priority": 1000,
+                  "rule_id": "D_UNAVAILABLE"
+                },
+                {
+                  "description": "论证图超出资源预算时人工复核",
+                  "matched": false,
+                  "priority": 990,
+                  "rule_id": "D_RESOURCE"
+                },
+                {
+                  "description": "相关证据无效时人工复核",
+                  "matched": false,
+                  "priority": 980,
+                  "rule_id": "D_INVALID"
+                },
+                {
+                  "description": "已接受支持但仍有开放未决论证时转人工复核（保留风险与证据，不改为放行）",
+                  "matched": false,
+                  "priority": 950,
+                  "rule_id": "D_UNCERTAIN_SUPPORT"
+                },
+                {
+                  "description": "采纳包含模型关系的支持论证",
+                  "matched": false,
+                  "priority": 900,
+                  "rule_id": "D_MODEL_SUPPORTED"
+                },
+                {
+                  "description": "采纳同事件动作与鼓励论证",
+                  "matched": false,
+                  "priority": 890,
+                  "rule_id": "D_LOCAL_SUPPORTED"
+                },
+                {
+                  "description": "支持与事件指向冲突时人工复核",
+                  "matched": false,
+                  "priority": 800,
+                  "rule_id": "D_REFERENT_CONFLICT"
+                },
+                {
+                  "description": "支持与反向语境冲突时人工复核",
+                  "matched": true,
+                  "priority": 790,
+                  "rule_id": "D_STANCE_CONFLICT"
+                },
+                {
+                  "description": "仍有信息缺口时人工复核",
+                  "matched": true,
+                  "priority": 700,
+                  "rule_id": "D_UNCERTAIN"
+                },
+                {
+                  "description": "观察覆盖不完整时补充观察",
+                  "matched": false,
+                  "priority": 600,
+                  "rule_id": "D_PARTIAL"
+                },
+                {
+                  "description": "模型确认无关且无其他支持或信息缺口",
+                  "matched": false,
+                  "priority": 100,
+                  "rule_id": "D_UNRELATED"
+                },
+                {
+                  "description": "未形成支持关系",
+                  "matched": true,
+                  "priority": 0,
+                  "rule_id": "D_DEFAULT"
+                }
+              ],
+              "facts": {
+                "accepted_counter": true,
+                "accepted_model_support": false,
+                "accepted_support": false,
+                "action_unlocated": false,
+                "counter_tag": false,
+                "coverage_failure": false,
+                "different_event": false,
+                "encourages_same": false,
+                "has_counter": true,
+                "has_support": true,
+                "has_uncertainty": true,
+                "invalid_evidence": false,
+                "model_counter": false,
+                "negative_relation_conflict": false,
+                "no_relation": false,
+                "open_uncertainty": true,
+                "partial_coverage": false,
+                "promotion_tag": false,
+                "referent_conflict": false,
+                "relation_insufficient": false,
+                "relation_review": false,
+                "require_relation": false,
+                "resource_exceeded": false,
+                "same_event": false,
+                "stance_unlocated": false,
+                "target_unknown": false,
+                "time_uncertain": false,
+                "unrelated": false,
+                "unrelated_confirmed": false,
+                "warns_same": false
+              },
+              "selected_rule_id": "D_STANCE_CONFLICT"
+            },
+            "disposition": "REVIEW",
+            "event_key": "EVT_MIXED",
+            "evidence_ids": [
+              "E01",
+              "E02",
+              "E03"
+            ],
+            "judgement": "CONFLICTED",
+            "reason_code": "CONFLICTING_STANCE",
+            "relation_check": {
+              "candidate_pairs": 1,
+              "checked_pairs": 0,
+              "required": true,
+              "status": "NOT_CHECKED"
+            },
+            "supporting_ids": [
+              "E01",
+              "E02"
+            ]
+          }
+        ],
+        "judgement": "CONFLICTED",
+        "policy_id": "R_DANGER_PROMOTION",
+        "reason_code": "CONFLICTING_STANCE",
+        "supporting_ids": [
+          "E01",
+          "E02"
+        ]
+      },
+      "labels": {
+        "IN": 2,
+        "OUT": 1
+      },
+      "name": "同事件：「鼓励」支持论证被「反向语境」击倒",
+      "ruleset": {
+        "id": "PEAD_DANGER_PROMOTION",
+        "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
+        "version": "1.1.0"
+      },
+      "semantics": "GROUNDED_SKEPTICAL",
+      "solver": {
+        "distribution": "python-argumentation",
+        "fallback": false,
+        "graph_library": "NetworkX",
+        "graph_version": "3.6.1",
+        "name": "PyArg",
+        "semantics": "grounded",
+        "version": "2.0.2"
+      },
+      "why": "同一事件内既出现鼓励又出现安全提醒，支持与反向语境论证互相攻击。无攻击者的 RELATION_MISSING 先被接受并击倒 LOCAL_PROMOTION，从而防御 COUNTER_CONTEXT，使反向语境论证被接受。"
+    },
+    {
+      "arguments": [
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [
+              "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+            ],
+            "defeated_by": [
+              "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+            ],
+            "defenses": [
+              {
+                "accepted_defender_ids": [],
+                "attacker_id": "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+              }
+            ],
+            "label": "OUT",
+            "unresolved_attacker_ids": []
+          },
+          "id": "MODEL_PROMOTION:[\"E01\",\"E02\"]",
+          "kind": "MODEL_PROMOTION",
+          "label": "OUT",
+          "model_is_independent_evidence": false,
+          "origin": "MODEL",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_MODEL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "REFERENT_CONFLICT:[\"E01\",\"E02\"]",
+          "kind": "REFERENT_CONFLICT",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "UNCERTAINTY",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_REFERENT_CONFLICT"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        }
+      ],
+      "attacks": [
+        {
+          "relation": "ATTACK",
+          "source": "REFERENT_CONFLICT:[\"E01\",\"E02\"]",
+          "target": "MODEL_PROMOTION:[\"E01\",\"E02\"]"
+        }
+      ],
+      "cue_ids": [
+        "E01",
+        "E02"
+      ],
+      "cycles": [],
+      "finding": {
+        "counter_evidence": {
+          "checked": true,
+          "found": false,
+          "relation_candidate_pairs": 1,
+          "relation_checked": true,
+          "relation_checked_pairs": 1,
+          "relation_status": "COMPLETE",
+          "source": "COUNTER_CONTEXT_TAGS"
+        },
+        "counter_ids": [],
+        "disposition": "REVIEW",
+        "event_decisions": [
+          {
+            "argument_labels": {
+              "accepted": [
+                "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+              ],
+              "backend": {
+                "distribution": "python-argumentation",
+                "fallback": false,
+                "graph_library": "NetworkX",
+                "graph_version": "3.6.1",
+                "name": "PyArg",
+                "semantics": "grounded",
+                "version": "2.0.2"
+              },
+              "cycles": [],
+              "executed": true,
+              "explanations": {
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [
+                    "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                  ],
+                  "defeated_by": [
+                    "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                  ],
+                  "defenses": [
+                    {
+                      "accepted_defender_ids": [],
+                      "attacker_id": "REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                    }
+                  ],
+                  "label": "OUT",
+                  "unresolved_attacker_ids": []
+                },
+                "REFERENT_CONFLICT:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                }
+              },
+              "labels": {
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]": "OUT",
+                "REFERENT_CONFLICT:[\"E01\",\"E02\"]": "IN"
+              },
+              "rejected": [
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]"
+              ],
+              "statistics": {
+                "arguments": 2,
+                "attacks": 1,
+                "weak_components": 1
+              },
+              "undecided": []
+            },
+            "counter_ids": [],
+            "decision_trace": {
+              "evaluated_rules": [
+                {
+                  "description": "模型失败或拒绝时重试",
+                  "matched": false,
+                  "priority": 1000,
+                  "rule_id": "D_UNAVAILABLE"
+                },
+                {
+                  "description": "论证图超出资源预算时人工复核",
+                  "matched": false,
+                  "priority": 990,
+                  "rule_id": "D_RESOURCE"
+                },
+                {
+                  "description": "相关证据无效时人工复核",
+                  "matched": false,
+                  "priority": 980,
+                  "rule_id": "D_INVALID"
+                },
+                {
+                  "description": "已接受支持但仍有开放未决论证时转人工复核（保留风险与证据，不改为放行）",
+                  "matched": false,
+                  "priority": 950,
+                  "rule_id": "D_UNCERTAIN_SUPPORT"
+                },
+                {
+                  "description": "采纳包含模型关系的支持论证",
+                  "matched": false,
+                  "priority": 900,
+                  "rule_id": "D_MODEL_SUPPORTED"
+                },
+                {
+                  "description": "采纳同事件动作与鼓励论证",
+                  "matched": false,
+                  "priority": 890,
+                  "rule_id": "D_LOCAL_SUPPORTED"
+                },
+                {
+                  "description": "支持与事件指向冲突时人工复核",
+                  "matched": true,
+                  "priority": 800,
+                  "rule_id": "D_REFERENT_CONFLICT"
+                },
+                {
+                  "description": "支持与反向语境冲突时人工复核",
+                  "matched": false,
+                  "priority": 790,
+                  "rule_id": "D_STANCE_CONFLICT"
+                },
+                {
+                  "description": "仍有信息缺口时人工复核",
+                  "matched": true,
+                  "priority": 700,
+                  "rule_id": "D_UNCERTAIN"
+                },
+                {
+                  "description": "观察覆盖不完整时补充观察",
+                  "matched": false,
+                  "priority": 600,
+                  "rule_id": "D_PARTIAL"
+                },
+                {
+                  "description": "模型确认无关且无其他支持或信息缺口",
+                  "matched": false,
+                  "priority": 100,
+                  "rule_id": "D_UNRELATED"
+                },
+                {
+                  "description": "未形成支持关系",
+                  "matched": true,
+                  "priority": 0,
+                  "rule_id": "D_DEFAULT"
+                }
+              ],
+              "facts": {
+                "accepted_counter": false,
+                "accepted_model_support": false,
+                "accepted_support": false,
+                "action_unlocated": false,
+                "counter_tag": false,
+                "coverage_failure": false,
+                "different_event": false,
+                "encourages_same": false,
+                "has_counter": false,
+                "has_support": true,
+                "has_uncertainty": true,
+                "invalid_evidence": false,
+                "model_counter": false,
+                "negative_relation_conflict": false,
+                "no_relation": false,
+                "open_uncertainty": false,
+                "partial_coverage": false,
+                "promotion_tag": false,
+                "referent_conflict": true,
+                "relation_insufficient": false,
+                "relation_review": false,
+                "require_relation": false,
+                "resource_exceeded": false,
+                "same_event": false,
+                "stance_unlocated": false,
+                "target_unknown": false,
+                "time_uncertain": false,
+                "unrelated": false,
+                "unrelated_confirmed": false,
+                "warns_same": false
+              },
+              "selected_rule_id": "D_REFERENT_CONFLICT"
+            },
+            "disposition": "REVIEW",
+            "event_key": "EVT_DANGER",
+            "evidence_ids": [
+              "E01",
+              "E02"
+            ],
+            "judgement": "CONFLICTED",
+            "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+            "relation_check": {
+              "candidate_pairs": 1,
+              "checked_pairs": 1,
+              "required": true,
+              "status": "COMPLETE"
+            },
+            "supporting_ids": [
+              "E01",
+              "E02"
+            ]
+          }
+        ],
+        "judgement": "CONFLICTED",
+        "policy_id": "R_DANGER_PROMOTION",
+        "reason_code": "RELATION_REFERENT_DISAGREEMENT",
+        "supporting_ids": [
+          "E01",
+          "E02"
+        ]
+      },
+      "labels": {
+        "IN": 1,
+        "OUT": 1
+      },
+      "name": "跨事件：模型断言同一事件，被结构冲突击倒",
+      "ruleset": {
+        "id": "PEAD_DANGER_PROMOTION",
+        "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
+        "version": "1.1.0"
+      },
+      "semantics": "GROUNDED_SKEPTICAL",
+      "solver": {
+        "distribution": "python-argumentation",
+        "fallback": false,
+        "graph_library": "NetworkX",
+        "graph_version": "3.6.1",
+        "name": "PyArg",
+        "semantics": "grounded",
+        "version": "2.0.2"
+      },
+      "why": "解析记录了两个不同事件，模型仍回答 encourages_same。REFERENT_CONFLICT 论证攻击 MODEL_PROMOTION 并将其击倒，因此不采纳模型结论。"
+    },
+    {
+      "arguments": [
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [
+              "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+            ],
+            "defeated_by": [
+              "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+            ],
+            "defenses": [
+              {
+                "accepted_defender_ids": [],
+                "attacker_id": "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+              }
+            ],
+            "label": "OUT",
+            "unresolved_attacker_ids": []
+          },
+          "id": "MODEL_COUNTER:[\"E01\",\"E02\"]",
+          "kind": "MODEL_COUNTER",
+          "label": "OUT",
+          "model_is_independent_evidence": false,
+          "origin": "MODEL",
+          "polarity": "COUNTER",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "relation_scope_valid": false,
+          "rule_ids": [
+            "A_MODEL_COUNTER"
+          ],
+          "source": "warns_same",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]",
+          "kind": "COUNTER_REFERENT_CONFLICT",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "UNCERTAINTY",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_COUNTER_REFERENT_CONFLICT"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        }
+      ],
+      "attacks": [
+        {
+          "relation": "ATTACK",
+          "source": "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]",
+          "target": "MODEL_COUNTER:[\"E01\",\"E02\"]"
+        }
+      ],
+      "cue_ids": [
+        "E01",
+        "E02"
+      ],
+      "cycles": [],
+      "finding": {
+        "counter_evidence": {
+          "checked": true,
+          "found": false,
+          "relation_candidate_pairs": 1,
+          "relation_checked": true,
+          "relation_checked_pairs": 1,
+          "relation_status": "COMPLETE",
+          "source": "COUNTER_CONTEXT_TAGS"
+        },
+        "counter_ids": [],
+        "disposition": "REVIEW",
+        "event_decisions": [
+          {
+            "argument_labels": {
+              "accepted": [
+                "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+              ],
+              "backend": {
+                "distribution": "python-argumentation",
+                "fallback": false,
+                "graph_library": "NetworkX",
+                "graph_version": "3.6.1",
+                "name": "PyArg",
+                "semantics": "grounded",
+                "version": "2.0.2"
+              },
+              "cycles": [],
+              "executed": true,
+              "explanations": {
+                "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                },
+                "MODEL_COUNTER:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [
+                    "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                  ],
+                  "defeated_by": [
+                    "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                  ],
+                  "defenses": [
+                    {
+                      "accepted_defender_ids": [],
+                      "attacker_id": "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]"
+                    }
+                  ],
+                  "label": "OUT",
+                  "unresolved_attacker_ids": []
+                }
+              },
+              "labels": {
+                "COUNTER_REFERENT_CONFLICT:[\"E01\",\"E02\"]": "IN",
+                "MODEL_COUNTER:[\"E01\",\"E02\"]": "OUT"
+              },
+              "rejected": [
+                "MODEL_COUNTER:[\"E01\",\"E02\"]"
+              ],
+              "statistics": {
+                "arguments": 2,
+                "attacks": 1,
+                "weak_components": 1
+              },
+              "undecided": []
+            },
+            "counter_ids": [],
+            "decision_trace": {
+              "evaluated_rules": [
+                {
+                  "description": "模型失败或拒绝时重试",
+                  "matched": false,
+                  "priority": 1000,
+                  "rule_id": "D_UNAVAILABLE"
+                },
+                {
+                  "description": "论证图超出资源预算时人工复核",
+                  "matched": false,
+                  "priority": 990,
+                  "rule_id": "D_RESOURCE"
+                },
+                {
+                  "description": "相关证据无效时人工复核",
+                  "matched": false,
+                  "priority": 980,
+                  "rule_id": "D_INVALID"
+                },
+                {
+                  "description": "已接受支持但仍有开放未决论证时转人工复核（保留风险与证据，不改为放行）",
+                  "matched": false,
+                  "priority": 950,
+                  "rule_id": "D_UNCERTAIN_SUPPORT"
+                },
+                {
+                  "description": "采纳包含模型关系的支持论证",
+                  "matched": false,
+                  "priority": 900,
+                  "rule_id": "D_MODEL_SUPPORTED"
+                },
+                {
+                  "description": "采纳同事件动作与鼓励论证",
+                  "matched": false,
+                  "priority": 890,
+                  "rule_id": "D_LOCAL_SUPPORTED"
+                },
+                {
+                  "description": "支持与事件指向冲突时人工复核",
+                  "matched": false,
+                  "priority": 800,
+                  "rule_id": "D_REFERENT_CONFLICT"
+                },
+                {
+                  "description": "支持与反向语境冲突时人工复核",
+                  "matched": false,
+                  "priority": 790,
+                  "rule_id": "D_STANCE_CONFLICT"
+                },
+                {
+                  "description": "仍有信息缺口时人工复核",
+                  "matched": true,
+                  "priority": 700,
+                  "rule_id": "D_UNCERTAIN"
+                },
+                {
+                  "description": "观察覆盖不完整时补充观察",
+                  "matched": false,
+                  "priority": 600,
+                  "rule_id": "D_PARTIAL"
+                },
+                {
+                  "description": "模型确认无关且无其他支持或信息缺口",
+                  "matched": false,
+                  "priority": 100,
+                  "rule_id": "D_UNRELATED"
+                },
+                {
+                  "description": "未形成支持关系",
+                  "matched": true,
+                  "priority": 0,
+                  "rule_id": "D_DEFAULT"
+                }
+              ],
+              "facts": {
+                "accepted_counter": false,
+                "accepted_model_support": false,
+                "accepted_support": false,
+                "action_unlocated": false,
+                "counter_tag": false,
+                "coverage_failure": false,
+                "different_event": false,
+                "encourages_same": false,
+                "has_counter": false,
+                "has_support": false,
+                "has_uncertainty": true,
+                "invalid_evidence": false,
+                "model_counter": false,
+                "negative_relation_conflict": false,
+                "no_relation": false,
+                "open_uncertainty": false,
+                "partial_coverage": false,
+                "promotion_tag": false,
+                "referent_conflict": false,
+                "relation_insufficient": false,
+                "relation_review": false,
+                "require_relation": false,
+                "resource_exceeded": false,
+                "same_event": false,
+                "stance_unlocated": false,
+                "target_unknown": false,
+                "time_uncertain": false,
+                "unrelated": false,
+                "unrelated_confirmed": false,
+                "warns_same": false
+              },
+              "selected_rule_id": "D_UNCERTAIN"
+            },
+            "disposition": "REVIEW",
+            "event_key": "EVT_DANGER",
+            "evidence_ids": [
+              "E01",
+              "E02"
+            ],
+            "judgement": "INSUFFICIENT",
+            "reason_code": "MISSING_SEMANTIC_RELATION",
+            "relation_check": {
+              "candidate_pairs": 1,
+              "checked_pairs": 1,
+              "required": true,
+              "status": "COMPLETE"
+            },
+            "supporting_ids": [
+              "E01",
+              "E02"
+            ]
+          }
+        ],
+        "judgement": "INSUFFICIENT",
+        "policy_id": "R_DANGER_PROMOTION",
+        "reason_code": "MISSING_SEMANTIC_RELATION",
+        "supporting_ids": [
+          "E01",
+          "E02"
+        ]
+      },
+      "labels": {
+        "IN": 1,
+        "OUT": 1
+      },
+      "name": "跨事件：模型的反向论证本身被击倒",
+      "ruleset": {
+        "id": "PEAD_DANGER_PROMOTION",
+        "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
+        "version": "1.1.0"
+      },
+      "semantics": "GROUNDED_SKEPTICAL",
+      "solver": {
+        "distribution": "python-argumentation",
+        "fallback": false,
+        "graph_library": "NetworkX",
+        "graph_version": "3.6.1",
+        "name": "PyArg",
+        "semantics": "grounded",
+        "version": "2.0.2"
+      },
+      "why": "模型回答 warns_same，声称警示针对同一事件；但两者事件不同，COUNTER_REFERENT_CONFLICT 成立并击倒 MODEL_COUNTER。此时既无支持也无有效反证，落到保守复核。"
+    },
+    {
+      "arguments": [
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "LOCAL_PROMOTION:[\"E01\",\"E02\"]",
+          "kind": "LOCAL_PROMOTION",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_LOCAL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "MODEL_PROMOTION:[\"E01\",\"E02\"]",
+          "kind": "MODEL_PROMOTION",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "MODEL",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E02"
+          ],
+          "rule_ids": [
+            "A_MODEL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F001"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "LOCAL_PROMOTION:[\"E01\",\"E03\"]",
+          "kind": "LOCAL_PROMOTION",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "RULE",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E03"
+          ],
+          "rule_ids": [
+            "A_LOCAL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F002"
+          ],
+          "target_action": "E01"
+        },
+        {
+          "event": "EVT_DANGER",
+          "explanation": {
+            "attacker_ids": [],
+            "defeated_by": [],
+            "defenses": [],
+            "label": "IN",
+            "unresolved_attacker_ids": []
+          },
+          "id": "MODEL_PROMOTION:[\"E01\",\"E03\"]",
+          "kind": "MODEL_PROMOTION",
+          "label": "IN",
+          "model_is_independent_evidence": false,
+          "origin": "MODEL",
+          "polarity": "SUPPORT",
+          "premise_ids": [
+            "E01",
+            "E03"
+          ],
+          "rule_ids": [
+            "A_MODEL_PROMOTION"
+          ],
+          "source": "",
+          "source_refs": [
+            "S002:F001",
+            "S003:F002"
+          ],
+          "target_action": "E01"
+        }
+      ],
+      "attacks": [],
+      "cue_ids": [
+        "E01",
+        "E02",
+        "E03"
+      ],
+      "cycles": [],
+      "finding": {
+        "counter_evidence": {
+          "checked": true,
+          "found": false,
+          "relation_candidate_pairs": 2,
+          "relation_checked": true,
+          "relation_checked_pairs": 2,
+          "relation_status": "COMPLETE",
+          "source": "COUNTER_CONTEXT_TAGS"
+        },
+        "counter_ids": [],
+        "disposition": "FLAG",
+        "event_decisions": [
+          {
+            "argument_labels": {
+              "accepted": [
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]",
+                "LOCAL_PROMOTION:[\"E01\",\"E03\"]",
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]",
+                "MODEL_PROMOTION:[\"E01\",\"E03\"]"
+              ],
+              "backend": {
+                "distribution": "python-argumentation",
+                "fallback": false,
+                "graph_library": "NetworkX",
+                "graph_version": "3.6.1",
+                "name": "PyArg",
+                "semantics": "grounded",
+                "version": "2.0.2"
+              },
+              "cycles": [],
+              "executed": true,
+              "explanations": {
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                },
+                "LOCAL_PROMOTION:[\"E01\",\"E03\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                },
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                },
+                "MODEL_PROMOTION:[\"E01\",\"E03\"]": {
+                  "attacker_ids": [],
+                  "defeated_by": [],
+                  "defenses": [],
+                  "label": "IN",
+                  "unresolved_attacker_ids": []
+                }
+              },
+              "labels": {
+                "LOCAL_PROMOTION:[\"E01\",\"E02\"]": "IN",
+                "LOCAL_PROMOTION:[\"E01\",\"E03\"]": "IN",
+                "MODEL_PROMOTION:[\"E01\",\"E02\"]": "IN",
+                "MODEL_PROMOTION:[\"E01\",\"E03\"]": "IN"
+              },
+              "rejected": [],
+              "statistics": {
+                "arguments": 4,
+                "attacks": 0,
+                "weak_components": 4
+              },
+              "undecided": []
+            },
+            "counter_ids": [],
+            "decision_trace": {
+              "evaluated_rules": [
+                {
+                  "description": "模型失败或拒绝时重试",
+                  "matched": false,
+                  "priority": 1000,
+                  "rule_id": "D_UNAVAILABLE"
+                },
+                {
+                  "description": "论证图超出资源预算时人工复核",
+                  "matched": false,
+                  "priority": 990,
+                  "rule_id": "D_RESOURCE"
+                },
+                {
+                  "description": "相关证据无效时人工复核",
+                  "matched": false,
+                  "priority": 980,
+                  "rule_id": "D_INVALID"
+                },
+                {
+                  "description": "已接受支持但仍有开放未决论证时转人工复核（保留风险与证据，不改为放行）",
+                  "matched": false,
+                  "priority": 950,
+                  "rule_id": "D_UNCERTAIN_SUPPORT"
+                },
+                {
+                  "description": "采纳包含模型关系的支持论证",
+                  "matched": true,
+                  "priority": 900,
+                  "rule_id": "D_MODEL_SUPPORTED"
+                },
+                {
+                  "description": "采纳同事件动作与鼓励论证",
+                  "matched": true,
+                  "priority": 890,
+                  "rule_id": "D_LOCAL_SUPPORTED"
+                },
+                {
+                  "description": "支持与事件指向冲突时人工复核",
+                  "matched": false,
+                  "priority": 800,
+                  "rule_id": "D_REFERENT_CONFLICT"
+                },
+                {
+                  "description": "支持与反向语境冲突时人工复核",
+                  "matched": false,
+                  "priority": 790,
+                  "rule_id": "D_STANCE_CONFLICT"
+                },
+                {
+                  "description": "仍有信息缺口时人工复核",
+                  "matched": false,
+                  "priority": 700,
+                  "rule_id": "D_UNCERTAIN"
+                },
+                {
+                  "description": "观察覆盖不完整时补充观察",
+                  "matched": false,
+                  "priority": 600,
+                  "rule_id": "D_PARTIAL"
+                },
+                {
+                  "description": "模型确认无关且无其他支持或信息缺口",
+                  "matched": false,
+                  "priority": 100,
+                  "rule_id": "D_UNRELATED"
+                },
+                {
+                  "description": "未形成支持关系",
+                  "matched": true,
+                  "priority": 0,
+                  "rule_id": "D_DEFAULT"
+                }
+              ],
+              "facts": {
+                "accepted_counter": false,
+                "accepted_model_support": true,
+                "accepted_support": true,
+                "action_unlocated": false,
+                "counter_tag": false,
+                "coverage_failure": false,
+                "different_event": false,
+                "encourages_same": false,
+                "has_counter": false,
+                "has_support": true,
+                "has_uncertainty": false,
+                "invalid_evidence": false,
+                "model_counter": false,
+                "negative_relation_conflict": false,
+                "no_relation": false,
+                "open_uncertainty": false,
+                "partial_coverage": false,
+                "promotion_tag": false,
+                "referent_conflict": false,
+                "relation_insufficient": false,
+                "relation_review": false,
+                "require_relation": false,
+                "resource_exceeded": false,
+                "same_event": false,
+                "stance_unlocated": false,
+                "target_unknown": false,
+                "time_uncertain": false,
+                "unrelated": false,
+                "unrelated_confirmed": false,
+                "warns_same": false
+              },
+              "selected_rule_id": "D_MODEL_SUPPORTED"
+            },
+            "disposition": "FLAG",
+            "event_key": "EVT_DANGER",
+            "evidence_ids": [
+              "E01",
+              "E02",
+              "E03"
+            ],
+            "judgement": "SUPPORTED",
+            "reason_code": "RELATION_LINK_ASSISTED",
+            "relation_check": {
+              "candidate_pairs": 2,
+              "checked_pairs": 2,
+              "required": true,
+              "status": "COMPLETE"
+            },
+            "supporting_ids": [
+              "E01",
+              "E02",
+              "E03"
+            ]
+          }
+        ],
+        "judgement": "SUPPORTED",
+        "policy_id": "R_DANGER_PROMOTION",
+        "reason_code": "RELATION_LINK_ASSISTED",
+        "supporting_ids": [
+          "E01",
+          "E02",
+          "E03"
+        ]
+      },
+      "labels": {
+        "IN": 4
+      },
+      "name": "无攻击：纯支持（可正常标注关注）",
+      "ruleset": {
+        "id": "PEAD_DANGER_PROMOTION",
+        "sha256": "eab4e2832518c814d0183e27013896cb193f355fa294b4bd2af186f1d11f7264",
+        "version": "1.1.0"
+      },
+      "semantics": "GROUNDED_SKEPTICAL",
+      "solver": {
+        "distribution": "python-argumentation",
+        "fallback": false,
+        "graph_library": "NetworkX",
+        "graph_version": "3.6.1",
+        "name": "PyArg",
+        "semantics": "grounded",
+        "version": "2.0.2"
+      },
+      "why": "动作与鼓励同属一个事件且无反向语境，支持论证无攻击者，因此被接受并输出关注标注。"
+    }
+  ],
+  "scope": "上游观察为 fixture 数据；证据图构造、规则集与 PyArg 求解为真实代码。本报告展示决策机制，不度量真实视频上的准确率。"
+}

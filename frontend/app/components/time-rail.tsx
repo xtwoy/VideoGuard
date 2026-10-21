@@ -19,14 +19,12 @@ export function TimeRail({
   selectedShot,
   onSeek,
   seekDisabled,
-  isDemo,
 }: {
   shots: TimelineShot[];
   observations: Observation[];
   selectedShot?: string | null;
   onSeek?: (startMs: number | null) => void;
   seekDisabled: boolean;
-  isDemo: boolean;
 }) {
   const located = observations.filter(
     (item) => Number.isInteger(item.start_ms) && (item.start_ms ?? -1) >= 0,
@@ -57,7 +55,8 @@ export function TimeRail({
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 className="text-[12px] font-bold text-ink-3">时间轴</h3>
         <span className="tnum text-[12px] text-ink-3">
-          时长 {formatTime(endMs)} · {shots.length} 个分镜 · {located.length} 条定位证据
+          时长 {formatTime(endMs)} · {shots.length} 个分镜 · {located.length}{" "}
+          条定位证据
           {unlocated > 0 ? ` · ${unlocated} 条未定位` : ""}
         </span>
       </div>
@@ -78,7 +77,11 @@ export function TimeRail({
               <div
                 key={shot.shot_id}
                 className={`absolute inset-y-0 border-r border-rule-strong last:border-r-0 ${
-                  active ? "bg-ink text-paper" : index % 2 ? "bg-white" : "bg-sunken"
+                  active
+                    ? "bg-ink text-paper"
+                    : index % 2
+                      ? "bg-white"
+                      : "bg-sunken"
                 }`}
                 style={{ left: `${left}%`, width: `${width}%` }}
               >
@@ -102,13 +105,23 @@ export function TimeRail({
           {located.map((item) => {
             const left = pct(item.start_ms ?? 0);
             const caption = `${item.id} · ${formatTime(item.start_ms)}`;
-            const labelAlign = left < 12 ? "left-0" : left > 88 ? "right-0" : "left-1/2 -translate-x-1/2";
+            const labelAlign =
+              left < 12
+                ? "left-0"
+                : left > 88
+                  ? "right-0"
+                  : "left-1/2 -translate-x-1/2";
             const marker = (
               <>
                 <span className="h-2 w-px bg-ink-2" aria-hidden />
-                <span className="size-[9px] rounded-full border-2 border-surface bg-ink" aria-hidden />
+                <span
+                  className="size-[9px] rounded-full border-2 border-surface bg-ink"
+                  aria-hidden
+                />
                 {showTickLabels ? (
-                  <span className={`tnum absolute top-[13px] whitespace-nowrap text-[11px] font-semibold text-ink-2 ${labelAlign}`}>
+                  <span
+                    className={`tnum absolute top-[13px] whitespace-nowrap text-[11px] font-semibold text-ink-2 ${labelAlign}`}
+                  >
                     {item.id}
                   </span>
                 ) : null}
@@ -134,10 +147,18 @@ export function TimeRail({
                 aria-label={`定位到证据 ${item.id}，${formatTime(item.start_ms)}`}
                 title={`${caption} · 点击定位`}
               >
-                <span className="h-2 w-px bg-ink-2 group-hover:bg-ink" aria-hidden />
-                <span className="size-[9px] rounded-full border-2 border-surface bg-ink transition group-hover:scale-125" aria-hidden />
+                <span
+                  className="h-2 w-px bg-ink-2 group-hover:bg-ink"
+                  aria-hidden
+                />
+                <span
+                  className="size-[9px] rounded-full border-2 border-surface bg-ink transition group-hover:scale-125"
+                  aria-hidden
+                />
                 {showTickLabels ? (
-                  <span className={`tnum absolute top-[13px] whitespace-nowrap text-[11px] font-semibold text-ink-2 ${labelAlign}`}>
+                  <span
+                    className={`tnum absolute top-[13px] whitespace-nowrap text-[11px] font-semibold text-ink-2 ${labelAlign}`}
+                  >
                     {item.id}
                   </span>
                 ) : null}
@@ -147,7 +168,9 @@ export function TimeRail({
         </div>
 
         {/* Scale */}
-        <div className={`tnum relative flex justify-between text-[11px] text-ink-3 ${showTickLabels ? "mt-1" : "mt-0.5"}`}>
+        <div
+          className={`tnum relative flex justify-between text-[11px] text-ink-3 ${showTickLabels ? "mt-1" : "mt-0.5"}`}
+        >
           <span>00:00</span>
           <span>{formatTime(Math.round(duration / 2))}</span>
           <span>{formatTime(endMs)}</span>
@@ -157,12 +180,12 @@ export function TimeRail({
       <div className="mt-2">
         {seekDisabled ? (
           <LimitNote>
-            {isDemo
-              ? "合成场景未关联原视频，时间位置仅用于说明定位结构，无法回看片段。"
-              : "当前记录没有关联原视频，时间位置仅作参考，无法回看片段。"}
+            当前记录没有关联原视频，时间位置仅作参考，无法回看片段。
           </LimitNote>
         ) : (
-          <LimitNote>点击刻度可在播放器中跳到对应位置；时间由后端按毫秒计算。</LimitNote>
+          <LimitNote>
+            点击证据刻度可回看对应片段；时间位置来自上游观察，需结合原片确认。
+          </LimitNote>
         )}
       </div>
     </div>
